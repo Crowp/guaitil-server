@@ -1,10 +1,16 @@
 package com.guaitilsoft.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Getter
+@Setter
 @Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "People")
 public class Person implements Serializable {
 
     @Id
@@ -23,23 +29,14 @@ public class Person implements Serializable {
     @Column(nullable = false)
     private String telephone;
 
-    public String getId() { return id; }
+    public Person() {
+    }
 
-    public void setId(String id) { this.id = id; }
-
-    public String getName() { return name; }
-
-    public void setName(String name) { this.name = name; }
-
-    public String getFirstLastName() { return firstLastName; }
-
-    public void setFirstLastName(String firstLastName) { this.firstLastName = firstLastName; }
-
-    public String getSecondLastName() { return secondLastName; }
-
-    public void setSecondLastName(String secondLastName) { this.secondLastName = secondLastName; }
-
-    public String getTelephone() { return telephone; }
-
-    public void setTelephone(String telephone) { this.telephone = telephone; }
+    public Person(String id, String name, String firstLastName, String secondLastName, String telephone){
+        this.id = id;
+        this.name = name;
+        this.firstLastName = firstLastName;
+        this.secondLastName = secondLastName;
+        this.telephone = telephone;
+    }
 }
