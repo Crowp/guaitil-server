@@ -2,16 +2,19 @@ package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Setter
 @Getter
 @Entity
-public class Sale {
+@NoArgsConstructor
+public class Sale implements Serializable {
 
     @Id
     @Column

@@ -1,17 +1,20 @@
 package com.guaitilsoft.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
-public class Address {
+@NoArgsConstructor
+public class Address implements Serializable {
 
     @Id
     @Column
@@ -22,5 +25,4 @@ public class Address {
 
     @Column(nullable = false,name = "virtual_address")
     private String virtualAddress;
-
 }

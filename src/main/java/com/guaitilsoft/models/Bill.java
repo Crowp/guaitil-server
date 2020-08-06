@@ -7,19 +7,19 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Getter
 @Setter
+@Getter
 @Entity
 @NoArgsConstructor
-public class Tour implements Serializable {
-
+public class Bill implements Serializable {
     @Id
     @Column
-    private Long id;
+    private int id;
 
-    @Column(nullable = false,name = "amount_Person")
-    private int amountPerson;
+    @Column(nullable = false, name = "total_amount")
+    private Float totalAmount;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Activity activity;
+    private Reservation reservation;
+
 }

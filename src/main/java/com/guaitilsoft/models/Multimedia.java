@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Product implements Serializable {
+public class Multimedia implements Serializable {
 
     @Id
     @Column
@@ -23,11 +23,5 @@ public class Product implements Serializable {
     private String name;
 
     @Column(nullable = false)
-    private String description;
-
-    @Column(nullable = false, name = "cost_price")
-    private Float costPrice;
-
-    @Column(nullable = false, name = "sale_price")
-    private Float salePrice;
+    private String url;
 }

@@ -10,26 +10,21 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 @Setter
 @Getter
-@Entity
+@Table(name = "Product_Review")
 @NoArgsConstructor
-public class Activity implements Serializable {
+public class ProductReview implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "idProductReview")
     private Long id;
 
-    @Column(nullable = false)
-    private String name;
+    @OneToMany
+    private List<Product> products;
 
-    @Column(nullable = false,name = "activity_date")
+    @Column(nullable = false, name = "review_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date activityDate;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Local> local;
+    private Date reviewDate;
 }

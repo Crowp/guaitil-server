@@ -2,15 +2,18 @@ package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Setter
 @Getter
 @Entity
-public class Reservation {
+@NoArgsConstructor
+public class Reservation implements Serializable {
 
     @Id
     @Column
@@ -26,8 +29,8 @@ public class Reservation {
     @Column(nullable = false, name = "client_name")
     private  String clientName;
 
-    @Column(nullable = false, name = "total_amount")
-    private Float totalAmount;
+    @Column(nullable = false)
+    private ReservationState reservationState;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Tour tour;

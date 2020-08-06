@@ -1,6 +1,7 @@
 package com.guaitilsoft.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -11,8 +12,9 @@ import java.io.Serializable;
 @Setter
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@NoArgsConstructor
 @Table(name = "People")
-public abstract class Person implements Serializable {
+public class Person implements Serializable {
 
     @Id
     @Column
@@ -29,15 +31,4 @@ public abstract class Person implements Serializable {
 
     @Column(nullable = false)
     private String telephone;
-
-    public Person() {
-    }
-
-    public Person(String id, String name, String firstLastName, String secondLastName, String telephone){
-        this.id = id;
-        this.name = name;
-        this.firstLastName = firstLastName;
-        this.secondLastName = secondLastName;
-        this.telephone = telephone;
-    }
 }
