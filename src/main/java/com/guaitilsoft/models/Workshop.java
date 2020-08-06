@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Workshop implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "workshop_id")
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)

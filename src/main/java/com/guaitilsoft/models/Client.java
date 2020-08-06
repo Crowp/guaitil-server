@@ -1,9 +1,20 @@
 package com.guaitilsoft.models;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
 
-public class Client extends Person{
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.io.Serializable;
+
+@Entity
+@Getter
+@Setter
+@NoArgsConstructor
+public class Client extends Person implements Serializable {
 
     @Id
     @Column(name = "client_id")

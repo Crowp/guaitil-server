@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class Address implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "address_id")
     private Long id;
 
     @Column(nullable = false,name = "physical_address")

@@ -14,10 +14,9 @@ import java.io.Serializable;
 public class Kitchen implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "kitchen_id")
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Local local;
-
 }

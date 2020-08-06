@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Tour implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "tour_id")
     private Long id;
 
     @Column(nullable = false,name = "amount_Person")

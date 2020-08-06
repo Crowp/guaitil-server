@@ -12,14 +12,14 @@ import java.io.Serializable;
 @Entity
 @NoArgsConstructor
 public class Bill implements Serializable {
+
     @Id
-    @Column
-    private int id;
+    @Column(name = "bill_id")
+    private Long id;
 
     @Column(nullable = false, name = "total_amount")
     private Float totalAmount;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Reservation reservation;
-
 }

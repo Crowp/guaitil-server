@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "user_id")
     private Long id;
 
     @Column(nullable = false)
@@ -28,5 +28,4 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     private Role role;
-
 }

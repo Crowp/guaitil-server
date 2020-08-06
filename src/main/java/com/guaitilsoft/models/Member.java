@@ -12,9 +12,9 @@ import java.io.Serializable;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Member extends Person {
+public class Member extends Person implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "member_id")
     private Long id;
 }

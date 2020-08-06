@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class Multimedia implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "multimedia_id")
     private Long id;
 
     @Column(nullable = false)

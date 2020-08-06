@@ -16,22 +16,22 @@ import java.util.Date;
 public class Reservation implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "reservation_id")
     private Long id;
 
-    @Column(nullable = false,name = "sale_reservation")
+    @Column(nullable = false,name = "date_reservation")
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date saleReservation;
+    private Date dateReservation;
 
-    @Column(nullable = false,name = "amount_Person")
+    @Column(nullable = false,name = "amount_person")
     private Long amountPerson;
-
-    @Column(nullable = false, name = "client_name")
-    private  String clientName;
 
     @Column(nullable = false)
     private ReservationState reservationState;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Tour tour;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Client client;
 }

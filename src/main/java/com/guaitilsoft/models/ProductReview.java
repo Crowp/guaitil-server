@@ -18,7 +18,7 @@ import java.util.List;
 public class ProductReview implements Serializable {
 
     @Id
-    @Column(name = "idProductReview")
+    @Column(name = "productreview_id")
     private Long id;
 
     @OneToMany

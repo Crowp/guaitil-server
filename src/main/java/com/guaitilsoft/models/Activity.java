@@ -17,7 +17,7 @@ import java.util.List;
 public class Activity implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "activity_id")
     private Long id;
 
     @Column(nullable = false)

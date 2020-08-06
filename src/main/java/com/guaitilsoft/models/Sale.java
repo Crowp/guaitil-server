@@ -17,7 +17,7 @@ import java.util.Date;
 public class Sale implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "sale_id")
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL)

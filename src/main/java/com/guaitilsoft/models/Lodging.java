@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Lodging implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "lodging_id")
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL)

@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class Local implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "local_id")
     private Long id;
 
     @Column(nullable = false)
