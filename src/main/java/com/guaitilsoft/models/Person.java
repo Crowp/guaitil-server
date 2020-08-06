@@ -6,12 +6,13 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
+
 @Getter
 @Setter
+@Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "People")
-public class Person implements Serializable {
+public abstract class Person implements Serializable {
 
     @Id
     @Column
