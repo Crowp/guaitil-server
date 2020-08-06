@@ -32,4 +32,7 @@ public class Activity implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Local> local;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Multimedia> multimedia;
 }
