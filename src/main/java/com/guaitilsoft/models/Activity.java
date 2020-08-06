@@ -1,14 +1,16 @@
 package com.guaitilsoft.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Date;
 
-@Getter
 @Setter
+@Getter
 @Entity
-public class Local {
+public class Activity {
 
     @Id
     @Column
@@ -17,12 +19,11 @@ public class Local {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String description;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Member member;
+    @Column(nullable = false,name = "activity_date")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date activityDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
 }
