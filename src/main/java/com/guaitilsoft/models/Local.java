@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,4 +29,7 @@ public class Local implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Multimedia> multimedia;
 }

@@ -4,10 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Setter
@@ -30,4 +29,7 @@ public class Product implements Serializable {
 
     @Column(nullable = false, name = "sale_price")
     private Float salePrice;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Multimedia> multimedia;
 }
