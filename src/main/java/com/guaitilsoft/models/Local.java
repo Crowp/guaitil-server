@@ -24,11 +24,14 @@ public class Local implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Member member;
+    @Column(nullable = false)
+    private Long telephone;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Person person;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Multimedia> multimedia;

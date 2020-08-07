@@ -17,6 +17,9 @@ public class Lodging implements Serializable {
     @Column(name = "lodging_id")
     private Long id;
 
+    @Column(nullable = false)
+    private Long space;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Local local;
 }

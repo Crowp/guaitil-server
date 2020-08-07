@@ -31,4 +31,11 @@ public class Person implements Serializable {
 
     @Column(nullable = false)
     private String telephone;
-}
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
+    private PersonType personType;
+
+   }

@@ -23,15 +23,15 @@ public class Activity implements Serializable {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
+    private String description;
+
     @Column(nullable = false,name = "activity_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date activityDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
-
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Local> local;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Multimedia> multimedia;

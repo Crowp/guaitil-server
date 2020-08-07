@@ -13,25 +13,21 @@ import java.util.Date;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Reservation implements Serializable {
-
+public class Quotation implements Serializable {
     @Id
     @Column(name = "reservation_id")
     private Long id;
 
-    @Column(nullable = false,name = "date_reservation")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date dateReservation;
-
-    @Column(nullable = false,name = "amount_person")
-    private Long amountPerson;
-
     @Column(nullable = false)
-    private ReservationState reservationState;
+    private String description;
+
+    @Column(nullable = false,name = "amond_person")
+    private String amountPerson;
+
+    @Column(nullable = false,name = "date_quotation")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date dateQuotation;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Tour tour;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Quotation quotation;
+    private Person person;
 }

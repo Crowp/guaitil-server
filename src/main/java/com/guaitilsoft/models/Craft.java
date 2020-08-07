@@ -1,15 +1,18 @@
 package com.guaitilsoft.models;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Setter
 @Getter
 @Entity
-public class Craft {
+@NoArgsConstructor
+public class Craft implements Serializable {
 
     @Id
     @Column
