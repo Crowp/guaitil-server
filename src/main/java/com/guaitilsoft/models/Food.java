@@ -15,16 +15,16 @@ import java.util.List;
 public class Food implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "food_id")
     private Long id;
 
     @Column(nullable = false,name = "food_type")
     private  String foodType;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Kitchen> kitchens;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Kitchen kitchen;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Product> products;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Product product;
 
 }

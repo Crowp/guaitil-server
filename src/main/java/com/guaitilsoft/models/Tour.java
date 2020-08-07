@@ -18,7 +18,7 @@ public class Tour implements Serializable {
     private Long id;
 
     @Column(nullable = false,name = "amount_Person")
-    private int amountPerson;
+    private Long amountPerson;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Activity activity;

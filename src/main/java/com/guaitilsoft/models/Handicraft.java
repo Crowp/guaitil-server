@@ -12,15 +12,15 @@ import java.util.List;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Craft implements Serializable {
+public class Handicraft implements Serializable {
 
     @Id
-    @Column
+    @Column(name = "handicraft_id")
     private Long id;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Workshop> workshops;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Workshop workshop;
 
     @OneToOne(fetch = FetchType.EAGER)
-    private Product products;
+    private Product product;
 }

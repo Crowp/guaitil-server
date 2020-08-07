@@ -37,5 +37,4 @@ public class Person implements Serializable {
 
     @Column(nullable = false)
     private PersonType personType;
-
-   }
+}

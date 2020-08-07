@@ -23,7 +23,6 @@ public class Associated {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date membershipDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Person person;
-
 }

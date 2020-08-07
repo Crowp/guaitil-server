@@ -14,6 +14,7 @@ import java.util.Date;
 @Entity
 @NoArgsConstructor
 public class Quotation implements Serializable {
+
     @Id
     @Column(name = "reservation_id")
     private Long id;
