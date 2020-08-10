@@ -26,13 +26,13 @@ public class Reservation implements Serializable {
     @Column(nullable = false,name = "amount_person")
     private Long amountPerson;
 
-    //Recordar si se conserva o elimina
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private ReservationState reservationState;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Tour tour;
 
     @OneToOne(cascade = CascadeType.ALL)
-    private Quotation quotation;
+    private Person person;
 }

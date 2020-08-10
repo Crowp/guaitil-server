@@ -27,4 +27,8 @@ public class ProductReview implements Serializable {
     @Column(nullable = false, name = "review_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date reviewDate;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private ReviewState state;
 }

@@ -32,6 +32,7 @@ public class Person implements Serializable {
     private String email;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private PersonType personType;
 
     public String getId() {

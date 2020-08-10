@@ -6,23 +6,24 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
-public class User implements Serializable {
+public class Gallery implements Serializable {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "gallery_id")
     private Long id;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false, name = "first_login")
-    private Boolean firstLogin;
+    private String name;
 
     @Column(nullable = false)
-    private Role role;
+    private String description;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Multimedia> multimedia;
 }
