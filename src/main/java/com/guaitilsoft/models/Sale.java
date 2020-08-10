@@ -10,9 +10,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Setter
-@Getter
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 public class Sale implements Serializable {
 
@@ -26,5 +26,4 @@ public class Sale implements Serializable {
     @Column(nullable = false,name = "sale_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date saleDate;
-
 }

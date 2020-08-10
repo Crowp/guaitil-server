@@ -10,9 +10,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Setter
-@Getter
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 public class Activity implements Serializable {
 

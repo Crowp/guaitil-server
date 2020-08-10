@@ -9,9 +9,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Setter
-@Getter
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 public class Reservation implements Serializable {
 

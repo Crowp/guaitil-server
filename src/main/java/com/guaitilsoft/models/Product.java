@@ -9,8 +9,8 @@ import java.io.Serializable;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 public class Product implements Serializable {
 

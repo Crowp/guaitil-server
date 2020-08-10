@@ -7,9 +7,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
 @Getter
 @Setter
-@Entity
 @NoArgsConstructor
 public class Tour implements Serializable {
 

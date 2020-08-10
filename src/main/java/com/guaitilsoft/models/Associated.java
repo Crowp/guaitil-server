@@ -2,15 +2,18 @@ package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
-@Setter
-@Getter
 @Entity
-public class Associated {
+@Getter
+@Setter
+@NoArgsConstructor
+public class Associated implements Serializable {
 
     @Id
     @Column(name = "associated_id")

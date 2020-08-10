@@ -8,9 +8,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@Setter
-@Getter
 @Entity
+@Getter
+@Setter
 @NoArgsConstructor
 public class Food implements Serializable {
 
@@ -19,12 +19,11 @@ public class Food implements Serializable {
     private Long id;
 
     @Column(nullable = false,name = "food_type")
-    private  String foodType;
+    private String foodType;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Kitchen kitchen;
 
     @OneToOne(fetch = FetchType.EAGER)
     private Product product;
-
 }

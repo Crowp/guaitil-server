@@ -10,8 +10,8 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 public class Multimedia implements Serializable {
 

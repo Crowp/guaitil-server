@@ -11,8 +11,8 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @Table(name = "Product_Review")
 @NoArgsConstructor
 public class ProductReview implements Serializable {
