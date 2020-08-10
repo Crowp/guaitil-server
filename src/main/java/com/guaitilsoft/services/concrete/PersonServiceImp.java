@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PersonServiceImp implements PersonService {
+
     @Autowired
     private PersonRepository personRepository;
+
     @Override
     public List<Person> list() {
         Iterable<Person>iterable =personRepository.findAll();
@@ -22,13 +24,16 @@ public class PersonServiceImp implements PersonService {
 
     @Override
     public Person get(String id) {
-        return null;
+        Person person = personRepository.findById(id).orElse(null);
+        if(person == null){
+            throw new EntityNotFoundException();
+        }
+        return person;
     }
 
     @Override
     public void save(Person entity) {
         personRepository.save(entity);
-
     }
 
     @Override
@@ -48,6 +53,5 @@ public class PersonServiceImp implements PersonService {
         if(person != null){
             personRepository.delete(person);
         }
-
     }
 }
