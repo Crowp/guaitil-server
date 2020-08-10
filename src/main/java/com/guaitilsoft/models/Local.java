@@ -30,6 +30,10 @@ public class Local implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
+    @Column(nullable = false, name = "local_type")
+    @Enumerated(EnumType.STRING)
+    private LocalType localType;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Person person;
 
