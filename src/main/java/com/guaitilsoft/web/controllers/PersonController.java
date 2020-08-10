@@ -46,7 +46,7 @@ public class PersonController {
                 .path("/{id}")
                 .buildAndExpand(person.getId())
                 .toUri();
-        logger.info("Created food : {}", person);
+        logger.info("Created person : {}", person);
 
         return ResponseEntity.created(location).body(person);
     }
@@ -57,6 +57,7 @@ public class PersonController {
         logger.info("Updated Person with id {}", id);
         return ResponseEntity.ok().build();
     }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Object> delete(@PathVariable String id) throws Exception, EntityNotFoundException{
         logger.info("Deleting Person with id {}", id);
