@@ -5,23 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class Audit {
+@Table(name = "Historial_Actividad")
+public class HistorialActividad {
 
     @Id
     @Column(name = "audit_id")
     private Long id;
-
-    @Column(nullable = false)
-    private String name;
 
     @Column(nullable = false)
     private String action;
@@ -30,6 +26,6 @@ public class Audit {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date auditDate;
 
-    @Column(nullable = false)
-    private String role;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 }
