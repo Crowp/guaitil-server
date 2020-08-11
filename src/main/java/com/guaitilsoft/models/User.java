@@ -1,5 +1,6 @@
 package com.guaitilsoft.models;
 
+import com.guaitilsoft.models.constant.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,4 +26,7 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     private Role role;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Person person;
 }

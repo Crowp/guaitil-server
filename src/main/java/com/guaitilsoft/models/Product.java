@@ -1,5 +1,6 @@
 package com.guaitilsoft.models;
 
+import com.guaitilsoft.models.constant.ProductType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,12 +25,19 @@ public class Product implements Serializable {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false, name = "cost_price")
-    private Float costPrice;
+    @Column(nullable = false)
+    private Boolean status;
 
-    @Column(nullable = false, name = "sale_price")
-    private Float salePrice;
+    @Column(nullable = false, name = "product_type")
+    @Enumerated(EnumType.STRING)
+    private ProductType productType;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Local local;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<Multimedia> multimedia;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private ProductPrice productPrice;
 }

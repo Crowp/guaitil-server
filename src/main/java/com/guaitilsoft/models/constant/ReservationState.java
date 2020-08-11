@@ -1,4 +1,4 @@
-package com.guaitilsoft.models;
+package com.guaitilsoft.models.constant;
 
 public enum ReservationState {
     INPROCRESS, DONE, CANCELLED

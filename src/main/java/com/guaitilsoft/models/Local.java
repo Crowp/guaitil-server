@@ -1,5 +1,6 @@
 package com.guaitilsoft.models;
 
+import com.guaitilsoft.models.constant.LocalType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,12 +28,12 @@ public class Local implements Serializable {
     @Column(nullable = false)
     private Long telephone;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
-
     @Column(nullable = false, name = "local_type")
     @Enumerated(EnumType.STRING)
     private LocalType localType;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Person person;

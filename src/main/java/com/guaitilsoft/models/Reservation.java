@@ -1,6 +1,7 @@
 package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.guaitilsoft.models.constant.ReservationState;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

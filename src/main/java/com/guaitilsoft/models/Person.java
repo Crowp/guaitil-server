@@ -1,5 +1,6 @@
 package com.guaitilsoft.models;
 
+import com.guaitilsoft.models.constant.PersonType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
