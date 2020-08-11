@@ -20,10 +20,10 @@ public class Sale implements Serializable {
     @Column(name = "sale_id")
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Local local;
-
     @Column(nullable = false,name = "sale_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date saleDate;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Local local;
 }

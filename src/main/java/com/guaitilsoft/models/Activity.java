@@ -34,5 +34,8 @@ public class Activity implements Serializable {
     private Address address;
 
     @OneToMany(fetch = FetchType.EAGER)
+    private List<Local> locals;
+
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Multimedia> multimedia;
 }
