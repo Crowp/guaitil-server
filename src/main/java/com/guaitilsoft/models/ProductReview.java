@@ -22,9 +22,6 @@ public class ProductReview implements Serializable {
     @Column(name = "productreview_id")
     private Long id;
 
-    @OneToMany
-    private List<Product> products;
-
     @Column(nullable = false, name = "review_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date reviewDate;
@@ -32,4 +29,7 @@ public class ProductReview implements Serializable {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ReviewState state;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Product> products;
 }
