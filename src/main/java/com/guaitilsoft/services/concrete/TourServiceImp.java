@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TourServiceImp implements TourService {
+
     @Autowired
     private TourRepository tourRepository;
 
     @Override
     public List<Tour> list() {
-        Iterable<Tour>iterable =tourRepository.findAll();
-        List<Tour>tours =new ArrayList<>();
+        Iterable<Tour> iterable = tourRepository.findAll();
+        List<Tour> tours = new ArrayList<>();
         iterable.forEach(tours::add);
         return tours;
     }

@@ -17,10 +17,10 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/tour")
 public class TourController {
+
     public static final Logger logger = LoggerFactory.getLogger(TourController.class);
 
     private TourService tourService;
-
 
     @Autowired
     public TourController(TourService tourService){this.tourService =tourService;}
@@ -38,7 +38,7 @@ public class TourController {
 
     @PostMapping
     public ResponseEntity<Tour> post(@RequestBody Tour tour) throws  Exception{
-        logger.info("Creating tour", tour);
+        logger.info("Creating tour: {}", tour);
         tourService.save(tour);
 
 
@@ -46,15 +46,16 @@ public class TourController {
                 .path("/{id}")
                 .buildAndExpand(tour.getId())
                 .toUri();
-        logger.info("Created tour : {}", tour);
+        logger.info("Created tour: {}", tour);
 
         return ResponseEntity.created(location).body(tour);
     }
+
     @PutMapping("{id}")
     public ResponseEntity<Object> put(@PathVariable Long id, @RequestBody Tour tourRequest) throws Exception, EntityNotFoundException {
-        logger.info("Updating Tour with id {}", id);
+        logger.info("Updating Tour with id: {}", id);
         tourService.update(id, tourRequest);
-        logger.info("Updated Tour with id {}", id);
+        logger.info("Updated Tour with id: {}", id);
         return ResponseEntity.ok().build();
     }
 
@@ -65,5 +66,4 @@ public class TourController {
         logger.info("Deleted Tour with id {}", id);
         return ResponseEntity.ok().build();
     }
-
 }

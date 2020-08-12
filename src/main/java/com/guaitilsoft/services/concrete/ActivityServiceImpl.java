@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityServiceImpl implements ActivityService {
-    
+
     @Autowired
     private ActivityRepository activityRepository;
 
     @Override
     public List<Activity> list() {
-        Iterable<Activity>iterable =activityRepository.findAll();
-        List<Activity>activities =new ArrayList<>();
+        Iterable<Activity> iterable = activityRepository.findAll();
+        List<Activity> activities = new ArrayList<>();
         iterable.forEach(activities::add);
         return activities;
     }

@@ -19,7 +19,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Person get(Long id) {
+    public User get(Long id) {
         return null;
     }
 

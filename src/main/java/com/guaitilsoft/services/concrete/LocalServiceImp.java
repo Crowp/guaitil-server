@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocalServiceImp implements LocalService {
+
     @Autowired
     private LocalRepository localRepository;
 
     @Override
     public List<Local> list() {
-        Iterable<Local>iterable =localRepository.findAll();
-        List<Local>locals =new ArrayList<>();
+        Iterable<Local> iterable = localRepository.findAll();
+        List<Local> locals = new ArrayList<>();
         iterable.forEach(locals::add);
         return locals;
     }

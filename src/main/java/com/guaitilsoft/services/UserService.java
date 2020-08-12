@@ -6,9 +6,10 @@ import com.guaitilsoft.models.User;
 import java.util.List;
 
 public interface UserService {
+
     List<User> list();
 
-    Person get(Long id);
+    User get(Long id);
 
     void save(User entity);
 

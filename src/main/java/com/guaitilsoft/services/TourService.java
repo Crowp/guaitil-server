@@ -6,6 +6,7 @@ import com.guaitilsoft.models.Tour;
 import java.util.List;
 
 public interface TourService {
+
     List<Tour> list();
 
     Tour get(Long id);

@@ -12,8 +12,8 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-@Table(name = "Historial_Actividad")
-public class HistorialActividad {
+@Table(name = "Activity_History")
+public class ActivityHistory {
 
     @Id
     @Column(name = "audit_id")
