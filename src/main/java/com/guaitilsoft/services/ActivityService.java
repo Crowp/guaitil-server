@@ -1,4 +1,4 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services;
 
 import com.guaitilsoft.models.Activity;
 
@@ -11,7 +11,7 @@ public interface ActivityService {
 
     void save(Activity entity);
 
-    void update(Long id,Activity entity);
+    void update(Long id, Activity entity);
 
     void delete(Long id);
 }

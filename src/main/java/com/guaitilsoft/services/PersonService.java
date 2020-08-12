@@ -11,7 +11,7 @@ public interface PersonService {
 
     void save(Person entity);
 
-    void update(String id,Person entity);
+    void update(String id, Person entity);
 
     void delete(String id);
 }

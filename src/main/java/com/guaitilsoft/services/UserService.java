@@ -1,4 +1,4 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services;
 
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.authoriry.User;
@@ -8,7 +8,7 @@ import java.util.List;
 public interface UserService {
     List<User> list();
 
-    Person get(Long id);
+    User get(Long id);
 
     void save(User entity);
 

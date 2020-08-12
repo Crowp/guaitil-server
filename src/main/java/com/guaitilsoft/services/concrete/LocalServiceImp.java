@@ -1,9 +1,9 @@
 package com.guaitilsoft.services.concrete;
 
 
-import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.repositories.LocalRepository;
+import com.guaitilsoft.services.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityNotFoundException;
@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LocalServiceImp implements LocalService {
+
     @Autowired
     private LocalRepository localRepository;
 
     @Override
     public List<Local> list() {
-        Iterable<Local>iterable =localRepository.findAll();
-        List<Local>locals =new ArrayList<>();
+        Iterable<Local> iterable = localRepository.findAll();
+        List<Local> locals = new ArrayList<>();
         iterable.forEach(locals::add);
         return locals;
     }
@@ -46,6 +47,7 @@ public class LocalServiceImp implements LocalService {
         local.setLocalType(entity.getLocalType());
         local.setPerson(entity.getPerson());
         local.setMultimedia(entity.getMultimedia());
+        localRepository.save(entity);
     }
 
     @Override

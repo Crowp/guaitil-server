@@ -1,4 +1,4 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services;
 
 import com.guaitilsoft.models.Local;
 
@@ -12,7 +12,7 @@ public interface LocalService {
 
     void save(Local entity);
 
-    void update(Long id,Local entity);
+    void update(Long id, Local entity);
 
     void delete(Long id);
 }

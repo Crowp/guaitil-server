@@ -1,7 +1,7 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.Activity;
-import com.guaitilsoft.services.concrete.ActivityService;
+import com.guaitilsoft.services.ActivityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/activity")
 public class ActivityController {
+
     public static final Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
     private ActivityService activityService;
@@ -37,9 +38,8 @@ public class ActivityController {
 
     @PostMapping
     public ResponseEntity<Activity> post(@RequestBody Activity activity) throws  Exception{
-        logger.info("Creating activity", activity);
+        logger.info("Creating activity: {}", activity);
         activityService.save(activity);
-
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

@@ -18,6 +18,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/person")
 public class PersonController {
+
     public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     private PersonService personService;
@@ -38,32 +39,31 @@ public class PersonController {
 
     @PostMapping
     public ResponseEntity<Person> post(@RequestBody Person person) throws  Exception{
-       logger.info("Creating person", person);
+       logger.info("Creating person: {}", person);
        personService.save(person);
-
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(person.getId())
                 .toUri();
-        logger.info("Created person : {}", person);
+        logger.info("Created person: {}", person);
 
         return ResponseEntity.created(location).body(person);
     }
+
     @PutMapping("{id}")
     public ResponseEntity<Object> put(@PathVariable String id, @RequestBody Person personRequest) throws Exception, EntityNotFoundException {
-        logger.info("Updating Person with id {}", id);
+        logger.info("Updating Person with id: {}", id);
         personService.update(id, personRequest);
-        logger.info("Updated Person with id {}", id);
+        logger.info("Updated Person with id: {}", id);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Object> delete(@PathVariable String id) throws Exception, EntityNotFoundException{
-        logger.info("Deleting Person with id {}", id);
+        logger.info("Deleting Person with id: {}", id);
         personService.delete(id);
-        logger.info("Deleted Person with id {}", id);
+        logger.info("Deleted Person with id: {}", id);
         return ResponseEntity.ok().build();
     }
-
 }

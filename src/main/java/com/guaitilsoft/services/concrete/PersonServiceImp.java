@@ -16,8 +16,8 @@ public class PersonServiceImp implements PersonService {
 
     @Override
     public List<Person> list() {
-        Iterable<Person>iterable =personRepository.findAll();
-        List<Person>person =new ArrayList<>();
+        Iterable<Person> iterable = personRepository.findAll();
+        List<Person> person = new ArrayList<>();
         iterable.forEach(person::add);
         return person;
     }

@@ -3,6 +3,7 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.authoriry.User;
 import com.guaitilsoft.repositories.UserRepository;
+import com.guaitilsoft.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public Person get(Long id) {
+    public User get(Long id) {
         return null;
     }
 

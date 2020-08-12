@@ -1,4 +1,4 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services;
 
 import com.guaitilsoft.models.Associated;
 
@@ -11,7 +11,7 @@ public interface AssociatedService {
 
     void save(Associated entity);
 
-    void update(Long id,Associated entity);
+    void update(Long id, Associated entity);
 
     void delete(Long id);
 }
