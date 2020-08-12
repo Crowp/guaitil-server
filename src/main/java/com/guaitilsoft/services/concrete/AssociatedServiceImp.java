@@ -18,9 +18,9 @@ public class AssociatedServiceImp implements AssociatedService {
     @Override
     public List<Associated> list() {
         Iterable<Associated>iterable =associatedRepository.findAll();
-        List<Associated>associateds =new ArrayList<>();
-        iterable.forEach(associateds::add);
-        return associateds;
+        List<Associated>associates =new ArrayList<>();
+        iterable.forEach(associates::add);
+        return associates;
     }
 
     @Override
