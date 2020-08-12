@@ -1,6 +1,7 @@
 package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.guaitilsoft.models.authoriry.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

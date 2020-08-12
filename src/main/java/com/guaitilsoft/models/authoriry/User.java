@@ -1,5 +1,6 @@
-package com.guaitilsoft.models;
+package com.guaitilsoft.models.authoriry;
 
+import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,6 +26,7 @@ public class User implements Serializable {
     private Boolean firstLogin;
 
     @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
     @OneToOne(cascade = CascadeType.ALL)

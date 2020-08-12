@@ -1,8 +1,6 @@
 package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Activity;
-import com.guaitilsoft.models.Person;
-import com.guaitilsoft.models.User;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Person;
-import com.guaitilsoft.models.User;
+import com.guaitilsoft.models.authoriry.User;
 
 import java.util.List;
 
