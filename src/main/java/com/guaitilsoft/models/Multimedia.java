@@ -24,4 +24,9 @@ public class Multimedia implements Serializable {
 
     @Column(nullable = false)
     private String url;
+
+    public Multimedia(String name, String url) {
+        this.name = name;
+        this.url = url;
+    }
 }
