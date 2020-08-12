@@ -7,7 +7,6 @@ import com.guaitilsoft.models.User;
 import java.util.List;
 
 public interface ActivityService {
-
     List<Activity> list();
 
     Activity get(Long id);

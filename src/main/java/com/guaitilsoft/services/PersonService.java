@@ -5,7 +5,6 @@ import com.guaitilsoft.models.Person;
 import java.util.List;
 
 public interface PersonService {
-
     List<Person> list();
 
     Person get(String id);
