@@ -1,7 +1,7 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.Activity;
-import com.guaitilsoft.services.concrete.ActivityService;
+import com.guaitilsoft.services.ActivityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

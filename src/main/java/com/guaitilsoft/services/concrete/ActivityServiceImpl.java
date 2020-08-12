@@ -1,16 +1,15 @@
 package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Activity;
-import com.guaitilsoft.models.Person;
 import com.guaitilsoft.repositories.ActivityRepository;
-import com.guaitilsoft.repositories.UserRepository;
+import com.guaitilsoft.services.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ActivityServiceImpl implements  ActivityService{
+public class ActivityServiceImpl implements ActivityService {
     @Autowired
     private ActivityRepository activityRepository;
 
@@ -44,6 +43,7 @@ public class ActivityServiceImpl implements  ActivityService{
         activity.setActivityDate(entity.getActivityDate());
         activity.setAddress(entity.getAddress());
         activity.setMultimedia(entity.getMultimedia());
+        activityRepository.save(entity);
     }
 
     @Override

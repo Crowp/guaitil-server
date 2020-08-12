@@ -1,4 +1,4 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services;
 
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Person;

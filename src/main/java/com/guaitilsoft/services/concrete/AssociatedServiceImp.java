@@ -2,16 +2,15 @@ package com.guaitilsoft.services.concrete;
 
 
 import com.guaitilsoft.models.Associated;
-import com.guaitilsoft.models.Person;
 import com.guaitilsoft.repositories.AssociatedRepository;
-import com.guaitilsoft.repositories.PersonRepository;
+import com.guaitilsoft.services.AssociatedService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AssociatedServiceImp implements AssociatedService{
+public class AssociatedServiceImp implements AssociatedService {
 
     @Autowired
     private AssociatedRepository associatedRepository;
@@ -44,6 +43,7 @@ public class AssociatedServiceImp implements AssociatedService{
         associated.setOccupation(entity.getOccupation());
         associated.setMembershipDate(entity.getMembershipDate());
         associated.setPerson(entity.getPerson());
+        associatedRepository.save(entity);
     }
 
     @Override

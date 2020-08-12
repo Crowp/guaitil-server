@@ -2,8 +2,8 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.User;
-import com.guaitilsoft.repositories.PersonRepository;
 import com.guaitilsoft.repositories.UserRepository;
+import com.guaitilsoft.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
