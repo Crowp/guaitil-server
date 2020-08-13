@@ -1,7 +1,6 @@
 package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.guaitilsoft.models.authoriry.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +17,7 @@ public class ActivityHistory {
 
     @Id
     @Column(name = "audit_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

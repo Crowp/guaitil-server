@@ -1,18 +1,10 @@
 package com.guaitilsoft.services;
 
-import com.guaitilsoft.models.Person;
-import com.guaitilsoft.models.authoriry.User;
-
-import java.util.List;
+import com.guaitilsoft.models.User;
 
 public interface UserService {
-    List<User> list();
-
-    User get(Long id);
-
-    void save(User entity);
-
-    void update(Long id,User entity);
-
-    void delete(Long id);
+    User login(String email, String password);
+    User register(User user);
+    void delete(String email);
+    User search(String email);
 }

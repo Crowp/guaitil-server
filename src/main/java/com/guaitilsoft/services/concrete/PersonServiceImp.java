@@ -4,15 +4,21 @@ import com.guaitilsoft.models.Person;
 import com.guaitilsoft.repositories.PersonRepository;
 import com.guaitilsoft.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class PersonServiceImp implements PersonService {
 
-    @Autowired
     private PersonRepository personRepository;
+
+    @Autowired
+    public PersonServiceImp(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
 
     @Override
     public List<Person> list() {

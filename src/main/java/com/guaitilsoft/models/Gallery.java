@@ -16,6 +16,7 @@ public class Gallery implements Serializable {
 
     @Id
     @Column(name = "gallery_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

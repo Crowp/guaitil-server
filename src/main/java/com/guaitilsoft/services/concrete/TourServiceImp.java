@@ -5,15 +5,21 @@ import com.guaitilsoft.models.Tour;
 import com.guaitilsoft.repositories.TourRepository;
 import com.guaitilsoft.services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class TourServiceImp implements TourService {
 
-    @Autowired
     private TourRepository tourRepository;
+
+    @Autowired
+    public TourServiceImp(TourRepository tourRepository) {
+        this.tourRepository = tourRepository;
+    }
 
     @Override
     public List<Tour> list() {

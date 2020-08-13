@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/api/multimedia")
 public class MultimediaController {
 
-      MultimediaService multimediaService;
+    private MultimediaService multimediaService;
 
     @Autowired
     public MultimediaController(MultimediaService multimediaService){this.multimediaService =multimediaService;}

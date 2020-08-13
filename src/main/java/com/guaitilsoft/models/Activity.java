@@ -18,6 +18,7 @@ public class Activity implements Serializable {
 
     @Id
     @Column(name = "activity_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -33,7 +34,7 @@ public class Activity implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Local> locals;
 
     @OneToMany(fetch = FetchType.EAGER)

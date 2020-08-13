@@ -5,15 +5,21 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class LocalServiceImp implements LocalService {
 
-    @Autowired
     private LocalRepository localRepository;
+
+    @Autowired
+    public LocalServiceImp(LocalRepository localRepository) {
+        this.localRepository = localRepository;
+    }
 
     @Override
     public List<Local> list() {

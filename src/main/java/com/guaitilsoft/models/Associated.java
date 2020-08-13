@@ -17,6 +17,7 @@ public class Associated implements Serializable {
 
     @Id
     @Column(name = "associated_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

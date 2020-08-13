@@ -20,6 +20,7 @@ public class ProductReview implements Serializable {
 
     @Id
     @Column(name = "productreview_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, name = "review_date")

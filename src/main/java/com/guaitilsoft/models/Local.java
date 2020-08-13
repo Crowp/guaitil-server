@@ -17,6 +17,7 @@ public class Local implements Serializable {
 
     @Id
     @Column(name = "local_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

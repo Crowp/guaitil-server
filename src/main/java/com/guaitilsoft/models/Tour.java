@@ -15,6 +15,7 @@ public class Tour implements Serializable {
 
     @Id
     @Column(name = "tour_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false,name = "amount_Person")

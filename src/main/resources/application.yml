@@ -1,0 +1,29 @@
+spring:
+  servlet:
+    multipart:
+      max-file-size: 500KB
+      max-request-size: 500KB
+  datasource:
+    url: "jdbc:mysql://localhost/guaitil?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC"
+    username: "root"
+    password: "root"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    testWhileIdle: true
+    validationQuery: SELECT 1
+    jpa:
+      show-sql: true
+      hibernate:
+        ddl-auto: update
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+      properties:
+        hibernate:
+          dialect: org.hibernate.dialect.MySQL8Dialect
+    security:
+      jwt:
+        token:
+          secret-key: "secret-key"
+          expire-length: 14400000
+        header: "Authorization"
+    output:
+      ansi:
+        enabled: always

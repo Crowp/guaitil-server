@@ -5,15 +5,21 @@ import com.guaitilsoft.models.Associated;
 import com.guaitilsoft.repositories.AssociatedRepository;
 import com.guaitilsoft.services.AssociatedService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class AssociatedServiceImp implements AssociatedService {
 
-    @Autowired
     private AssociatedRepository associatedRepository;
+
+    @Autowired
+    public AssociatedServiceImp(AssociatedRepository associatedRepository) {
+        this.associatedRepository = associatedRepository;
+    }
 
     @Override
     public List<Associated> list() {

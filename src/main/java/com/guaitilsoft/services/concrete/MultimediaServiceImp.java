@@ -3,6 +3,7 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.services.MultimediaService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
+import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
+@Service
 public class MultimediaServiceImp implements MultimediaService {
     private final Path root = Paths.get("uploads");
 

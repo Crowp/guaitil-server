@@ -4,15 +4,21 @@ import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ActivityServiceImpl implements ActivityService {
 
-    @Autowired
     private ActivityRepository activityRepository;
+
+    @Autowired
+    public ActivityServiceImpl(ActivityRepository activityRepository) {
+        this.activityRepository = activityRepository;
+    }
 
     @Override
     public List<Activity> list() {
