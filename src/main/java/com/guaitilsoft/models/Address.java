@@ -1,26 +1,20 @@
 package com.guaitilsoft.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
+@Data
 @Entity
-@Getter
-@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Address implements Serializable {
+public class Address {
 
     @Id
-    @Column(name = "address_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,name = "physical_address")
     private String physicalAddress;
 
-    @Column(nullable = false,name = "virtual_address")
     private String virtualAddress;
 }

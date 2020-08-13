@@ -2,32 +2,25 @@ package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReviewState;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
-@Table(name = "Product_Review")
+@AllArgsConstructor
 @NoArgsConstructor
-public class ProductReview implements Serializable {
+public class ProductReview {
 
     @Id
-    @Column(name = "productreview_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, name = "review_date")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date reviewDate;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ReviewState state;
 

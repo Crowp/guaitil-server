@@ -2,33 +2,26 @@ package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReservationState;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.Date;
 
+@Data
 @Entity
-@Getter
-@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Reservation implements Serializable {
+public class Reservation {
 
     @Id
-    @Column(name = "reservation_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false,name = "date_reservation")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateReservation;
 
-    @Column(nullable = false,name = "amount_person")
     private Long amountPerson;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ReservationState reservationState;
 

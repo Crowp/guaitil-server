@@ -1,35 +1,28 @@
 package com.guaitilsoft.models;
 
 import com.guaitilsoft.models.constant.ProductType;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Product implements Serializable {
+public class Product {
 
     @Id
-    @Column(name = "product_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
     private Boolean status;
 
-    @Column(nullable = false, name = "product_type")
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 

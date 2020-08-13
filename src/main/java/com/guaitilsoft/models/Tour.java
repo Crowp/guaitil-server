@@ -1,17 +1,14 @@
 package com.guaitilsoft.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
+@Data
 @Entity
-@Getter
-@Setter
+@AllArgsConstructor
 @NoArgsConstructor
-public class Tour implements Serializable {
+public class Tour {
 
     @Id
     @Column(name = "tour_id")
