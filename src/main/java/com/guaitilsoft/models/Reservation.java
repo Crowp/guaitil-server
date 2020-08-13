@@ -5,6 +5,7 @@ import com.guaitilsoft.models.constant.ReservationState;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Data
@@ -20,6 +21,7 @@ public class Reservation {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateReservation;
 
+    @NotEmpty
     private Long amountPerson;
 
     @Enumerated(EnumType.STRING)

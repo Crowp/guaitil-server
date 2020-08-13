@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
@@ -19,11 +20,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NonNull
+    @NotEmpty
     private String password;
 
-    @NonNull
-    @Column(nullable = false, name = "first_login")
     private Boolean firstLogin;
 
     @Enumerated(value = EnumType.STRING)

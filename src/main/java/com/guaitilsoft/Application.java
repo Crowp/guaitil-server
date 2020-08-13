@@ -46,6 +46,7 @@ public class Application implements CommandLineRunner {
 			person.setName("Guatil");
 			person.setEmail("guaitil_default_admin@gmail.com");
 			person.setFirstLastName("Soft");
+			person.setTelephone("8888888");
 			person.setSecondLastName("Default Admin");
 			User user = new User();
 			user.setFirstLogin(false);

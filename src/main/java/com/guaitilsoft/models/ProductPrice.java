@@ -3,6 +3,7 @@ package com.guaitilsoft.models;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Data
@@ -15,7 +16,9 @@ public class ProductPrice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private Double cost;
 
+    @NotEmpty
     private Long sale;
 }

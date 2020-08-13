@@ -3,6 +3,7 @@ package com.guaitilsoft.models;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
 @Data
@@ -15,8 +16,10 @@ public class Multimedia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String name;
 
+    @NotEmpty
     private String url;
 
     public Multimedia(String name, String url) {

@@ -4,6 +4,7 @@ import com.guaitilsoft.models.constant.ProductType;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,10 +18,13 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String name;
 
+    @NotEmpty
     private String description;
 
+    @NotEmpty
     private Boolean status;
 
     @Enumerated(EnumType.STRING)

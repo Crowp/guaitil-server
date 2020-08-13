@@ -4,6 +4,7 @@ import com.guaitilsoft.models.constant.LocalType;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.List;
 
@@ -17,11 +18,14 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty
     private String name;
 
+    @NotEmpty
     private String description;
 
-    private Long telephone;
+    @NotEmpty
+    private String telephone;
 
     @Enumerated(EnumType.STRING)
     private LocalType localType;
