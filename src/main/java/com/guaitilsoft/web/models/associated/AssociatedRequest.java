@@ -1,6 +1,5 @@
 package com.guaitilsoft.web.models.associated;
 
-import com.guaitilsoft.web.models.person.PersonRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

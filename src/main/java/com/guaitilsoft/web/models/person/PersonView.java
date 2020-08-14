@@ -12,8 +12,7 @@ import javax.persistence.Enumerated;
 @Getter
 @Setter
 @NoArgsConstructor
-public class PersonResponse {
-
+public class PersonView {
     private String id;
 
     private String name;

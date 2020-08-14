@@ -2,6 +2,8 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.services.PersonService;
+import com.guaitilsoft.web.models.person.PersonView;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,13 @@ public class PersonController {
     public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     private PersonService personService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public PersonController(PersonService personService){this.personService =personService;}
+    public PersonController(PersonService personService, ModelMapper modelMapper){
+        this.personService = personService;
+        this.modelMapper = modelMapper;
+    }
 
     @GetMapping
     public ResponseEntity<List<Person>> get(){
@@ -37,32 +43,37 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> post(@RequestBody Person person) {
-       logger.info("Creating person: {}", person);
-       personService.save(person);
+    public ResponseEntity<PersonView> post(@RequestBody PersonView personRequest) {
+        Person person = modelMapper.map(personRequest, Person.class);
+        logger.info("Creating person: {}", person);
+        personService.save(person);
 
+        PersonView personView = modelMapper.map(person, PersonView.class);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(person.getId())
                 .toUri();
         logger.info("Created person: {}", person);
 
-        return ResponseEntity.created(location).body(person);
+        return ResponseEntity.created(location).body(personView);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> put(@PathVariable String id, @RequestBody Person personRequest) {
+    public ResponseEntity<PersonView> put(@PathVariable String id, @RequestBody PersonView personRequest) {
+        Person person = modelMapper.map(personRequest, Person.class);
         logger.info("Updating Person with id: {}", id);
-        personService.update(id, personRequest);
+        personService.update(id, person);
+        PersonView personView = modelMapper.map(person, PersonView.class);
         logger.info("Updated Person with id: {}", id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(personView);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> delete(@PathVariable String id) {
+    public ResponseEntity<PersonView> delete(@PathVariable String id) {
+        PersonView personView = modelMapper.map(personService.get(id), PersonView.class);
         logger.info("Deleting Person with id: {}", id);
         personService.delete(id);
         logger.info("Deleted Person with id: {}", id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(personView);
     }
 }
