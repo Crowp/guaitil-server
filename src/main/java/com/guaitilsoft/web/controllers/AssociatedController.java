@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -53,10 +52,9 @@ public class AssociatedController {
         Associated associated = modelMapper.map(associatedRequest, Associated.class);
         logger.info("Creating Associated");
 
-        if(associatedRequest.getPersonId() != null){
-            String personId = associatedRequest.getPersonId();
-            associated.setPerson(personService.get(personId));
-        }
+        String personId = associatedRequest.getPersonId();
+        associated.setPerson(personService.get(personId));
+
         associatedService.save(associated);
 
         AssociatedResponse associatedResponse = modelMapper.map(associated, AssociatedResponse.class);
@@ -71,7 +69,7 @@ public class AssociatedController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<AssociatedResponse> put(@PathVariable Long id, @RequestBody @Valid AssociatedRequest associatedRequest) {
+    public ResponseEntity<AssociatedResponse> put(@PathVariable Long id, @RequestBody AssociatedRequest associatedRequest) {
         if(!id.equals(associatedRequest.getId())){
             throw new ApiRequestException("El id del asociado: " + associatedRequest.getId() + " es diferente al id del parametro: " + id);
         }

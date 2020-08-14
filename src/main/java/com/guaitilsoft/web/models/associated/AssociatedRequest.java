@@ -23,6 +23,4 @@ public class AssociatedRequest {
     private Date membershipDate;
 
     private String personId;
-
-    private PersonRequest person;
 }
