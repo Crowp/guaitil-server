@@ -46,7 +46,7 @@ public class AssociatedController {
     }
 
     @PostMapping
-    public ResponseEntity<AssociatedResponse> post(@RequestBody @Valid AssociatedRequest associatedRequest) throws  Exception{
+    public ResponseEntity<AssociatedResponse> post(@RequestBody AssociatedRequest associatedRequest) throws  Exception{
         Associated associated = modelMapper.map(associatedRequest, Associated.class);
         logger.info("Creating Associated");
         associatedService.save(associated);
