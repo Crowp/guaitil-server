@@ -19,6 +19,8 @@ public class Address {
     @NotEmpty
     private String physicalAddress;
 
-    @NotEmpty
-    private String virtualAddress;
+    @OneToOne
+    private VirtualAddress virtualAddress;
+
+
 }
