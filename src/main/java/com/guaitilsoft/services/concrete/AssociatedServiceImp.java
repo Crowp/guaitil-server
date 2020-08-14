@@ -48,7 +48,6 @@ public class AssociatedServiceImp implements AssociatedService {
         Associated associated = this.get(id);
         associated.setOccupation(entity.getOccupation());
         associated.setMembershipDate(entity.getMembershipDate());
-        associated.setPerson(entity.getPerson());
         associatedRepository.save(entity);
     }
 

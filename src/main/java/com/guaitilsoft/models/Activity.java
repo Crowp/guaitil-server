@@ -27,7 +27,7 @@ public class Activity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date activityDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     private Address address;
 
     @OneToMany(fetch = FetchType.LAZY)

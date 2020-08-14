@@ -2,6 +2,7 @@ package com.guaitilsoft;
 
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.User;
+import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.UserService;
@@ -48,6 +49,7 @@ public class Application implements CommandLineRunner {
 			person.setFirstLastName("Soft");
 			person.setTelephone("8888888");
 			person.setSecondLastName("Default Admin");
+			person.setGender(Gender.MALE);
 			User user = new User();
 			user.setFirstLogin(false);
 			user.setPassword("1234");

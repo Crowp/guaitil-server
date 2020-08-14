@@ -24,6 +24,6 @@ public class Gallery {
     @NotEmpty
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Multimedia> multimedia;
 }

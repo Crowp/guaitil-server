@@ -49,7 +49,10 @@ public class PersonServiceImp implements PersonService {
         person.setFirstLastName(entity.getFirstLastName());
         person.setSecondLastName(entity.getSecondLastName());
         person.setTelephone(entity.getTelephone());
+        person.setGender(entity.getGender());
+        person.setEmail(entity.getEmail());
         person.setPersonType(entity.getPersonType());
+
         personRepository.save(entity);
     }
 

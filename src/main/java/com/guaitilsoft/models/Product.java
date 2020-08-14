@@ -36,6 +36,6 @@ public class Product {
     @OneToMany(fetch = FetchType.EAGER)
     private List<Multimedia> multimedia;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private ProductPrice productPrice;
 }

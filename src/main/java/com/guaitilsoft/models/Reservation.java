@@ -27,9 +27,9 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationState reservationState;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Tour tour;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Person person;
 }

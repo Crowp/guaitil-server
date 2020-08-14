@@ -1,5 +1,6 @@
 package com.guaitilsoft.models;
 
+import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.PersonType;
 import lombok.*;
 
@@ -15,6 +16,7 @@ import java.io.Serializable;
 public class Person {
 
     @Id
+    @Column(updatable = false, nullable = false)
     private String id;
 
     @NotEmpty
@@ -28,6 +30,9 @@ public class Person {
 
     @NotEmpty
     private String telephone;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Email
     private String email;

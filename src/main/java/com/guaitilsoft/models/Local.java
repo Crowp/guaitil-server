@@ -30,12 +30,12 @@ public class Local {
     @Enumerated(EnumType.STRING)
     private LocalType localType;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Person person;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.LAZY)
     private List<Multimedia> multimedia;
 }

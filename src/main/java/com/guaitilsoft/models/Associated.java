@@ -15,6 +15,7 @@ public class Associated {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(updatable = false, nullable = false)
     private Long id;
 
     @NotEmpty
@@ -22,7 +23,4 @@ public class Associated {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date membershipDate;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Person person;
 }

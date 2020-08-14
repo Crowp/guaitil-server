@@ -18,6 +18,6 @@ public class Tour {
     @NotEmpty
     private Long amountPerson;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     private Activity activity;
 }
