@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "product_review")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductReview {

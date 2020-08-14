@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Data
 @Entity
+@Table(name = "tour")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tour {
@@ -19,5 +20,6 @@ public class Tour {
     private Long amountPerson;
 
     @OneToOne
+    @JoinColumn(name = "activityid")
     private Activity activity;
 }

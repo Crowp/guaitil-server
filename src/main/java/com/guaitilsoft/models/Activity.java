@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "activity")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Activity {
@@ -27,7 +28,8 @@ public class Activity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date activityDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="addressid")
     private Address address;
 
     @OneToMany(fetch = FetchType.LAZY)

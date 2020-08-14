@@ -9,6 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
+@Table(name = "activity_history")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActivityHistory {
@@ -23,6 +24,6 @@ public class ActivityHistory {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date auditDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 }

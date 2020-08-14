@@ -1,16 +1,15 @@
 package com.guaitilsoft.models;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
+@Data
 @Entity
-@Getter
-@Setter
+@Table(name = "gallery")
+@AllArgsConstructor
 @NoArgsConstructor
 public class Gallery {
 
@@ -24,6 +23,6 @@ public class Gallery {
     @NotEmpty
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Multimedia> multimedia;
 }

@@ -11,12 +11,12 @@ import java.io.Serializable;
 
 @Data
 @Entity
+@Table(name = "person")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Person {
 
     @Id
-    @Column(updatable = false, nullable = false)
     private String id;
 
     @NotEmpty

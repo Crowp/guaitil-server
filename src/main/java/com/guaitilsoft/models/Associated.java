@@ -9,13 +9,14 @@ import java.util.Date;
 
 @Data
 @Entity
+@Table(name="associated")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Associated {
 
     @Id
+    @Column(name="associatedId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(updatable = false, nullable = false)
     private Long id;
 
     @NotEmpty
@@ -23,4 +24,9 @@ public class Associated {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date membershipDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="personid")
+    private Person person;
 }
+

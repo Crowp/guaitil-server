@@ -8,6 +8,7 @@ import java.util.Date;
 
 @Data
 @Entity
+@Table(name = "product_price")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Sale {

@@ -10,11 +10,13 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "local")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Local {
 
     @Id
+
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -30,10 +32,12 @@ public class Local {
     @Enumerated(EnumType.STRING)
     private LocalType localType;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="addressid")
     private Address address;
 
     @OneToOne
+    @JoinColumn(name="personid")
     private Person person;
 
     @OneToMany(fetch = FetchType.LAZY)

@@ -10,6 +10,7 @@ import java.util.Date;
 
 @Data
 @Entity
+@Table(name = "reservation")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Reservation {
@@ -28,8 +29,10 @@ public class Reservation {
     private ReservationState reservationState;
 
     @OneToOne
+    @JoinColumn(name = "tourid", updatable = false, insertable = false)
     private Tour tour;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tourid")
     private Person person;
 }

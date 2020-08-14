@@ -11,9 +11,10 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
+@Entity
+@Table(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class User {
 
     @Id
@@ -30,6 +31,7 @@ public class User {
     List<Role> roles;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "personid")
     private Person person;
 
     public String getEmail(){

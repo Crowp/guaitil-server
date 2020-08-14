@@ -7,6 +7,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Data
 @Entity
+@Table(name = "address")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Address {

@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 @Data
 @Entity
+@Table(name = "multimedia")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Multimedia {

@@ -4,10 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 
 @Data
 @Entity
+@Table(name = "product_price")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductPrice {

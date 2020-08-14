@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "product")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
@@ -37,5 +38,6 @@ public class Product {
     private List<Multimedia> multimedia;
 
     @OneToOne
+    @JoinColumn(name="product_priceid")
     private ProductPrice productPrice;
 }
