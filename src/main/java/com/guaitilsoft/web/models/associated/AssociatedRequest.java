@@ -22,6 +22,7 @@ public class AssociatedRequest {
     @NotNull
     private Date membershipDate;
 
-    @NotNull
+    private String personId;
+
     private PersonRequest person;
 }

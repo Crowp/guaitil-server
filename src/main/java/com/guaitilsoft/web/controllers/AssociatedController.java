@@ -3,6 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Associated;
 import com.guaitilsoft.services.AssociatedService;
+import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.web.models.associated.AssociatedRequest;
 import com.guaitilsoft.web.models.associated.AssociatedResponse;
 import org.modelmapper.ModelMapper;
@@ -26,11 +27,13 @@ public class AssociatedController {
     public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     private AssociatedService associatedService;
+    private PersonService personService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public AssociatedController(AssociatedService associatedService, ModelMapper modelMapper){
+    public AssociatedController(AssociatedService associatedService, PersonService personService, ModelMapper modelMapper) {
         this.associatedService = associatedService;
+        this.personService = personService;
         this.modelMapper = modelMapper;
     }
 
@@ -46,10 +49,16 @@ public class AssociatedController {
     }
 
     @PostMapping
-    public ResponseEntity<AssociatedResponse> post(@RequestBody AssociatedRequest associatedRequest) throws  Exception{
+    public ResponseEntity<AssociatedResponse> post(@RequestBody AssociatedRequest associatedRequest) {
         Associated associated = modelMapper.map(associatedRequest, Associated.class);
         logger.info("Creating Associated");
+
+        if(associatedRequest.getPersonId() != null){
+            String personId = associatedRequest.getPersonId();
+            associated.setPerson(personService.get(personId));
+        }
         associatedService.save(associated);
+
         AssociatedResponse associatedResponse = modelMapper.map(associated, AssociatedResponse.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()

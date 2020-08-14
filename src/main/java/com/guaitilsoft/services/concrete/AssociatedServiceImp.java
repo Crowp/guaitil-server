@@ -4,7 +4,6 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.models.Associated;
 import com.guaitilsoft.repositories.AssociatedRepository;
 import com.guaitilsoft.services.AssociatedService;
-import com.guaitilsoft.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +15,10 @@ import java.util.List;
 public class AssociatedServiceImp implements AssociatedService {
 
     private AssociatedRepository associatedRepository;
-    private PersonService personService;
 
     @Autowired
-    public AssociatedServiceImp(AssociatedRepository associatedRepository, PersonService personService) {
+    public AssociatedServiceImp(AssociatedRepository associatedRepository) {
         this.associatedRepository = associatedRepository;
-        this.personService = personService;
     }
 
     @Override
@@ -46,7 +43,6 @@ public class AssociatedServiceImp implements AssociatedService {
     @Override
     public void save(Associated entity) {
         assert entity != null;
-        entity.setPerson(personService.get(entity.getPerson().getId()));
         associatedRepository.save(entity);
     }
 
