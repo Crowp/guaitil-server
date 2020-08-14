@@ -1,5 +1,6 @@
-package com.guaitilsoft.web.models;
+package com.guaitilsoft.web.models.user;
 
+import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,15 +11,14 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class UserRequest {
+public class UserResponse {
+    private Long id;
 
     private String username;
 
-    private String email;
+    private List<Role> roles;
 
-    private String password;
+    private String token;
 
-    private String idPerson;
-
-    List<Role> roles;
+    private Person person;
 }

@@ -31,31 +31,40 @@ public class TourServiceImp implements TourService {
 
     @Override
     public Tour get(Long id) {
+        assert id != null;
+
         Tour tour = tourRepository.findById(id).orElse(null);
         if(tour == null){
-            throw new EntityNotFoundException();
+            throw new EntityNotFoundException("No se encontro un tour con el id: " + id);
         }
         return tour;
     }
 
     @Override
     public void save(Tour entity)  {
+        assert entity != null;
+
         tourRepository.save(entity);
     }
 
     @Override
     public void update(Long id, Tour entity) {
+        assert id != null;
+        assert entity != null;
+
         Tour tour = this.get(id);
         tour.setAmountPerson(entity.getAmountPerson());
         tour.setActivity(entity.getActivity());
+
         tourRepository.save(entity);
     }
 
     @Override
     public void delete(Long id) {
+        assert id != null;
+
         Tour tour = this.get(id);
-        if(tour != null){
-            tourRepository.delete(tour);
-        }
+
+        tourRepository.delete(tour);
     }
 }

@@ -30,20 +30,27 @@ public class PersonServiceImp implements PersonService {
 
     @Override
     public Person get(String id) {
+        assert id != null;
+
         Person person = personRepository.findById(id).orElse(null);
-        if(person == null){
-            throw new EntityNotFoundException();
+        if(person != null){
+            return person;
         }
-        return person;
+        throw new EntityNotFoundException("No se encontro una persona con el id" + id);
     }
 
     @Override
     public void save(Person entity) {
+        assert entity != null;
+
         personRepository.save(entity);
     }
 
     @Override
     public void update(String id, Person entity) {
+        assert id != null;
+        assert entity != null;
+
         Person person = this.get(id);
         person.setName(entity.getName());
         person.setFirstLastName(entity.getFirstLastName());
@@ -58,9 +65,9 @@ public class PersonServiceImp implements PersonService {
 
     @Override
     public void delete(String id) {
+        assert id != null;
+
         Person person = this.get(id);
-        if(person != null){
-            personRepository.delete(person);
-        }
+        personRepository.delete(person);
     }
 }

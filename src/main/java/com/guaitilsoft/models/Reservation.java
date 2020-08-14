@@ -29,10 +29,10 @@ public class Reservation {
     private ReservationState reservationState;
 
     @OneToOne
-    @JoinColumn(name = "tourid", updatable = false, insertable = false)
+    @JoinColumn(name = "tourid")
     private Tour tour;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "tourid")
+    @JoinColumn(name = "personid")
     private Person person;
 }

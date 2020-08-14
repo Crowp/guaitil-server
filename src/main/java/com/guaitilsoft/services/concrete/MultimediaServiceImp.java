@@ -1,5 +1,6 @@
 package com.guaitilsoft.services.concrete;
 
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.services.MultimediaService;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -12,6 +13,7 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
@@ -23,21 +25,22 @@ public class MultimediaServiceImp implements MultimediaService {
         try {
             Files.createDirectory(root);
         } catch (IOException e) {
-            throw new RuntimeException("Could not initialize folder for upload!");
+            throw new ApiRequestException("Could not initialize folder for upload!");
         }
     }
 
     @Override
     public void save(MultipartFile file) {
         try {
-            Files.copy(file.getInputStream(), this.root.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), this.root.resolve(Objects.requireNonNull(file.getOriginalFilename())));
         } catch (Exception e) {
-            throw new RuntimeException("Could not store the file. Error: " + e.getMessage());
+            throw new ApiRequestException("Could not store the file. Error: " + e.getMessage());
         }
     }
 
     @Override
     public Resource load(String filename) {
+        assert filename != null;
         try {
             Path file = root.resolve(filename);
             Resource resource = new UrlResource(file.toUri());
@@ -45,10 +48,10 @@ public class MultimediaServiceImp implements MultimediaService {
             if (resource.exists() || resource.isReadable()) {
                 return resource;
             } else {
-                throw new RuntimeException("Could not read the file!");
+                throw new ApiRequestException("Could not read the file!");
             }
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Error: " + e.getMessage());
+            throw new ApiRequestException("Error: " + e.getMessage());
         }    }
 
     @Override
@@ -61,7 +64,7 @@ public class MultimediaServiceImp implements MultimediaService {
         try {
             return Files.walk(this.root, 1).filter(path -> !path.equals(this.root)).map(this.root::relativize);
         } catch (IOException e) {
-            throw new RuntimeException("Could not load the files!");
+            throw new ApiRequestException("Could not load the files!");
         }
     }
 }

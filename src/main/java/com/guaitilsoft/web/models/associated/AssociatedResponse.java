@@ -1,6 +1,7 @@
-package com.guaitilsoft.web.models;
+package com.guaitilsoft.web.models.associated;
 
 import com.guaitilsoft.models.Person;
+import com.guaitilsoft.web.models.person.PersonResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,4 +18,6 @@ public class AssociatedResponse {
     private String occupation;
 
     private Date membershipDate;
+
+    private PersonResponse person;
 }

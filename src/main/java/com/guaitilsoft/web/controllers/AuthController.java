@@ -1,16 +1,17 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.config.security.TokenProvider;
-import com.guaitilsoft.exceptions.CustomException;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.services.UserService;
-import com.guaitilsoft.web.models.UserRequest;
-import com.guaitilsoft.web.models.UserResponse;
+import com.guaitilsoft.web.models.user.UserRequest;
+import com.guaitilsoft.web.models.user.UserResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @CrossOrigin
 @RestController
@@ -29,12 +30,12 @@ public class AuthController {
     }
     @PostMapping("/login")
     public ResponseEntity<UserResponse> login (@RequestParam String email,
-                                               @RequestParam String password) throws CustomException {
+                                               @RequestParam String password) {
         return ResponseEntity.ok().body(createToken(userService.login(email, password)));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@RequestBody UserRequest userRequest) throws CustomException {
+    public ResponseEntity<UserResponse> register(@RequestBody @Valid UserRequest userRequest) {
         User user = modelMapper.map(userRequest, User.class);
         return ResponseEntity.ok().body(createToken(userService.register(user)));
     }
@@ -49,7 +50,7 @@ public class AuthController {
 
     @GetMapping(value = "{email}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> search(@PathVariable String email) throws CustomException {
+    public ResponseEntity<User> search(@PathVariable String email) {
         return ResponseEntity.ok().body(userService.search(email));
     }
 

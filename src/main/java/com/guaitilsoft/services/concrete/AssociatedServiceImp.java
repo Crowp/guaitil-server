@@ -31,20 +31,26 @@ public class AssociatedServiceImp implements AssociatedService {
 
     @Override
     public Associated get(Long id) {
+        assert id != null;
+
         Associated associated = associatedRepository.findById(id).orElse(null);
-        if(associated == null){
-            throw new EntityNotFoundException();
+        if(associated != null){
+            return associated;
         }
-        return associated;
+        throw new EntityNotFoundException("No se encontro un asociado con el id: " + id);
     }
 
     @Override
     public void save(Associated entity) {
+        assert entity != null;
         associatedRepository.save(entity);
     }
 
     @Override
     public void update(Long id, Associated entity) {
+        assert id != null;
+        assert entity != null;
+
         Associated associated = this.get(id);
         associated.setOccupation(entity.getOccupation());
         associated.setMembershipDate(entity.getMembershipDate());
@@ -53,6 +59,8 @@ public class AssociatedServiceImp implements AssociatedService {
 
     @Override
     public void delete(Long id) {
+        assert id != null;
+
         Associated associated = this.get(id);
         if(associated != null){
             associatedRepository.delete(associated);

@@ -32,11 +32,13 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public Product get(Long id) {
+        assert id != null;
+
         Product product = productRepository.findById(id).orElse(null);
-        if(product == null){
-            throw new EntityNotFoundException();
+        if(product != null){
+            return product;
         }
-        return product;
+        throw new EntityNotFoundException("No se encontroun producto con el id: " + id);
     }
 
     @Override
@@ -46,6 +48,9 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public void update(Long id, Product entity) {
+        assert id != null;
+        assert entity != null;
+
         Product product = this.get(id);
         product.setName(entity.getName());
         product.setDescription(entity.getDescription());
@@ -54,14 +59,15 @@ public class ProductServiceImp implements ProductService {
         product.setLocal(entity.getLocal());
         product.setMultimedia(entity.getMultimedia());
         product.setProductPrice(entity.getProductPrice());
+
         productRepository.save(entity);
     }
 
     @Override
     public void delete(Long id) {
+        assert id != null;
+
         Product product = this.get(id);
-        if(product != null){
-            productRepository.delete(product);
-        }
+        productRepository.delete(product);
     }
 }

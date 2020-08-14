@@ -1,9 +1,10 @@
 package com.guaitilsoft.web.controllers;
 
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Associated;
 import com.guaitilsoft.services.AssociatedService;
-import com.guaitilsoft.web.models.AssociatedRequest;
-import com.guaitilsoft.web.models.AssociatedResponse;
+import com.guaitilsoft.web.models.associated.AssociatedRequest;
+import com.guaitilsoft.web.models.associated.AssociatedResponse;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class AssociatedController {
     }
 
     @PostMapping
-    public ResponseEntity<AssociatedResponse> post(@RequestBody AssociatedRequest associatedRequest) throws  Exception{
+    public ResponseEntity<AssociatedResponse> post(@RequestBody @Valid AssociatedRequest associatedRequest) throws  Exception{
         Associated associated = modelMapper.map(associatedRequest, Associated.class);
         logger.info("Creating Associated");
         associatedService.save(associated);
@@ -60,7 +62,10 @@ public class AssociatedController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<AssociatedResponse> put(@PathVariable Long id, @RequestBody AssociatedRequest associatedRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<AssociatedResponse> put(@PathVariable Long id, @RequestBody @Valid AssociatedRequest associatedRequest) {
+        if(!id.equals(associatedRequest.getId())){
+            throw new ApiRequestException("El id del asociado: " + associatedRequest.getId() + " es diferente al id del parametro: " + id);
+        }
         Associated associated = modelMapper.map(associatedRequest, Associated.class);
         logger.info("Updating Associated with id: {}", id);
         associatedService.update(id, associated);

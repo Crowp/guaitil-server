@@ -15,7 +15,7 @@ import java.util.Date;
 public class Associated {
 
     @Id
-    @Column(name="associatedId")
+    @Column(name="associatedId", unique = true, nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

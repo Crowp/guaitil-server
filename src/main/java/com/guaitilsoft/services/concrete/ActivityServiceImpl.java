@@ -30,11 +30,13 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public Activity get(Long id) {
+        assert id != null;
+
         Activity activity = activityRepository.findById(id).orElse(null);
-        if(activity == null){
-            throw new EntityNotFoundException();
+        if(activity != null){
+            return activity;
         }
-        return activity;
+        throw new EntityNotFoundException("No se encontro un tour con el id: ");
     }
 
     @Override
@@ -44,20 +46,24 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public void update(Long id, Activity entity) {
+        assert id != null;
+        assert entity != null;
+
         Activity activity = this.get(id);
         activity.setName(entity.getName());
         activity.setDescription(entity.getDescription());
         activity.setActivityDate(entity.getActivityDate());
         activity.setAddress(entity.getAddress());
         activity.setMultimedia(entity.getMultimedia());
+
         activityRepository.save(entity);
     }
 
     @Override
     public void delete(Long id) {
+        assert id != null;
+
         Activity activity = this.get(id);
-        if(activity != null){
-            activityRepository.delete(activity);
-        }
+        activityRepository.delete(activity);
     }
 }

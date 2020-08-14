@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.List;
 
@@ -31,13 +30,13 @@ public class LocalController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Local> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+    public ResponseEntity<Local> getById(@PathVariable Long id) {
         logger.info("Fetching Local with id: {}", id);
         return ResponseEntity.ok().body(localService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Local> post(@RequestBody Local local) throws  Exception{
+    public ResponseEntity<Local> post(@RequestBody Local local) {
         logger.info("Creating local: {}", local);
         localService.save(local);
 
@@ -51,7 +50,7 @@ public class LocalController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> put(@PathVariable Long id, @RequestBody Local localRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<Object> put(@PathVariable Long id, @RequestBody Local localRequest) {
         logger.info("Updating Local with id: {}", id);
         localService.update(id, localRequest);
         logger.info("Updated Local with id: {}", id);
@@ -59,7 +58,7 @@ public class LocalController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
         logger.info("Deleting Local with id: {}", id);
         localService.delete(id);
         logger.info("Deleted Local with id: {}", id);

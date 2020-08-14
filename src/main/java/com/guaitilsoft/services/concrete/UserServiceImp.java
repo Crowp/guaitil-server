@@ -1,16 +1,17 @@
 package com.guaitilsoft.services.concrete;
 
-import com.guaitilsoft.exceptions.CustomException;
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.repositories.UserRepository;
 import com.guaitilsoft.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -32,38 +33,46 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public User login(String email, String password) throws CustomException {
+    public User login(String email, String password) throws ApiRequestException {
+        assert email != null;
+        assert password != null;
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
             return userRepository.findByEmail(email);
         } catch (AuthenticationException e) {
             System.err.println(e.getMessage());
-            throw new CustomException("Usuario o contraseña incorrectos", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ApiRequestException("Usuario o contraseña incorrectos");
         }
     }
 
     @Override
-    public User register(User user) throws CustomException{
+    public User register(User user) throws ApiRequestException{
+        assert user != null;
+
         if (!userRepository.existsByEmail(user.getEmail())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(user);
             return user;
         } else {
-            throw new CustomException("El usuario ya esta en uso", HttpStatus.UNPROCESSABLE_ENTITY);
+            throw new ApiRequestException("El usuario con el email: " + user.getEmail() + " ya existe");
         }
     }
 
     @Override
     public void delete(String email) {
+        assert email != null;
+
         userRepository.deleteByEmail(email);
     }
 
     @Override
-    public User search(String email) throws CustomException {
+    public User search(String email) {
+        assert email != null;
+
         User user = userRepository.findByEmail(email);
-        if (user == null) {
-            throw new CustomException("El usuario no fue encontrado", HttpStatus.NOT_FOUND);
+        if (user != null) {
+            return user;
         }
-        return user;
+        throw new EntityNotFoundException("El usuario no fue encontrado");
     }
 }

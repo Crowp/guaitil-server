@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.List;
 
@@ -31,13 +30,13 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+    public ResponseEntity<Product> getById(@PathVariable Long id) {
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(productService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Product> post(@RequestBody Product product) throws  Exception{
+    public ResponseEntity<Product> post(@RequestBody Product product) {
         logger.info("Creating product: {}", product);
         productService.save(product);
 
@@ -52,7 +51,7 @@ public class ProductController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> put(@PathVariable Long id, @RequestBody Product productRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<Object> put(@PathVariable Long id, @RequestBody Product productRequest) {
         logger.info("Updating Product with id: {}", id);
         productService.update(id, productRequest);
         logger.info("Updated Product with id: {}", id);
@@ -60,7 +59,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
+    public ResponseEntity<Object> delete(@PathVariable Long id) {
         logger.info("Deleting Product with id {}", id);
         productService.delete(id);
         logger.info("Deleted Product with id {}", id);

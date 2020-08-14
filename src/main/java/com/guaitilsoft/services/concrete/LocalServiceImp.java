@@ -31,20 +31,27 @@ public class LocalServiceImp implements LocalService {
 
     @Override
     public Local get(Long id) {
+        assert id != null;
+
         Local local = localRepository.findById(id).orElse(null);
-        if(local == null){
-            throw new EntityNotFoundException();
+        if(local != null){
+            return local;
         }
-        return local;
+        throw new EntityNotFoundException("No se encontro un local con el id: " + id);
     }
 
     @Override
     public void save(Local entity) {
+        assert entity != null;
+
         localRepository.save(entity);
     }
 
     @Override
     public void update(Long id, Local entity) {
+        assert id != null;
+        assert entity != null;
+
         Local local = this.get(id);
         local.setName(entity.getName());
         local.setDescription(entity.getDescription());
@@ -53,14 +60,15 @@ public class LocalServiceImp implements LocalService {
         local.setLocalType(entity.getLocalType());
         local.setPerson(entity.getPerson());
         local.setMultimedia(entity.getMultimedia());
+
         localRepository.save(entity);
     }
 
     @Override
     public void delete(Long id) {
+        assert id != null;
+
         Local local = this.get(id);
-        if(local != null){
-            localRepository.delete(local);
-        }
+        localRepository.delete(local);
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.List;
 
@@ -32,13 +31,13 @@ public class PersonController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Person> getById(@PathVariable String id) throws Exception, EntityNotFoundException{
+    public ResponseEntity<Person> getById(@PathVariable String id) {
       logger.info("Fetching Person with id {}", id);
       return ResponseEntity.ok().body(personService.get(id));
     }
 
     @PostMapping
-    public ResponseEntity<Person> post(@RequestBody Person person) throws  Exception{
+    public ResponseEntity<Person> post(@RequestBody Person person) {
        logger.info("Creating person: {}", person);
        personService.save(person);
 
@@ -52,7 +51,7 @@ public class PersonController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> put(@PathVariable String id, @RequestBody Person personRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<Object> put(@PathVariable String id, @RequestBody Person personRequest) {
         logger.info("Updating Person with id: {}", id);
         personService.update(id, personRequest);
         logger.info("Updated Person with id: {}", id);
@@ -60,7 +59,7 @@ public class PersonController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> delete(@PathVariable String id) throws Exception, EntityNotFoundException{
+    public ResponseEntity<Object> delete(@PathVariable String id) {
         logger.info("Deleting Person with id: {}", id);
         personService.delete(id);
         logger.info("Deleted Person with id: {}", id);
