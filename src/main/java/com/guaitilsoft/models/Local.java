@@ -36,7 +36,7 @@ public class Local {
     @JoinColumn(name="addressid")
     private Address address;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="personid")
     private Person person;
 

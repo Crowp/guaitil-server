@@ -60,7 +60,6 @@ public class LocalServiceImp implements LocalService {
         local.setLocalType(entity.getLocalType());
         local.setPerson(entity.getPerson());
         local.setMultimedia(entity.getMultimedia());
-
         localRepository.save(entity);
     }
 

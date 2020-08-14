@@ -19,7 +19,7 @@ public class Address {
     @NotEmpty
     private String physicalAddress;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private VirtualAddress virtualAddress;
 
 
