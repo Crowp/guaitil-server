@@ -29,7 +29,7 @@ public class Activity {
     private Date activityDate;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="addressid")
+    @JoinColumn(name="address_id")
     private Address address;
 
     @OneToMany(fetch = FetchType.LAZY)

@@ -55,7 +55,7 @@ public class AuthController {
     }
 
     private UserResponse createToken(User user){
-        String token = this.tokenProvider.createToken(user.getEmail(), user.getRoles(), user.getPerson());
+        String token = this.tokenProvider.createToken(user.getEmail(), user.getRoles(), user.getMember());
         UserResponse userResponse = modelMapper.map(user, UserResponse.class);
         userResponse.setToken(token);
         return userResponse;

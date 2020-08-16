@@ -3,7 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.services.LocalService;
-import com.guaitilsoft.services.PersonService;
+import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.web.models.Local.LocalView;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -24,13 +24,13 @@ public class LocalController {
     public static final Logger logger = LoggerFactory.getLogger(LocalController.class);
 
     private LocalService localService;
-    private PersonService personService;
+    private MemberService memberService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public LocalController(LocalService localService, PersonService personService, ModelMapper modelMapper) {
+    public LocalController(LocalService localService, MemberService memberService,ModelMapper modelMapper) {
         this.localService = localService;
-        this.personService = personService;
+        this.memberService = memberService;
         this.modelMapper = modelMapper;
     }
 
@@ -49,9 +49,7 @@ public class LocalController {
     public ResponseEntity<LocalView> post(@RequestBody LocalView localRequest) {
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Creating local: {}", local);
-
-        String personId = localRequest.getPersonId();
-        local.setPerson(personService.get(personId));
+        local.setMember(memberService.get(local.getMember().getId()));
         localService.save(local);
 
         LocalView localResponse = modelMapper.map(local, LocalView.class);
@@ -73,8 +71,6 @@ public class LocalController {
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Updating Local with id: {}", id);
 
-        String personId = localRequest.getPersonId();
-        local.setPerson(personService.get(personId));
         localService.update(id, local);
 
         LocalView localResponse = modelMapper.map(local, LocalView.class);

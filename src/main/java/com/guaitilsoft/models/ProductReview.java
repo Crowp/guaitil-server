@@ -2,11 +2,12 @@ package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReviewState;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -16,6 +17,7 @@ import java.util.List;
 public class ProductReview {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,6 +27,6 @@ public class ProductReview {
     @Enumerated(EnumType.STRING)
     private ReviewState state;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<Product> products;
+    @OneToOne(cascade = CascadeType.REFRESH)
+    private Product product;
 }

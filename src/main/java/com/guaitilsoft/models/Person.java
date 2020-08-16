@@ -2,12 +2,13 @@ package com.guaitilsoft.models;
 
 import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.PersonType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 
 @Data
 @Entity
@@ -17,6 +18,7 @@ import java.io.Serializable;
 public class Person {
 
     @Id
+    @Column(name = "id")
     private String id;
 
     @NotEmpty

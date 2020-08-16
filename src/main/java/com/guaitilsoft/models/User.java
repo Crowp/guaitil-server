@@ -4,7 +4,6 @@ import com.guaitilsoft.models.constant.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -30,11 +29,14 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     List<Role> roles;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ActivityHistory> activityHistories;
+
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "personid")
-    private Person person;
+    @JoinColumn(name="member_id")
+    private Member member;
 
     public String getEmail(){
-        return person.getEmail();
+        return member.getEmail();
     }
 }

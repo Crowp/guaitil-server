@@ -1,11 +1,13 @@
 package com.guaitilsoft.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.guaitilsoft.models.constant.LocalType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -32,12 +34,13 @@ public class Local {
     private LocalType localType;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="addressid")
+    @JoinColumn(name="address_id")
     private Address address;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name="personid")
-    private Person person;
+    @JsonIgnoreProperties("locals")
+    @ManyToOne(targetEntity = Member.class,fetch = FetchType.LAZY)
+    @JoinColumn(name="member_id")
+    private Member member;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;

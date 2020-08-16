@@ -22,3 +22,7 @@ spring:
   output:
     ansi:
       enabled: always
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false

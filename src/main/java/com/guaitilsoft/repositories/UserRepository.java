@@ -9,13 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
-    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE u.person.email = :email")
+    @Query("SELECT CASE WHEN COUNT(u) > 0 THEN true ELSE false END FROM User u WHERE u.member.person.email = :email")
     boolean existsByEmail(@Param("email") String email);
 
-    @Query("SELECT u FROM User u WHERE u.person.email = :email")
+    @Query("SELECT u FROM User u WHERE u.member.person.email = :email")
     User findByEmail(@Param("email") String email);
 
     @Transactional
-    @Query("DELETE FROM User u WHERE u.person.email = :email")
+    @Query("DELETE FROM User u WHERE u.member.person.email = :email")
     void deleteByEmail(@Param("email") String email);
 }

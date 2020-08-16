@@ -1,16 +1,13 @@
 package com.guaitilsoft.web.models.Local;
 
 import com.guaitilsoft.models.Address;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import java.util.List;
 
 @Getter
@@ -30,7 +27,7 @@ public class LocalView {
 
     private Address address;
 
-    private String personId;
+    private Member member;
 
     private List<Multimedia> multimedia;
 }

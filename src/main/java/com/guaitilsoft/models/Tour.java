@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 public class Tour {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -20,6 +21,6 @@ public class Tour {
     private Long amountPerson;
 
     @OneToOne
-    @JoinColumn(name = "activityid")
+    @JoinColumn(name = "activity_id")
     private Activity activity;
 }
