@@ -27,7 +27,7 @@ public class Product {
     @NotEmpty
     private String description;
 
-    @NotEmpty
+    @Column
     private Boolean status;
 
     @Enumerated(EnumType.STRING)
@@ -37,7 +37,7 @@ public class Product {
     @JoinColumn(name="local_id")
     private Local local;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 
     @OneToOne
