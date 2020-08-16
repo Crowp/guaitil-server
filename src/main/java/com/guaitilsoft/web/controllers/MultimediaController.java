@@ -22,12 +22,10 @@ import java.util.stream.Collectors;
 @RequestMapping(path = "/api/multimedia")
 public class MultimediaController {
 
+    @Autowired
     private MultimediaService multimediaService;
 
-    @Autowired
-    public MultimediaController(MultimediaService multimediaService){this.multimediaService =multimediaService;}
-
-    @GetMapping("/files/{filename:.+}")
+    @GetMapping("/{filename:.+}")
     @ResponseBody
     public ResponseEntity<Resource> getFile(@PathVariable String filename) {
         Resource file = multimediaService.load(filename);
@@ -35,7 +33,7 @@ public class MultimediaController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").body(file);
     }
 
-    @GetMapping("/files")
+    @GetMapping
     public ResponseEntity<List<Multimedia>> getListFiles() {
         List<Multimedia> multimediaList = multimediaService.loadAll().map(path -> {
             String name = path.getFileName().toString();
@@ -48,7 +46,7 @@ public class MultimediaController {
         return ResponseEntity.status(HttpStatus.OK).body(multimediaList);
     }
 
-    @PostMapping("/upload")
+    @PostMapping
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String message = "";
         try {
@@ -61,5 +59,4 @@ public class MultimediaController {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
         }
     }
-
 }

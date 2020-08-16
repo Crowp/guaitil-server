@@ -20,6 +20,7 @@ public class Address {
     private String physicalAddress;
 
     @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="virtualaddresid")
     private VirtualAddress virtualAddress;
 
 

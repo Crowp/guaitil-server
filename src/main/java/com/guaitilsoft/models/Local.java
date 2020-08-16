@@ -16,7 +16,6 @@ import java.util.List;
 public class Local {
 
     @Id
-
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -32,7 +31,7 @@ public class Local {
     @Enumerated(EnumType.STRING)
     private LocalType localType;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name="addressid")
     private Address address;
 
