@@ -31,14 +31,14 @@ public class Local {
     @Enumerated(EnumType.STRING)
     private LocalType localType;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="addressid")
     private Address address;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name="personid")
     private Person person;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 }

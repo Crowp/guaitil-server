@@ -75,7 +75,11 @@ public class AssociatedController {
         }
         Associated associated = modelMapper.map(associatedRequest, Associated.class);
         logger.info("Updating Associated with id: {}", id);
+
+        String personId = associatedRequest.getPersonId();
+        associated.setPerson(personService.get(personId));
         associatedService.update(id, associated);
+
         AssociatedResponse associatedResponse = modelMapper.map(associated, AssociatedResponse.class);
         logger.info("Updated Associated with id: {}", id);
         return ResponseEntity.ok().body(associatedResponse);

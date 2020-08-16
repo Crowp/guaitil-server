@@ -14,6 +14,7 @@ public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @NotEmpty
@@ -22,6 +23,4 @@ public class Address {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="virtualaddresid")
     private VirtualAddress virtualAddress;
-
-
 }

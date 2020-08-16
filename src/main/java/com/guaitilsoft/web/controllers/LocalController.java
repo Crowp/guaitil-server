@@ -72,7 +72,11 @@ public class LocalController {
         }
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Updating Local with id: {}", id);
+
+        String personId = localRequest.getPersonId();
+        local.setPerson(personService.get(personId));
         localService.update(id, local);
+
         LocalView localResponse = modelMapper.map(local, LocalView.class);
         logger.info("Updated Local with id: {}", id);
         return ResponseEntity.ok().body(localResponse);
