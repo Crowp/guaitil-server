@@ -16,6 +16,7 @@ import java.util.Date;
 public class Reservation {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,10 +30,10 @@ public class Reservation {
     private ReservationState reservationState;
 
     @OneToOne
-    @JoinColumn(name = "tourid")
+    @JoinColumn(name = "tour_id")
     private Tour tour;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "personid")
+    @JoinColumn(name = "person_id")
     private Person person;
 }

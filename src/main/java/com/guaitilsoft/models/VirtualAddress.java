@@ -9,12 +9,13 @@ import javax.validation.constraints.NotEmpty;
 
 @Data
 @Entity
-@Table(name = "virtual_Address")
+@Table(name = "virtual_address")
 @AllArgsConstructor
 @NoArgsConstructor
 public class VirtualAddress {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

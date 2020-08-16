@@ -1,11 +1,12 @@
 package com.guaitilsoft.models;
 
 import com.guaitilsoft.models.constant.ProductType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 import java.util.List;
 
 @Data
@@ -16,6 +17,7 @@ import java.util.List;
 public class Product {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -32,6 +34,7 @@ public class Product {
     private ProductType productType;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="local_id")
     private Local local;
 
     @OneToMany(fetch = FetchType.EAGER)

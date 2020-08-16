@@ -21,6 +21,6 @@ public class Address {
     private String physicalAddress;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="virtualaddresid")
+    @JoinColumn(name="virtual_address_id")
     private VirtualAddress virtualAddress;
 }

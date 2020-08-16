@@ -25,5 +25,6 @@ public class ActivityHistory {
     private Date auditDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="user_id")
     private User user;
 }

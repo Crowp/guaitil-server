@@ -1,10 +1,11 @@
 package com.guaitilsoft.models;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.io.Serializable;
 
 @Data
 @Entity
@@ -14,6 +15,7 @@ import java.io.Serializable;
 public class Multimedia {
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
