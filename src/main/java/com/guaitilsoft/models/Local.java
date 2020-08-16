@@ -35,7 +35,7 @@ public class Local {
     @JoinColumn(name="addressid")
     private Address address;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name="personid")
     private Person person;
 
