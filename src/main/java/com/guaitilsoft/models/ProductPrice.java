@@ -17,9 +17,9 @@ public class ProductPrice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
+    @Column(nullable = false)
     private Double cost;
 
-    @NotEmpty
-    private Long sale;
+    @Column(nullable = false)
+    private Double sale;
 }
