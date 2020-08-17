@@ -30,11 +30,11 @@ public class TokenProvider {
      * THIS IS NOT A SECURE PRACTICE! For simplicity, we are storing a static key here. Ideally, in a
      * microservices environment, this key would be kept on a app.config-server.
      */
-    @Value("${security.jwt.token.secret-key:secret-key}")
+    @Value("${spring.security.jwt.token.secret-key:secret-key}")
     private String secretKey;
 
-    @Value("${security.jwt.token.expire-length:14400000}")
-    private long validityInMilliseconds = 14400000 ; // 1h
+    @Value("${spring.security.jwt.token.expire-length}")
+    private long cantOfDays; // 1h
 
     @Autowired
     private UserDetailServiceImp myUserDetails;
@@ -51,7 +51,7 @@ public class TokenProvider {
         claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).collect(Collectors.toList()));
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        Date validity = new Date(now.getTime() + (cantOfDays * 24 * 60 * 60 * 1000));
 
         return Jwts.builder()//
                 .setClaims(claims)//

@@ -11,8 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @CrossOrigin
 @RestController
 @RequestMapping("/auth")
@@ -35,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@RequestBody @Valid UserRequest userRequest) {
+    public ResponseEntity<UserResponse> register(@RequestBody UserRequest userRequest) {
         User user = modelMapper.map(userRequest, User.class);
         return ResponseEntity.ok().body(createToken(userService.register(user)));
     }

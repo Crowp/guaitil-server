@@ -49,6 +49,8 @@ public class MemberController {
         logger.info("Creating Associated");
 
         memberService.save(member);
+        member.getLocals().forEach(m -> m.setMember(member));
+        memberService.update(member.getId(), member);
 
         MemberView memberViewResponse = modelMapper.map(member, MemberView.class);
 
