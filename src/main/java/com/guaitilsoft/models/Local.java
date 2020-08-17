@@ -2,22 +2,22 @@ package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.guaitilsoft.models.constant.LocalType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "local")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Local {
 
     @Id
+    @Column(name = "_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -33,7 +33,7 @@ public class Local {
     @Enumerated(EnumType.STRING)
     private LocalType localType;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name="address_id")
     private Address address;
 

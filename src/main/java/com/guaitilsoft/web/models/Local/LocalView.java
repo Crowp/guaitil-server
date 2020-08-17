@@ -27,7 +27,5 @@ public class LocalView {
 
     private Address address;
 
-    private Member member;
-
     private List<Multimedia> multimedia;
 }

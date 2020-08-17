@@ -20,7 +20,7 @@ public class Address {
     @NotEmpty
     private String physicalAddress;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name="virtual_address_id")
     private VirtualAddress virtualAddress;
 }

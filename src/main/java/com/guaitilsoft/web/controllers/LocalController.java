@@ -80,7 +80,7 @@ public class LocalController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<LocalView> delete(@PathVariable Long id) {
-        LocalView localResponse = modelMapper.map(id, LocalView.class);
+        LocalView localResponse = modelMapper.map(localService.get(id), LocalView.class);
         logger.info("Deleting Local with id: {}", id);
         localService.delete(id);
         logger.info("Deleted Local with id: {}", id);

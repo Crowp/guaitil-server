@@ -3,23 +3,23 @@ package com.guaitilsoft.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.guaitilsoft.models.constant.MemberType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "member")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member {
 
     @Id
+    @Column(name = "_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -35,6 +35,7 @@ public class Member {
 
     @JsonIgnoreProperties("member")
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="local_id")
     private List<Local> locals;
 
     @Enumerated(EnumType.STRING)
