@@ -33,14 +33,14 @@ public class Local {
     @Enumerated(EnumType.STRING)
     private LocalType localType;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="address_id")
-    private Address address;
-
     @JsonIgnoreProperties("locals")
     @ManyToOne(targetEntity = Member.class,fetch = FetchType.LAZY)
     @JoinColumn(name="member_id")
     private Member member;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="address_id")
+    private Address address;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;

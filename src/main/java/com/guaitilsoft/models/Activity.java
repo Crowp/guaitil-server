@@ -35,6 +35,6 @@ public class Activity {
     @OneToMany(fetch = FetchType.LAZY)
     private List<Local> locals;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 }

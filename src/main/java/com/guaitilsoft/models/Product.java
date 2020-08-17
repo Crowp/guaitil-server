@@ -37,10 +37,10 @@ public class Product {
     @JoinColumn(name="local_id")
     private Local local;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Multimedia> multimedia;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="product_priceid")
     private ProductPrice productPrice;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Multimedia> multimedia;
 }
