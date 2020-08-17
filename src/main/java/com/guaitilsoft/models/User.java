@@ -32,7 +32,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<ActivityHistory> activityHistories;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name="member_id")
     private Member member;
 

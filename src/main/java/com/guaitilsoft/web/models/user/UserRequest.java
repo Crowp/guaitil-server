@@ -1,5 +1,6 @@
 package com.guaitilsoft.web.models.user;
 
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,16 +15,13 @@ import java.util.List;
 public class UserRequest {
 
     @NotBlank
-    private String username;
-
-    @NotBlank
     private String email;
 
     @NotBlank
     private String password;
 
     @NotBlank
-    private String idPerson;
+    private Member member;
 
     List<Role> roles;
 }
