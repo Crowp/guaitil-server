@@ -58,8 +58,8 @@ public class LocalServiceImp implements LocalService {
         local.setTelephone(entity.getTelephone());
         local.setAddress(entity.getAddress());
         local.setLocalType(entity.getLocalType());
-        local.setMember(entity.getMember());
         local.setMultimedia(entity.getMultimedia());
+        entity = local;
         localRepository.save(entity);
     }
 
