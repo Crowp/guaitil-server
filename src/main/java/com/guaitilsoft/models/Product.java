@@ -40,7 +40,7 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="product_priceid")
     private ProductPrice productPrice;
 }
