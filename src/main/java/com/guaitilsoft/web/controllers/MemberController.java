@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -16,7 +17,6 @@ import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.List;
 
-@CrossOrigin
 @RestController
 @RequestMapping(path = "/api/member")
 public class MemberController {
@@ -44,6 +44,7 @@ public class MemberController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<MemberView> post(@RequestBody MemberView memberView) {
         Member member = modelMapper.map(memberView, Member.class);
         logger.info("Creating Associated");

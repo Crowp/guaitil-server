@@ -1,5 +1,6 @@
 package com.guaitilsoft.services.concrete;
 
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.repositories.PersonRepository;
 import com.guaitilsoft.services.PersonService;
@@ -43,6 +44,9 @@ public class PersonServiceImp implements PersonService {
     public void save(Person entity) {
         assert entity != null;
 
+        if(personRepository.existPersonId(entity.getId())){
+            throw new ApiRequestException("Cedula: " + entity.getId() + " esta ocupada");
+        }
         personRepository.save(entity);
     }
 

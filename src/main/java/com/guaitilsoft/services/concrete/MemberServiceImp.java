@@ -1,6 +1,7 @@
 package com.guaitilsoft.services.concrete;
 
 
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.MemberService;
@@ -43,6 +44,9 @@ public class MemberServiceImp implements MemberService {
     @Override
     public void save(Member entity) {
         assert entity != null;
+        if(memberRepository.existMemberPersonId(entity.getPersonId())){
+          throw new ApiRequestException("Cedula: " + entity.getPersonId() + " esta ocupada");
+        }
         memberRepository.save(entity);
     }
 
