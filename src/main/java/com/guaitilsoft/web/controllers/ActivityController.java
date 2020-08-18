@@ -1,7 +1,10 @@
 package com.guaitilsoft.web.controllers;
 
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.services.ActivityService;
+import com.guaitilsoft.web.models.Activity.ActivityView;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +24,14 @@ public class ActivityController {
     public static final Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
     private ActivityService activityService;
+    private ModelMapper modelMapper;
 
     @Autowired
-    public ActivityController(ActivityService activityService){this.activityService =activityService;}
+    public ActivityController(ActivityService activityService, ModelMapper modelMapper){
+        this.activityService  = activityService;
+        this.modelMapper = modelMapper;
+    }
+
 
     @GetMapping
     public ResponseEntity<List<Activity>> get(){
@@ -37,32 +45,40 @@ public class ActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<Activity> post(@RequestBody Activity activity) throws  Exception{
+    public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) throws  Exception{
+        Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Creating activity: {}", activity);
         activityService.save(activity);
+        ActivityView activityResponse = modelMapper.map(activity, ActivityView.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(activity.getId())
                 .toUri();
-        logger.info("Created activity : {}", activity);
+        logger.info("Created activity : {}", activityResponse.getId());
 
-        return ResponseEntity.created(location).body(activity);
+        return ResponseEntity.created(location).body(activityResponse);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Object> put(@PathVariable Long id, @RequestBody Activity activityRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<ActivityView> put(@PathVariable Long id, @RequestBody ActivityView activityRequest) throws Exception, EntityNotFoundException {
+        if(!id.equals(activityRequest.getId())){
+            throw new ApiRequestException("El id de la actividad: " + activityRequest.getId() + " es diferente al id del parametro: " + id);
+        }
+        Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Updating Activity with id {}", id);
-        activityService.update(id, activityRequest);
+        activityService.update(id, activity);
+        ActivityView activityResponse = modelMapper.map(activity,ActivityView.class);
         logger.info("Updated Activity with id {}", id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(activityResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Object> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
+    public ResponseEntity<ActivityView> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
+        ActivityView activityResponse = modelMapper.map(activityService.get(id), ActivityView.class);
         logger.info("Deleting Activity with id {}", id);
         activityService.delete(id);
         logger.info("Deleted Activity with id {}", id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(activityResponse);
     }
 }
