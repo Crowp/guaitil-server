@@ -20,7 +20,7 @@ public class Tour {
     @NotEmpty
     private Long amountPerson;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "activity_id")
     private Activity activity;
 }
