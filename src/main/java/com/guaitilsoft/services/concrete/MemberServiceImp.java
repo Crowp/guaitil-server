@@ -47,6 +47,9 @@ public class MemberServiceImp implements MemberService {
         if(memberRepository.existMemberPersonId(entity.getPersonId())){
           throw new ApiRequestException("Cedula: " + entity.getPersonId() + " esta ocupada");
         }
+        if(memberRepository.existMemberPersonEmail(entity.getEmail())){
+            throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
+        }
         memberRepository.save(entity);
     }
 

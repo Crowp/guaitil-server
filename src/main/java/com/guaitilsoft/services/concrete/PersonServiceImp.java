@@ -47,7 +47,11 @@ public class PersonServiceImp implements PersonService {
         if(personRepository.existPersonId(entity.getId())){
             throw new ApiRequestException("Cedula: " + entity.getId() + " esta ocupada");
         }
+        if(personRepository.existEmail(entity.getEmail())){
+            throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
+        }
         personRepository.save(entity);
+
     }
 
     @Override
