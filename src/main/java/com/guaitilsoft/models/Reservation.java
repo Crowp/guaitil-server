@@ -23,7 +23,7 @@ public class Reservation {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateReservation;
 
-    @NotEmpty
+    @Column(nullable = false)
     private Long amountPerson;
 
     @Enumerated(EnumType.STRING)
