@@ -37,6 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // Entry points
         http.authorizeRequests()//
                 .antMatchers("/auth/login", "/auth/register").permitAll()
+                .antMatchers("/api/multimedia/load/**").permitAll()
                 .antMatchers("/api/**", "/auth/**").authenticated()
                 .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .anyRequest().permitAll()
