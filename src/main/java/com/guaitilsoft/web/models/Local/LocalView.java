@@ -1,7 +1,6 @@
-package com.guaitilsoft.web.models.Local;
+package com.guaitilsoft.web.models.local;
 
 import com.guaitilsoft.models.Address;
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.Getter;

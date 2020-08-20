@@ -1,6 +1,5 @@
-package com.guaitilsoft.web.models.Activity;
+package com.guaitilsoft.web.models.activity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
@@ -8,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 import java.util.List;
 

@@ -4,7 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.web.models.Local.LocalView;
+import com.guaitilsoft.web.models.local.LocalView;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

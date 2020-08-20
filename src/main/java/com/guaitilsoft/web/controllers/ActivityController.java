@@ -3,7 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.services.ActivityService;
-import com.guaitilsoft.web.models.Activity.ActivityView;
+import com.guaitilsoft.web.models.activity.ActivityView;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
