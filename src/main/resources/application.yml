@@ -26,3 +26,9 @@ spring:
   jackson:
     serialization:
       fail-on-empty-beans: false
+
+  servlet:
+    multipart:
+      max-file-size: 500KB
+      max-request-size: 500KB
+      enabled: false

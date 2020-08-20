@@ -15,6 +15,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -71,8 +72,11 @@ public class Application implements CommandLineRunner {
 		}catch (Exception e){
 			System.err.println(e.getMessage());
 		}
-		multimediaService.deleteAll();
 		multimediaService.init();
+	}
 
+	@Bean(name = "multipartResolver")
+	public CommonsMultipartResolver multiPartResolver(){
+		return new CommonsMultipartResolver();
 	}
 }

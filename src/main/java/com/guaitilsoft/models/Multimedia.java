@@ -1,5 +1,6 @@
 package com.guaitilsoft.models;
 
+import com.guaitilsoft.models.constant.MultimediaType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,13 +21,12 @@ public class Multimedia {
     private Long id;
 
     @NotEmpty
-    private String name;
+    private String fileName;
+
+    @Enumerated(EnumType.STRING)
+    private MultimediaType type;
 
     @NotEmpty
-    private String url;
+    private String format;
 
-    public Multimedia(String name, String url) {
-        this.name = name;
-        this.url = url;
-    }
 }

@@ -3,13 +3,15 @@ package com.guaitilsoft.services;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
+import com.guaitilsoft.models.Multimedia;
+import com.guaitilsoft.web.models.multimedia.MultimediaRequest;
 import org.springframework.core.io.Resource;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface MultimediaService {
+
      void init();
 
-     void save(MultipartFile file);
+     Multimedia store(MultimediaRequest multimedia);
 
      Resource load(String filename);
 
