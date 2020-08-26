@@ -39,19 +39,22 @@ public class MemberController {
 
     @GetMapping("{id}")
     public ResponseEntity<Member> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
-        logger.info("Fetching Associated with id: {}", id);
+        logger.info("Fetching Member with id: {}", id);
         return ResponseEntity.ok().body(memberService.get(id));
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<MemberView> post(@RequestBody MemberView memberView) {
+        memberView.setId(null);
         Member member = modelMapper.map(memberView, Member.class);
-        logger.info("Creating Associated");
+        logger.info("Creating Member");
 
         memberService.save(member);
-        member.getLocals().forEach(m -> m.setMember(member));
-        memberService.update(member.getId(), member);
+        if(member.getLocals().size() > 0){
+            member.getLocals().forEach(m -> m.setMember(member));
+            memberService.update(member.getId(), member);
+        }
 
         MemberView memberViewResponse = modelMapper.map(member, MemberView.class);
 
@@ -59,7 +62,7 @@ public class MemberController {
                 .path("/{id}")
                 .buildAndExpand(member.getId())
                 .toUri();
-        logger.info("Created Associated: {}", memberViewResponse.getId());
+        logger.info("Created Member: {}", memberViewResponse.getId());
 
         return ResponseEntity.created(location).body(memberViewResponse);
     }
@@ -70,19 +73,19 @@ public class MemberController {
             throw new ApiRequestException("El id del asociado: " + memberView.getId() + " es diferente al id del parametro: " + id);
         }
         Member member = modelMapper.map(memberView, Member.class);
-        logger.info("Updating Associated with id: {}", id);
+        logger.info("Updating Member with id: {}", id);
 
         memberService.update(id, member);
 
         MemberView memberViewResponse = modelMapper.map(member, MemberView.class);
-        logger.info("Updated Associated with id: {}", id);
+        logger.info("Updated Member with id: {}", id);
         return ResponseEntity.ok().body(memberViewResponse);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<MemberView> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
         MemberView memberView = modelMapper.map(memberService.get(id), MemberView.class);
-        logger.info("Deleting Associated with id: {}", id);
+        logger.info("Deleting Member with id: {}", id);
         memberService.delete(id);
         logger.info("Deleted Associated with id: {}", id);
         return ResponseEntity.ok().body(memberView);
