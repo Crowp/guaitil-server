@@ -43,5 +43,6 @@ public class Local {
     private Member member;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="multimedia_id")
     private List<Multimedia> multimedia;
 }

@@ -2,7 +2,9 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.MemberService;
+import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.web.models.member.MemberView;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -24,11 +27,13 @@ public class MemberController {
     public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     private MemberService memberService;
+    private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public MemberController(MemberService memberService, ModelMapper modelMapper) {
+    public MemberController(MemberService memberService, MultimediaService multimediaService, ModelMapper modelMapper) {
         this.memberService = memberService;
+        this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
 
@@ -50,11 +55,22 @@ public class MemberController {
         Member member = modelMapper.map(memberView, Member.class);
         logger.info("Creating Member");
 
-        memberService.save(member);
         if(member.getLocals().size() > 0){
-            member.getLocals().forEach(m -> m.setMember(member));
-            memberService.update(member.getId(), member);
+            member.getLocals().forEach(local -> {
+                local.setMember(member);
+
+                if(local.getMultimedia().size() > 0){
+                    List<Multimedia> multimediaList = new ArrayList<>();
+                    local.getMultimedia().forEach(media -> {
+                        Multimedia multimedia = multimediaService.get(media.getId());
+                        multimediaList.add(multimedia);
+                    });
+                    local.setMultimedia(multimediaList);
+                }
+            });
         }
+
+        memberService.save(member);
 
         MemberView memberViewResponse = modelMapper.map(member, MemberView.class);
 

@@ -26,7 +26,6 @@ public class Multimedia {
     @Enumerated(EnumType.STRING)
     private MultimediaType type;
 
-    @NotEmpty
     private String format;
 
 }
