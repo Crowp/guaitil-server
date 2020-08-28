@@ -31,8 +31,9 @@ public class ActivityController {
     private ModelMapper modelMapper;
 
     @Autowired
-    public ActivityController(ActivityService activityService, ModelMapper modelMapper){
+    public ActivityController(ActivityService activityService, MultimediaService multimediaService, ModelMapper modelMapper){
         this.activityService  = activityService;
+        this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
 
