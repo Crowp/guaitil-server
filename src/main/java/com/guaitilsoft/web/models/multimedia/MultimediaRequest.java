@@ -2,12 +2,14 @@ package com.guaitilsoft.web.models.multimedia;
 
 import com.guaitilsoft.models.constant.MultimediaType;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
 
 @Data
+@NoArgsConstructor
 public class MultimediaRequest {
     private MultipartFile file;
 

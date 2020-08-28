@@ -36,5 +36,6 @@ public class Activity {
     private List<Local> locals;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="multimedia_id")
     private List<Multimedia> multimedia;
 }

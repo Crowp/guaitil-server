@@ -43,6 +43,8 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public void save(Product entity)   {
+        assert entity != null;
+
         productRepository.save(entity);
     }
 

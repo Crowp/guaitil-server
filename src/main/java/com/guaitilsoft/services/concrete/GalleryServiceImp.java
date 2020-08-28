@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class GalleryServiceImp implements GalleryService {
+
     private GalleryRepository galleryRepository;
 
     @Autowired
@@ -40,11 +41,16 @@ public class GalleryServiceImp implements GalleryService {
 
     @Override
     public void save(Gallery entity)  {
+        assert entity != null;
+
         galleryRepository.save(entity);
     }
 
     @Override
     public void update(Long id, Gallery entity) {
+        assert id != null;
+        assert entity != null;
+
         Gallery gallery = this.get(id);
         gallery.setName(entity.getName());
         gallery.setDescription(entity.getDescription());

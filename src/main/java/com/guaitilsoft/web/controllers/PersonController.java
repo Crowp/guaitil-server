@@ -45,17 +45,17 @@ public class PersonController {
     @PostMapping
     public ResponseEntity<PersonView> post(@RequestBody PersonView personRequest) {
         Person person = modelMapper.map(personRequest, Person.class);
-        logger.info("Creating person: {}", person);
+        logger.info("Creating person");
         personService.save(person);
 
-        PersonView personView = modelMapper.map(person, PersonView.class);
+        PersonView personResponse = modelMapper.map(person, PersonView.class);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(person.getId())
                 .toUri();
-        logger.info("Created person: {}", person);
+        logger.info("Created person: {}", personResponse.getId());
 
-        return ResponseEntity.created(location).body(personView);
+        return ResponseEntity.created(location).body(personResponse);
     }
 
     @PutMapping("{id}")

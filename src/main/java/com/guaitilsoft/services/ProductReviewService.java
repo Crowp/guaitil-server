@@ -14,5 +14,4 @@ public interface ProductReviewService {
     void update(Long id, ProductReview entity);
 
     void delete(Long id);
-
 }

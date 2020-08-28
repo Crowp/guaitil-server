@@ -11,12 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ActivityServiceImpl implements ActivityService {
+public class ActivityServiceImp implements ActivityService {
 
     private ActivityRepository activityRepository;
 
     @Autowired
-    public ActivityServiceImpl(ActivityRepository activityRepository) {
+    public ActivityServiceImp(ActivityRepository activityRepository) {
         this.activityRepository = activityRepository;
     }
 
@@ -41,6 +41,7 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Override
     public void save(Activity entity) {
+        assert entity != null;
         activityRepository.save(entity);
     }
 

@@ -29,7 +29,7 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationState reservationState;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tour_id")
     private Tour tour;
 

@@ -2,8 +2,10 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
+import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.web.models.local.LocalView;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -25,12 +28,14 @@ public class LocalController {
 
     private LocalService localService;
     private MemberService memberService;
+    private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public LocalController(LocalService localService, MemberService memberService,ModelMapper modelMapper) {
+    public LocalController(LocalService localService, MemberService memberService, MultimediaService multimediaService,ModelMapper modelMapper) {
         this.localService = localService;
         this.memberService = memberService;
+        this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
 
@@ -48,7 +53,15 @@ public class LocalController {
     @PostMapping
     public ResponseEntity<LocalView> post(@RequestBody LocalView localRequest) {
         Local local = modelMapper.map(localRequest, Local.class);
-        logger.info("Creating local: {}", local);
+        logger.info("Creating local");
+        if(local.getMultimedia().size() > 0){
+            List<Multimedia> multimediaList = new ArrayList<>();
+            local.getMultimedia().forEach(media -> {
+                Multimedia multimedia = multimediaService.get(media.getId());
+                multimediaList.add(multimedia);
+            });
+            local.setMultimedia(multimediaList);
+        }
         local.setMember(memberService.get(local.getMember().getId()));
         localService.save(local);
 
@@ -66,7 +79,7 @@ public class LocalController {
     @PutMapping("{id}")
     public ResponseEntity<LocalView> put(@PathVariable Long id, @RequestBody LocalView localRequest) {
         if(!id.equals(localRequest.getId())){
-            throw new ApiRequestException("El id del asociado: " + localRequest.getId() + " es diferente al id del parametro: " + id);
+            throw new ApiRequestException("El id del local: " + localRequest.getId() + " es diferente al id del parametro: " + id);
         }
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Updating Local with id: {}", id);

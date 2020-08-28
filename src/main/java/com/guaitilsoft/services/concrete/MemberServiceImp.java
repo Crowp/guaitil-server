@@ -44,6 +44,7 @@ public class MemberServiceImp implements MemberService {
     @Override
     public void save(Member entity) {
         assert entity != null;
+
         if(memberRepository.existMemberPersonId(entity.getPersonId())){
           throw new ApiRequestException("Cedula: " + entity.getPersonId() + " esta ocupada");
         }

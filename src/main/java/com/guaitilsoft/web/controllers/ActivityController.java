@@ -2,7 +2,9 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
+import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.ActivityService;
+import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.web.models.activity.ActivityView;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -24,6 +27,7 @@ public class ActivityController {
     public static final Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
     private ActivityService activityService;
+    private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
@@ -31,7 +35,6 @@ public class ActivityController {
         this.activityService  = activityService;
         this.modelMapper = modelMapper;
     }
-
 
     @GetMapping
     public ResponseEntity<List<Activity>> get(){
@@ -47,7 +50,15 @@ public class ActivityController {
     @PostMapping
     public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) throws  Exception{
         Activity activity = modelMapper.map(activityRequest, Activity.class);
-        logger.info("Creating activity: {}", activity);
+        logger.info("Creating activity");
+        if(activity.getMultimedia().size() > 0){
+            List<Multimedia> multimediaList = new ArrayList<>();
+            activity.getMultimedia().forEach(media -> {
+                Multimedia multimedia = multimediaService.get(media.getId());
+                multimediaList.add(multimedia);
+            });
+            activity.setMultimedia(multimediaList);
+        }
         activityService.save(activity);
         ActivityView activityResponse = modelMapper.map(activity, ActivityView.class);
 

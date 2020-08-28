@@ -86,7 +86,7 @@ public class MemberController {
     @PutMapping("{id}")
     public ResponseEntity<MemberView> put(@PathVariable Long id, @RequestBody MemberView memberView) {
         if(!id.equals(memberView.getId())){
-            throw new ApiRequestException("El id del asociado: " + memberView.getId() + " es diferente al id del parametro: " + id);
+            throw new ApiRequestException("El id del miembro: " + memberView.getId() + " es diferente al id del parametro: " + id);
         }
         Member member = modelMapper.map(memberView, Member.class);
         logger.info("Updating Member with id: {}", id);
@@ -103,7 +103,7 @@ public class MemberController {
         MemberView memberView = modelMapper.map(memberService.get(id), MemberView.class);
         logger.info("Deleting Member with id: {}", id);
         memberService.delete(id);
-        logger.info("Deleted Associated with id: {}", id);
+        logger.info("Deleted Member with id: {}", id);
         return ResponseEntity.ok().body(memberView);
     }
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductReviewServiceImp implements ProductReviewService {
+
     private ProductReviewRepository productReviewRepository;
 
     @Autowired
@@ -38,13 +39,17 @@ public class ProductReviewServiceImp implements ProductReviewService {
 
     @Override
     public void save(ProductReview entity)  {
+        assert entity != null;
+
         productReviewRepository.save(entity);
     }
 
     @Override
     public void update(Long id, ProductReview entity) {
-        ProductReview productReview = this.get(id);
+        assert id != null;
+        assert entity != null;
 
+        ProductReview productReview = this.get(id);
         productReview.setReviewDate(entity.getReviewDate());
         productReview.setState(entity.getState());
         productReview.setProduct(entity.getProduct());

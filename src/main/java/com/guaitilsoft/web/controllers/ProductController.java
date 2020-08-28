@@ -45,7 +45,7 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) throws Exception, EntityNotFoundException  {
         Product product = modelMapper.map(productRequest, Product.class);
-        logger.info("Creating product: {}", product);
+        logger.info("Creating product");
         productService.save(product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
 
@@ -53,7 +53,7 @@ public class ProductController {
                 .path("/{id}")
                 .buildAndExpand(product.getId())
                 .toUri();
-        logger.info("Created activity : {}", productResponse.getId());
+        logger.info("Created product : {}", productResponse.getId());
 
         return ResponseEntity.created(location).body(productResponse);
     }
