@@ -63,17 +63,17 @@ public class PersonController {
         Person person = modelMapper.map(personRequest, Person.class);
         logger.info("Updating Person with id: {}", id);
         personService.update(id, person);
-        PersonView personView = modelMapper.map(person, PersonView.class);
+        PersonView personResponse = modelMapper.map(person, PersonView.class);
         logger.info("Updated Person with id: {}", id);
-        return ResponseEntity.ok().body(personView);
+        return ResponseEntity.ok().body(personResponse);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<PersonView> delete(@PathVariable String id) {
-        PersonView personView = modelMapper.map(personService.get(id), PersonView.class);
+        PersonView personResponse = modelMapper.map(personService.get(id), PersonView.class);
         logger.info("Deleting Person with id: {}", id);
         personService.delete(id);
         logger.info("Deleted Person with id: {}", id);
-        return ResponseEntity.ok().body(personView);
+        return ResponseEntity.ok().body(personResponse);
     }
 }

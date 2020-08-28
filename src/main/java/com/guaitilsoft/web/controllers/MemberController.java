@@ -69,9 +69,7 @@ public class MemberController {
                 }
             });
         }
-
         memberService.save(member);
-
         MemberView memberViewResponse = modelMapper.map(member, MemberView.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -100,10 +98,10 @@ public class MemberController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<MemberView> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
-        MemberView memberView = modelMapper.map(memberService.get(id), MemberView.class);
+        MemberView memberResponse = modelMapper.map(memberService.get(id), MemberView.class);
         logger.info("Deleting Member with id: {}", id);
         memberService.delete(id);
         logger.info("Deleted Member with id: {}", id);
-        return ResponseEntity.ok().body(memberView);
+        return ResponseEntity.ok().body(memberResponse);
     }
 }

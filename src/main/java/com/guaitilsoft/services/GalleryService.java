@@ -14,5 +14,4 @@ public interface GalleryService {
     void update(Long id, Gallery entity);
 
     void delete(Long id);
-
 }

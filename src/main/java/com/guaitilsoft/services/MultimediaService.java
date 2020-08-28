@@ -7,7 +7,6 @@ import org.springframework.core.io.Resource;
 import java.util.List;
 
 public interface MultimediaService {
-
      void init();
 
      List<Multimedia> list();

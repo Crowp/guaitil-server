@@ -27,7 +27,7 @@ public class ProductController {
 
     @Autowired
     public ProductController(ProductService productService, ModelMapper modelMapper){
-        this.productService =productService;
+        this.productService = productService;
         this.modelMapper = modelMapper;
     }
 
