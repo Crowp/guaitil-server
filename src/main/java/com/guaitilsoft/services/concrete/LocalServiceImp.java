@@ -1,6 +1,7 @@
 package com.guaitilsoft.services.concrete;
 
 
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
@@ -43,6 +44,12 @@ public class LocalServiceImp implements LocalService {
     @Override
     public void save(Local entity) {
         assert entity != null;
+
+        if(localRepository.existMemberPersonLocal(entity.personId(),entity.getLocalType())){
+            throw new ApiRequestException("el local esta ocupado por el miembro, con cedula: " + entity.personId());
+        }
+
+
 
         localRepository.save(entity);
     }
