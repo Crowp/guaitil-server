@@ -4,11 +4,13 @@ import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.repositories.ProductReviewRepository;
 import com.guaitilsoft.services.ProductReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class ProductReviewServiceImp implements ProductReviewService {
 
     private ProductReviewRepository productReviewRepository;
@@ -52,6 +54,7 @@ public class ProductReviewServiceImp implements ProductReviewService {
         ProductReview productReview = this.get(id);
         productReview.setReviewDate(entity.getReviewDate());
         productReview.setState(entity.getState());
+        productReview.setComment(entity.getComment());
         productReview.setProduct(entity.getProduct());
 
         productReviewRepository.save(entity);

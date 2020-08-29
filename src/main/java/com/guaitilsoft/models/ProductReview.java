@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Data
@@ -26,6 +27,9 @@ public class ProductReview {
 
     @Enumerated(EnumType.STRING)
     private ReviewState state;
+
+    @NotEmpty
+    private String comment;
 
     @OneToOne(cascade = CascadeType.REFRESH)
     private Product product;
