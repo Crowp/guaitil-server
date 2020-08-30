@@ -53,4 +53,8 @@ public class Local {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="multimedia_id")
     private List<Multimedia> multimedia;
+
+    public String personId(){
+        return member.getPersonId();
+    }
 }

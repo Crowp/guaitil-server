@@ -13,4 +13,5 @@ public interface MemberRepository extends CrudRepository<Member, Long> {
 
     @Query("SELECT CASE WHEN COUNT(m) > 0 THEN true ELSE false END FROM Member m WHERE m.person.email = :email")
     boolean existMemberPersonEmail(@Param("email") String email);
+
 }
