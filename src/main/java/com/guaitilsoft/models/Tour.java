@@ -1,9 +1,11 @@
 package com.guaitilsoft.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 
 @Data
 @Entity
@@ -19,6 +21,12 @@ public class Tour {
 
     @Column(nullable = false)
     private Long amountPerson;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
 
     @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE})
     @JoinColumn(name = "activity_id")

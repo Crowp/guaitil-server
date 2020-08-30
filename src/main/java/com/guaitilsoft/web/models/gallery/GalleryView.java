@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -16,6 +17,10 @@ public class GalleryView {
     private String name;
 
     private String description;
+
+    private Date createdAt;
+
+    private Date updatedAt;
 
     private List<Multimedia> multimedia;
 }

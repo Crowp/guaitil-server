@@ -28,8 +28,13 @@ public class ProductReview {
     @Enumerated(EnumType.STRING)
     private ReviewState state;
 
-    @NotEmpty
     private String comment;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
 
     @OneToOne(cascade = CascadeType.REFRESH)
     private Product product;

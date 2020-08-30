@@ -23,6 +23,8 @@ public class MemberView {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
 
+    private Date updatedAt;
+
     private Person person;
 
     private List<Local> locals;

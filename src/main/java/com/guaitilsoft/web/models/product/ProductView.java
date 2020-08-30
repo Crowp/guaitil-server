@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -24,6 +25,10 @@ public class ProductView {
     private Boolean status;
 
     private ProductType productType;
+
+    private Date createdAt;
+
+    private Date updatedAt;
 
     private Local local;
 

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -24,6 +25,10 @@ public class LocalView {
     private String telephone;
 
     private LocalType localType;
+
+    private Date createdAt;
+
+    private Date updatedAt;
 
     private Address address;
 

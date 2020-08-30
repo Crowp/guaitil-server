@@ -29,6 +29,12 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationState reservationState;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
+
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tour_id")
     private Tour tour;
