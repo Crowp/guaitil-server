@@ -6,6 +6,7 @@ import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.models.constant.Role;
+import com.guaitilsoft.services.GalleryService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -27,11 +28,13 @@ public class Application implements CommandLineRunner {
 
 	private MultimediaService multimediaService;
 	private UserService userService;
+	private GalleryService galleryService;
 
 	@Autowired
-	public Application(MultimediaService multimediaService, UserService userService) {
+	public Application(MultimediaService multimediaService, UserService userService, GalleryService galleryService) {
 		this.multimediaService = multimediaService;
 		this.userService = userService;
+		this.galleryService = galleryService;
 	}
 
 	public static void main(String[] args) {
@@ -54,9 +57,12 @@ public class Application implements CommandLineRunner {
 			person.setTelephone("8888888");
 			person.setSecondLastName("Default Admin");
 			person.setGender(Gender.MALE);
+			person.setCreatedAt(new Date());
+			person.setUpdatedAt(new Date());
 
 			Member member = new Member();
 			member.setCreatedAt(new Date());
+			member.setUpdatedAt(new Date());
 			member.setOccupation("Admin");
 			member.setPerson(person);
 			member.setMemberType(MemberType.ASSOCIATED);
@@ -64,6 +70,8 @@ public class Application implements CommandLineRunner {
 
 			User user = new User();
 			user.setFirstLogin(false);
+			user.setCreatedAt(new Date());
+			user.setUpdatedAt(new Date());
 			user.setPassword("1234");
 			user.setMember(member);
 			user.setRoles(new ArrayList<>(Collections.singletonList(Role.ROLE_ADMIN)));

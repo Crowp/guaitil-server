@@ -1,17 +1,17 @@
 package com.guaitilsoft.services;
 
 import com.guaitilsoft.models.Gallery;
+import com.guaitilsoft.models.Multimedia;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface GalleryService {
-    List<Gallery> list();
 
-    Gallery get(Long id);
+    Optional<Gallery> get();
 
-    void save(Gallery entity);
+    Gallery addMultimedia(List<Multimedia> multimediaList);
 
-    void update(Long id, Gallery entity);
+    Gallery deleteGalleryMultimedia(Long id);
 
-    void delete(Long id);
 }

@@ -21,5 +21,9 @@ public class ProductReviewView {
 
     private String comment;
 
+    private Date createdAt;
+
+    private Date updatedAt;
+
     private Product product;
 }

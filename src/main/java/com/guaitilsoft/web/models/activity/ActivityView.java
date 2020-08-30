@@ -24,6 +24,10 @@ public class ActivityView {
 
     private Address address;
 
+    private Date createdAt;
+
+    private Date updatedAt;
+
     private List<Local> locals;
 
     private List<Multimedia> multimedia;

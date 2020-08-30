@@ -6,11 +6,15 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -51,6 +55,7 @@ public class LocalServiceImp implements LocalService {
         if(localRepository.existMemberPersonLocal(entity.personId(),entity.getLocalType())){
             throw new ApiRequestException("el local esta ocupado por el miembro, con cedula: " + entity.personId());
         }
+
         localRepository.save(entity);
     }
 
@@ -58,12 +63,17 @@ public class LocalServiceImp implements LocalService {
     public void update(Long id, Local entity) {
         assert id != null;
         assert entity != null;
+        Instant nowGmt = Instant.now();
+        DateTimeZone americaCostaRica = DateTimeZone.forID("America/Costa_Rica");
+        DateTime nowCostaRica = nowGmt.toDateTime(americaCostaRica);
+        Date today = nowCostaRica.toDate();
 
         Local local = this.get(id);
         local.setName(entity.getName());
         local.setDescription(entity.getDescription());
         local.setTelephone(entity.getTelephone());
         local.setAddress(entity.getAddress());
+        local.setUpdatedAt(today);
         local.setLocalType(entity.getLocalType());
         local.setMultimedia(entity.getMultimedia());
         entity = local;

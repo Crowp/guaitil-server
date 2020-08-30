@@ -1,6 +1,6 @@
 package com.guaitilsoft.web.models.gallery;
 
-import com.guaitilsoft.models.Multimedia;
+import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,12 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class GalleryView {
+public class GalleryResponse {
     private Long id;
-
-    private String name;
-
-    private String description;
-
-    private List<Multimedia> multimedia;
+    private List<MultimediaResponse> multimedia;
 }

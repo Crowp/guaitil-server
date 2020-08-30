@@ -29,6 +29,9 @@ public class Member {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="person_id")
     private Person person;
@@ -48,6 +51,5 @@ public class Member {
     public String getPersonId() {
         return person.getId();
     }
-
 }
 

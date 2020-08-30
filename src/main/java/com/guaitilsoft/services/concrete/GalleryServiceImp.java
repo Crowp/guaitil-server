@@ -1,69 +1,74 @@
 package com.guaitilsoft.services.concrete;
 
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Gallery;
+import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.GalleryRepository;
 import com.guaitilsoft.services.GalleryService;
+import com.guaitilsoft.services.MultimediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GalleryServiceImp implements GalleryService {
 
     private GalleryRepository galleryRepository;
+    private MultimediaService multimediaService;
 
     @Autowired
-    public GalleryServiceImp(GalleryRepository galleryRepository) {
+    public GalleryServiceImp(GalleryRepository galleryRepository, MultimediaService multimediaService) {
         this.galleryRepository = galleryRepository;
+        this.multimediaService = multimediaService;
     }
 
+
     @Override
-    public List<Gallery> list() {
+    public Optional<Gallery> get() {
         Iterable<Gallery> iterable = galleryRepository.findAll();
         List<Gallery> galleries = new ArrayList<>();
         iterable.forEach(galleries::add);
-        return galleries;
+        return galleries.stream().findFirst();
     }
 
     @Override
-    public Gallery get(Long id) {
-        assert id != null;
-
-        Gallery gallery = galleryRepository.findById(id).orElse(null);
-        if(gallery != null){
+    public Gallery addMultimedia(List<Multimedia> multimediaList) {
+        Optional<Gallery> optionalGallery = this.get();
+        if(optionalGallery.isPresent()){
+            Gallery gallery = optionalGallery.get();
+            multimediaList.addAll(gallery.getMultimedia());
+            gallery.setMultimedia(multimediaList);
+            galleryRepository.save(gallery);
+            return gallery;
+        } else {
+            Gallery gallery = new Gallery();
+            gallery.setMultimedia(multimediaList);
+            gallery.setCreatedAt(new Date());
+            gallery.setCreatedAt(new Date());
+            galleryRepository.save(gallery);
             return gallery;
         }
-        throw new EntityNotFoundException("No se encontró una galeria con el id: ");
     }
 
     @Override
-    public void save(Gallery entity)  {
-        assert entity != null;
-
-        galleryRepository.save(entity);
-    }
-
-    @Override
-    public void update(Long id, Gallery entity) {
-        assert id != null;
-        assert entity != null;
-
-        Gallery gallery = this.get(id);
-        gallery.setName(entity.getName());
-        gallery.setDescription(entity.getDescription());
-        gallery.setMultimedia(entity.getMultimedia());
-
-        galleryRepository.save(entity);
-    }
-
-    @Override
-    public void delete(Long id) {
-        assert id != null;
-
-        Gallery gallery = this.get(id);
-        galleryRepository.delete(gallery);
+    public Gallery deleteGalleryMultimedia(Long id) {
+        Optional<Gallery> optionalGallery = this.get();
+        if(optionalGallery.isPresent()){
+            Gallery gallery = optionalGallery.get();
+            List<Multimedia> multimedia = gallery.getMultimedia()
+                    .stream()
+                    .filter(media -> !media.getId().equals(id))
+                    .collect(Collectors.toList());
+            gallery.setMultimedia(multimedia);
+            galleryRepository.save(gallery);
+            multimediaService.delete(id);
+            return gallery;
+        }
+        throw new ApiRequestException("No hay imagenes para eliminar");
     }
 }

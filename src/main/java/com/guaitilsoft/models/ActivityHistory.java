@@ -1,6 +1,7 @@
 package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.guaitilsoft.models.constant.ActionType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,6 +24,15 @@ public class ActivityHistory {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date auditDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
+
+    @Enumerated(EnumType.STRING)
+    private ActionType actionType;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="user_id")

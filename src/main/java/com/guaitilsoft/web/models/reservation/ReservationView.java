@@ -22,6 +22,10 @@ public class ReservationView {
 
     private ReservationState reservationState;
 
+    private Date createdAt;
+
+    private Date updatedAt;
+
     private Tour tour;
 
     private Person person;
