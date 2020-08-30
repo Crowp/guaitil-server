@@ -1,5 +1,7 @@
 package com.guaitilsoft;
 
+import com.guaitilsoft.localDate.LocalDateFormatter;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.User;
@@ -15,11 +17,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
+import org.springframework.format.Formatter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import javax.annotation.PostConstruct;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.TimeZone;
 
 @SpringBootApplication
 @EntityScan(basePackages = {"com.guaitilsoft.models"})
@@ -38,6 +46,11 @@ public class Application implements CommandLineRunner {
 		SpringApplication.run(Application.class, args);
 	}
 
+	@PostConstruct
+	public void init(){
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"));
+	}
+
 	@Bean
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
@@ -54,8 +67,8 @@ public class Application implements CommandLineRunner {
 			person.setTelephone("8888888");
 			person.setSecondLastName("Default Admin");
 			person.setGender(Gender.MALE);
-			person.setCreatedAt(new Date());
-			person.setUpdatedAt(new Date());
+			person.setCreatedAt(LocalDate.now());
+			person.setUpdatedAt(LocalDate.now());
 
 			Member member = new Member();
 			member.setCreatedAt(new Date());
@@ -78,6 +91,12 @@ public class Application implements CommandLineRunner {
 			System.err.println(e.getMessage());
 		}
 		multimediaService.init();
+	}
+
+	@Bean
+	@Primary
+	public Formatter<LocalDate> localDateFormatter() {
+		return new LocalDateFormatter();
 	}
 
 	@Bean(name = "multipartResolver")

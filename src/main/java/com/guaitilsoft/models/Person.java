@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Data
 @Entity
@@ -45,8 +48,8 @@ public class Person {
     private PersonType personType;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private LocalDate updatedAt;
 }

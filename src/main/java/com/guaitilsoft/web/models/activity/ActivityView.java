@@ -3,6 +3,7 @@ package com.guaitilsoft.web.models.activity;
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
+import com.guaitilsoft.models.constant.ActivityType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,6 +22,8 @@ public class ActivityView {
     private String description;
 
     private Date activityDate;
+
+    private ActivityType activityType;
 
     private Address address;
 

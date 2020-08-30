@@ -13,6 +13,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL57Dialect
+        jdbc:
+          time_zone: UTC
+
   security:
     jwt:
       token:
