@@ -12,6 +12,6 @@ public interface GalleryService {
 
     Gallery addMultimedia(List<Multimedia> multimediaList);
 
-    Gallery deleteAllMultimedia();
+    Gallery deleteGalleryMultimedia(Long id);
 
 }

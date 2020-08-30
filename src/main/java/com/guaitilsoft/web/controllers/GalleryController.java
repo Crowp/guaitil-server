@@ -55,6 +55,12 @@ public class GalleryController {
         return  ResponseEntity.ok().body(gallery);
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<GalleryResponse> delete(@PathVariable Long id){
+        GalleryResponse gallery = this.mapper.map(galleryService.deleteGalleryMultimedia(id), GalleryResponse.class);
+        return  ResponseEntity.ok().body(gallery);
+    }
+
     @PostMapping
     public ResponseEntity<GalleryResponse> post(@RequestBody GalleryRequest galleryRequest) throws  Exception{
         logger.info("Adding multimedia to gallery");

@@ -1,9 +1,11 @@
 package com.guaitilsoft.services.concrete;
 
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Gallery;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.GalleryRepository;
 import com.guaitilsoft.services.GalleryService;
+import com.guaitilsoft.services.MultimediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,15 +13,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GalleryServiceImp implements GalleryService {
 
     private GalleryRepository galleryRepository;
+    private MultimediaService multimediaService;
 
     @Autowired
-    public GalleryServiceImp(GalleryRepository galleryRepository) {
+    public GalleryServiceImp(GalleryRepository galleryRepository, MultimediaService multimediaService) {
         this.galleryRepository = galleryRepository;
+        this.multimediaService = multimediaService;
     }
 
 
@@ -51,11 +56,19 @@ public class GalleryServiceImp implements GalleryService {
     }
 
     @Override
-    public Gallery deleteAllMultimedia() {
+    public Gallery deleteGalleryMultimedia(Long id) {
         Optional<Gallery> optionalGallery = this.get();
         if(optionalGallery.isPresent()){
-
+            Gallery gallery = optionalGallery.get();
+            List<Multimedia> multimedia = gallery.getMultimedia()
+                    .stream()
+                    .filter(media -> !media.getId().equals(id))
+                    .collect(Collectors.toList());
+            gallery.setMultimedia(multimedia);
+            galleryRepository.save(gallery);
+            multimediaService.delete(id);
+            return gallery;
         }
-        return null;
+        throw new ApiRequestException("No hay imagenes para eliminar");
     }
 }
