@@ -3,6 +3,7 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
+import com.guaitilsoft.services.MultimediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,12 @@ import java.util.List;
 public class ActivityServiceImp implements ActivityService {
 
     private ActivityRepository activityRepository;
+    private MultimediaService multimediaService;
 
     @Autowired
-    public ActivityServiceImp(ActivityRepository activityRepository) {
+    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService) {
         this.activityRepository = activityRepository;
+        this.multimediaService = multimediaService;
     }
 
     @Override
@@ -65,6 +68,11 @@ public class ActivityServiceImp implements ActivityService {
         assert id != null;
 
         Activity activity = this.get(id);
+        if(activity.getMultimedia().size() > 0){
+            activity.getMultimedia().forEach(media -> {
+                multimediaService.delete(media.getId());
+            });
+        }
         activityRepository.delete(activity);
     }
 }

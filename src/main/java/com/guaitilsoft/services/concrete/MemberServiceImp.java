@@ -4,6 +4,7 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.repositories.MemberRepository;
+import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,13 @@ import java.util.List;
 public class MemberServiceImp implements MemberService {
 
     private MemberRepository memberRepository;
+    private LocalService localService;
+
 
     @Autowired
-    public MemberServiceImp(MemberRepository memberRepository) {
+    public MemberServiceImp(MemberRepository memberRepository, LocalService localService) {
         this.memberRepository = memberRepository;
+        this.localService = localService;
     }
 
     @Override
@@ -75,6 +79,11 @@ public class MemberServiceImp implements MemberService {
 
         Member member = this.get(id);
         if(member != null){
+            while(member.getLocals().size() > 0){
+                member.getLocals().forEach(local -> {
+                    localService.delete(local.getId());
+                });
+            }
             memberRepository.delete(member);
         }
     }

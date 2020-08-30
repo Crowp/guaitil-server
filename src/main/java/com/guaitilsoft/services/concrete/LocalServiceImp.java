@@ -5,6 +5,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
+import com.guaitilsoft.services.MultimediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,12 @@ import java.util.List;
 public class LocalServiceImp implements LocalService {
 
     private LocalRepository localRepository;
+    private MultimediaService multimediaService;
 
     @Autowired
-    public LocalServiceImp(LocalRepository localRepository) {
+    public LocalServiceImp(LocalRepository localRepository, MultimediaService multimediaService) {
         this.localRepository = localRepository;
+        this.multimediaService = multimediaService;
     }
 
     @Override
@@ -48,9 +51,6 @@ public class LocalServiceImp implements LocalService {
         if(localRepository.existMemberPersonLocal(entity.personId(),entity.getLocalType())){
             throw new ApiRequestException("el local esta ocupado por el miembro, con cedula: " + entity.personId());
         }
-
-
-
         localRepository.save(entity);
     }
 
@@ -75,6 +75,11 @@ public class LocalServiceImp implements LocalService {
         assert id != null;
 
         Local local = this.get(id);
+        if(local.getMultimedia().size() > 0){
+            local.getMultimedia().forEach(media -> {
+                multimediaService.delete(media.getId());
+            });
+        }
         localRepository.delete(local);
     }
 }

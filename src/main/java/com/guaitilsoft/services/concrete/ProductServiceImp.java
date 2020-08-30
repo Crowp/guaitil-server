@@ -3,6 +3,7 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.models.Product;
 
 import com.guaitilsoft.repositories.ProductRepository;
+import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,12 @@ import java.util.List;
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
+    private MultimediaService multimediaService;
 
     @Autowired
-    public ProductServiceImp(ProductRepository productRepository) {
+    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService) {
         this.productRepository = productRepository;
+        this.multimediaService = multimediaService;
     }
 
 
@@ -70,6 +73,11 @@ public class ProductServiceImp implements ProductService {
         assert id != null;
 
         Product product = this.get(id);
+        if(product.getMultimedia().size() > 0){
+            product.getMultimedia().forEach(media -> {
+                multimediaService.delete(media.getId());
+            });
+        }
         productRepository.delete(product);
     }
 }
