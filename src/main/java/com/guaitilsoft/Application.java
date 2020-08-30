@@ -6,6 +6,7 @@ import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.models.constant.Role;
+import com.guaitilsoft.services.GalleryService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -27,11 +28,13 @@ public class Application implements CommandLineRunner {
 
 	private MultimediaService multimediaService;
 	private UserService userService;
+	private GalleryService galleryService;
 
 	@Autowired
-	public Application(MultimediaService multimediaService, UserService userService) {
+	public Application(MultimediaService multimediaService, UserService userService, GalleryService galleryService) {
 		this.multimediaService = multimediaService;
 		this.userService = userService;
+		this.galleryService = galleryService;
 	}
 
 	public static void main(String[] args) {
