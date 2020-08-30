@@ -28,7 +28,8 @@ public class TourController {
     private ModelMapper modelMapper;
 
     @Autowired
-    public TourController(TourService tourService, ModelMapper modelMapper){this.tourService =tourService;
+    public TourController(TourService tourService, ModelMapper modelMapper){
+        this.tourService = tourService;
         this.modelMapper = modelMapper;
     }
 

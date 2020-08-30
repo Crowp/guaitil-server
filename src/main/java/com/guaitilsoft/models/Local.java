@@ -1,11 +1,13 @@
 package com.guaitilsoft.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -33,6 +35,12 @@ public class Local {
     @Enumerated(EnumType.STRING)
     private LocalType localType;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
+
     @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name="address_id")
     private Address address;
@@ -45,4 +53,8 @@ public class Local {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="multimedia_id")
     private List<Multimedia> multimedia;
+
+    public String personId(){
+        return member.getPersonId();
+    }
 }

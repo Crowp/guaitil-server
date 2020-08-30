@@ -23,4 +23,10 @@ public class Sale {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Local local;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
 }

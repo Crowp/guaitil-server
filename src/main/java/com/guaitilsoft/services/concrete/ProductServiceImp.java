@@ -38,11 +38,13 @@ public class ProductServiceImp implements ProductService {
         if(product != null){
             return product;
         }
-        throw new EntityNotFoundException("No se encontroun producto con el id: " + id);
+        throw new EntityNotFoundException("No se encontro un producto con el id: " + id);
     }
 
     @Override
     public void save(Product entity)   {
+        assert entity != null;
+
         productRepository.save(entity);
     }
 

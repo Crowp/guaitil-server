@@ -1,7 +1,5 @@
-package com.guaitilsoft.web.models.activity;
+package com.guaitilsoft.web.models.gallery;
 
-import com.guaitilsoft.models.Address;
-import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,18 +11,16 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ActivityView {
+public class GalleryView {
     private Long id;
 
     private String name;
 
     private String description;
 
-    private Date activityDate;
+    private Date createdAt;
 
-    private Address address;
-
-    private List<Local> locals;
+    private Date updatedAt;
 
     private List<Multimedia> multimedia;
 }

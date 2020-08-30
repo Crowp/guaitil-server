@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Data
@@ -26,6 +27,14 @@ public class ProductReview {
 
     @Enumerated(EnumType.STRING)
     private ReviewState state;
+
+    private String comment;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
 
     @OneToOne(cascade = CascadeType.REFRESH)
     private Product product;

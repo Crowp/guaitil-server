@@ -1,13 +1,11 @@
-package com.guaitilsoft.web.models.product;
+package com.guaitilsoft.web.models.activity;
 
+import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.ProductPrice;
-import com.guaitilsoft.models.constant.ProductType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 
 import java.util.Date;
 import java.util.List;
@@ -15,24 +13,22 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductView {
+public class ActivityView {
     private Long id;
 
     private String name;
 
     private String description;
 
-    private Boolean status;
+    private Date activityDate;
 
-    private ProductType productType;
+    private Address address;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    private Local local;
-
-    private ProductPrice productPrice;
+    private List<Local> locals;
 
     private List<Multimedia> multimedia;
 }

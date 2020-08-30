@@ -1,7 +1,9 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
+import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductService;
 import com.guaitilsoft.web.models.product.ProductView;
 import org.modelmapper.ModelMapper;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -23,11 +26,13 @@ public class ProductController {
     public static final Logger logger = LoggerFactory.getLogger(TourController.class);
 
     private ProductService productService;
+    private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, ModelMapper modelMapper){
-        this.productService =productService;
+    public ProductController(ProductService productService, MultimediaService multimediaService, ModelMapper modelMapper){
+        this.productService = productService;
+        this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
 
@@ -45,7 +50,15 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) throws Exception, EntityNotFoundException  {
         Product product = modelMapper.map(productRequest, Product.class);
-        logger.info("Creating product: {}", product);
+        logger.info("Creating product");
+        if(product.getMultimedia().size() > 0){
+            List<Multimedia> multimediaList = new ArrayList<>();
+            product.getMultimedia().forEach(media -> {
+                Multimedia multimedia = multimediaService.get(media.getId());
+                multimediaList.add(multimedia);
+            });
+            product.setMultimedia(multimediaList);
+        }
         productService.save(product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
 
@@ -53,7 +66,7 @@ public class ProductController {
                 .path("/{id}")
                 .buildAndExpand(product.getId())
                 .toUri();
-        logger.info("Created activity : {}", productResponse.getId());
+        logger.info("Created product : {}", productResponse.getId());
 
         return ResponseEntity.created(location).body(productResponse);
     }

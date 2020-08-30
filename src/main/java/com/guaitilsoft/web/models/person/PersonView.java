@@ -1,5 +1,6 @@
 package com.guaitilsoft.web.models.person;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.PersonType;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -30,4 +32,8 @@ public class PersonView {
 
     @Enumerated(EnumType.STRING)
     private PersonType personType;
+
+    private Date createdAt;
+
+    private Date updatedAt;
 }

@@ -28,6 +28,14 @@ public class Activity {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date activityDate;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updatedAt;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="address_id")
     private Address address;
@@ -36,5 +44,6 @@ public class Activity {
     private List<Local> locals;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="multimedia_id")
     private List<Multimedia> multimedia;
 }

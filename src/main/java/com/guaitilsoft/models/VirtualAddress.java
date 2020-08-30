@@ -1,11 +1,13 @@
 package com.guaitilsoft.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.Date;
 
 @Data
 @Entity
@@ -24,4 +26,10 @@ public class VirtualAddress {
 
     @NotEmpty
     private  String longitude;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date updatedAt;
 }
