@@ -53,8 +53,6 @@ public class LocalServiceImp implements LocalService {
             throw new ApiRequestException("el local esta ocupado por el miembro, con cedula: " + entity.personId());
         }
 
-
-
         localRepository.save(entity);
     }
 
