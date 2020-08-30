@@ -74,6 +74,16 @@ public class MultimediaServiceImp implements MultimediaService {
         multimediaRepository.delete(multimedia);
     }
 
+    @Override
+    public void deleteOnlyFile(String filename) {
+        Path targetLocation = this.root.resolve(filename);
+        try {
+            Files.delete(targetLocation);
+        }catch (IOException ex) {
+            throw new ApiRequestException("Could not store file. Please try again!", ex);
+        }
+    }
+
     public void deleteFile(String fileName) {
         Path targetLocation = this.root.resolve(fileName);
         try {

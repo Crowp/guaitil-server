@@ -5,6 +5,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
+import com.guaitilsoft.services.MultimediaService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
@@ -20,10 +21,12 @@ import java.util.List;
 public class LocalServiceImp implements LocalService {
 
     private LocalRepository localRepository;
+    private MultimediaService multimediaService;
 
     @Autowired
-    public LocalServiceImp(LocalRepository localRepository) {
+    public LocalServiceImp(LocalRepository localRepository, MultimediaService multimediaService) {
         this.localRepository = localRepository;
+        this.multimediaService = multimediaService;
     }
 
     @Override
@@ -82,6 +85,11 @@ public class LocalServiceImp implements LocalService {
         assert id != null;
 
         Local local = this.get(id);
+        if(local.getMultimedia().size() > 0){
+            local.getMultimedia().forEach(media -> {
+                multimediaService.delete(media.getId());
+            });
+        }
         localRepository.delete(local);
     }
 }
