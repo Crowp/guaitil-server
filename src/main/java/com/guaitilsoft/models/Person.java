@@ -17,13 +17,11 @@ import java.util.TimeZone;
 
 @Data
 @Entity
-@Table(name = "person")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Person {
 
     @Id
-    @Column(name = "id")
     private String id;
 
     @NotEmpty

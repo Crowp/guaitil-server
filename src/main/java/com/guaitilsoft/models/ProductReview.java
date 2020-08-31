@@ -12,13 +12,11 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "product_review")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductReview {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

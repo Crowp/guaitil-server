@@ -11,13 +11,11 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "gallery")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Gallery {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

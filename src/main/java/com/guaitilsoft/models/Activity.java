@@ -11,7 +11,6 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "activity")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Activity {
@@ -41,13 +40,11 @@ public class Activity {
     private Date updatedAt;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="address_id")
     private Address address;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Local> locals;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="multimedia_id")
     private List<Multimedia> multimedia;
 }

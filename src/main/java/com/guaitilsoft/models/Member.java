@@ -13,13 +13,11 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "member")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Member {
 
     @Id
-    @Column(name = "_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -33,12 +31,9 @@ public class Member {
     private Date updatedAt;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="person_id")
     private Person person;
 
-    @JsonIgnoreProperties("member")
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="local_id")
+    @OneToMany(targetEntity = Local.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
     private List<Local> locals;
 
     @Enumerated(EnumType.STRING)

@@ -3,6 +3,7 @@ package com.guaitilsoft.web.models.member;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.MemberType;
+import com.guaitilsoft.web.models.local.LoadLocalDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,8 +14,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class MemberView {
-
+public class UpdateMemberDTO {
     private Long id;
 
     private String occupation;
@@ -25,7 +25,7 @@ public class MemberView {
 
     private Person person;
 
-    private List<Local> locals;
+    private List<LoadLocalDTO> locals;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;

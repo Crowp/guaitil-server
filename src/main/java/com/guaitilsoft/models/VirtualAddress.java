@@ -11,13 +11,11 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "virtual_address")
 @AllArgsConstructor
 @NoArgsConstructor
 public class VirtualAddress {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
