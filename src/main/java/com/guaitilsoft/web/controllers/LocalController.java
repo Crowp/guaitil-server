@@ -62,7 +62,7 @@ public class LocalController {
             });
             local.setMultimedia(multimediaList);
         }
-        local.setMember(memberService.get(local.getMember().getId()));
+        local.setMember(memberService.get(localRequest.getMember().getId()));
         localService.save(local);
 
         LocalView localResponse = modelMapper.map(local, LocalView.class);
