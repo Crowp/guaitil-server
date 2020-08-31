@@ -48,8 +48,8 @@ public class Person {
     private PersonType personType;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate createdAt;
+    private Date createdAt;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate updatedAt;
+    private Date updatedAt;
 }

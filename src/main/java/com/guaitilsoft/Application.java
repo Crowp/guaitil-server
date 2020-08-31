@@ -50,6 +50,11 @@ public class Application implements CommandLineRunner {
 	}
 
 	@PostConstruct
+	void setUTCTimezone(){
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
+	}
+
+	@PostConstruct
 	public void init(){
 		TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"));
 	}
@@ -70,8 +75,8 @@ public class Application implements CommandLineRunner {
 			person.setTelephone("8888888");
 			person.setSecondLastName("Default Admin");
 			person.setGender(Gender.MALE);
-			person.setCreatedAt(LocalDate.now());
-			person.setUpdatedAt(LocalDate.now());
+			person.setCreatedAt(new Date());
+			person.setUpdatedAt(new Date());
 
 			Member member = new Member();
 			member.setCreatedAt(new Date());

@@ -3,6 +3,7 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
@@ -85,8 +86,11 @@ public class LocalServiceImp implements LocalService {
         assert id != null;
 
         Local local = this.get(id);
-        if(local.getMultimedia().size() > 0){
-            local.getMultimedia().forEach(media -> {
+        List<Multimedia> multimediaList = new ArrayList<>(local.getMultimedia());
+        local.setMultimedia(null);
+        localRepository.save(local);
+        if(multimediaList.size() > 0){
+            multimediaList.forEach(media -> {
                 multimediaService.delete(media.getId());
             });
         }
