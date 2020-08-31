@@ -6,6 +6,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
+import com.guaitilsoft.services.MultimediaService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
@@ -22,12 +23,14 @@ public class MemberServiceImp implements MemberService {
 
     private MemberRepository memberRepository;
     private LocalService localService;
+    private MultimediaService multimediaService;
 
 
     @Autowired
-    public MemberServiceImp(MemberRepository memberRepository, LocalService localService) {
+    public MemberServiceImp(MemberRepository memberRepository, LocalService localService, MultimediaService multimediaService) {
         this.memberRepository = memberRepository;
         this.localService = localService;
+        this.multimediaService = multimediaService;
     }
 
     @Override
@@ -88,9 +91,14 @@ public class MemberServiceImp implements MemberService {
 
         Member member = this.get(id);
         if(member != null){
-            while(member.getLocals().size() > 0){
+            while (member.getLocals().size() > 0){
                 member.getLocals().forEach(local -> {
-                    localService.delete(local.getId());
+                   if(local.getMultimedia().size() > 0){
+                       local.getMultimedia().forEach(media -> {
+                           multimediaService.deleteOnlyFile(media.getFileName());
+                       });
+                   }
+                   localService.delete(local.getId());
                 });
             }
             memberRepository.delete(member);
