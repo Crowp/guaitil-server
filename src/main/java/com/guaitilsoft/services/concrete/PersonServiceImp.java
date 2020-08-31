@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -66,6 +67,7 @@ public class PersonServiceImp implements PersonService {
         DateTimeZone americaCostaRica = DateTimeZone.forID("America/Costa_Rica");
         DateTime nowCostaRica = nowGmt.toDateTime(americaCostaRica);
         Date today = nowCostaRica.toDate();
+
 
         Person person = this.get(id);
         person.setName(entity.getName());

@@ -2,6 +2,7 @@ package com.guaitilsoft.services.concrete;
 
 
 import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
@@ -90,16 +91,28 @@ public class MemberServiceImp implements MemberService {
         assert id != null;
 
         Member member = this.get(id);
-        if(member != null){
-            while (member.getLocals().size() > 0){
+
+        if (member != null) {
+            while (member.getLocals().size() > 0) {
                 member.getLocals().forEach(local -> {
-                   if(local.getMultimedia().size() > 0){
-                       local.getMultimedia().forEach(media -> {
-                           multimediaService.deleteOnlyFile(media.getFileName());
-                       });
-                   }
-                   localService.delete(local.getId());
+                    if (local.getMultimedia().size() > 0) {
+                        local.getMultimedia().forEach(media -> {
+                            multimediaService.deleteOnlyFile(media.getFileName());
+                        });
+                    }
+                    localService.delete(local.getId());
                 });
+            }
+            memberRepository.delete(member);
+
+            List<Local> locals = new ArrayList<>(member.getLocals());
+            member.setLocals(null);
+            memberRepository.save(member);
+            if (locals.size() > 0) {
+                locals.forEach(local -> {
+                    localService.delete(local.getId());
+                });
+
             }
             memberRepository.delete(member);
         }

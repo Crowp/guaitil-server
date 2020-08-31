@@ -1,6 +1,7 @@
 package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.guaitilsoft.models.constant.ActivityType;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,6 +28,9 @@ public class Activity {
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date activityDate;
+
+    @Enumerated(EnumType.STRING)
+    private ActivityType activityType;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
