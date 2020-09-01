@@ -15,4 +15,6 @@ public interface TourService {
     void update(Long id, Tour entity);
 
     void delete(Long id);
+
+    void deleteTourByActivityId(Long activityId);
 }

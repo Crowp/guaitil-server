@@ -4,6 +4,7 @@ import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.TourService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
@@ -20,11 +21,13 @@ public class ActivityServiceImp implements ActivityService {
 
     private ActivityRepository activityRepository;
     private MultimediaService multimediaService;
+    private TourService tourService;
 
     @Autowired
-    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService) {
+    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService, TourService tourService) {
         this.activityRepository = activityRepository;
         this.multimediaService = multimediaService;
+        this.tourService = tourService;
     }
 
     @Override
@@ -85,6 +88,7 @@ public class ActivityServiceImp implements ActivityService {
                 multimediaService.delete(media.getId());
             });
         }
+        tourService.deleteTourByActivityId(id);
         activityRepository.delete(activity);
     }
 }

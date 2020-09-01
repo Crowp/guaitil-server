@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TourServiceImp implements TourService {
@@ -66,5 +67,11 @@ public class TourServiceImp implements TourService {
         Tour tour = this.get(id);
 
         tourRepository.delete(tour);
+    }
+
+    @Override
+    public void deleteTourByActivityId(Long activityId) {
+        Optional<Tour> tourOptional = tourRepository.selectTourByActivityId(activityId);
+        tourOptional.ifPresent(tour -> this.delete(tour.getId()));
     }
 }

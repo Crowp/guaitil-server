@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationServiceImp implements ReservationService {
@@ -67,5 +68,15 @@ public class ReservationServiceImp implements ReservationService {
 
         Reservation reservation = this.get(id);
         reservationRepository.delete(reservation);
+    }
+
+    @Override
+    public void deleteReservationsByTourId(Long idTour) {
+        Optional<List<Reservation>> optionalReservations = reservationRepository.selectReservationsByTourId(idTour);
+        optionalReservations.ifPresent(reservations -> {
+            reservations.forEach(reservation -> {
+                this.delete(reservation.getId());
+            });
+        });
     }
 }
