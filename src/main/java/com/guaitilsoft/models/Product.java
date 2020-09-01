@@ -13,13 +13,11 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "product")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -42,11 +40,9 @@ public class Product {
     private ProductType productType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="local_id")
     private Local local;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="product_priceid")
     private ProductPrice productPrice;
 
     @OneToMany(cascade = CascadeType.ALL)

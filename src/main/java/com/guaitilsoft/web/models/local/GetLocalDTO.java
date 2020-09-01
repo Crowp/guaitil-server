@@ -1,21 +1,16 @@
 package com.guaitilsoft.web.models.local;
 
 import com.guaitilsoft.models.Address;
-import com.guaitilsoft.models.Member;
-import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
-import lombok.Getter;
+import com.guaitilsoft.web.models.member.LoadMemberDTO;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Date;
-import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-public class LocalView {
-
+public class GetLocalDTO {
     private Long id;
 
     private String name;
@@ -32,7 +27,5 @@ public class LocalView {
 
     private Address address;
 
-    private Member member;
-
-    private List<Multimedia> multimedia;
+    private LoadMemberDTO member;
 }

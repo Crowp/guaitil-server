@@ -9,13 +9,11 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "product_price")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductPrice {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

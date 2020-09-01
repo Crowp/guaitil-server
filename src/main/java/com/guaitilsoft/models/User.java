@@ -13,7 +13,6 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "user")
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
@@ -41,7 +40,6 @@ public class User {
     private List<ActivityHistory> activityHistories;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name="member_id")
     private Member member;
 
     public String getEmail(){

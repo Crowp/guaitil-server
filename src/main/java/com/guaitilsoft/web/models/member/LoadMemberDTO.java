@@ -14,8 +14,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class MemberView {
-
+public class LoadMemberDTO {
     private Long id;
 
     private String occupation;
@@ -26,8 +25,6 @@ public class MemberView {
     private Date updatedAt;
 
     private Person person;
-
-    private List<Local> locals;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
