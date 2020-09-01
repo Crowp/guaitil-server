@@ -5,7 +5,7 @@ import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.web.models.activity.ActivityView;
+import com.guaitilsoft.web.models.Activity.ActivityView;
 import com.guaitilsoft.web.models.activity.CreateActivity;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
