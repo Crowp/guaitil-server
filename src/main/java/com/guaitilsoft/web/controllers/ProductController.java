@@ -7,6 +7,7 @@ import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductService;
 import com.guaitilsoft.web.models.product.ProductView;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,14 +39,17 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> get(){
-        return  ResponseEntity.ok().body(productService.list());
+    public ResponseEntity<List<ProductView>> get(){
+        Type listType = new TypeToken<List<ProductView>>(){}.getType();
+        List<ProductView> products = modelMapper.map(productService.list(), listType);
+        return  ResponseEntity.ok().body(products);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Product> getById(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<ProductView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+        ProductView product = modelMapper.map(productService.get(id), ProductView.class);
         logger.info("Fetching Product with id {}", id);
-        return ResponseEntity.ok().body(productService.get(id));
+        return ResponseEntity.ok().body(product);
     }
 
     @PostMapping

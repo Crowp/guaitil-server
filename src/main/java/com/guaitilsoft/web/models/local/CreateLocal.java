@@ -3,6 +3,7 @@ package com.guaitilsoft.web.models.local;
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
+import com.guaitilsoft.web.models.member.LoadMember;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,8 +12,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class LoadLocalDTO {
-
+public class CreateLocal {
     private Long id;
 
     private String name;
@@ -28,6 +28,8 @@ public class LoadLocalDTO {
     private Date updatedAt;
 
     private Address address;
+
+    private LoadMember member;
 
     private List<Multimedia> multimedia;
 }

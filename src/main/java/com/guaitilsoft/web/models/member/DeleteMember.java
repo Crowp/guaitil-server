@@ -1,9 +1,8 @@
 package com.guaitilsoft.web.models.member;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.MemberType;
-import com.guaitilsoft.web.models.local.LoadLocalDTO;
+import com.guaitilsoft.web.models.local.LoadLocal;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,20 +13,19 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class GetMemberDTO {
+public class DeleteMember {
     private Long id;
 
     private String occupation;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
 
     private Date updatedAt;
 
     private Person person;
 
+    private List<LoadLocal> locals;
+
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
-
-    private List<LoadLocalDTO> locals;
 }
