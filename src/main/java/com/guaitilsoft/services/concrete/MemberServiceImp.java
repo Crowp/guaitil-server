@@ -7,6 +7,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
+import com.guaitilsoft.services.MultimediaService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
@@ -23,12 +24,14 @@ public class MemberServiceImp implements MemberService {
 
     private MemberRepository memberRepository;
     private LocalService localService;
+    private MultimediaService multimediaService;
 
 
     @Autowired
-    public MemberServiceImp(MemberRepository memberRepository, LocalService localService) {
+    public MemberServiceImp(MemberRepository memberRepository, LocalService localService, MultimediaService multimediaService) {
         this.memberRepository = memberRepository;
         this.localService = localService;
+        this.multimediaService = multimediaService;
     }
 
     @Override
@@ -88,14 +91,30 @@ public class MemberServiceImp implements MemberService {
         assert id != null;
 
         Member member = this.get(id);
-        List<Local> locals = new ArrayList<>(member.getLocals());
-        member.setLocals(null);
-        memberRepository.save(member);
-        if(locals.size() > 0){
-            locals.forEach(local -> {
-                localService.delete(local.getId());
-            });
+
+        if (member != null) {
+            while (member.getLocals().size() > 0) {
+                member.getLocals().forEach(local -> {
+                    if (local.getMultimedia().size() > 0) {
+                        local.getMultimedia().forEach(media -> {
+                            multimediaService.deleteOnlyFile(media.getFileName());
+                        });
+                    }
+                    localService.delete(local.getId());
+                });
+            }
+            memberRepository.delete(member);
+
+            List<Local> locals = new ArrayList<>(member.getLocals());
+            member.setLocals(null);
+            memberRepository.save(member);
+            if (locals.size() > 0) {
+                locals.forEach(local -> {
+                    localService.delete(local.getId());
+                });
+
+            }
+            memberRepository.delete(member);
         }
-        memberRepository.delete(member);
     }
 }

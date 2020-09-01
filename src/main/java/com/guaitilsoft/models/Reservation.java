@@ -10,13 +10,11 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "reservation")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Reservation {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -36,10 +34,8 @@ public class Reservation {
     private Date updatedAt;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "tour_id")
     private Tour tour;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "person_id")
     private Person person;
 }

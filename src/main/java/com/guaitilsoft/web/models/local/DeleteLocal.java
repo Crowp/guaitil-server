@@ -1,10 +1,8 @@
-package com.guaitilsoft.web.models.Activity;
+package com.guaitilsoft.web.models.local;
 
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.constant.ActivityType;
-import com.guaitilsoft.web.models.local.LoadLocal;
-
+import com.guaitilsoft.models.constant.LocalType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,24 +11,24 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class ActivityView {
+public class DeleteLocal {
     private Long id;
 
     private String name;
 
     private String description;
 
-    private Date activityDate;
+    private String telephone;
 
-    private ActivityType activityType;
-
-    private Address address;
+    private LocalType localType;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    private List<LoadLocal> locals;
+    private Address address;
+
+    private LoadLocal member;
 
     private List<Multimedia> multimedia;
 }

@@ -6,8 +6,9 @@ import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.web.models.local.LocalView;
+import com.guaitilsoft.web.models.local.*;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,18 +42,21 @@ public class LocalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Local>> get(){
-        return  ResponseEntity.ok().body(localService.list());
+    public ResponseEntity<List<GetLocal>> get(){
+        Type listType = new TypeToken<List<GetLocal>>(){}.getType();
+        List<GetLocal> locals = modelMapper.map(localService.list(), listType);
+        return  ResponseEntity.ok().body(locals);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Local> getById(@PathVariable Long id) {
+    public ResponseEntity<GetLocal> getById(@PathVariable Long id) {
+        GetLocal getLocal = modelMapper.map(localService.get(id), GetLocal.class);
         logger.info("Fetching Local with id: {}", id);
-        return ResponseEntity.ok().body(localService.get(id));
+        return ResponseEntity.ok().body(getLocal);
     }
 
     @PostMapping
-    public ResponseEntity<LocalView> post(@RequestBody LocalView localRequest) {
+    public ResponseEntity<CreateLocal> post(@RequestBody CreateLocal localRequest) {
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Creating local");
         if(local.getMultimedia().size() > 0){
@@ -65,7 +70,7 @@ public class LocalController {
         local.setMember(memberService.get(localRequest.getMember().getId()));
         localService.save(local);
 
-        LocalView localResponse = modelMapper.map(local, LocalView.class);
+        CreateLocal localResponse = modelMapper.map(local, CreateLocal.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -77,7 +82,7 @@ public class LocalController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<LocalView> put(@PathVariable Long id, @RequestBody LocalView localRequest) {
+    public ResponseEntity<UpdateLocal> put(@PathVariable Long id, @RequestBody UpdateLocal localRequest) {
         if(!id.equals(localRequest.getId())){
             throw new ApiRequestException("El id del local: " + localRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -86,14 +91,14 @@ public class LocalController {
 
         localService.update(id, local);
 
-        LocalView localResponse = modelMapper.map(local, LocalView.class);
+        UpdateLocal localResponse = modelMapper.map(local, UpdateLocal.class);
         logger.info("Updated Local with id: {}", id);
         return ResponseEntity.ok().body(localResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<LocalView> delete(@PathVariable Long id) {
-        LocalView localResponse = modelMapper.map(localService.get(id), LocalView.class);
+    public ResponseEntity<DeleteLocal> delete(@PathVariable Long id) {
+        DeleteLocal localResponse = modelMapper.map(localService.get(id), DeleteLocal.class);
         logger.info("Deleting Local with id: {}", id);
         localService.delete(id);
         logger.info("Deleted Local with id: {}", id);

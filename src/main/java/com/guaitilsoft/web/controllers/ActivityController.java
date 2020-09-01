@@ -5,8 +5,10 @@ import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.web.models.Activity.ActivityView;
+import com.guaitilsoft.web.models.activity.ActivityView;
+import com.guaitilsoft.web.models.activity.CreateActivity;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,19 +41,26 @@ public class ActivityController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Activity>> get(){
-        return  ResponseEntity.ok().body(activityService.list());
+    public ResponseEntity<List<ActivityView>> get(){
+        Type listType  = new TypeToken<List<ActivityView>>(){}.getType();
+        List<ActivityView> activities = modelMapper.map(activityService.list(),listType);
+        return  ResponseEntity.ok().body(activities);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Activity> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+    public ResponseEntity<ActivityView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+        ActivityView activity = modelMapper.map(activityService.get(id),ActivityView.class);
         logger.info("Fetching Activity with id {}", id);
-        return ResponseEntity.ok().body(activityService.get(id));
+        return ResponseEntity.ok().body(activity);
     }
 
     @PostMapping
+<<<<<<< HEAD
     public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) throws  Exception{
         activityRequest.setId(null);
+=======
+    public ResponseEntity<CreateActivity> post(@RequestBody CreateActivity activityRequest) throws Exception, EntityNotFoundException{
+>>>>>>> 34e968791876cdb9f6801e67e3193f003a8be2f6
         Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Creating activity");
         if(activity.getMultimedia().size() > 0){
@@ -62,7 +72,7 @@ public class ActivityController {
             activity.setMultimedia(multimediaList);
         }
         activityService.save(activity);
-        ActivityView activityResponse = modelMapper.map(activity, ActivityView.class);
+        CreateActivity activityResponse = modelMapper.map(activity, CreateActivity.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

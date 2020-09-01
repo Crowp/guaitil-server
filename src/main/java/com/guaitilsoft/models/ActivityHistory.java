@@ -10,7 +10,6 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "activity_history")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActivityHistory {
@@ -35,6 +34,5 @@ public class ActivityHistory {
     private ActionType actionType;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="user_id")
     private User user;
 }

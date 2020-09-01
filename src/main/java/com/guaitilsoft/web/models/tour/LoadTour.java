@@ -1,18 +1,16 @@
 package com.guaitilsoft.web.models.tour;
 
-import com.guaitilsoft.web.models.activity.ActivityView;
+import com.guaitilsoft.web.models.activity.LoadActivity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
 
-
 @Getter
 @Setter
 @NoArgsConstructor
-public class TourView {
-
+public class LoadTour {
     private Long id;
 
     private Long amountPerson;
@@ -21,6 +19,5 @@ public class TourView {
 
     private Date updatedAt;
 
-    private ActivityView activity;
-
+    private LoadActivity activity;
 }

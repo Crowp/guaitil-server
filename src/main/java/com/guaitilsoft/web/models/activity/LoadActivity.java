@@ -1,38 +1,33 @@
-package com.guaitilsoft.web.models.product;
+package com.guaitilsoft.web.models.activity;
 
+import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.ProductPrice;
-import com.guaitilsoft.models.constant.ProductType;
+import com.guaitilsoft.models.constant.ActivityType;
 import com.guaitilsoft.web.models.local.LoadLocal;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 
 import java.util.Date;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
-public class ProductView {
+public class LoadActivity {
     private Long id;
 
     private String name;
 
     private String description;
 
-    private Boolean status;
+    private Date activityDate;
 
-    private ProductType productType;
+    private ActivityType activityType;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    private LoadLocal local;
-
-    private ProductPrice productPrice;
+    private Address address;
 
     private List<Multimedia> multimedia;
 }

@@ -13,13 +13,11 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "local")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Local {
 
     @Id
-    @Column(name = "_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -41,17 +39,14 @@ public class Local {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
-    @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name="address_id")
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @JsonIgnoreProperties("locals")
-    @ManyToOne(targetEntity = Member.class,fetch = FetchType.LAZY)
-    @JoinColumn(name="member_id")
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "memberId")
     private Member member;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="multimedia_id")
     private List<Multimedia> multimedia;
 
     public String personId(){
