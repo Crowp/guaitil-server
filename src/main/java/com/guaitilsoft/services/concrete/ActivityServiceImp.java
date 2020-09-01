@@ -43,7 +43,7 @@ public class ActivityServiceImp implements ActivityService {
         if(activity != null){
             return activity;
         }
-        throw new EntityNotFoundException("No se encontro un tour con el id: ");
+        throw new EntityNotFoundException("No se encontro una actividad con el id: " + id);
     }
 
     @Override
