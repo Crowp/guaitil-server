@@ -49,7 +49,7 @@ public class ActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) throws  Exception{
+    public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) throws Exception, EntityNotFoundException{
         Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Creating activity");
         if(activity.getMultimedia().size() > 0){

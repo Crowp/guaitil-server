@@ -43,7 +43,7 @@ public class MemberController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetMemberDTO>> get(){
+    public ResponseEntity<List<GetMemberDTO>> get() throws Exception, EntityNotFoundException{
         Type listType = new TypeToken<List<GetMemberDTO>>(){}.getType();
         List<GetMemberDTO> members = modelMapper.map(memberService.list(), listType);
         return  ResponseEntity.ok().body(members);
@@ -51,14 +51,14 @@ public class MemberController {
 
     @GetMapping("{id}")
     public ResponseEntity<GetMemberDTO> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
-        GetMemberDTO getMemberDTO = modelMapper.map(memberService.get(id), GetMemberDTO.class);
+        GetMemberDTO getMember= modelMapper.map(memberService.get(id), GetMemberDTO.class);
         logger.info("Fetching Member with id: {}", id);
-        return ResponseEntity.ok().body(getMemberDTO);
+        return ResponseEntity.ok().body(getMember);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CreateMemberDTO> post(@RequestBody CreateMemberDTO memberRequest) {
+    public ResponseEntity<CreateMemberDTO> post(@RequestBody CreateMemberDTO memberRequest) throws Exception, EntityNotFoundException {
         memberRequest.setId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Creating Member");
@@ -89,18 +89,18 @@ public class MemberController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UpdateMemberDTO> put(@PathVariable Long id, @RequestBody UpdateMemberDTO memberView) {
-        if(!id.equals(memberView.getId())){
-            throw new ApiRequestException("El id del miembro: " + memberView.getId() + " es diferente al id del parametro: " + id);
+    public ResponseEntity<UpdateMemberDTO> put(@PathVariable Long id, @RequestBody UpdateMemberDTO memberRequest) throws Exception, EntityNotFoundException {
+        if(!id.equals(memberRequest.getId())){
+            throw new ApiRequestException("El id del miembro: " + memberRequest.getId() + " es diferente al id del parametro: " + id);
         }
-        Member member = modelMapper.map(memberView, Member.class);
+        Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Updating Member with id: {}", id);
 
         memberService.update(id, member);
 
-        UpdateMemberDTO memberViewResponse = modelMapper.map(member, UpdateMemberDTO.class);
+        UpdateMemberDTO memberResponse = modelMapper.map(member, UpdateMemberDTO.class);
         logger.info("Updated Member with id: {}", id);
-        return ResponseEntity.ok().body(memberViewResponse);
+        return ResponseEntity.ok().body(memberResponse);
     }
 
     @DeleteMapping("{id}")
