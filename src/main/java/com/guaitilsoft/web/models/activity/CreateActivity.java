@@ -1,19 +1,21 @@
 package com.guaitilsoft.web.models.activity;
 
+
 import com.guaitilsoft.models.Address;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.ActivityType;
 import com.guaitilsoft.web.models.local.LoadLocal;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 
 import java.util.Date;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class ActivityView {
+public class CreateActivity {
     private Long id;
 
     private String name;
@@ -24,11 +26,11 @@ public class ActivityView {
 
     private ActivityType activityType;
 
-    private Address address;
-
     private Date createdAt;
 
     private Date updatedAt;
+
+    private Address address;
 
     private List<LoadLocal> locals;
 

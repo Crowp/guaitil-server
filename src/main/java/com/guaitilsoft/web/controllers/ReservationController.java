@@ -4,7 +4,9 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
 import com.guaitilsoft.services.ReservationService;
 import com.guaitilsoft.web.models.reservation.ReservationView;
+import com.guaitilsoft.web.models.tour.TourView;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
 
@@ -33,12 +36,17 @@ public class ReservationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Reservation>> get () {return ResponseEntity.ok().body(reservationService.list());}
+    public ResponseEntity<List<ReservationView>> get () {
+        Type listType  = new TypeToken<List<ReservationView>>(){}.getType();
+        List<ReservationView> reservations = modelMapper.map(reservationService.list(),listType);
+        return ResponseEntity.ok().body(reservations);
+    }
 
     @GetMapping("{id}")
-    public ResponseEntity<Reservation> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+    public ResponseEntity<ReservationView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+        ReservationView reservations = modelMapper.map(reservationService.get(id), ReservationView.class);
         logger.info("Fetching Reservation with id {}", id);
-        return ResponseEntity.ok().body(reservationService.get(id));
+        return ResponseEntity.ok().body(reservations);
     }
 
     @PostMapping
