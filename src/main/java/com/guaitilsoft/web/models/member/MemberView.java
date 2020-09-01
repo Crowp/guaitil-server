@@ -10,6 +10,6 @@ import javax.persistence.Enumerated;
 
 @Data
 @NoArgsConstructor
-public class MemberDTO {
+public class MemberView {
     private Long id;
 }

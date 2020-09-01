@@ -2,7 +2,7 @@ package com.guaitilsoft.web.models.member;
 
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.MemberType;
-import com.guaitilsoft.web.models.local.LoadLocalDTO;
+import com.guaitilsoft.web.models.local.LoadLocal;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class DeleteMemberDTO {
+public class UpdateMember {
     private Long id;
 
     private String occupation;
@@ -24,7 +24,7 @@ public class DeleteMemberDTO {
 
     private Person person;
 
-    private List<LoadLocalDTO> locals;
+    private List<LoadLocal> locals;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;

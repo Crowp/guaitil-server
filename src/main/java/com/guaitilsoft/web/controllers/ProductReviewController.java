@@ -1,12 +1,11 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.services.ProductReviewService;
-import com.guaitilsoft.web.models.product.ProductView;
 import com.guaitilsoft.web.models.productReview.ProductReviewView;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
+import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
 
@@ -34,14 +34,17 @@ public class ProductReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductReview>> get(){
-        return  ResponseEntity.ok().body(productReviewService.list());
+    public ResponseEntity<List<ProductReviewView>> get(){
+        Type listType = new TypeToken<List<ProductReviewView>>(){}.getType();
+        List<ProductReviewView> productReviewViews = modelMapper.map(productReviewService.list(), listType);
+        return  ResponseEntity.ok().body(productReviewViews);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductReview> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+    public ResponseEntity<ProductReviewView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+        ProductReviewView productReview = modelMapper.map(productReviewService.get(id), ProductReviewView.class);
         logger.info("Fetching Product with id {}", id);
-        return ResponseEntity.ok().body(productReviewService.get(id));
+        return ResponseEntity.ok().body(productReview);
     }
 
     @PostMapping

@@ -1,7 +1,6 @@
 package com.guaitilsoft.web.models.local;
 
 import com.guaitilsoft.models.Address;
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.Data;
@@ -9,9 +8,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
+
 @Data
 @NoArgsConstructor
-public class UpdateLocalDTO {
+public class DeleteLocal {
     private Long id;
 
     private String name;
@@ -28,7 +28,7 @@ public class UpdateLocalDTO {
 
     private Address address;
 
-    private LoadLocalDTO member;
+    private LoadLocal member;
 
     private List<Multimedia> multimedia;
 }

@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.MemberType;
-import com.guaitilsoft.web.models.local.LoadLocalDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +14,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class CreateMemberDTO {
+public class LoadMember {
     private Long id;
 
     private String occupation;
@@ -26,8 +25,6 @@ public class CreateMemberDTO {
     private Date updatedAt;
 
     private Person person;
-
-    private List<LoadLocalDTO> locals;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
