@@ -5,7 +5,7 @@ import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.web.models.activity.ActivityView;
+import com.guaitilsoft.web.models.Activity.ActivityView;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,6 +50,7 @@ public class ActivityController {
 
     @PostMapping
     public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) throws  Exception{
+        activityRequest.setId(null);
         Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Creating activity");
         if(activity.getMultimedia().size() > 0){

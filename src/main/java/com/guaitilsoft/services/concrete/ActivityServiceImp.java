@@ -49,6 +49,8 @@ public class ActivityServiceImp implements ActivityService {
     @Override
     public void save(Activity entity) {
         assert entity != null;
+        entity.setUpdatedAt(new Date());
+        entity.setCreatedAt(new Date());
         activityRepository.save(entity);
     }
 

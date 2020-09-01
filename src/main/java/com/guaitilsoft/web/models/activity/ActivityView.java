@@ -1,4 +1,4 @@
-package com.guaitilsoft.web.models.activity;
+package com.guaitilsoft.web.models.Activity;
 
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.Local;
@@ -26,10 +26,6 @@ public class ActivityView {
     private ActivityType activityType;
 
     private Address address;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 
     private List<Local> locals;
 

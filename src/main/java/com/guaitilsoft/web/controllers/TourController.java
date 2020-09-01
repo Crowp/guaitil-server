@@ -3,7 +3,6 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Tour;
 import com.guaitilsoft.services.TourService;
-import com.guaitilsoft.web.models.activity.ActivityView;
 import com.guaitilsoft.web.models.tour.TourView;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
