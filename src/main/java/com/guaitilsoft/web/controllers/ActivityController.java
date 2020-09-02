@@ -2,8 +2,10 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.ActivityService;
+import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.web.models.Activity.ActivityView;
 import com.guaitilsoft.web.models.activity.CreateActivity;
@@ -31,12 +33,18 @@ public class ActivityController {
 
     private ActivityService activityService;
     private MultimediaService multimediaService;
+    private LocalService localService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public ActivityController(ActivityService activityService, MultimediaService multimediaService, ModelMapper modelMapper){
+    public ActivityController(
+            ActivityService activityService,
+            MultimediaService multimediaService,
+            LocalService localService,
+            ModelMapper modelMapper){
         this.activityService  = activityService;
         this.multimediaService = multimediaService;
+        this.localService = localService;
         this.modelMapper = modelMapper;
     }
 
@@ -65,6 +73,14 @@ public class ActivityController {
                 multimediaList.add(multimedia);
             });
             activity.setMultimedia(multimediaList);
+        }
+        if(activity.getLocals().size() > 0){
+            List<Local> localList = new ArrayList<>();
+            activity.getLocals().forEach(item -> {
+                Local local = localService.get(item.getId());
+                localList.add(local);
+            });
+            activity.setLocals(localList);
         }
         activityService.save(activity);
         CreateActivity activityResponse = modelMapper.map(activity, CreateActivity.class);

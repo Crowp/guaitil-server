@@ -42,9 +42,9 @@ public class Activity {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL)
     private List<Local> locals;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.MERGE)
     private List<Multimedia> multimedia;
 }
