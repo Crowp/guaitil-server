@@ -5,7 +5,6 @@ import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductService;
-import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.ProductView;
 import org.modelmapper.ModelMapper;
@@ -70,7 +69,7 @@ public class ProductController {
         }
         productService.save(product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
-        addUrlToMultimedia(productRequest);
+        addUrlToMultimedia(productResponse);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -90,7 +89,7 @@ public class ProductController {
         logger.info("Updating Product with id: {}", id);
         productService.update(id, product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
-        addUrlToMultimedia(productRequest);
+        addUrlToMultimedia(productResponse);
         logger.info("Updated Product with id: {}", id);
         return ResponseEntity.ok().body(productResponse);
     }
@@ -110,7 +109,7 @@ public class ProductController {
         logger.info("Deleting Product with id {}", id);
         ProductView productResponse = modelMapper.map(
                 productService.deleteMultimediaById(id, idMultimedia), ProductView.class);
-        productService.deleteMultimediaById(id, idMultimedia);
+        addUrlToMultimedia(productResponse);
         logger.info("Deleted Product with id {}", id);
         return ResponseEntity.ok().body(productResponse);
     }

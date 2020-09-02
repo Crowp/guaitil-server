@@ -156,7 +156,7 @@ public class MultimediaServiceImp implements MultimediaService {
     }
 
     @Override
-    public Resource load(String filename) {
+    public Resource load(String filename) throws ApiRequestException {
         assert filename != null;
         assert !filename.equals("");
 
