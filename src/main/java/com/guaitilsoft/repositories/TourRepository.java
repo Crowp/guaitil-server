@@ -1,6 +1,8 @@
 package com.guaitilsoft.repositories;
 
+import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Tour;
+import com.guaitilsoft.models.constant.ActivityType;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,5 +14,4 @@ import java.util.Optional;
 public interface TourRepository extends CrudRepository<Tour, Long> {
     @Query("SELECT t FROM Tour t WHERE t.activity.id = :id")
     Optional<Tour> selectTourByActivityId(@Param("id") Long id);
-
 }

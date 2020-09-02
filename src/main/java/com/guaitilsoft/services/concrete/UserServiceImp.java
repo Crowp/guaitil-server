@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -30,6 +32,14 @@ public class UserServiceImp implements UserService {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        Iterable<User> iterable = userRepository.findAll();
+        List<User> users = new ArrayList<>();
+        iterable.forEach(users::add);
+        return users;
     }
 
     @Override
