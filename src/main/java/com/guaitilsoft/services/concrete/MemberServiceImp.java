@@ -121,7 +121,9 @@ public class MemberServiceImp implements MemberService {
 
     @Override
     public void deleteMemberByPersonId(String personId) {
-          Optional<Member> memberOptional = memberRepository.selectMemberByPersonId(personId);
-          memberOptional.ifPresent(member -> this.delete(member.getId()));
+        Optional<Member> optionalMember = memberRepository.selectMemberByPersonId(personId);
+        optionalMember.ifPresent(member -> this.delete(member.getId()));
     }
+
+
 }
