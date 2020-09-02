@@ -83,7 +83,7 @@ public class GalleryServiceImp implements GalleryService {
     }
 
     @Override
-    public void deleteMultimediaById(Long id, Long idMultimedia) {
+    public Gallery deleteMultimediaById(Long id, Long idMultimedia) {
         Gallery gallery = this.getById(id);
         List<Multimedia> multimedia = gallery.getMultimedia()
                 .stream()
@@ -92,5 +92,6 @@ public class GalleryServiceImp implements GalleryService {
         gallery.setMultimedia(multimedia);
         galleryRepository.save(gallery);
         multimediaService.delete(idMultimedia);
+        return gallery;
     }
 }

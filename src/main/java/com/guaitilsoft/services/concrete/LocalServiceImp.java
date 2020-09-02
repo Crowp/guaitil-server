@@ -101,7 +101,7 @@ public class LocalServiceImp implements LocalService {
     }
 
     @Override
-    public void deleteMultimediaById(Long id, Long idMultimedia) {
+    public Local deleteMultimediaById(Long id, Long idMultimedia) {
         Local local = this.get(id);
         List<Multimedia> multimedia = local.getMultimedia()
                 .stream()
@@ -110,5 +110,6 @@ public class LocalServiceImp implements LocalService {
         local.setMultimedia(multimedia);
         localRepository.save(local);
         multimediaService.delete(idMultimedia);
+        return local;
     }
 }

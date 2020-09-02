@@ -104,11 +104,12 @@ public class ProductController {
         return ResponseEntity.ok().body(productResponse);
     }
 
-    @DeleteMapping
+    @DeleteMapping("deleteMultimediaById")
     public ResponseEntity<ProductView> deleteMultimediaById(@RequestParam Long id,
                                                           @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException{
-        ProductView productResponse = modelMapper.map(productService.get(id), ProductView.class);
         logger.info("Deleting Product with id {}", id);
+        ProductView productResponse = modelMapper.map(
+                productService.deleteMultimediaById(id, idMultimedia), ProductView.class);
         productService.deleteMultimediaById(id, idMultimedia);
         logger.info("Deleted Product with id {}", id);
         return ResponseEntity.ok().body(productResponse);
