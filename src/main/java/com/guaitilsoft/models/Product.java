@@ -39,7 +39,8 @@ public class Product {
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Local.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "localId")
     private Local local;
 
     @OneToOne(cascade = CascadeType.ALL)

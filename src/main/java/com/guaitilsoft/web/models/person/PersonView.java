@@ -25,12 +25,10 @@ public class PersonView {
 
     private String telephone;
 
-    @Enumerated(EnumType.STRING)
     private Gender gender;
 
     private String email;
 
-    @Enumerated(EnumType.STRING)
     private PersonType personType;
 
     private Date createdAt;

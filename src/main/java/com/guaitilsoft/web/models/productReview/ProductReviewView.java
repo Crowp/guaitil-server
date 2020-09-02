@@ -2,6 +2,7 @@ package com.guaitilsoft.web.models.productReview;
 
 import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.constant.ReviewState;
+import com.guaitilsoft.web.models.product.LoadProduct;
 import com.guaitilsoft.web.models.product.ProductView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,5 +27,5 @@ public class ProductReviewView {
 
     private Date updatedAt;
 
-    private ProductView product;
+    private LoadProduct product;
 }

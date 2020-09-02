@@ -1,8 +1,9 @@
-package com.guaitilsoft.web.models.local;
+package com.guaitilsoft.web.models.product;
 
-import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.constant.LocalType;
+import com.guaitilsoft.models.ProductPrice;
+import com.guaitilsoft.models.constant.ProductType;
+import com.guaitilsoft.web.models.local.GetLocal;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,24 +12,24 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class DeleteLocal {
+public class LoadProduct {
     private Long id;
 
     private String name;
 
     private String description;
 
-    private String telephone;
+    private Boolean status;
 
-    private LocalType localType;
+    private ProductType productType;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    private Address address;
+    private ProductPrice productPrice;
 
-    private LoadLocal member;
+    private GetLocal local;
 
     private List<Multimedia> multimedia;
 }

@@ -5,8 +5,7 @@ import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.web.models.Activity.ActivityView;
-import com.guaitilsoft.web.models.activity.CreateActivity;
+import com.guaitilsoft.web.models.activity.ActivityView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -55,7 +54,7 @@ public class ActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<CreateActivity> post(@RequestBody CreateActivity activityRequest) throws Exception, EntityNotFoundException{
+    public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) throws Exception, EntityNotFoundException{
         Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Creating activity");
         if(activity.getMultimedia().size() > 0){
@@ -67,7 +66,7 @@ public class ActivityController {
             activity.setMultimedia(multimediaList);
         }
         activityService.save(activity);
-        CreateActivity activityResponse = modelMapper.map(activity, CreateActivity.class);
+        ActivityView activityResponse = modelMapper.map(activity, ActivityView.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

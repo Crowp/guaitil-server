@@ -28,6 +28,4 @@ public class LoadActivity {
     private Date updatedAt;
 
     private Address address;
-
-    private List<Multimedia> multimedia;
 }

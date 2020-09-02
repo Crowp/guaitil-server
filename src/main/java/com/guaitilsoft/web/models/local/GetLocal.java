@@ -2,7 +2,6 @@ package com.guaitilsoft.web.models.local;
 
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.constant.LocalType;
-import com.guaitilsoft.web.models.member.LoadMember;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +25,4 @@ public class GetLocal {
     private Date updatedAt;
 
     private Address address;
-
-    private LoadMember member;
 }

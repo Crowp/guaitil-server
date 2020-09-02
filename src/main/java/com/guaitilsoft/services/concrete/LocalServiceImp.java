@@ -76,6 +76,7 @@ public class LocalServiceImp implements LocalService {
         local.setAddress(entity.getAddress());
         local.setMember(entity.getMember());
         local.setLocalType(entity.getLocalType());
+        local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
         local.setUpdatedAt(today);
         entity = local;

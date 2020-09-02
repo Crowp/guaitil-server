@@ -1,33 +1,32 @@
-package com.guaitilsoft.web.models.local;
+package com.guaitilsoft.web.models.product;
 
-import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.constant.LocalType;
+import com.guaitilsoft.models.ProductPrice;
+import com.guaitilsoft.models.constant.ProductType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
+
 @Data
 @NoArgsConstructor
-public class UpdateLocal {
+public class GetProduct {
     private Long id;
 
     private String name;
 
     private String description;
 
-    private String telephone;
+    private Boolean status;
 
-    private LocalType localType;
+    private ProductType productType;
 
     private Date createdAt;
 
     private Date updatedAt;
 
-    private Address address;
-
-    private LoadLocal member;
+    private ProductPrice productPrice;
 
     private List<Multimedia> multimedia;
 }

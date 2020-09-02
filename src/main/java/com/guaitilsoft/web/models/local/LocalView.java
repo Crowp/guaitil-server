@@ -1,9 +1,13 @@
 package com.guaitilsoft.web.models.local;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Address;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
+import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.web.models.member.LoadMember;
+import com.guaitilsoft.web.models.product.LoadProduct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +16,8 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class CreateLocal {
+public class LocalView {
+
     private Long id;
 
     private String name;
@@ -32,4 +37,6 @@ public class CreateLocal {
     private LoadMember member;
 
     private List<Multimedia> multimedia;
+
+    private List<LoadProduct> products;
 }

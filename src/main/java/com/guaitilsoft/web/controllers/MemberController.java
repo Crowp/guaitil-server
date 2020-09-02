@@ -43,22 +43,22 @@ public class MemberController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetMember>> get() throws Exception, EntityNotFoundException{
-        Type listType = new TypeToken<List<GetMember>>(){}.getType();
-        List<GetMember> members = modelMapper.map(memberService.list(), listType);
+    public ResponseEntity<List<MemberView>> get() throws Exception, EntityNotFoundException{
+        Type listType = new TypeToken<List<MemberView>>(){}.getType();
+        List<MemberView> members = modelMapper.map(memberService.list(), listType);
         return  ResponseEntity.ok().body(members);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<GetMember> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
-        GetMember getMember= modelMapper.map(memberService.get(id), GetMember.class);
+    public ResponseEntity<MemberView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+        MemberView getMember= modelMapper.map(memberService.get(id), MemberView.class);
         logger.info("Fetching Member with id: {}", id);
         return ResponseEntity.ok().body(getMember);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<CreateMember> post(@RequestBody CreateMember memberRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) throws Exception, EntityNotFoundException {
         memberRequest.setId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Creating Member");
@@ -77,7 +77,7 @@ public class MemberController {
             });
         }
         memberService.save(member);
-        CreateMember memberResponse = modelMapper.map(member, CreateMember.class);
+        MemberView memberResponse = modelMapper.map(member, MemberView.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -89,7 +89,7 @@ public class MemberController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UpdateMember> put(@PathVariable Long id, @RequestBody UpdateMember memberRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<MemberView> put(@PathVariable Long id, @RequestBody MemberView memberRequest) throws Exception, EntityNotFoundException {
         if(!id.equals(memberRequest.getId())){
             throw new ApiRequestException("El id del miembro: " + memberRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -98,14 +98,14 @@ public class MemberController {
 
         memberService.update(id, member);
 
-        UpdateMember memberResponse = modelMapper.map(member, UpdateMember.class);
+        MemberView memberResponse = modelMapper.map(member, MemberView.class);
         logger.info("Updated Member with id: {}", id);
         return ResponseEntity.ok().body(memberResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<DeleteMember> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
-        DeleteMember memberResponse = modelMapper.map(memberService.get(id), DeleteMember.class);
+    public ResponseEntity<MemberView> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
+        MemberView memberResponse = modelMapper.map(memberService.get(id), MemberView.class);
         logger.info("Deleting Member with id: {}", id);
         memberService.delete(id);
         logger.info("Deleted Member with id: {}", id);

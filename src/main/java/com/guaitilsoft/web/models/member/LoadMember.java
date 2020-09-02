@@ -26,6 +26,5 @@ public class LoadMember {
 
     private Person person;
 
-    @Enumerated(EnumType.STRING)
     private MemberType memberType;
 }

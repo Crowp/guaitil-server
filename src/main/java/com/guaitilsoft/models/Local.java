@@ -46,6 +46,9 @@ public class Local {
     @JoinColumn(name = "memberId")
     private Member member;
 
+    @OneToMany(targetEntity = Product.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "local")
+    private List<Product> products;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 
