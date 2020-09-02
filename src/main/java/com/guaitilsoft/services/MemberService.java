@@ -14,6 +14,4 @@ public interface MemberService {
     void update(Long id, Member entity);
 
     void delete(Long id);
-
-    void deleteMemberByPersonId(String personId);
 }

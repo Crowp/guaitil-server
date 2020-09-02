@@ -2,9 +2,9 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
+import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.ReservationService;
 import com.guaitilsoft.web.models.reservation.ReservationView;
-import com.guaitilsoft.web.models.tour.TourView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -27,11 +27,13 @@ public class ReservationController {
     public static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
     private ReservationService reservationService;
+    private PersonService personService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public ReservationController(ReservationService reservationService, ModelMapper modelMapper){
+    public ReservationController(ReservationService reservationService, ModelMapper modelMapper, PersonService personService){
         this.reservationService = reservationService;
+        this.personService = personService;
         this.modelMapper = modelMapper;
     }
 
@@ -53,6 +55,7 @@ public class ReservationController {
     public ResponseEntity<ReservationView> post(@RequestBody ReservationView reservationRequest) throws  Exception{
         Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
         logger.info("Creating reservation: {}", reservation);
+        reservation.setPerson(personService.get(reservation.getPerson().getId()));
         reservationService.save(reservation);
         ReservationView reservationResponse = modelMapper.map(reservation, ReservationView.class);
 

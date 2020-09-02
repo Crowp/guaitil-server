@@ -5,7 +5,6 @@ import com.guaitilsoft.models.constant.ReservationState;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.util.Date;
 
 @Data
@@ -36,6 +35,6 @@ public class Reservation {
     @OneToOne(cascade = CascadeType.MERGE)
     private Tour tour;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     private Person person;
 }

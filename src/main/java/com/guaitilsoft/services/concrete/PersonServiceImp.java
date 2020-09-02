@@ -3,7 +3,6 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.repositories.PersonRepository;
-import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.ReservationService;
 import org.joda.time.DateTime;
@@ -22,13 +21,11 @@ public class PersonServiceImp implements PersonService {
 
     private PersonRepository personRepository;
     private ReservationService reservationService;
-    private MemberService memberService;
 
     @Autowired
-    public PersonServiceImp(PersonRepository personRepository, ReservationService reservationService, MemberService memberService) {
+    public PersonServiceImp(PersonRepository personRepository, ReservationService reservationService) {
         this.personRepository = personRepository;
         this.reservationService = reservationService;
-        this.memberService = memberService;
     }
 
     @Override
@@ -93,7 +90,6 @@ public class PersonServiceImp implements PersonService {
 
         Person person = this.get(id);
 
-        memberService.deleteMemberByPersonId(id);
         reservationService.deleteReservationByPersonId(id);
         personRepository.delete(person);
     }

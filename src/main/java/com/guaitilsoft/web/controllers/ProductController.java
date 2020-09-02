@@ -5,6 +5,8 @@ import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductService;
+import com.guaitilsoft.web.models.local.LocalView;
+import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.ProductView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -42,12 +44,14 @@ public class ProductController {
     public ResponseEntity<List<ProductView>> get(){
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
         List<ProductView> products = modelMapper.map(productService.list(), listType);
+        products.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(products);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<ProductView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException  {
         ProductView product = modelMapper.map(productService.get(id), ProductView.class);
+        addUrlToMultimedia(product);
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(product);
     }
@@ -66,6 +70,7 @@ public class ProductController {
         }
         productService.save(product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
+        addUrlToMultimedia(productRequest);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -85,6 +90,7 @@ public class ProductController {
         logger.info("Updating Product with id: {}", id);
         productService.update(id, product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
+        addUrlToMultimedia(productRequest);
         logger.info("Updated Product with id: {}", id);
         return ResponseEntity.ok().body(productResponse);
     }
@@ -96,5 +102,31 @@ public class ProductController {
         productService.delete(id);
         logger.info("Deleted Product with id {}", id);
         return ResponseEntity.ok().body(productResponse);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ProductView> deleteMultimediaById(@RequestParam Long id,
+                                                          @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException{
+        ProductView productResponse = modelMapper.map(productService.get(id), ProductView.class);
+        logger.info("Deleting Product with id {}", id);
+        productService.deleteMultimediaById(id, idMultimedia);
+        logger.info("Deleted Product with id {}", id);
+        return ResponseEntity.ok().body(productResponse);
+    }
+
+
+    private void addUrlToMultimedia(ProductView productView){
+        productView.getMultimedia().forEach(m -> {
+            String url = getUrlHost(m);
+            m.setUrl(url);
+        });
+    }
+
+    private String getUrlHost(MultimediaResponse multimediaResponse){
+        String resourcePath = "/api/multimedia/load/";
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(resourcePath)
+                .path(multimediaResponse.getFileName())
+                .toUriString();
     }
 }

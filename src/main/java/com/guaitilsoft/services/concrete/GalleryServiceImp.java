@@ -9,6 +9,7 @@ import com.guaitilsoft.services.MultimediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +28,15 @@ public class GalleryServiceImp implements GalleryService {
         this.multimediaService = multimediaService;
     }
 
+    @Override
+    public Gallery getById(Long id) {
+        assert id != null;
+        Gallery gallery = galleryRepository.findById(id).orElse(null);
+        if (gallery != null){
+            return gallery;
+        }
+        throw new EntityNotFoundException("No se encontro una galeria con el id: " + id);
+    }
 
     @Override
     public Optional<Gallery> get() {
@@ -70,5 +80,17 @@ public class GalleryServiceImp implements GalleryService {
             return gallery;
         }
         throw new ApiRequestException("No hay imagenes para eliminar");
+    }
+
+    @Override
+    public void deleteMultimediaById(Long id, Long idMultimedia) {
+        Gallery gallery = this.getById(id);
+        List<Multimedia> multimedia = gallery.getMultimedia()
+                .stream()
+                .filter(media -> !media.getId().equals(idMultimedia))
+                .collect(Collectors.toList());
+        gallery.setMultimedia(multimedia);
+        galleryRepository.save(gallery);
+        multimediaService.delete(idMultimedia);
     }
 }

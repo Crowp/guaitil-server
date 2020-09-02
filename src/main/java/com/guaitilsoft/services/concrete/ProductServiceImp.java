@@ -1,5 +1,6 @@
 package com.guaitilsoft.services.concrete;
 
+import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
 
 import com.guaitilsoft.repositories.ProductRepository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductServiceImp implements ProductService {
@@ -83,5 +85,17 @@ public class ProductServiceImp implements ProductService {
         }
         productReviewService.deleteProductReviewByProductId(id);
         productRepository.delete(product);
+    }
+
+    @Override
+    public void deleteMultimediaById(Long id, Long idMultimedia) {
+        Product product = this.get(id);
+        List<Multimedia> multimedia = product.getMultimedia()
+                .stream()
+                .filter(media -> !media.getId().equals(idMultimedia))
+                .collect(Collectors.toList());
+        product.setMultimedia(multimedia);
+        productRepository.save(product);
+        multimediaService.delete(idMultimedia);
     }
 }

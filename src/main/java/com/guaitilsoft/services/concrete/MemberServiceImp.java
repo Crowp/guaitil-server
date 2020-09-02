@@ -113,17 +113,8 @@ public class MemberServiceImp implements MemberService {
                 locals.forEach(local -> {
                     localService.delete(local.getId());
                 });
-
             }
             memberRepository.delete(member);
         }
     }
-
-    @Override
-    public void deleteMemberByPersonId(String personId) {
-        Optional<Member> optionalMember = memberRepository.selectMemberByPersonId(personId);
-        optionalMember.ifPresent(member -> this.delete(member.getId()));
-    }
-
-
 }

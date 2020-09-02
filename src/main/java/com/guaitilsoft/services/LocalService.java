@@ -14,4 +14,6 @@ public interface LocalService {
     void update(Long id, Local entity);
 
     void delete(Long id);
+
+    void deleteMultimediaById(Long id, Long idMultimedia);
 }

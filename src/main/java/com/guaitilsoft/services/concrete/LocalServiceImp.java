@@ -17,6 +17,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LocalServiceImp implements LocalService {
@@ -97,5 +98,17 @@ public class LocalServiceImp implements LocalService {
             });
         }
         localRepository.delete(local);
+    }
+
+    @Override
+    public void deleteMultimediaById(Long id, Long idMultimedia) {
+        Local local = this.get(id);
+        List<Multimedia> multimedia = local.getMultimedia()
+                .stream()
+                .filter(media -> !media.getId().equals(idMultimedia))
+                .collect(Collectors.toList());
+        local.setMultimedia(multimedia);
+        localRepository.save(local);
+        multimediaService.delete(idMultimedia);
     }
 }

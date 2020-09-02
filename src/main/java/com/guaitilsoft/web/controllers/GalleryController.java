@@ -25,7 +25,6 @@ import java.util.Optional;
 @RequestMapping(path = "/api/gallery")
 public class GalleryController {
 
-
     public static final Logger logger = LoggerFactory.getLogger(GalleryController.class);
 
     private GalleryService galleryService;
