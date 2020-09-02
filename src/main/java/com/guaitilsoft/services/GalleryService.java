@@ -16,5 +16,5 @@ public interface GalleryService {
 
     Gallery getById(Long id);
 
-    void deleteMultimediaById(Long id, Long idMultimedia);
+    Gallery deleteMultimediaById(Long id, Long idMultimedia);
 }

@@ -16,5 +16,5 @@ public interface ProductService {
 
     void delete(Long id);
 
-    void deleteMultimediaById(Long id, Long idMultimedia);
+    Product deleteMultimediaById(Long id, Long idMultimedia);
 }

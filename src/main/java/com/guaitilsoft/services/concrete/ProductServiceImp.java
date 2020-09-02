@@ -88,7 +88,7 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public void deleteMultimediaById(Long id, Long idMultimedia) {
+    public Product deleteMultimediaById(Long id, Long idMultimedia) {
         Product product = this.get(id);
         List<Multimedia> multimedia = product.getMultimedia()
                 .stream()
@@ -97,5 +97,6 @@ public class ProductServiceImp implements ProductService {
         product.setMultimedia(multimedia);
         productRepository.save(product);
         multimediaService.delete(idMultimedia);
+        return product;
     }
 }

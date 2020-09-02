@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class GalleryController {
 
     private GalleryService galleryService;
     private MultimediaService multimediaService;
-    private ModelMapper mapper;
+    private ModelMapper modelMapper;
 
     @Autowired
     public GalleryController(
@@ -38,25 +39,25 @@ public class GalleryController {
             ModelMapper modelMapper){
         this.galleryService  = galleryService;
         this.multimediaService = multimediaService;
-        this.mapper = modelMapper;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
     public ResponseEntity<GalleryResponse> get(){
         Optional<Gallery> optionalGallery = galleryService.get();
         if(optionalGallery.isPresent()){
-            GalleryResponse gallery = this.mapper.map(optionalGallery.get(), GalleryResponse.class);
+            GalleryResponse gallery = this.modelMapper.map(optionalGallery.get(), GalleryResponse.class);
             addUrlToMultimedia(gallery);
             return  ResponseEntity.ok().body(gallery);
         }
-        GalleryResponse gallery = this.mapper.map(galleryService.addMultimedia(new ArrayList<>()), GalleryResponse.class);
+        GalleryResponse gallery = this.modelMapper.map(galleryService.addMultimedia(new ArrayList<>()), GalleryResponse.class);
 
         return  ResponseEntity.ok().body(gallery);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<GalleryResponse> delete(@PathVariable Long id){
-        GalleryResponse gallery = this.mapper.map(galleryService.deleteGalleryMultimedia(id), GalleryResponse.class);
+        GalleryResponse gallery = this.modelMapper.map(galleryService.deleteGalleryMultimedia(id), GalleryResponse.class);
         return  ResponseEntity.ok().body(gallery);
     }
 
@@ -68,7 +69,7 @@ public class GalleryController {
                 Multimedia multimedia = multimediaService.get(media.getId());
                 multimediaList.add(multimedia);
             });
-        GalleryResponse gallery = this.mapper.map(galleryService.addMultimedia(multimediaList), GalleryResponse.class);
+        GalleryResponse gallery = this.modelMapper.map(galleryService.addMultimedia(multimediaList), GalleryResponse.class);
         addUrlToMultimedia(gallery);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -77,6 +78,18 @@ public class GalleryController {
         logger.info("Add Multimedia to gallery : {}", gallery.getId());
 
         return ResponseEntity.created(location).body(gallery);
+    }
+
+    @DeleteMapping("deleteMultimediaById")
+    public ResponseEntity<GalleryResponse> deleteMultimediaById(@RequestParam Long id,
+                                                                @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException {
+        logger.info("Deleting Gallery with id {}", id);
+        GalleryResponse galleryResponse = modelMapper.map(
+                galleryService.deleteMultimediaById(id, idMultimedia),
+                GalleryResponse.class);;
+        addUrlToMultimedia(galleryResponse);
+        logger.info("Deleted Gallery with id {}", id);
+        return ResponseEntity.ok().body(galleryResponse);
     }
 
     private void addUrlToMultimedia(GalleryResponse gallery) {
