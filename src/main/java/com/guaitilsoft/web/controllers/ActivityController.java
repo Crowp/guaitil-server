@@ -68,22 +68,8 @@ public class ActivityController {
     public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) throws Exception, EntityNotFoundException{
         Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Creating activity");
-        if(activity.getMultimedia().size() > 0){
-            List<Multimedia> multimediaList = new ArrayList<>();
-            activity.getMultimedia().forEach(media -> {
-                Multimedia multimedia = multimediaService.get(media.getId());
-                multimediaList.add(multimedia);
-            });
-            activity.setMultimedia(multimediaList);
-        }
-        if(activity.getLocals().size() > 0){
-            List<Local> localList = new ArrayList<>();
-            activity.getLocals().forEach(item -> {
-                Local local = localService.get(item.getId());
-                localList.add(local);
-            });
-            activity.setLocals(localList);
-        }
+        loadMultimedia(activity);
+        loadLocals(activity);
         activityService.save(activity);
         ActivityView activityResponse = modelMapper.map(activity, ActivityView.class);
         addUrlToMultimedia(activityRequest);
@@ -103,6 +89,8 @@ public class ActivityController {
             throw new ApiRequestException("El id de la actividad: " + activityRequest.getId() + " es diferente al id del parametro: " + id);
         }
         Activity activity = modelMapper.map(activityRequest, Activity.class);
+        loadMultimedia(activity);
+        loadLocals(activity);
         logger.info("Updating Activity with id {}", id);
         activityService.update(id, activity);
         ActivityView activityResponse = modelMapper.map(activity,ActivityView.class);
@@ -145,5 +133,27 @@ public class ActivityController {
                 .path(resourcePath)
                 .path(multimediaResponse.getFileName())
                 .toUriString();
+    }
+
+    private void loadMultimedia(Activity activity) {
+        if (activity.getMultimedia().size() > 0) {
+            List<Multimedia> multimediaList = new ArrayList<>();
+            activity.getMultimedia().forEach(media -> {
+                Multimedia multimedia = multimediaService.get(media.getId());
+                multimediaList.add(multimedia);
+            });
+            activity.setMultimedia(multimediaList);
+        }
+    }
+
+    private void loadLocals(Activity activity) {
+        if (activity.getLocals().size() > 0) {
+            List<Local> localList = new ArrayList<>();
+            activity.getLocals().forEach(item -> {
+                Local local = localService.get(item.getId());
+                localList.add(local);
+            });
+            activity.setLocals(localList);
+        }
     }
 }
