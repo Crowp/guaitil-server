@@ -95,7 +95,7 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
-    public void deleteMultimediaById(Long id, Long idMultimedia) {
+    public Activity deleteMultimediaById(Long id, Long idMultimedia) {
         Activity activity = this.get(id);
         List<Multimedia> multimedia = activity.getMultimedia()
                 .stream()
@@ -104,5 +104,6 @@ public class ActivityServiceImp implements ActivityService {
         activity.setMultimedia(multimedia);
         activityRepository.save(activity);
         multimediaService.delete(idMultimedia);
+        return activity;
     }
 }

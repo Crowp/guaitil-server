@@ -15,5 +15,5 @@ public interface ActivityService {
 
     void delete(Long id);
 
-    void deleteMultimediaById(Long id, Long idMultimedia);
+    Activity deleteMultimediaById(Long id, Long idMultimedia);
 }

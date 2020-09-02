@@ -120,13 +120,15 @@ public class ActivityController {
         return ResponseEntity.ok().body(activityResponse);
     }
 
-    @DeleteMapping
+    @DeleteMapping("deleteMultimediaById")
     public ResponseEntity<ActivityView> deleteMultimediaById(@RequestParam Long id,
                                                              @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException{
-        ActivityView activityResponse = modelMapper.map(activityService.get(id), ActivityView.class);
-        logger.info("Deleting Activity with id {}", id);
-        activityService.deleteMultimediaById(id, idMultimedia);
-        logger.info("Deleted Activity with id {}", id);
+        logger.info("Deleting Activity Multimedia with id {}", id);
+        ActivityView activityResponse = modelMapper.map(
+                activityService.deleteMultimediaById(id, idMultimedia),
+                ActivityView.class);;
+        addUrlToMultimedia(activityResponse);
+        logger.info("Deleted Activity Multimedia with id {}", id);
         return ResponseEntity.ok().body(activityResponse);
     }
 
