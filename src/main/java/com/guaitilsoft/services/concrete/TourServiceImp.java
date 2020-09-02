@@ -2,6 +2,7 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Tour;
 
+import com.guaitilsoft.models.constant.ActivityType;
 import com.guaitilsoft.repositories.TourRepository;
 import com.guaitilsoft.services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
