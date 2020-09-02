@@ -14,4 +14,6 @@ public interface ActivityService {
     void update(Long id, Activity entity);
 
     void delete(Long id);
+
+    void deleteMultimediaById(Long id, Long idMultimedia);
 }

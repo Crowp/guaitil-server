@@ -1,11 +1,9 @@
-package com.guaitilsoft.web.models.activity;
+package com.guaitilsoft.web.models.Activity;
 
 import com.guaitilsoft.models.Address;
-import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.ActivityType;
 import com.guaitilsoft.web.models.local.GetLocal;
-import com.guaitilsoft.web.models.local.LoadLocal;
-
+import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -33,5 +31,5 @@ public class ActivityView {
 
     private List<GetLocal> locals;
 
-    private List<Multimedia> multimedia;
+    private List<MultimediaResponse> multimedia;
 }

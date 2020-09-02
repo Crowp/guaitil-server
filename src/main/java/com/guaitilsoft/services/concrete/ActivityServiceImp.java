@@ -1,6 +1,7 @@
 package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Activity;
+import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
@@ -15,6 +16,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ActivityServiceImp implements ActivityService {
@@ -90,5 +92,17 @@ public class ActivityServiceImp implements ActivityService {
         }
         tourService.deleteTourByActivityId(id);
         activityRepository.delete(activity);
+    }
+
+    @Override
+    public void deleteMultimediaById(Long id, Long idMultimedia) {
+        Activity activity = this.get(id);
+        List<Multimedia> multimedia = activity.getMultimedia()
+                .stream()
+                .filter(media -> !media.getId().equals(idMultimedia))
+                .collect(Collectors.toList());
+        activity.setMultimedia(multimedia);
+        activityRepository.save(activity);
+        multimediaService.delete(idMultimedia);
     }
 }

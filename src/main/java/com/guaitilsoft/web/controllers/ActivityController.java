@@ -7,7 +7,8 @@ import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.web.models.activity.ActivityView;
+import com.guaitilsoft.web.models.Activity.ActivityView;
+import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -51,12 +52,14 @@ public class ActivityController {
     public ResponseEntity<List<ActivityView>> get(){
         Type listType  = new TypeToken<List<ActivityView>>(){}.getType();
         List<ActivityView> activities = modelMapper.map(activityService.list(),listType);
+        activities.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(activities);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<ActivityView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
         ActivityView activity = modelMapper.map(activityService.get(id),ActivityView.class);
+        addUrlToMultimedia(activity);
         logger.info("Fetching Activity with id {}", id);
         return ResponseEntity.ok().body(activity);
     }
@@ -83,6 +86,7 @@ public class ActivityController {
         }
         activityService.save(activity);
         ActivityView activityResponse = modelMapper.map(activity, ActivityView.class);
+        addUrlToMultimedia(activityRequest);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -102,6 +106,7 @@ public class ActivityController {
         logger.info("Updating Activity with id {}", id);
         activityService.update(id, activity);
         ActivityView activityResponse = modelMapper.map(activity,ActivityView.class);
+        addUrlToMultimedia(activityRequest);
         logger.info("Updated Activity with id {}", id);
         return ResponseEntity.ok().body(activityResponse);
     }
@@ -113,5 +118,30 @@ public class ActivityController {
         activityService.delete(id);
         logger.info("Deleted Activity with id {}", id);
         return ResponseEntity.ok().body(activityResponse);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ActivityView> deleteMultimediaById(@RequestParam Long id,
+                                                             @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException{
+        ActivityView activityResponse = modelMapper.map(activityService.get(id), ActivityView.class);
+        logger.info("Deleting Activity with id {}", id);
+        activityService.delete(id);
+        logger.info("Deleted Activity with id {}", id);
+        return ResponseEntity.ok().body(activityResponse);
+    }
+
+    private void addUrlToMultimedia(ActivityView activityView) {
+        activityView.getMultimedia().forEach(m -> {
+            String url = getUrlHost(m);
+            m.setUrl(url);
+        });
+    }
+
+    private String getUrlHost(MultimediaResponse multimediaResponse) {
+        String resourcePath = "/api/multimedia/load/";
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(resourcePath)
+                .path(multimediaResponse.getFileName())
+                .toUriString();
     }
 }
