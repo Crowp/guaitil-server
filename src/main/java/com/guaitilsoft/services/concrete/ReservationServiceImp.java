@@ -85,6 +85,5 @@ public class ReservationServiceImp implements ReservationService {
     public void deleteReservationByPersonId(String idPerson) {
         Optional<Reservation> reservationOptional = reservationRepository.selectReservationByPersonId(idPerson);
         reservationOptional.ifPresent(reservation -> this.delete(reservation.getId()));
-
     }
 }
