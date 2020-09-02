@@ -1,7 +1,6 @@
 package com.guaitilsoft.repositories;
 
 import com.guaitilsoft.models.Tour;
-import com.guaitilsoft.models.constant.LocalType;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

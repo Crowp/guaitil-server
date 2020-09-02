@@ -4,6 +4,7 @@ import com.guaitilsoft.models.Product;
 
 import com.guaitilsoft.repositories.ProductRepository;
 import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.ProductReviewService;
 import com.guaitilsoft.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,13 @@ public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
     private MultimediaService multimediaService;
+    private ProductReviewService productReviewService;
 
     @Autowired
-    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService) {
+    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService) {
         this.productRepository = productRepository;
         this.multimediaService = multimediaService;
+        this.productReviewService = productReviewService;
     }
 
 
@@ -78,6 +81,7 @@ public class ProductServiceImp implements ProductService {
                 multimediaService.delete(media.getId());
             });
         }
+        productReviewService.deleteProductReviewByProductId(id);
         productRepository.delete(product);
     }
 }

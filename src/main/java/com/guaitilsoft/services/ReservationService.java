@@ -17,4 +17,6 @@ public interface ReservationService {
 
     void deleteReservationsByTourId(Long idTour);
 
+    void deleteReservationByPersonId(String idPerson);
+
 }

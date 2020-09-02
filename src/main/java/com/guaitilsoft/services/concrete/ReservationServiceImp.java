@@ -16,6 +16,7 @@ public class ReservationServiceImp implements ReservationService {
 
     private ReservationRepository reservationRepository;
 
+
     @Autowired
     public ReservationServiceImp(ReservationRepository reservationRepository){
         this.reservationRepository = reservationRepository;
@@ -78,5 +79,12 @@ public class ReservationServiceImp implements ReservationService {
                 this.delete(reservation.getId());
             });
         });
+    }
+
+    @Override
+    public void deleteReservationByPersonId(String idPerson) {
+        Optional<Reservation> reservationOptional = reservationRepository.selectReservationByPersonId(idPerson);
+        reservationOptional.ifPresent(reservation -> this.delete(reservation.getId()));
+
     }
 }

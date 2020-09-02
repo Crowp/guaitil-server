@@ -18,6 +18,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -116,5 +117,11 @@ public class MemberServiceImp implements MemberService {
             }
             memberRepository.delete(member);
         }
+    }
+
+    @Override
+    public void deleteMemberByPersonId(String personId) {
+          Optional<Member> memberOptional = memberRepository.selectMemberByPersonId(personId);
+          memberOptional.ifPresent(member -> this.delete(member.getId()));
     }
 }

@@ -1,9 +1,12 @@
 package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.repositories.PersonRepository;
+import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.PersonService;
+import com.guaitilsoft.services.ReservationService;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Instant;
@@ -11,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,10 +22,14 @@ import java.util.List;
 public class PersonServiceImp implements PersonService {
 
     private PersonRepository personRepository;
+    private ReservationService reservationService;
+    private MemberService memberService;
 
     @Autowired
-    public PersonServiceImp(PersonRepository personRepository) {
+    public PersonServiceImp(PersonRepository personRepository, ReservationService reservationService, MemberService memberService) {
         this.personRepository = personRepository;
+        this.reservationService = reservationService;
+        this.memberService = memberService;
     }
 
     @Override
@@ -87,6 +93,9 @@ public class PersonServiceImp implements PersonService {
         assert id != null;
 
         Person person = this.get(id);
+
+        memberService.deleteMemberByPersonId(id);
+        reservationService.deleteReservationByPersonId(id);
         personRepository.delete(person);
     }
 }

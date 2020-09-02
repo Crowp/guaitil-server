@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductReviewServiceImp implements ProductReviewService {
@@ -66,5 +67,11 @@ public class ProductReviewServiceImp implements ProductReviewService {
 
         ProductReview productReview = this.get(id);
         productReviewRepository.delete(productReview);
+    }
+
+    @Override
+    public void deleteProductReviewByProductId(Long productId) {
+          Optional<ProductReview> productReviewOptional = productReviewRepository.selectProductReviewByProductId(productId);
+          productReviewOptional.ifPresent(productReview -> this.delete(productReview.getId()));
     }
 }
