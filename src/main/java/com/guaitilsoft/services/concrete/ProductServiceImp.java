@@ -78,8 +78,11 @@ public class ProductServiceImp implements ProductService {
         assert id != null;
 
         Product product = this.get(id);
-        if(product.getMultimedia().size() > 0){
-            product.getMultimedia().forEach(media -> {
+        List<Multimedia> multimediaList = new ArrayList<>(product.getMultimedia());
+        product.setMultimedia(null);
+        productRepository.save(product);
+        if(multimediaList.size() > 0){
+            multimediaList.forEach(media -> {
                 multimediaService.delete(media.getId());
             });
         }

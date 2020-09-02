@@ -82,8 +82,11 @@ public class ActivityServiceImp implements ActivityService {
         assert id != null;
 
         Activity activity = this.get(id);
-        if(activity.getMultimedia().size() > 0){
-            activity.getMultimedia().forEach(media -> {
+        List<Multimedia> activityList = new ArrayList<>(activity.getMultimedia());
+        activity.setMultimedia(null);
+        activityRepository.save(activity);
+        if(activityList.size() > 0){
+            activityList.forEach(media -> {
                 multimediaService.delete(media.getId());
             });
         }
