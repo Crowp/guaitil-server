@@ -72,17 +72,14 @@ public class MemberServiceImp implements MemberService {
     public void update(Long id, Member entity) {
         assert id != null;
         assert entity != null;
-        Instant nowGmt = Instant.now();
-        DateTimeZone americaCostaRica = DateTimeZone.forID("America/Costa_Rica");
-        DateTime nowCostaRica = nowGmt.toDateTime(americaCostaRica);
-        Date today = nowCostaRica.toDate();
 
         Member member = this.get(id);
         member.setOccupation(entity.getOccupation());
         member.setLocals(entity.getLocals());
         member.setMemberType(entity.getMemberType());
         member.setPerson(entity.getPerson());
-        member.setUpdatedAt(today);
+        member.setUpdatedAt(entity.getUpdatedAt());
+        member.setCreatedAt(entity.getCreatedAt());
 
         memberRepository.save(entity);
     }

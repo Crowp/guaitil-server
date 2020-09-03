@@ -97,9 +97,7 @@ public class MemberController {
         }
         Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Updating Member with id: {}", id);
-
         memberService.update(id, member);
-
         MemberView memberResponse = modelMapper.map(member, MemberView.class);
         logger.info("Updated Member with id: {}", id);
         return ResponseEntity.ok().body(memberResponse);
