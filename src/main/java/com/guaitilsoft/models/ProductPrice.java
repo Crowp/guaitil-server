@@ -22,10 +22,4 @@ public class ProductPrice {
 
     @Column(nullable = false)
     private Double sale;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
 }

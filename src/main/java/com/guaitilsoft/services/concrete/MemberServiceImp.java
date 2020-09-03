@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -40,7 +41,7 @@ public class MemberServiceImp implements MemberService {
         Iterable<Member> iterable = memberRepository.findAll();
         List<Member> associates = new ArrayList<>();
         iterable.forEach(associates::add);
-        return associates;
+        return associates.stream().filter(member -> !"1".equals(member.getPersonId())).collect(Collectors.toList());
     }
 
     @Override

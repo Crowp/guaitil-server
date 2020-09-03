@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -44,6 +45,7 @@ public class LocalController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<List<LocalView>> get(){
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
         List<LocalView> locals = modelMapper.map(localService.list(), listType);
@@ -52,6 +54,7 @@ public class LocalController {
     }
 
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalView> getById(@PathVariable Long id) {
         LocalView local = modelMapper.map(localService.get(id), LocalView.class);
         addUrlToMultimedia(local);
@@ -101,6 +104,7 @@ public class LocalController {
     }
 
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalView> delete(@PathVariable Long id) {
         LocalView localResponse = modelMapper.map(localService.get(id), LocalView.class);
         logger.info("Deleting Local with id: {}", id);

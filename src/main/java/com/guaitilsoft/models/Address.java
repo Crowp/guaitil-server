@@ -20,12 +20,6 @@ public class Address {
     @NotEmpty
     private String physicalAddress;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
-
     @OneToOne(cascade = CascadeType.ALL)
     private VirtualAddress virtualAddress;
 }

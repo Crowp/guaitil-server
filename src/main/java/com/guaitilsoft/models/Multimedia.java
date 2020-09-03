@@ -27,10 +27,4 @@ public class Multimedia {
     private MultimediaType type;
 
     private String format;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
 }

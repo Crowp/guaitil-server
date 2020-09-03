@@ -33,6 +33,7 @@ public class AuthController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<List<GetUsers>> get(){
         Type listType  = new TypeToken<List<GetUsers>>(){}.getType();
         List<GetUsers> users = modelMapper.map(userService.getAllUsers(),listType);
