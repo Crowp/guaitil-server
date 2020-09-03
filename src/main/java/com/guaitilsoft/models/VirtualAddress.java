@@ -24,10 +24,4 @@ public class VirtualAddress {
 
     @NotEmpty
     private  String longitude;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
 }

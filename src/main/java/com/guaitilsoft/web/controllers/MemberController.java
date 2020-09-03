@@ -3,9 +3,9 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.web.models.member.*;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -31,14 +31,15 @@ public class MemberController {
 
     private MemberService memberService;
     private MultimediaService multimediaService;
-    private LocalService localService;
+    private PersonService personService;
     private ModelMapper modelMapper;
 
+
     @Autowired
-    public MemberController(MemberService memberService, MultimediaService multimediaService, ModelMapper modelMapper, LocalService localService) {
+    public MemberController(MemberService memberService, MultimediaService multimediaService, ModelMapper modelMapper, PersonService personService) {
         this.memberService = memberService;
         this.multimediaService = multimediaService;
-        this.localService = localService;
+        this.personService = personService;
         this.modelMapper = modelMapper;
     }
 
@@ -78,6 +79,7 @@ public class MemberController {
                 }
             });
         }
+
         memberService.save(member);
         MemberView memberResponse = modelMapper.map(member, MemberView.class);
 

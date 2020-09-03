@@ -77,7 +77,7 @@ public class LocalController {
         local.setMember(memberService.get(localRequest.getMember().getId()));
         localService.save(local);
         LocalView localResponse = modelMapper.map(local, LocalView.class);
-        addUrlToMultimedia(localRequest);
+        addUrlToMultimedia(localResponse);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -98,7 +98,7 @@ public class LocalController {
 
         localService.update(id, local);
         LocalView localResponse = modelMapper.map(local, LocalView.class);
-        addUrlToMultimedia(localRequest);
+        addUrlToMultimedia(localResponse);
         logger.info("Updated Local with id: {}", id);
         return ResponseEntity.ok().body(localResponse);
     }
@@ -119,7 +119,7 @@ public class LocalController {
         logger.info("Deleting Local Multimedia with id {}", id);
         LocalView localResponse = modelMapper.map(
                 localService.deleteMultimediaById(id, idMultimedia), LocalView.class);
-        localService.deleteMultimediaById(id, idMultimedia);
+        addUrlToMultimedia(localResponse);
         logger.info("Deleting Local Multimedia with id {}", id);
         return ResponseEntity.ok().body(localResponse);
     }
