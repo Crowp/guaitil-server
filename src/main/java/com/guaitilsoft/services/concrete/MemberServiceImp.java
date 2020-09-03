@@ -18,8 +18,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import java.util.stream.Collectors;
+
 @Service
 public class MemberServiceImp implements MemberService {
 
@@ -48,7 +48,7 @@ public class MemberServiceImp implements MemberService {
         assert id != null;
 
         Member member = memberRepository.findById(id).orElse(null);
-        if(member != null){
+        if (member != null) {
             return member;
         }
         throw new EntityNotFoundException("No se encontro un asociado con el id: " + id);
@@ -58,10 +58,10 @@ public class MemberServiceImp implements MemberService {
     public void save(Member entity) {
         assert entity != null;
 
-        if(memberRepository.existMemberPersonId(entity.getPersonId())){
-          throw new ApiRequestException("Cedula: " + entity.getPersonId() + " esta ocupada");
+        if (memberRepository.existMemberPersonId(entity.getPersonId())) {
+            throw new ApiRequestException("Cedula: " + entity.getPersonId() + " esta ocupada");
         }
-        if(memberRepository.existMemberPersonEmail(entity.getEmail())){
+        if (memberRepository.existMemberPersonEmail(entity.getEmail())) {
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
         }
 
@@ -92,29 +92,14 @@ public class MemberServiceImp implements MemberService {
         assert id != null;
 
         Member member = this.get(id);
-
-        if (member != null) {
-            while (member.getLocals().size() > 0) {
-                member.getLocals().forEach(local -> {
-                    if (local.getMultimedia().size() > 0) {
-                        local.getMultimedia().forEach(media -> {
-                            multimediaService.deleteOnlyFile(media.getFileName());
-                        });
-                    }
-                    localService.delete(local.getId());
-                });
-            }
-            memberRepository.delete(member);
-
-            List<Local> locals = new ArrayList<>(member.getLocals());
-            member.setLocals(null);
-            memberRepository.save(member);
-            if (locals.size() > 0) {
-                locals.forEach(local -> {
-                    localService.delete(local.getId());
-                });
-            }
-            memberRepository.delete(member);
+        List<Local> locals = new ArrayList<>(member.getLocals());
+        member.setLocals(null);
+        memberRepository.save(member);
+        if (locals.size() > 0) {
+            locals.forEach(local -> {
+                localService.delete(local.getId());
+            });
         }
+        memberRepository.delete(member);
     }
 }

@@ -1,7 +1,7 @@
 package com.guaitilsoft.web.models.user;
 
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.Role;
+import com.guaitilsoft.web.models.member.GetMemberId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +18,7 @@ public class UserRequest {
     private String password;
 
     @NotBlank
-    private Member member;
+    private GetMemberId member;
 
     List<Role> roles;
 }

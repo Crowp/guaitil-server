@@ -5,8 +5,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.PersonService;
-import com.guaitilsoft.web.models.member.*;
+import com.guaitilsoft.web.models.member.MemberView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -31,15 +30,13 @@ public class MemberController {
 
     private MemberService memberService;
     private MultimediaService multimediaService;
-    private PersonService personService;
     private ModelMapper modelMapper;
 
 
     @Autowired
-    public MemberController(MemberService memberService, MultimediaService multimediaService, ModelMapper modelMapper, PersonService personService) {
+    public MemberController(MemberService memberService, MultimediaService multimediaService, ModelMapper modelMapper) {
         this.memberService = memberService;
         this.multimediaService = multimediaService;
-        this.personService = personService;
         this.modelMapper = modelMapper;
     }
 

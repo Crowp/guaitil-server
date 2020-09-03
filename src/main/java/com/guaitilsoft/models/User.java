@@ -39,7 +39,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<ActivityHistory> activityHistories;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Member member;
 
     public String getEmail(){
