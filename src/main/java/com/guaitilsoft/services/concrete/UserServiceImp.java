@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -43,6 +44,16 @@ public class UserServiceImp implements UserService {
         return users;
     }
 
+    @Override
+    public User get(Long id) {
+        assert id != null;
+
+        User product = userRepository.findById(id).orElse(null);
+        if(product != null){
+            return product;
+        }
+        throw new EntityNotFoundException("No se encontro un usuario con el id: " + id);
+    }
     @Override
     public User login(String email, String password) throws ApiRequestException {
         assert email != null;
@@ -73,10 +84,25 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void delete(String email) {
+    public void deleteByEmail(String email) {
         assert email != null;
 
         userRepository.deleteByEmail(email);
+    }
+
+    @Override
+    public void delete(Long id) {
+        assert id != null;
+
+        User user = this.get(id);
+
+        userRepository.delete(user);
+    }
+
+    @Override
+    public void deleteUserByMemberId(Long memberId) {
+        Optional<User> optionalUser = userRepository.selectUserByMemberId(memberId);
+        optionalUser.ifPresent(user -> this.delete(user.getId()));
     }
 
     @Override
