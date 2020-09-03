@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -61,6 +62,9 @@ public class UserServiceImp implements UserService {
 
         if (!userRepository.existsByEmail(user.getEmail())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setCreatedAt(new Date());
+            user.setUpdatedAt(new Date());
+            user.setFirstLogin(true);
             userRepository.save(user);
             return user;
         } else {

@@ -1,14 +1,12 @@
 package com.guaitilsoft;
 
 import com.guaitilsoft.localDate.LocalDateFormatter;
-import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.models.constant.Role;
-import com.guaitilsoft.services.GalleryService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.UserService;
 import org.modelmapper.ModelMapper;
@@ -23,12 +21,8 @@ import org.springframework.format.Formatter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.annotation.PostConstruct;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.TimeZone;
+import java.util.*;
 
 @SpringBootApplication
 @EntityScan(basePackages = {"com.guaitilsoft.models"})
@@ -36,13 +30,11 @@ public class Application implements CommandLineRunner {
 
 	private MultimediaService multimediaService;
 	private UserService userService;
-	private GalleryService galleryService;
 
 	@Autowired
-	public Application(MultimediaService multimediaService, UserService userService, GalleryService galleryService) {
+	public Application(MultimediaService multimediaService, UserService userService) {
 		this.multimediaService = multimediaService;
 		this.userService = userService;
-		this.galleryService = galleryService;
 	}
 
 	public static void main(String[] args) {
@@ -92,7 +84,9 @@ public class Application implements CommandLineRunner {
 			user.setUpdatedAt(new Date());
 			user.setPassword("1234");
 			user.setMember(member);
-			user.setRoles(new ArrayList<>(Collections.singletonList(Role.ROLE_ADMIN)));
+			List<Role> roles = new ArrayList<>(Collections.singletonList(Role.ROLE_ADMIN));
+			roles.add(Role.ROLE_SUPER_ADMIN);
+			user.setRoles(roles);
 			userService.register(user);
 
 		}catch (Exception e){
