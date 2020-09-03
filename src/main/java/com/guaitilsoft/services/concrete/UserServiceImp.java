@@ -115,4 +115,12 @@ public class UserServiceImp implements UserService {
         }
         throw new EntityNotFoundException("El usuario no fue encontrado");
     }
+
+    @Override
+    public User resetPassword(Long id, String newPassword) {
+        User user = this.get(id);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return user;
+    }
 }
