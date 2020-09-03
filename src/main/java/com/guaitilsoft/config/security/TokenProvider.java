@@ -1,8 +1,8 @@
 package com.guaitilsoft.config.security;
 
 import com.guaitilsoft.exceptions.CustomException;
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.Role;
+import com.guaitilsoft.web.models.member.MemberView;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -44,8 +44,7 @@ public class TokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String email, List<Role> roles, Member member) {
-
+    public String createToken(String email, List<Role> roles, MemberView member) {
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("user_data", member);
         claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).collect(Collectors.toList()));

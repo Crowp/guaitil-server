@@ -4,6 +4,7 @@ import com.guaitilsoft.config.security.TokenProvider;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.UserService;
+import com.guaitilsoft.web.models.member.MemberView;
 import com.guaitilsoft.web.models.user.GetUsers;
 import com.guaitilsoft.web.models.user.UserRequest;
 import com.guaitilsoft.web.models.user.UserResponse;
@@ -71,7 +72,10 @@ public class AuthController {
     }
 
     private UserResponse createToken(User user){
-        String token = this.tokenProvider.createToken(user.getEmail(), user.getRoles(), user.getMember());
+        String token = this.tokenProvider.createToken(
+                user.getEmail(),
+                user.getRoles(),
+                this.modelMapper.map(user.getMember(), MemberView.class));
         UserResponse userResponse = modelMapper.map(user, UserResponse.class);
         userResponse.setToken(token);
         return userResponse;

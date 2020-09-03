@@ -1,7 +1,7 @@
 package com.guaitilsoft.web.models.user;
 
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.Role;
+import com.guaitilsoft.web.models.member.MemberView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,5 +18,5 @@ public class UserResponse {
 
     private String token;
 
-    private Member member;
+    private MemberView member;
 }
