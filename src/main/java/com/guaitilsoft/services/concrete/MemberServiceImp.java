@@ -7,16 +7,12 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.services.MultimediaService;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Instant;
+import com.guaitilsoft.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,14 +21,17 @@ public class MemberServiceImp implements MemberService {
 
     private MemberRepository memberRepository;
     private LocalService localService;
-    private MultimediaService multimediaService;
+    private UserService userService;
 
 
     @Autowired
-    public MemberServiceImp(MemberRepository memberRepository, LocalService localService, MultimediaService multimediaService) {
+    public MemberServiceImp(
+            MemberRepository memberRepository,
+            LocalService localService,
+            UserService userService) {
         this.memberRepository = memberRepository;
         this.localService = localService;
-        this.multimediaService = multimediaService;
+        this.userService = userService;
     }
 
     @Override
@@ -97,6 +96,7 @@ public class MemberServiceImp implements MemberService {
                 localService.delete(local.getId());
             });
         }
+        userService.deleteUserByMemberId(id);
         memberRepository.delete(member);
     }
 }

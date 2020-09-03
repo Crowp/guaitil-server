@@ -61,7 +61,7 @@ public class AuthController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> delete(@PathVariable String email) {
         UserResponse userResponse = modelMapper.map(userService.search(email), UserResponse.class);
-        userService.delete(email);
+        userService.deleteByEmail(email);
         return ResponseEntity.ok().body(userResponse);
     }
 
