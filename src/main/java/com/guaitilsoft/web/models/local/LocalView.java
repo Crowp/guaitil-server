@@ -39,5 +39,5 @@ public class LocalView {
 
     private List<MultimediaResponse> multimedia;
 
-    private List<LoadProduct> products;
+    private List<GetLocal> products;
 }
