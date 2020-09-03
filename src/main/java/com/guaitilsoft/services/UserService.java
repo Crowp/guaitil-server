@@ -12,5 +12,6 @@ public interface UserService {
     void delete(Long id);
     void deleteUserByMemberId(Long memberId);
     User search(String email);
+    User resetPassword(Long id, String newPassword);
     List<User> getAllUsers();
 }

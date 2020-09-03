@@ -57,6 +57,15 @@ public class AuthController {
         return ResponseEntity.ok().body(createToken(userService.register(user)));
     }
 
+    @PutMapping("reset")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<UserResponse> reset(@RequestParam Long id,
+                                              @RequestParam String newPassword) {
+        User user = userService.resetPassword(id, newPassword);
+        UserResponse userResponse = modelMapper.map(user, UserResponse.class);
+        return ResponseEntity.ok().body(userResponse);
+    }
+
     @DeleteMapping(value = "{username}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> delete(@PathVariable String email) {
