@@ -2,6 +2,7 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.config.security.TokenProvider;
 import com.guaitilsoft.models.User;
+import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.UserService;
 import com.guaitilsoft.web.models.user.GetUsers;
 import com.guaitilsoft.web.models.user.UserRequest;
@@ -24,12 +25,14 @@ public class AuthController {
     private UserService userService;
     private ModelMapper modelMapper;
     private TokenProvider tokenProvider;
+    private MemberService memberService;
 
     @Autowired
-    public AuthController(UserService userService, ModelMapper modelMapper, TokenProvider tokenProvider) {
+    public AuthController(UserService userService, ModelMapper modelMapper, TokenProvider tokenProvider, MemberService memberService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.tokenProvider = tokenProvider;
+        this.memberService = memberService;
     }
 
     @GetMapping
@@ -48,6 +51,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody UserRequest userRequest) {
         User user = modelMapper.map(userRequest, User.class);
+        user.setMember(memberService.get(user.getMember().getId()));
         return ResponseEntity.ok().body(createToken(userService.register(user)));
     }
 

@@ -15,9 +15,6 @@ import java.util.List;
 public class UserRequest {
 
     @NotBlank
-    private String email;
-
-    @NotBlank
     private String password;
 
     @NotBlank
