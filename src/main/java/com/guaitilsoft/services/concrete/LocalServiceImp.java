@@ -1,6 +1,5 @@
 package com.guaitilsoft.services.concrete;
 
-
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
@@ -57,14 +56,7 @@ public class LocalServiceImp implements LocalService {
         if(localRepository.existMemberPersonLocal(entity.personId(),entity.getLocalType())){
             throw new ApiRequestException("el local esta ocupado por el miembro, con cedula: " + entity.personId());
         }
-        if (entity.getMultimedia().size() > 0){
-            List<Multimedia> multimediaList = new ArrayList<>();
-            entity.getMultimedia().forEach(media -> {
-                Multimedia multimedia = multimediaService.get(media.getId());
-                multimediaList.add(multimedia);
-            });
-            entity.setMultimedia(multimediaList);
-        }
+        loadMultimedia(entity);
         localRepository.save(entity);
     }
 
@@ -118,5 +110,16 @@ public class LocalServiceImp implements LocalService {
         localRepository.save(local);
         multimediaService.delete(idMultimedia);
         return local;
+    }
+
+    public void loadMultimedia(Local entity){
+        if (entity.getMultimedia().size() > 0){
+            List<Multimedia> multimediaList = new ArrayList<>();
+            entity.getMultimedia().forEach(media -> {
+                Multimedia multimedia = multimediaService.get(media.getId());
+                multimediaList.add(multimedia);
+            });
+            entity.setMultimedia(multimediaList);
+        }
     }
 }
