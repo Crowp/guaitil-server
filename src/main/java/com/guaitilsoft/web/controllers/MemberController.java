@@ -1,8 +1,10 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
+import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.web.models.member.MemberView;
@@ -29,13 +31,15 @@ public class MemberController {
     public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     private MemberService memberService;
+    private LocalService localService;
     private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
 
     @Autowired
-    public MemberController(MemberService memberService, MultimediaService multimediaService, ModelMapper modelMapper) {
+    public MemberController(MemberService memberService, MultimediaService multimediaService, LocalService localService, ModelMapper modelMapper) {
         this.memberService = memberService;
+        this.localService = localService;
         this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
@@ -61,11 +65,11 @@ public class MemberController {
     public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) throws Exception, EntityNotFoundException {
         memberRequest.setId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
+        List<Local> locals = new ArrayList<>();
         logger.info("Creating Member");
         if(member.getLocals().size() > 0){
             member.getLocals().forEach(local -> {
                 local.setMember(member);
-
                 if(local.getMultimedia().size() > 0){
                     List<Multimedia> multimediaList = new ArrayList<>();
                     local.getMultimedia().forEach(media -> {
@@ -74,10 +78,12 @@ public class MemberController {
                     });
                     local.setMultimedia(multimediaList);
                 }
+                locals.add(local);
             });
+            member.setLocals(new ArrayList<>());
         }
-
         memberService.save(member);
+        locals.forEach(l -> localService.save(l));
         MemberView memberResponse = modelMapper.map(member, MemberView.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
