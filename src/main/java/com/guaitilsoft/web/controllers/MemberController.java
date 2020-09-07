@@ -3,7 +3,6 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
-import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.MultimediaService;
@@ -32,15 +31,13 @@ public class MemberController {
 
     private MemberService memberService;
     private LocalService localService;
-    private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
 
     @Autowired
-    public MemberController(MemberService memberService, MultimediaService multimediaService, LocalService localService, ModelMapper modelMapper) {
+    public MemberController(MemberService memberService, LocalService localService, ModelMapper modelMapper) {
         this.memberService = memberService;
         this.localService = localService;
-        this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
 
@@ -70,14 +67,6 @@ public class MemberController {
         if(member.getLocals().size() > 0){
             member.getLocals().forEach(local -> {
                 local.setMember(member);
-                if(local.getMultimedia().size() > 0){
-                    List<Multimedia> multimediaList = new ArrayList<>();
-                    local.getMultimedia().forEach(media -> {
-                        Multimedia multimedia = multimediaService.get(media.getId());
-                        multimediaList.add(multimedia);
-                    });
-                    local.setMultimedia(multimediaList);
-                }
                 locals.add(local);
             });
             member.setLocals(new ArrayList<>());

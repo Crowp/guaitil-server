@@ -66,14 +66,6 @@ public class LocalController {
     public ResponseEntity<LocalView> post(@RequestBody LocalView localRequest) {
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Creating local");
-        if(local.getMultimedia().size() > 0){
-            List<Multimedia> multimediaList = new ArrayList<>();
-            local.getMultimedia().forEach(media -> {
-                Multimedia multimedia = multimediaService.get(media.getId());
-                multimediaList.add(multimedia);
-            });
-            local.setMultimedia(multimediaList);
-        }
         local.setMember(memberService.get(localRequest.getMember().getId()));
         localService.save(local);
         LocalView localResponse = modelMapper.map(local, LocalView.class);
