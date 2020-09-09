@@ -59,14 +59,8 @@ public class ProductController {
     public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) throws Exception, EntityNotFoundException  {
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Creating product");
-        if(product.getMultimedia().size() > 0){
-            List<Multimedia> multimediaList = new ArrayList<>();
-            product.getMultimedia().forEach(media -> {
-                Multimedia multimedia = multimediaService.get(media.getId());
-                multimediaList.add(multimedia);
-            });
-            product.setMultimedia(multimediaList);
-        }
+
+        loadMultimedia(product);
         productService.save(product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
         addUrlToMultimedia(productResponse);
@@ -128,5 +122,16 @@ public class ProductController {
                 .path(resourcePath)
                 .path(multimediaResponse.getFileName())
                 .toUriString();
+    }
+
+    private void loadMultimedia(Product product){
+        if(product.getMultimedia().size() > 0){
+            List<Multimedia> multimediaList = new ArrayList<>();
+            product.getMultimedia().forEach(media -> {
+                Multimedia multimedia = multimediaService.get(media.getId());
+                multimediaList.add(multimedia);
+            });
+            product.setMultimedia(multimediaList);
+        }
     }
 }

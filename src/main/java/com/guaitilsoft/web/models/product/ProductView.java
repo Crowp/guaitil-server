@@ -1,9 +1,8 @@
 package com.guaitilsoft.web.models.product;
 
-import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.ProductPrice;
 import com.guaitilsoft.models.constant.ProductType;
-import com.guaitilsoft.web.models.local.LoadLocal;
+import com.guaitilsoft.web.models.local.GetLocal;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,7 +30,7 @@ public class ProductView {
 
     private Date updatedAt;
 
-    private LoadLocal local;
+    private GetLocal local;
 
     private ProductPrice productPrice;
 

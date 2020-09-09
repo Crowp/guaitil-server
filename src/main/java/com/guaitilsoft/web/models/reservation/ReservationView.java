@@ -30,5 +30,4 @@ public class ReservationView {
     private LoadTour tour;
 
     private Person person;
-
 }
