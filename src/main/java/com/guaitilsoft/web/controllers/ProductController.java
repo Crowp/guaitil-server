@@ -81,6 +81,7 @@ public class ProductController {
         }
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Updating Product with id: {}", id);
+        loadMultimedia(product);
         productService.update(id, product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
         addUrlToMultimedia(productResponse);
