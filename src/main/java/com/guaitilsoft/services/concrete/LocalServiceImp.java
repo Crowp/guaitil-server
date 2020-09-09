@@ -2,13 +2,12 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
+import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.MultimediaService;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -107,6 +106,12 @@ public class LocalServiceImp implements LocalService {
         localRepository.save(local);
         multimediaService.delete(idMultimedia);
         return local;
+    }
+
+    @Override
+    public List<Local> getAllLocalByIdMember(Long id) {
+        assert id != null;
+        return localRepository.getAllLocalByIdMember(id);
     }
 
     public void loadMultimedia(Local entity){

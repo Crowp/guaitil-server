@@ -2,6 +2,7 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.MultimediaService;
@@ -54,6 +55,14 @@ public class LocalController {
     public ResponseEntity<LocalView> getById(@PathVariable Long id) {
         LocalView local = modelMapper.map(localService.get(id), LocalView.class);
         addUrlToMultimedia(local);
+        logger.info("Fetching Local with id: {}", id);
+        return ResponseEntity.ok().body(local);
+    }
+
+    @GetMapping("/memberId/{id}")
+    public ResponseEntity<LoadLocal> getLocalsByMemberId(@PathVariable Long id) {
+        Member member = memberService.get(id);
+        LoadLocal local = modelMapper.map(localService.getAllLocalByIdMember(member.getId()), LoadLocal.class);
         logger.info("Fetching Local with id: {}", id);
         return ResponseEntity.ok().body(local);
     }
