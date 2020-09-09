@@ -64,10 +64,6 @@ public class LocalServiceImp implements LocalService {
     public void update(Long id, Local entity) {
         assert id != null;
         assert entity != null;
-        Instant nowGmt = Instant.now();
-        DateTimeZone americaCostaRica = DateTimeZone.forID("America/Costa_Rica");
-        DateTime nowCostaRica = nowGmt.toDateTime(americaCostaRica);
-        Date today = nowCostaRica.toDate();
 
         Local local = this.get(id);
         local.setName(entity.getName());
@@ -78,8 +74,9 @@ public class LocalServiceImp implements LocalService {
         local.setLocalType(entity.getLocalType());
         local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
-        local.setUpdatedAt(today);
+        local.setUpdatedAt(new Date());
         entity = local;
+        loadMultimedia(entity);
         localRepository.save(entity);
     }
 

@@ -2,7 +2,6 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
-import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.MultimediaService;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -33,14 +31,12 @@ public class LocalController {
 
     private LocalService localService;
     private MemberService memberService;
-    private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public LocalController(LocalService localService, MemberService memberService, MultimediaService multimediaService,ModelMapper modelMapper) {
+    public LocalController(LocalService localService, MemberService memberService,ModelMapper modelMapper) {
         this.localService = localService;
         this.memberService = memberService;
-        this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
 
