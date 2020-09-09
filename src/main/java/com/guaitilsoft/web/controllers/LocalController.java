@@ -5,8 +5,7 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.web.models.local.*;
+import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -60,11 +59,13 @@ public class LocalController {
     }
 
     @GetMapping("/memberId/{id}")
-    public ResponseEntity<LoadLocal> getLocalsByMemberId(@PathVariable Long id) {
+    public ResponseEntity<List<LocalView>> getLocalsByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
-        LoadLocal local = modelMapper.map(localService.getAllLocalByIdMember(member.getId()), LoadLocal.class);
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getAllLocalByIdMember(member.getId()), listType);
+        locals.forEach(this::addUrlToMultimedia);
         logger.info("Fetching Local with id: {}", id);
-        return ResponseEntity.ok().body(local);
+        return ResponseEntity.ok().body(locals);
     }
 
     @PostMapping

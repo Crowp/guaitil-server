@@ -2,11 +2,9 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
-import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.MultimediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,7 +109,10 @@ public class LocalServiceImp implements LocalService {
     @Override
     public List<Local> getAllLocalByIdMember(Long id) {
         assert id != null;
-        return localRepository.getAllLocalByIdMember(id);
+        Iterable<Local> iterable = localRepository.getAllLocalByIdMember(id);
+        List<Local> locals = new ArrayList<>();
+        iterable.forEach(locals::add);
+        return locals;
     }
 
     public void loadMultimedia(Local entity){
