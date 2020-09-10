@@ -4,6 +4,8 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.models.User;
+import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
@@ -98,5 +100,13 @@ public class MemberServiceImp implements MemberService {
         }
         userService.deleteUserByMemberId(id);
         memberRepository.delete(member);
+    }
+
+    @Override
+    public List<Member> getMemberWithoutUser() {
+        Iterable<Member> iterable = memberRepository.membersWithoutUser(MemberType.ASSOCIATED);
+        List<Member> members = new ArrayList<>();
+        iterable.forEach(members::add);
+        return members;
     }
 }

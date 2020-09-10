@@ -49,6 +49,13 @@ public class MemberController {
         return  ResponseEntity.ok().body(members);
     }
 
+    @GetMapping("members")
+    public ResponseEntity<List<MemberView>> getMembersWithoutUser() throws Exception, EntityNotFoundException{
+        Type listType = new TypeToken<List<MemberView>>(){}.getType();
+        List<MemberView> members = modelMapper.map(memberService.getMemberWithoutUser(), listType);
+        return  ResponseEntity.ok().body(members);
+    }
+
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<MemberView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {

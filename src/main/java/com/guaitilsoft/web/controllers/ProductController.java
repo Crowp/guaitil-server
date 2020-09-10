@@ -1,10 +1,13 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
+import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductService;
+import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.ProductView;
 import org.modelmapper.ModelMapper;
@@ -29,13 +32,15 @@ public class ProductController {
     public static final Logger logger = LoggerFactory.getLogger(TourController.class);
 
     private ProductService productService;
+    private LocalService localService;
     private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, MultimediaService multimediaService, ModelMapper modelMapper){
+    public ProductController(ProductService productService, MultimediaService multimediaService, LocalService localService, ModelMapper modelMapper){
         this.productService = productService;
         this.multimediaService = multimediaService;
+        this.localService = localService;
         this.modelMapper = modelMapper;
     }
 
@@ -53,6 +58,16 @@ public class ProductController {
         addUrlToMultimedia(product);
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(product);
+    }
+
+    @GetMapping("/localId/{id}")
+    public ResponseEntity<List<ProductView>> getProductsByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+        Local local = localService.get(id);
+        Type listType = new TypeToken<List<ProductView>>(){}.getType();
+        List<ProductView> products = modelMapper.map(productService.getAllProductByLocalId(local.getId()), listType);
+        products.forEach(this::addUrlToMultimedia);
+        logger.info("Fetching Product with id {}", id);
+        return ResponseEntity.ok().body(products);
     }
 
     @PostMapping
