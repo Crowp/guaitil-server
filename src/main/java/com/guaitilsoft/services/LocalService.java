@@ -16,4 +16,6 @@ public interface LocalService {
     void delete(Long id);
 
     Local deleteMultimediaById(Long id, Long idMultimedia);
+
+    List<Local> getAllLocalByIdMember(Long id);
 }

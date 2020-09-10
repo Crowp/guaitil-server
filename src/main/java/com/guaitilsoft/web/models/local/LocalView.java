@@ -8,6 +8,7 @@ import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.web.models.member.LoadMember;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
+import com.guaitilsoft.web.models.product.GetProduct;
 import com.guaitilsoft.web.models.product.LoadProduct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,5 +40,5 @@ public class LocalView {
 
     private List<MultimediaResponse> multimedia;
 
-    private List<LoadProduct> products;
+    private List<GetProduct> products;
 }

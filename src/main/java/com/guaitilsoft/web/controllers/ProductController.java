@@ -1,10 +1,13 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
+import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductService;
+import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.ProductView;
 import org.modelmapper.ModelMapper;
@@ -29,13 +32,15 @@ public class ProductController {
     public static final Logger logger = LoggerFactory.getLogger(TourController.class);
 
     private ProductService productService;
+    private LocalService localService;
     private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, MultimediaService multimediaService, ModelMapper modelMapper){
+    public ProductController(ProductService productService, MultimediaService multimediaService, LocalService localService, ModelMapper modelMapper){
         this.productService = productService;
         this.multimediaService = multimediaService;
+        this.localService = localService;
         this.modelMapper = modelMapper;
     }
 
@@ -55,18 +60,22 @@ public class ProductController {
         return ResponseEntity.ok().body(product);
     }
 
+    @GetMapping("/local-id/{id}")
+    public ResponseEntity<List<ProductView>> getProductsByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+        Local local = localService.get(id);
+        Type listType = new TypeToken<List<ProductView>>(){}.getType();
+        List<ProductView> products = modelMapper.map(productService.getAllProductByLocalId(local.getId()), listType);
+        products.forEach(this::addUrlToMultimedia);
+        logger.info("Fetching Product with id {}", id);
+        return ResponseEntity.ok().body(products);
+    }
+
     @PostMapping
     public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) throws Exception, EntityNotFoundException  {
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Creating product");
-        if(product.getMultimedia().size() > 0){
-            List<Multimedia> multimediaList = new ArrayList<>();
-            product.getMultimedia().forEach(media -> {
-                Multimedia multimedia = multimediaService.get(media.getId());
-                multimediaList.add(multimedia);
-            });
-            product.setMultimedia(multimediaList);
-        }
+
+        loadMultimedia(product);
         productService.save(product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
         addUrlToMultimedia(productResponse);
@@ -87,6 +96,7 @@ public class ProductController {
         }
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Updating Product with id: {}", id);
+        loadMultimedia(product);
         productService.update(id, product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
         addUrlToMultimedia(productResponse);
@@ -103,7 +113,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productResponse);
     }
 
-    @DeleteMapping("deleteMultimediaById")
+    @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<ProductView> deleteMultimediaById(@RequestParam Long id,
                                                           @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException{
         logger.info("Deleting Product with id {}", id);
@@ -128,5 +138,16 @@ public class ProductController {
                 .path(resourcePath)
                 .path(multimediaResponse.getFileName())
                 .toUriString();
+    }
+
+    private void loadMultimedia(Product product){
+        if(product.getMultimedia().size() > 0){
+            List<Multimedia> multimediaList = new ArrayList<>();
+            product.getMultimedia().forEach(media -> {
+                Multimedia multimedia = multimediaService.get(media.getId());
+                multimediaList.add(multimedia);
+            });
+            product.setMultimedia(multimediaList);
+        }
     }
 }

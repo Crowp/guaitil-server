@@ -14,4 +14,6 @@ public interface MemberService {
     void update(Long id, Member entity);
 
     void delete(Long id);
+
+    List<Member> getMemberWithoutUser();
 }

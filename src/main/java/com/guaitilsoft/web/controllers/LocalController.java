@@ -2,11 +2,10 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
-import com.guaitilsoft.models.Multimedia;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.web.models.local.*;
+import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -21,7 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -33,14 +31,12 @@ public class LocalController {
 
     private LocalService localService;
     private MemberService memberService;
-    private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public LocalController(LocalService localService, MemberService memberService, MultimediaService multimediaService,ModelMapper modelMapper) {
+    public LocalController(LocalService localService, MemberService memberService,ModelMapper modelMapper) {
         this.localService = localService;
         this.memberService = memberService;
-        this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
 
@@ -62,18 +58,20 @@ public class LocalController {
         return ResponseEntity.ok().body(local);
     }
 
+    @GetMapping("/member-id/{id}")
+    public ResponseEntity<List<LocalView>> getLocalsByMemberId(@PathVariable Long id) {
+        Member member = memberService.get(id);
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getAllLocalByIdMember(member.getId()), listType);
+        locals.forEach(this::addUrlToMultimedia);
+        logger.info("Fetching Local with id: {}", id);
+        return ResponseEntity.ok().body(locals);
+    }
+
     @PostMapping
     public ResponseEntity<LocalView> post(@RequestBody LocalView localRequest) {
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Creating local");
-        if(local.getMultimedia().size() > 0){
-            List<Multimedia> multimediaList = new ArrayList<>();
-            local.getMultimedia().forEach(media -> {
-                Multimedia multimedia = multimediaService.get(media.getId());
-                multimediaList.add(multimedia);
-            });
-            local.setMultimedia(multimediaList);
-        }
         local.setMember(memberService.get(localRequest.getMember().getId()));
         localService.save(local);
         LocalView localResponse = modelMapper.map(local, LocalView.class);
@@ -113,7 +111,7 @@ public class LocalController {
         return ResponseEntity.ok().body(localResponse);
     }
 
-    @DeleteMapping("deleteMultimediaById")
+    @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<LocalView> deleteMultimediaById(@RequestParam Long id,
                                                           @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException {
         logger.info("Deleting Local Multimedia with id {}", id);

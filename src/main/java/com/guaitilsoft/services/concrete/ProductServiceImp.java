@@ -102,4 +102,13 @@ public class ProductServiceImp implements ProductService {
         multimediaService.delete(idMultimedia);
         return product;
     }
+
+    @Override
+    public List<Product> getAllProductByLocalId(Long id) {
+        assert id != null;
+        Iterable<Product> iterable = productRepository.getAllProductByLocalId(id);
+        List<Product> products = new ArrayList<>();
+        iterable.forEach(products::add);
+        return products;
+    }
 }

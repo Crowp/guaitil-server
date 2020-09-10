@@ -17,4 +17,6 @@ public interface ProductService {
     void delete(Long id);
 
     Product deleteMultimediaById(Long id, Long idMultimedia);
+
+    List<Product> getAllProductByLocalId(Long id);
 }
