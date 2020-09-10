@@ -39,9 +39,9 @@ public class MemberServiceImp implements MemberService {
     @Override
     public List<Member> list() {
         Iterable<Member> iterable = memberRepository.findAll();
-        List<Member> associates = new ArrayList<>();
-        iterable.forEach(associates::add);
-        return associates.stream().filter(member -> !"1".equals(member.getPersonId())).collect(Collectors.toList());
+        List<Member> members = new ArrayList<>();
+        iterable.forEach(members::add);
+        return members;
     }
 
     @Override
