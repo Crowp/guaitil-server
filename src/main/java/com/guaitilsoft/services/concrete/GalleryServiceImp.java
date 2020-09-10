@@ -81,17 +81,4 @@ public class GalleryServiceImp implements GalleryService {
         }
         throw new ApiRequestException("No hay imagenes para eliminar");
     }
-
-    @Override
-    public Gallery deleteMultimediaById(Long id, Long idMultimedia) {
-        Gallery gallery = this.getById(id);
-        List<Multimedia> multimedia = gallery.getMultimedia()
-                .stream()
-                .filter(media -> !media.getId().equals(idMultimedia))
-                .collect(Collectors.toList());
-        gallery.setMultimedia(multimedia);
-        galleryRepository.save(gallery);
-        multimediaService.delete(idMultimedia);
-        return gallery;
-    }
 }

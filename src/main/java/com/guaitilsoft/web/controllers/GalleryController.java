@@ -80,18 +80,6 @@ public class GalleryController {
         return ResponseEntity.created(location).body(gallery);
     }
 
-    @DeleteMapping("delete-multimedia-by-id")
-    public ResponseEntity<GalleryResponse> deleteMultimediaById(@RequestParam Long id,
-                                                                @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException {
-        logger.info("Deleting Gallery with id {}", id);
-        GalleryResponse galleryResponse = modelMapper.map(
-                galleryService.deleteMultimediaById(id, idMultimedia),
-                GalleryResponse.class);;
-        addUrlToMultimedia(galleryResponse);
-        logger.info("Deleted Gallery with id {}", id);
-        return ResponseEntity.ok().body(galleryResponse);
-    }
-
     private void addUrlToMultimedia(GalleryResponse gallery) {
         gallery.getMultimedia().forEach(m -> {
             String url = getUrlHost(m);
