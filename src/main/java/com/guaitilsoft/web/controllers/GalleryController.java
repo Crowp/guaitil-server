@@ -80,7 +80,7 @@ public class GalleryController {
         return ResponseEntity.created(location).body(gallery);
     }
 
-    @DeleteMapping("deleteMultimediaById")
+    @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<GalleryResponse> deleteMultimediaById(@RequestParam Long id,
                                                                 @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException {
         logger.info("Deleting Gallery with id {}", id);

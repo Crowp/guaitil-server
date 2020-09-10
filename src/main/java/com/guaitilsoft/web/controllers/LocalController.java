@@ -58,7 +58,7 @@ public class LocalController {
         return ResponseEntity.ok().body(local);
     }
 
-    @GetMapping("/memberId/{id}")
+    @GetMapping("/member-id/{id}")
     public ResponseEntity<List<LocalView>> getLocalsByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
@@ -111,7 +111,7 @@ public class LocalController {
         return ResponseEntity.ok().body(localResponse);
     }
 
-    @DeleteMapping("deleteMultimediaById")
+    @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<LocalView> deleteMultimediaById(@RequestParam Long id,
                                                           @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException {
         logger.info("Deleting Local Multimedia with id {}", id);

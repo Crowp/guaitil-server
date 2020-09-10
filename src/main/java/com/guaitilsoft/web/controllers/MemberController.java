@@ -49,7 +49,7 @@ public class MemberController {
         return  ResponseEntity.ok().body(members);
     }
 
-    @GetMapping("members")
+    @GetMapping("members-without-users")
     public ResponseEntity<List<MemberView>> getMembersWithoutUser() throws Exception, EntityNotFoundException{
         Type listType = new TypeToken<List<MemberView>>(){}.getType();
         List<MemberView> members = modelMapper.map(memberService.getMemberWithoutUser(), listType);

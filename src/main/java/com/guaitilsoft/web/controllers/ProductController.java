@@ -60,7 +60,7 @@ public class ProductController {
         return ResponseEntity.ok().body(product);
     }
 
-    @GetMapping("/localId/{id}")
+    @GetMapping("/local-id/{id}")
     public ResponseEntity<List<ProductView>> getProductsByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
         Local local = localService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
@@ -113,7 +113,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productResponse);
     }
 
-    @DeleteMapping("deleteMultimediaById")
+    @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<ProductView> deleteMultimediaById(@RequestParam Long id,
                                                           @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException{
         logger.info("Deleting Product with id {}", id);
