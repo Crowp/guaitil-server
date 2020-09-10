@@ -10,10 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.TimeZone;
 
 @Data
 @Entity
