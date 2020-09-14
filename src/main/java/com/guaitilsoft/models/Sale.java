@@ -6,7 +6,8 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,8 +20,11 @@ public class Sale {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date saleDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Local local;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private Product product;
+
+    @Column(nullable = false)
+    private Long amountSold;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
