@@ -2,6 +2,7 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.config.security.TokenProvider;
 import com.guaitilsoft.models.User;
+import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.UserService;
 import com.guaitilsoft.web.models.member.MemberView;
@@ -44,8 +45,15 @@ public class AuthController {
         return  ResponseEntity.ok().body(users);
     }
 
+    @GetMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<UserResponse> getById(@PathVariable Long id){
+        UserResponse user = modelMapper.map(userService.get(id), UserResponse.class);
+        return  ResponseEntity.ok().body(user);
+    }
+
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> login (@RequestParam String email,
+    public ResponseEntity<UserResponse> login(@RequestParam String email,
                                                @RequestParam String password) {
         return ResponseEntity.ok().body(createToken(userService.login(email, password)));
     }
@@ -66,18 +74,20 @@ public class AuthController {
         return ResponseEntity.ok().body(userResponse);
     }
 
-    @DeleteMapping(value = "{username}")
+    @PutMapping("update-roles/{id}")
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    public ResponseEntity<UserResponse> updateRoles(@RequestBody List<Role> roles, @PathVariable Long id) {
+        User user = userService.updateRoles(roles, id);
+        UserResponse userResponse = modelMapper.map(user, UserResponse.class);
+        return ResponseEntity.ok().body(userResponse);
+    }
+
+    @DeleteMapping("{email}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> delete(@PathVariable String email) {
         UserResponse userResponse = modelMapper.map(userService.search(email), UserResponse.class);
         userService.deleteByEmail(email);
         return ResponseEntity.ok().body(userResponse);
-    }
-
-    @GetMapping(value = "{email}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<User> search(@PathVariable String email) {
-        return ResponseEntity.ok().body(userService.search(email));
     }
 
     private UserResponse createToken(User user){

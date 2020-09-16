@@ -2,6 +2,7 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.User;
+import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.repositories.UserRepository;
 import com.guaitilsoft.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,15 @@ public class UserServiceImp implements UserService {
         } else {
             throw new ApiRequestException("El usuario con el email: " + user.getEmail() + " ya existe");
         }
+    }
+
+    @Override
+    public User updateRoles(List<Role> roles, Long id) {
+        assert id != null;
+        User user = this.get(id);
+        user.setRoles(roles);
+        userRepository.save(user);
+        return user;
     }
 
     @Override
