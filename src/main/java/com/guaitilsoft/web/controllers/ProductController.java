@@ -65,20 +65,20 @@ public class ProductController {
     }
 
     @GetMapping("/local-id/{id}")
-    public ResponseEntity<List<ProductView>> getProductsByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<List<ProductView>>getProductsByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
         User user = userService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<ProductView> products = modelMapper.map(productService.getAllProductByUserId(user.getId()), listType);
+        List<ProductView> products = modelMapper.map(productService.getAllProductByLocalId(user.getId()), listType);
         products.forEach(this::addUrlToMultimedia);
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(products);
     }
 
-    @GetMapping("/user-id/{id}")
-    public ResponseEntity<List<ProductView>> getProductsByUserId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
-        Local local = localService.get(id);
+    @GetMapping("/member-id/{id}")
+    public ResponseEntity<List<ProductView>>getAllProductByMemberId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+        Product product = productService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<ProductView> products = modelMapper.map(productService.getAllProductByLocalId(local.getId()), listType);
+        List<ProductView> products = modelMapper.map(productService.getAllProductByMemberId(product.getId()), listType);
         products.forEach(this::addUrlToMultimedia);
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(products);
