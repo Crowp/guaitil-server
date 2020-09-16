@@ -57,11 +57,11 @@ public class SaleController {
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<SaleView> getAllSaleByMemberId(@PathVariable Long id) throws Exception, EntityNotFoundException {
+    public ResponseEntity<List<SaleView>> getAllSaleByMemberId(@PathVariable Long id) throws Exception, EntityNotFoundException {
         Member member = memberService.get(id);
-        Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        SaleView sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getId()), listType);
-        logger.info("Fetching Sale with {}", sale.getId());
+        Type listType = new TypeToken<List<SaleView>>(){}.getType();
+        List<SaleView> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getId()), listType);
+        logger.info("Fetching Sale with member id {}", id);
         return ResponseEntity.ok().body(sale);
     }
 

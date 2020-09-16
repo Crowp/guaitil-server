@@ -69,6 +69,7 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public List<Sale> getAllSaleByMemberId(Long id) {
+        assert id != null;
         Iterable<Sale> iterable = saleRepository.getAllSaleByMemberId(id);
         List<Sale> sales = new ArrayList<>();
         iterable.forEach(sales::add);
