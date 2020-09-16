@@ -10,4 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends CrudRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.local.id =:id")
     Iterable<Product> getAllProductByLocalId(@Param("id") Long id);
+
+    @Query("SELECT p FROM Product p WHERE p.local.member.id IN (SELECT u.member.id FROM User u WHERE u.id =:id)")
+    Iterable<Product> getAllProductByUserId(@Param("id") Long id);
 }

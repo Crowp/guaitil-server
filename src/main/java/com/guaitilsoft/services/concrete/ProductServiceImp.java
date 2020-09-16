@@ -120,4 +120,13 @@ public class ProductServiceImp implements ProductService {
         iterable.forEach(products::add);
         return products;
     }
+
+    @Override
+    public List<Product> getAllProductByUserId(Long id) {
+        assert id != null;
+        Iterable<Product> iterable = productRepository.getAllProductByUserId(id);
+        List<Product> products = new ArrayList<>();
+        iterable.forEach(products::add);
+        return products;
+    }
 }

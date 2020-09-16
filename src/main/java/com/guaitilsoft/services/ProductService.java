@@ -19,4 +19,6 @@ public interface ProductService {
     Product deleteMultimediaById(Long id, Long idMultimedia);
 
     List<Product> getAllProductByLocalId(Long id);
+
+    List<Product> getAllProductByUserId(Long id);
 }
