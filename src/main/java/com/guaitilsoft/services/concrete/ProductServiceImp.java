@@ -142,4 +142,13 @@ public class ProductServiceImp implements ProductService {
         iterable.forEach(products::add);
         return products;
     }
+
+    @Override
+    public List<Product> getAllProductAcceptedByLocalId(Long id) {
+        assert id != null;
+        Iterable<Product> iterable = productRepository.getAllProductAcceptedByLocalId(ReviewState.ACCEPTED,id);
+        List<Product> products = new ArrayList<>();
+        iterable.forEach(products::add);
+        return products;
+    }
 }

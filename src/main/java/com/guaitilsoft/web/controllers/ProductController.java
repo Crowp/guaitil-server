@@ -82,6 +82,15 @@ public class ProductController {
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(products);
     }
+    @GetMapping("/state/local-id/{id}")
+    public ResponseEntity<List<ProductView>>getAllProductAcceptedByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+        Local local = localService.get(id);
+        Type listType = new TypeToken<List<ProductView>>(){}.getType();
+        List<ProductView> products = modelMapper.map(productService.getAllProductByMemberId(local.getId()), listType);
+        products.forEach(this::addUrlToMultimedia);
+        logger.info("Fetching Product with state accepted {}", id);
+        return ResponseEntity.ok().body(products);
+    }
 
     @PostMapping
     public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) throws Exception, EntityNotFoundException  {
