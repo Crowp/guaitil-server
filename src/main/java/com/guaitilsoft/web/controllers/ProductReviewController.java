@@ -3,6 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.services.ProductReviewService;
+import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.productReview.ProductReviewView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/api/productReview")
+@RequestMapping(path = "/api/product-review")
 public class ProductReviewController {
     public static final Logger logger = LoggerFactory.getLogger(TourController.class);
 
@@ -37,12 +38,22 @@ public class ProductReviewController {
     public ResponseEntity<List<ProductReviewView>> get(){
         Type listType = new TypeToken<List<ProductReviewView>>(){}.getType();
         List<ProductReviewView> productReviewViews = modelMapper.map(productReviewService.list(), listType);
+        productReviewViews.forEach(this::addUrlToMultimedia);
+        return  ResponseEntity.ok().body(productReviewViews);
+    }
+
+    @GetMapping("member-id/{id}")
+    public ResponseEntity<List<ProductReviewView>> getByMemberId(@PathVariable Long id){
+        Type listType = new TypeToken<List<ProductReviewView>>(){}.getType();
+        List<ProductReviewView> productReviewViews = modelMapper.map(productReviewService.listByIdMember(id), listType);
+        productReviewViews.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<ProductReviewView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
         ProductReviewView productReview = modelMapper.map(productReviewService.get(id), ProductReviewView.class);
+        this.addUrlToMultimedia(productReview);
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(productReview);
     }
@@ -53,7 +64,7 @@ public class ProductReviewController {
         logger.info("Creating a product review");
         productReviewService.save(productReview);
         ProductReviewView productReviewResponse = modelMapper.map(productReview, ProductReviewView.class);
-
+        this.addUrlToMultimedia(productReviewResponse);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(productReview.getId())
@@ -70,8 +81,8 @@ public class ProductReviewController {
         }
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Updating Product Review with id: {}", id);
-        productReviewService.update(id, productReview);
-        ProductReviewView productReviewResponse = modelMapper.map(productReview, ProductReviewView.class);
+        ProductReviewView productReviewResponse = modelMapper.map(productReviewService.update(id, productReview), ProductReviewView.class);
+        this.addUrlToMultimedia(productReviewResponse);
         logger.info("Updated Product Review with id: {}", id);
         return ResponseEntity.ok().body(productReviewResponse);
     }
@@ -83,5 +94,20 @@ public class ProductReviewController {
         productReviewService.delete(id);
         logger.info("Deleted Product Review with id {}", id);
         return ResponseEntity.ok().body(productReviewResponse);
+    }
+
+    private void addUrlToMultimedia(ProductReviewView productView){
+        productView.getMultimedia().forEach(m -> {
+            String url = getUrlHost(m);
+            m.setUrl(url);
+        });
+    }
+
+    private String getUrlHost(MultimediaResponse multimediaResponse){
+        String resourcePath = "/api/multimedia/load/";
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(resourcePath)
+                .path(multimediaResponse.getFileName())
+                .toUriString();
     }
 }

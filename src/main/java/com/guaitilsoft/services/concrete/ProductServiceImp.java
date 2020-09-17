@@ -71,6 +71,15 @@ public class ProductServiceImp implements ProductService {
         assert entity != null;
 
         Product product = this.get(id);
+
+        ProductReview review = productReviewService.getByProductId(id);
+        if(review != null){
+            if(review.getState() != ReviewState.ACCEPTED){
+                review.setState(ReviewState.INPROCESS);
+                productReviewService.update(review.getId(), review);
+            }
+        }
+
         product.setName(entity.getName());
         product.setDescription(entity.getDescription());
         product.setStatus(entity.getStatus());
