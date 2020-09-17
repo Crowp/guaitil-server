@@ -3,15 +3,19 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
 
+import com.guaitilsoft.models.ProductReview;
+import com.guaitilsoft.models.constant.ReviewState;
 import com.guaitilsoft.repositories.ProductRepository;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductReviewService;
 import com.guaitilsoft.services.ProductService;
+import com.guaitilsoft.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,14 +23,16 @@ import java.util.stream.Collectors;
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
-    private MultimediaService multimediaService;
-    private ProductReviewService productReviewService;
+    private final MultimediaService multimediaService;
+    private final ProductReviewService productReviewService;
+    private final SaleService saleService;
 
     @Autowired
-    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService) {
+    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService, SaleService saleService) {
         this.productRepository = productRepository;
         this.multimediaService = multimediaService;
         this.productReviewService = productReviewService;
+        this.saleService = saleService;
     }
 
 
@@ -52,8 +58,14 @@ public class ProductServiceImp implements ProductService {
     @Override
     public void save(Product entity)   {
         assert entity != null;
-
         productRepository.save(entity);
+
+        ProductReview review = new ProductReview();
+        review.setProduct(entity);
+        review.setCreatedAt(new Date());
+        review.setUpdatedAt(new Date());
+        review.setState(ReviewState.INPROCESS);
+        productReviewService.save(review);
     }
 
     @Override
@@ -62,6 +74,15 @@ public class ProductServiceImp implements ProductService {
         assert entity != null;
 
         Product product = this.get(id);
+
+        ProductReview review = productReviewService.getByProductId(id);
+        if(review != null){
+            if(review.getState() != ReviewState.ACCEPTED){
+                review.setState(ReviewState.INPROCESS);
+                productReviewService.update(review.getId(), review);
+            }
+        }
+
         product.setName(entity.getName());
         product.setDescription(entity.getDescription());
         product.setStatus(entity.getStatus());
@@ -87,6 +108,7 @@ public class ProductServiceImp implements ProductService {
             });
         }
         productReviewService.deleteProductReviewByProductId(id);
+        saleService.deleteSaleByProductId(id);
         productRepository.delete(product);
     }
 
@@ -107,6 +129,15 @@ public class ProductServiceImp implements ProductService {
     public List<Product> getAllProductByLocalId(Long id) {
         assert id != null;
         Iterable<Product> iterable = productRepository.getAllProductByLocalId(id);
+        List<Product> products = new ArrayList<>();
+        iterable.forEach(products::add);
+        return products;
+    }
+
+    @Override
+    public List<Product> getAllProductByMemberId(Long id) {
+        assert id != null;
+        Iterable<Product> iterable = productRepository.getAllProductByMemberId(id);
         List<Product> products = new ArrayList<>();
         iterable.forEach(products::add);
         return products;

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,10 +31,32 @@ public class ProductReviewServiceImp implements ProductReviewService {
     }
 
     @Override
+    public List<ProductReview> listByIdMember(Long memberId) {
+        assert memberId != null;
+        Iterable<ProductReview> iterable = productReviewRepository.selectProductReviewByMemberId(memberId);
+        List<ProductReview> productReviews = new ArrayList<>();
+        iterable.forEach(productReviews::add);
+        return productReviews;
+    }
+
+    @Override
     public ProductReview get(Long id) {
         assert id != null;
 
         ProductReview productReview = productReviewRepository.findById(id).orElse(null);
+        if(productReview != null){
+            return productReview;
+        }
+        throw new EntityNotFoundException("No se encontro un la revision de producto con el id: ");
+    }
+
+    @Override
+    public ProductReview getByProductId(Long productId) {
+        assert productId != null;
+
+        ProductReview productReview = productReviewRepository
+                .selectProductReviewByProductId(productId)
+                .orElse(null);
         if(productReview != null){
             return productReview;
         }
@@ -48,17 +71,16 @@ public class ProductReviewServiceImp implements ProductReviewService {
     }
 
     @Override
-    public void update(Long id, ProductReview entity) {
+    public ProductReview update(Long id, ProductReview entity) {
         assert id != null;
         assert entity != null;
 
         ProductReview productReview = this.get(id);
-        productReview.setReviewDate(entity.getReviewDate());
+        productReview.setReviewDate(new Date());
         productReview.setState(entity.getState());
         productReview.setComment(entity.getComment());
-        productReview.setProduct(entity.getProduct());
-
         productReviewRepository.save(entity);
+        return productReview;
     }
 
     @Override

@@ -1,9 +1,12 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
+import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ProductService;
 import com.guaitilsoft.services.SaleService;
+import com.guaitilsoft.web.models.product.ProductView;
 import com.guaitilsoft.web.models.sale.SaleView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -28,12 +31,14 @@ public class SaleController {
 
     private SaleService saleService;
     private ProductService productService;
+    private MemberService memberService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public SaleController(SaleService saleService, ProductService productService, ModelMapper modelMapper){
+    public SaleController(SaleService saleService, ProductService productService, MemberService memberService, ModelMapper modelMapper){
         this.saleService = saleService;
         this.productService = productService;
+        this.memberService = memberService;
         this.modelMapper = modelMapper;
     }
 
@@ -48,6 +53,15 @@ public class SaleController {
     public ResponseEntity<SaleView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
         SaleView sale = modelMapper.map(saleService.get(id), SaleView.class);
         logger.info("Fetching Sale with {}", id);
+        return ResponseEntity.ok().body(sale);
+    }
+
+    @GetMapping("/member-id/{id}")
+    public ResponseEntity<List<SaleView>> getAllSaleByMemberId(@PathVariable Long id) throws Exception, EntityNotFoundException {
+        Member member = memberService.get(id);
+        Type listType = new TypeToken<List<SaleView>>(){}.getType();
+        List<SaleView> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getId()), listType);
+        logger.info("Fetching Sale with member id {}", id);
         return ResponseEntity.ok().body(sale);
     }
 

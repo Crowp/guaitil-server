@@ -1,14 +1,14 @@
 package com.guaitilsoft.web.models.productReview;
 
-import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.constant.ReviewState;
-import com.guaitilsoft.web.models.product.LoadProduct;
+import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.ProductView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,5 +27,9 @@ public class ProductReviewView {
 
     private Date updatedAt;
 
-    private LoadProduct product;
+    private ProductView product;
+
+    public List<MultimediaResponse> getMultimedia(){
+        return product.getMultimedia();
+    }
 }

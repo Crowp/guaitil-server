@@ -14,4 +14,8 @@ public interface SaleService {
     void update(Long id, Sale entity);
 
     void delete(Long id);
+
+    List<Sale> getAllSaleByMemberId(Long id);
+
+    void deleteSaleByProductId(Long productId);
 }

@@ -1,12 +1,8 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.Local;
-import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.Product;
-import com.guaitilsoft.services.LocalService;
-import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.ProductService;
+import com.guaitilsoft.models.*;
+import com.guaitilsoft.services.*;
 import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.ProductView;
@@ -33,15 +29,22 @@ public class ProductController {
 
     private ProductService productService;
     private LocalService localService;
+    private MemberService memberService;
+    private SaleService saleService;
     private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, MultimediaService multimediaService, LocalService localService, ModelMapper modelMapper){
+    public ProductController(ProductService productService,
+                             MultimediaService multimediaService,
+                             LocalService localService,
+                             MemberService memberService,
+                             ModelMapper modelMapper){
         this.productService = productService;
         this.multimediaService = multimediaService;
         this.localService = localService;
         this.modelMapper = modelMapper;
+        this.memberService = memberService;
     }
 
     @GetMapping
@@ -61,10 +64,20 @@ public class ProductController {
     }
 
     @GetMapping("/local-id/{id}")
-    public ResponseEntity<List<ProductView>> getProductsByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<List<ProductView>>getProductsByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
         Local local = localService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
         List<ProductView> products = modelMapper.map(productService.getAllProductByLocalId(local.getId()), listType);
+        products.forEach(this::addUrlToMultimedia);
+        logger.info("Fetching Product with local id {}", id);
+        return ResponseEntity.ok().body(products);
+    }
+
+    @GetMapping("/member-id/{id}")
+    public ResponseEntity<List<ProductView>>getAllProductByMemberId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+        Member member = memberService.get(id);
+        Type listType = new TypeToken<List<ProductView>>(){}.getType();
+        List<ProductView> products = modelMapper.map(productService.getAllProductByMemberId(member.getId()), listType);
         products.forEach(this::addUrlToMultimedia);
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(products);

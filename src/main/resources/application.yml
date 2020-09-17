@@ -1,7 +1,47 @@
 spring:
+  profiles:
+    active: "development"
+---
+spring:
+  profiles: "development"
   datasource:
     url: "jdbc:mysql://localhost/guaitil?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT-6"
     username: "root"
+    password: "root"
+    testWhileIdle: true
+    validationQuery: SELECT 1
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL57Dialect
+        jdbc:
+          time_zone: UTC
+
+  security:
+    jwt:
+      token:
+        secret-key : "secret-key"
+        expire-length : 5
+      header: "Authorization"
+  output:
+    ansi:
+      enabled: always
+
+  servlet:
+    multipart:
+      max-file-size: 500KB
+      max-request-size: 500KB
+      enabled: false
+---
+spring:
+  profiles: "production"
+  datasource:
+    url: "jdbc:mysql://localhost/guaitil?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT-6"
+    username: "ricmor"
     password: "root"
     testWhileIdle: true
     validationQuery: SELECT 1
