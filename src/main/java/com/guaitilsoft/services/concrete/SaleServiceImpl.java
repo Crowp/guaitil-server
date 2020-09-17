@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SaleServiceImpl implements SaleService {
@@ -74,5 +75,11 @@ public class SaleServiceImpl implements SaleService {
         List<Sale> sales = new ArrayList<>();
         iterable.forEach(sales::add);
         return sales;
+    }
+
+    @Override
+    public void deleteSaleByProductId(Long productId) {
+        Optional<Sale> saleOptional = saleRepository.selectSaleByProductId(productId);
+        saleOptional.ifPresent(sale -> this.delete(sale.getId()));
     }
 }

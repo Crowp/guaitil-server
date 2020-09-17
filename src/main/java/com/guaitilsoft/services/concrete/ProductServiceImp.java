@@ -9,6 +9,7 @@ import com.guaitilsoft.repositories.ProductRepository;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductReviewService;
 import com.guaitilsoft.services.ProductService;
+import com.guaitilsoft.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,14 +23,16 @@ import java.util.stream.Collectors;
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
-    private MultimediaService multimediaService;
-    private ProductReviewService productReviewService;
+    private final MultimediaService multimediaService;
+    private final ProductReviewService productReviewService;
+    private final SaleService saleService;
 
     @Autowired
-    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService) {
+    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService, SaleService saleService) {
         this.productRepository = productRepository;
         this.multimediaService = multimediaService;
         this.productReviewService = productReviewService;
+        this.saleService = saleService;
     }
 
 
@@ -105,6 +108,7 @@ public class ProductServiceImp implements ProductService {
             });
         }
         productReviewService.deleteProductReviewByProductId(id);
+        saleService.deleteSaleByProductId(id);
         productRepository.delete(product);
     }
 

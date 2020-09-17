@@ -30,11 +30,16 @@ public class ProductController {
     private ProductService productService;
     private LocalService localService;
     private MemberService memberService;
+    private SaleService saleService;
     private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 
     @Autowired
-    public ProductController(ProductService productService, MultimediaService multimediaService, LocalService localService, MemberService memberService, ModelMapper modelMapper){
+    public ProductController(ProductService productService,
+                             MultimediaService multimediaService,
+                             LocalService localService,
+                             MemberService memberService,
+                             ModelMapper modelMapper){
         this.productService = productService;
         this.multimediaService = multimediaService;
         this.localService = localService;
