@@ -131,9 +131,9 @@ public class ProductServiceImp implements ProductService {
     }
 
     @Override
-    public List<Product> getAllProductByUserId(Long id) {
+    public List<Product> getAllProductByMemberId(Long id) {
         assert id != null;
-        Iterable<Product> iterable = productRepository.getAllProductByUserId(id);
+        Iterable<Product> iterable = productRepository.getAllProductByMemberId(id);
         List<Product> products = new ArrayList<>();
         iterable.forEach(products::add);
         return products;

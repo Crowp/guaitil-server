@@ -20,5 +20,5 @@ public interface ProductService {
 
     List<Product> getAllProductByLocalId(Long id);
 
-    List<Product> getAllProductByUserId(Long id);
+    List<Product> getAllProductByMemberId(Long id);
 }
