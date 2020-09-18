@@ -2,6 +2,7 @@ package com.guaitilsoft.services;
 
 
 import com.guaitilsoft.models.Product;
+import com.guaitilsoft.models.constant.ReviewState;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface ProductService {
     List<Product> getAllProductByLocalId(Long id);
 
     List<Product> getAllProductByMemberId(Long id);
+
+    List<Product> getAllProductAcceptedByLocalId( Long id);
 }
