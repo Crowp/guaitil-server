@@ -41,8 +41,8 @@ spring:
   profiles: "production"
   datasource:
     url: "jdbc:mysql://localhost/guaitil?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT-6"
-    username: "ricmor"
-    password: "root"
+    username: "guaitil_user"
+    password: "root124578"
     testWhileIdle: true
     validationQuery: SELECT 1
   jpa:
@@ -71,3 +71,7 @@ spring:
       max-file-size: 500KB
       max-request-size: 500KB
       enabled: false
+server:
+  port: 8080
+  ssl:
+    enabled: true

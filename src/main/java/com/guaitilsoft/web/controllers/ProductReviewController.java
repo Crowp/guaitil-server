@@ -51,7 +51,7 @@ public class ProductReviewController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductReviewView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+    public ResponseEntity<ProductReviewView> getById(@PathVariable Long id) throws Exception {
         ProductReviewView productReview = modelMapper.map(productReviewService.get(id), ProductReviewView.class);
         this.addUrlToMultimedia(productReview);
         logger.info("Fetching Product with id {}", id);
@@ -59,7 +59,7 @@ public class ProductReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductReviewView> post(@RequestBody ProductReviewView productReviewRequest) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<ProductReviewView> post(@RequestBody ProductReviewView productReviewRequest) throws Exception {
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Creating a product review");
         productReviewService.save(productReview);
@@ -75,7 +75,7 @@ public class ProductReviewController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductReviewView> put(@PathVariable Long id, @RequestBody ProductReviewView productReviewRequest) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<ProductReviewView> put(@PathVariable Long id, @RequestBody ProductReviewView productReviewRequest) throws Exception {
         if(!id.equals(productReviewRequest.getId())){
             throw new ApiRequestException("El id de la revision del producto: " + productReviewRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -88,7 +88,7 @@ public class ProductReviewController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProductReviewView> delete(@PathVariable Long id)throws Exception, EntityNotFoundException {
+    public ResponseEntity<ProductReviewView> delete(@PathVariable Long id)throws Exception {
         ProductReviewView productReviewResponse = modelMapper.map(productReviewService.get(id), ProductReviewView.class);
         logger.info("Deleting Product Review with id {}", id);
         productReviewService.delete(id);

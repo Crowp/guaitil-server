@@ -22,6 +22,7 @@ import java.util.Optional;
 @EnableSwagger2
 public class SwaggerConfig implements WebMvcConfigurer{
 
+
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

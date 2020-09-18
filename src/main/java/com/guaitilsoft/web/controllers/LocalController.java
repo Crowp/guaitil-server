@@ -113,7 +113,7 @@ public class LocalController {
 
     @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<LocalView> deleteMultimediaById(@RequestParam Long id,
-                                                          @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException {
+                                                          @RequestParam Long idMultimedia) throws Exception {
         logger.info("Deleting Local Multimedia with id {}", id);
         LocalView localResponse = modelMapper.map(
                 localService.deleteMultimediaById(id, idMultimedia), LocalView.class);

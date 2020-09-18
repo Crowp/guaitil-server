@@ -56,7 +56,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<ProductView> getById(@PathVariable Long id) throws Exception {
         ProductView product = modelMapper.map(productService.get(id), ProductView.class);
         addUrlToMultimedia(product);
         logger.info("Fetching Product with id {}", id);
@@ -64,7 +64,7 @@ public class ProductController {
     }
 
     @GetMapping("/local-id/{id}")
-    public ResponseEntity<List<ProductView>>getProductsByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<List<ProductView>>getProductsByLocalId(@PathVariable Long id) throws Exception {
         Local local = localService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
         List<ProductView> products = modelMapper.map(productService.getAllProductByLocalId(local.getId()), listType);
@@ -74,7 +74,7 @@ public class ProductController {
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<ProductView>>getAllProductByMemberId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<List<ProductView>>getAllProductByMemberId(@PathVariable Long id) throws Exception {
         Member member = memberService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
         List<ProductView> products = modelMapper.map(productService.getAllProductByMemberId(member.getId()), listType);
@@ -84,7 +84,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) throws Exception {
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Creating product");
 
@@ -103,7 +103,7 @@ public class ProductController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductView> put(@PathVariable Long id, @RequestBody ProductView productRequest) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<ProductView> put(@PathVariable Long id, @RequestBody ProductView productRequest) throws Exception {
         if(!id.equals(productRequest.getId())){
             throw new ApiRequestException("El id del producto: " + productRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -118,7 +118,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProductView> delete(@PathVariable Long id)throws Exception, EntityNotFoundException {
+    public ResponseEntity<ProductView> delete(@PathVariable Long id)throws Exception {
         ProductView productResponse = modelMapper.map(productService.get(id), ProductView.class);
         logger.info("Deleting Product with id {}", id);
         productService.delete(id);
@@ -128,7 +128,7 @@ public class ProductController {
 
     @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<ProductView> deleteMultimediaById(@RequestParam Long id,
-                                                          @RequestParam Long idMultimedia) throws Exception, EntityNotFoundException{
+                                                          @RequestParam Long idMultimedia) throws Exception {
         logger.info("Deleting Product with id {}", id);
         ProductView productResponse = modelMapper.map(
                 productService.deleteMultimediaById(id, idMultimedia), ProductView.class);

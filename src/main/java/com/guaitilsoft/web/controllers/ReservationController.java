@@ -45,7 +45,7 @@ public class ReservationController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ReservationView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+    public ResponseEntity<ReservationView> getById(@PathVariable Long id) throws Exception {
         ReservationView reservations = modelMapper.map(reservationService.get(id), ReservationView.class);
         logger.info("Fetching Reservation with id {}", id);
         return ResponseEntity.ok().body(reservations);
@@ -68,7 +68,7 @@ public class ReservationController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ReservationView> put(@PathVariable Long id, @RequestBody ReservationView reservationRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<ReservationView> put(@PathVariable Long id, @RequestBody ReservationView reservationRequest) throws Exception {
         if(!id.equals(reservationRequest.getId())){
             throw new ApiRequestException("El id de la reservacion: " + reservationRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -81,7 +81,7 @@ public class ReservationController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ReservationView> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
+    public ResponseEntity<ReservationView> delete(@PathVariable Long id) throws Exception {
         ReservationView reservationResponse = modelMapper.map(reservationService.get(id), ReservationView.class);
         logger.info("Deleting Reservation with id {}", id);
         reservationService.delete(id);

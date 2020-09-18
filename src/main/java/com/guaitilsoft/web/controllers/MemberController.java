@@ -43,14 +43,14 @@ public class MemberController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<MemberView>> get() throws Exception, EntityNotFoundException{
+    public ResponseEntity<List<MemberView>> get() throws Exception {
         Type listType = new TypeToken<List<MemberView>>(){}.getType();
         List<MemberView> members = modelMapper.map(memberService.list(), listType);
         return  ResponseEntity.ok().body(members);
     }
 
     @GetMapping("members-without-users")
-    public ResponseEntity<List<MemberView>> getMembersWithoutUser() throws Exception, EntityNotFoundException{
+    public ResponseEntity<List<MemberView>> getMembersWithoutUser() throws Exception {
         Type listType = new TypeToken<List<MemberView>>(){}.getType();
         List<MemberView> members = modelMapper.map(memberService.getMemberWithoutUser(), listType);
         return  ResponseEntity.ok().body(members);
@@ -58,7 +58,7 @@ public class MemberController {
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> getById(@PathVariable Long id) throws Exception, EntityNotFoundException {
+    public ResponseEntity<MemberView> getById(@PathVariable Long id) throws Exception {
         MemberView getMember= modelMapper.map(memberService.get(id), MemberView.class);
         logger.info("Fetching Member with id: {}", id);
         return ResponseEntity.ok().body(getMember);
@@ -66,7 +66,7 @@ public class MemberController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) throws Exception {
         memberRequest.setId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
         List<Local> locals = new ArrayList<>();
@@ -93,7 +93,7 @@ public class MemberController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> put(@PathVariable Long id, @RequestBody MemberView memberRequest) throws Exception, EntityNotFoundException {
+    public ResponseEntity<MemberView> put(@PathVariable Long id, @RequestBody MemberView memberRequest) throws Exception {
         if(!id.equals(memberRequest.getId())){
             throw new ApiRequestException("El id del miembro: " + memberRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -107,7 +107,7 @@ public class MemberController {
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> delete(@PathVariable Long id) throws Exception, EntityNotFoundException{
+    public ResponseEntity<MemberView> delete(@PathVariable Long id) throws Exception {
         MemberView memberResponse = modelMapper.map(memberService.get(id), MemberView.class);
         logger.info("Deleting Member with id: {}", id);
         memberService.delete(id);

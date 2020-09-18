@@ -1,4 +1,4 @@
-package com.guaitilsoft.web.models.Activity;
+package com.guaitilsoft.web.models.activity;
 
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.constant.ActivityType;
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
-
 @Data
 @NoArgsConstructor
 public class ActivityView {

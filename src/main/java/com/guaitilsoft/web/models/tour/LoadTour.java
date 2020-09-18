@@ -1,6 +1,6 @@
 package com.guaitilsoft.web.models.tour;
 
-import com.guaitilsoft.web.models.activity.LoadActivity;
+import com.guaitilsoft.web.models.activity.LoadActivityView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,5 +19,5 @@ public class LoadTour {
 
     private Date updatedAt;
 
-    private LoadActivity activity;
+    private LoadActivityView activity;
 }
