@@ -1,6 +1,17 @@
 spring:
   profiles:
     active: "development"
+  output:
+    ansi:
+      enabled: always
+server:
+  port: 8080
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:guaitil.p12
+    key-store-password: root1234
+    key-alias: guaitil
 ---
 spring:
   profiles: "development"
@@ -27,9 +38,7 @@ spring:
         secret-key : "secret-key"
         expire-length : 5
       header: "Authorization"
-  output:
-    ansi:
-      enabled: always
+
 
   servlet:
     multipart:
@@ -59,19 +68,12 @@ spring:
   security:
     jwt:
       token:
-        secret-key : "secret-key"
+        secret-key : "gBHwqpF523Mp3mWd7p5deeeuG"
         expire-length : 5
       header: "Authorization"
-  output:
-    ansi:
-      enabled: always
 
   servlet:
     multipart:
       max-file-size: 500KB
       max-request-size: 500KB
       enabled: false
-server:
-  port: 8080
-  ssl:
-    enabled: true
