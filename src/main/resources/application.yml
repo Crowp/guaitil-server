@@ -1,17 +1,17 @@
 spring:
+  thymeleaf:
+    prefix: classpath:/static/
   profiles:
     active: "development"
   output:
     ansi:
       enabled: always
-server:
-  port: 8080
-  ssl:
-    enabled: true
-    key-store-type: PKCS12
-    key-store: classpath:guaitil.p12
-    key-store-password: root1234
-    key-alias: guaitil
+#  ssl:
+#    enabled: true
+#    key-store-type: PKCS12
+#    key-store: classpath:guaitil.p12
+#    key-store-password: root1234
+#    key-alias: guaitil
 ---
 spring:
   profiles: "development"
@@ -45,6 +45,8 @@ spring:
       max-file-size: 500KB
       max-request-size: 500KB
       enabled: false
+server:
+  port: 8080
 ---
 spring:
   profiles: "production"
@@ -61,7 +63,7 @@ spring:
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL57Dialect
+        dialect: org.hibernate.dialect.MySQL8Dialect
         jdbc:
           time_zone: UTC
 
@@ -77,3 +79,5 @@ spring:
       max-file-size: 500KB
       max-request-size: 500KB
       enabled: false
+server:
+  port: 80
