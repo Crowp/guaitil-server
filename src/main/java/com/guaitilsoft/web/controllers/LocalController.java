@@ -17,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
@@ -41,7 +40,6 @@ public class LocalController {
     }
 
     @GetMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<List<LocalView>> get(){
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
         List<LocalView> locals = modelMapper.map(localService.list(), listType);
