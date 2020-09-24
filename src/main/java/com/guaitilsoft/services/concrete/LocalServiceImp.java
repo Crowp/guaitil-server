@@ -3,9 +3,11 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
+import com.guaitilsoft.models.Product;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +20,14 @@ import java.util.stream.Collectors;
 @Service
 public class LocalServiceImp implements LocalService {
 
-    private LocalRepository localRepository;
-    private MultimediaService multimediaService;
+    private final LocalRepository localRepository;
+    private final ProductService productService;
+    private final MultimediaService multimediaService;
 
     @Autowired
-    public LocalServiceImp(LocalRepository localRepository, MultimediaService multimediaService) {
+    public LocalServiceImp(LocalRepository localRepository, ProductService productService, MultimediaService multimediaService) {
         this.localRepository = localRepository;
+        this.productService = productService;
         this.multimediaService = multimediaService;
     }
 
@@ -83,11 +87,18 @@ public class LocalServiceImp implements LocalService {
 
         Local local = this.get(id);
         List<Multimedia> multimediaList = new ArrayList<>(local.getMultimedia());
+        List<Product> productList = new ArrayList<>(local.getProducts());
         local.setMultimedia(null);
+        local.setProducts(null);
         localRepository.save(local);
         if(multimediaList.size() > 0){
             multimediaList.forEach(media -> {
                 multimediaService.delete(media.getId());
+            });
+        }
+        if(productList.size() > 0){
+            productList.forEach(product -> {
+                productService.delete(product.getId());
             });
         }
         localRepository.delete(local);
