@@ -1,6 +1,5 @@
 package com.guaitilsoft.services;
 
-import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.web.models.multimedia.MultimediaRequest;
 import org.springframework.core.io.Resource;
@@ -22,7 +21,7 @@ public interface MultimediaService {
 
      Multimedia store(MultimediaRequest multimedia);
 
-     Resource load(String filename) throws ApiRequestException;
+     Resource load(String filename);
 
      void deleteAll();
 }
