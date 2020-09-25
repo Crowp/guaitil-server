@@ -68,7 +68,7 @@ public class MemberController {
         memberRequest.setId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
         List<Local> locals = new ArrayList<>(member.getLocals());
-        member.setLocals(null);
+        member.setLocals(new ArrayList<>());
         logger.info("Creating Member");
         memberService.save(member);
         locals.forEach(l -> {
@@ -77,10 +77,11 @@ public class MemberController {
         });
 
         if(!locals.isEmpty()){
+            member.setLocals(locals);
+            memberService.update(member.getId(), member);
             Member memberValidate = memberService.get(member.getId());
             if(memberValidate.getLocals().isEmpty()){
                 memberService.delete(memberValidate.getId());
-                locals.forEach(local -> localService.delete(local.getId()));
                 throw new ApiRequestException("Error al crear un miembro con local");
             }
         }
