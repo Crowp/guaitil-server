@@ -2,7 +2,7 @@ spring:
   thymeleaf:
     prefix: classpath:/static/
   profiles:
-    active: "development"
+    active: "production"
   output:
     ansi:
       enabled: always
