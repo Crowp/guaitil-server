@@ -35,7 +35,7 @@ public class Reservation {
     @OneToOne(cascade = CascadeType.MERGE)
     private Tour tour;
 
-    @ManyToOne(targetEntity = Person.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Person.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "personId")
     private Person person;
 }
