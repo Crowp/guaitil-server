@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +46,8 @@ public class ReservationServiceImp implements ReservationService {
     @Override
     public void save(Reservation entity) {
         assert entity != null;
-
+        entity.setCreatedAt(new Date());
+        entity.setUpdatedAt(new Date());
         reservationRepository.save(entity);
     }
 
@@ -60,6 +62,7 @@ public class ReservationServiceImp implements ReservationService {
         reservation.setReservationState(entity.getReservationState());
         reservation.setTour(entity.getTour());
         reservation.setPerson(entity.getPerson());
+        reservation.setUpdatedAt(new Date());
         reservationRepository.save(entity);
     }
 

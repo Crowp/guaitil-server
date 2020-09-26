@@ -57,6 +57,8 @@ public class PersonServiceImp implements PersonService {
         if(personRepository.existEmail(entity.getEmail())){
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
         }
+        entity.setUpdatedAt(new Date());
+        entity.setCreatedAt(new Date());
         personRepository.save(entity);
 
     }

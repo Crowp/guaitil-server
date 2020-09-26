@@ -57,6 +57,8 @@ public class LocalServiceImp implements LocalService {
         if(localRepository.existMemberPersonLocal(entity.personId(),entity.getLocalType())){
             throw new ApiRequestException("el local esta ocupado por el miembro, con cedula: " + entity.personId());
         }
+        entity.setUpdatedAt(new Date());
+        entity.setCreatedAt(new Date());
         loadMultimedia(entity);
         localRepository.save(entity);
     }
