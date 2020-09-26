@@ -1,8 +1,6 @@
 package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Tour;
-
-import com.guaitilsoft.models.constant.ActivityType;
 import com.guaitilsoft.repositories.TourRepository;
 import com.guaitilsoft.services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +44,8 @@ public class TourServiceImp implements TourService {
     @Override
     public void save(Tour entity)  {
         assert entity != null;
-
+        entity.setUpdatedAt(new Date());
+        entity.setCreatedAt(new Date());
         tourRepository.save(entity);
     }
 
@@ -57,7 +57,7 @@ public class TourServiceImp implements TourService {
         Tour tour = this.get(id);
         tour.setAmountPerson(entity.getAmountPerson());
         tour.setActivity(entity.getActivity());
-
+        tour.setUpdatedAt(new Date());
         tourRepository.save(entity);
     }
 

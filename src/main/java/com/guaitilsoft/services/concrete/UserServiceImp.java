@@ -89,6 +89,7 @@ public class UserServiceImp implements UserService {
         assert id != null;
         User user = this.get(id);
         user.setRoles(roles);
+        user.setUpdatedAt(new Date());
         userRepository.save(user);
         return user;
     }

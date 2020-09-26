@@ -64,6 +64,7 @@ public class ActivityServiceImp implements ActivityService {
 
         Activity activity = this.get(id);
         activity.setName(entity.getName());
+        activity.setUpdatedAt(new Date());
         activity.setDescription(entity.getDescription());
         activity.setActivityDate(entity.getActivityDate());
         activity.setActivityType(entity.getActivityType());
