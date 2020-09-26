@@ -3,6 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.web.models.local.LocalView;
@@ -43,6 +44,33 @@ public class LocalController {
     public ResponseEntity<List<LocalView>> get(){
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
         List<LocalView> locals = modelMapper.map(localService.list(), listType);
+        locals.forEach(this::addUrlToMultimedia);
+        return  ResponseEntity.ok().body(locals);
+    }
+
+    @GetMapping("/talleres")
+    public ResponseEntity<List<LocalView>> getWorkshop(){
+        LocalType localType = LocalType.WORKSHOP;
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        locals.forEach(this::addUrlToMultimedia);
+        return  ResponseEntity.ok().body(locals);
+    }
+
+    @GetMapping("/cocinas")
+    public ResponseEntity<List<LocalView>> getKitchen(){
+        LocalType localType = LocalType.KITCHEN;
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        locals.forEach(this::addUrlToMultimedia);
+        return  ResponseEntity.ok().body(locals);
+    }
+
+    @GetMapping("/hospedajes")
+    public ResponseEntity<List<LocalView>> getLodging(){
+        LocalType localType = LocalType.LODGING;
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
         locals.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(locals);
     }

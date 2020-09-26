@@ -4,6 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
+import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
@@ -126,6 +127,14 @@ public class LocalServiceImp implements LocalService {
         List<Local> locals = new ArrayList<>();
         iterable.forEach(locals::add);
         return locals;
+    }
+
+    @Override
+    public List<Local> getLocalByLocalType(LocalType localType) {
+        return this.list()
+                .stream()
+                .filter(local -> local.getLocalType().equals(localType))
+                .collect(Collectors.toList());
     }
 
     public void loadMultimedia(Local entity){
