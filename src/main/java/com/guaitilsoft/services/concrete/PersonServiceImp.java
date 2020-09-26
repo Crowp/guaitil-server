@@ -93,4 +93,9 @@ public class PersonServiceImp implements PersonService {
         reservationService.deleteReservationByPersonId(id);
         personRepository.delete(person);
     }
+
+    @Override
+    public boolean existPerson(String personId) {
+        return this.personRepository.existsById(personId);
+    }
 }
