@@ -55,6 +55,10 @@ public class ReservationController {
     public ResponseEntity<ReservationView> post(@RequestBody ReservationView reservationRequest) throws  Exception{
         Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
         logger.info("Creating reservation: {}", reservation);
+        String personId = reservation.getPerson().getId();
+        if (personService.existPerson(personId)){
+            reservation.setPerson(personService.get(personId));
+        }
         reservationService.save(reservation);
         ReservationView reservationResponse = modelMapper.map(reservation, ReservationView.class);
 

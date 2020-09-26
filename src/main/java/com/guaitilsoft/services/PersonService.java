@@ -15,4 +15,5 @@ public interface PersonService {
 
     void delete(String id);
 
+    boolean existPerson(String personId);
 }
