@@ -49,7 +49,7 @@ public class LocalController {
     }
 
     @GetMapping("/talleres")
-    public ResponseEntity<List<LocalView>> getWorkshop(){
+    public ResponseEntity<List<LocalView>> getWorkshops(){
         LocalType localType = LocalType.WORKSHOP;
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
         List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
@@ -58,7 +58,7 @@ public class LocalController {
     }
 
     @GetMapping("/cocinas")
-    public ResponseEntity<List<LocalView>> getKitchen(){
+    public ResponseEntity<List<LocalView>> getKitchens(){
         LocalType localType = LocalType.KITCHEN;
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
         List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
@@ -67,8 +67,17 @@ public class LocalController {
     }
 
     @GetMapping("/hospedajes")
-    public ResponseEntity<List<LocalView>> getLodging(){
+    public ResponseEntity<List<LocalView>> getLodgings(){
         LocalType localType = LocalType.LODGING;
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        locals.forEach(this::addUrlToMultimedia);
+        return  ResponseEntity.ok().body(locals);
+    }
+
+    @GetMapping("/hospedajes")
+    public ResponseEntity<List<LocalView>> getOthers(){
+        LocalType localType = LocalType.OTHERS;
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
         List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
         locals.forEach(this::addUrlToMultimedia);
