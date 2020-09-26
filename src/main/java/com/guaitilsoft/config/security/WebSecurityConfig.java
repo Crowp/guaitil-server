@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()//
                 .antMatchers("/**/*.{js,html,css}").permitAll()
                 .antMatchers("/auth/login", "/auth/register").permitAll()
-                .antMatchers("/api/multimedia/load/**", "/api/gallery").permitAll()
+                .antMatchers("/api/multimedia/load/**", "/api/gallery", "/api/multimedia").permitAll()
                 .antMatchers("/api/local", "/api/local/hospedajes", "/api/local/cocinas", "/api/local/talleres", "/api/local/otros-locales").permitAll()
                 .antMatchers("/api/**", "/auth/**").authenticated()
                 .requestMatchers(CorsUtils::isCorsRequest).permitAll()
