@@ -5,7 +5,6 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.web.models.member.MemberView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -17,7 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
@@ -69,17 +67,25 @@ public class MemberController {
     public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) throws Exception {
         memberRequest.setId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
-        List<Local> locals = new ArrayList<>();
+        List<Local> locals = new ArrayList<>(member.getLocals());
+        member.setLocals(new ArrayList<>());
         logger.info("Creating Member");
-        if(member.getLocals().size() > 0){
-            member.getLocals().forEach(local -> {
-                local.setMember(member);
-                locals.add(local);
-            });
-            member.setLocals(new ArrayList<>());
-        }
         memberService.save(member);
-        locals.forEach(l -> localService.save(l));
+        locals.forEach(l -> {
+            l.setMember(member);
+            localService.save(l);
+        });
+
+        if(!locals.isEmpty()){
+            member.setLocals(locals);
+            memberService.update(member.getId(), member);
+            Member memberValidate = memberService.get(member.getId());
+            if(memberValidate.getLocals().isEmpty()){
+                memberService.delete(memberValidate.getId());
+                throw new ApiRequestException("Error al crear un miembro con local");
+            }
+        }
+
         MemberView memberResponse = modelMapper.map(member, MemberView.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
