@@ -75,7 +75,7 @@ public class LocalController {
         return  ResponseEntity.ok().body(locals);
     }
 
-    @GetMapping("/hospedajes")
+    @GetMapping("/otros-locales")
     public ResponseEntity<List<LocalView>> getOthers(){
         LocalType localType = LocalType.OTHERS;
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
