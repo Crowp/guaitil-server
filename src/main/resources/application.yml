@@ -1,17 +1,11 @@
 spring:
-  thymeleaf:
-    prefix: classpath:/static/
   profiles:
     active: "development"
   output:
     ansi:
       enabled: always
-#  ssl:
-#    enabled: true
-#    key-store-type: PKCS12
-#    key-store: classpath:guaitil.p12
-#    key-store-password: root1234
-#    key-alias: guaitil
+server:
+  port: 8080
 ---
 spring:
   profiles: "development"
@@ -45,8 +39,6 @@ spring:
       max-file-size: 500KB
       max-request-size: 500KB
       enabled: false
-server:
-  port: 8080
 ---
 spring:
   profiles: "production"
@@ -79,5 +71,3 @@ spring:
       max-file-size: 500KB
       max-request-size: 500KB
       enabled: false
-server:
-  port: 80
