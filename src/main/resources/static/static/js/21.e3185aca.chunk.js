@@ -1,2 +1,0 @@
-(this["webpackJsonpfalcon-react"]=this["webpackJsonpfalcon-react"]||[]).push([[21],{1438:function(e,a,t){"use strict";t.r(a);var c=t(0),l=t.n(c),n=t(209),s=t(112),r=t(172),m=t(340);a.default=function(){return l.a.createElement(m.a,{className:"py-0"},l.a.createElement(n.a,{className:"flex-center min-vh-100 py-6"},l.a.createElement(s.a,{sm:10,md:8,lg:6,xl:5,className:"col-xxl-4"},l.a.createElement(r.a,null))))}}}]);
-//# sourceMappingURL=21.e3185aca.chunk.js.map
