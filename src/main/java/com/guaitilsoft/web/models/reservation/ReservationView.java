@@ -1,7 +1,6 @@
 package com.guaitilsoft.web.models.reservation;
 
 import com.guaitilsoft.models.Person;
-import com.guaitilsoft.models.Tour;
 import com.guaitilsoft.models.constant.ReservationState;
 import com.guaitilsoft.web.models.tour.LoadTour;
 import lombok.Getter;

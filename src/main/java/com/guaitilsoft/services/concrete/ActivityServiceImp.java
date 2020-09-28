@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 @Service
 public class ActivityServiceImp implements ActivityService {
 
-    private ActivityRepository activityRepository;
-    private MultimediaService multimediaService;
-    private TourService tourService;
+    private final ActivityRepository activityRepository;
+    private final MultimediaService multimediaService;
+    private final TourService tourService;
 
     @Autowired
     public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService, TourService tourService) {

@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class TourServiceImp implements TourService {
 
-    private TourRepository tourRepository;
+    private final TourRepository tourRepository;
 
     @Autowired
     public TourServiceImp(TourRepository tourRepository) {

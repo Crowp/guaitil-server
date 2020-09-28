@@ -6,7 +6,6 @@ import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ProductService;
 import com.guaitilsoft.services.SaleService;
-import com.guaitilsoft.web.models.product.ProductView;
 import com.guaitilsoft.web.models.sale.SaleView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -18,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;

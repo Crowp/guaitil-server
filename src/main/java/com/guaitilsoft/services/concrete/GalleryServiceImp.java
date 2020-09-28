@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class GalleryServiceImp implements GalleryService {
 
-    private GalleryRepository galleryRepository;
-    private MultimediaService multimediaService;
+    private final GalleryRepository galleryRepository;
+    private final MultimediaService multimediaService;
 
     @Autowired
     public GalleryServiceImp(GalleryRepository galleryRepository, MultimediaService multimediaService) {

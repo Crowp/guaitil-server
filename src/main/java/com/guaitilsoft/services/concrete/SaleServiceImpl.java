@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class SaleServiceImpl implements SaleService {
 
-    private SaleRepository saleRepository;
+    private final SaleRepository saleRepository;
 
     @Autowired
     public SaleServiceImpl(SaleRepository saleRepository){

@@ -1,14 +1,11 @@
 package com.guaitilsoft.web.models.person;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.PersonType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import java.util.Date;
 
 @Getter

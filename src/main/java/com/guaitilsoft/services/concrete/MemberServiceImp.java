@@ -20,9 +20,9 @@ import java.util.List;
 @Service
 public class MemberServiceImp implements MemberService {
 
-    private MemberRepository memberRepository;
-    private LocalService localService;
-    private UserService userService;
+    private final MemberRepository memberRepository;
+    private final LocalService localService;
+    private final UserService userService;
 
 
     @Autowired

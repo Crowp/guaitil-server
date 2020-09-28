@@ -2,7 +2,6 @@ package com.guaitilsoft.services;
 
 
 import com.guaitilsoft.models.Tour;
-import com.guaitilsoft.models.constant.ActivityType;
 
 import java.util.List;
 

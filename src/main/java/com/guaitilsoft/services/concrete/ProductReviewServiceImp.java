@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class ProductReviewServiceImp implements ProductReviewService {
 
-    private ProductReviewRepository productReviewRepository;
+    private final ProductReviewRepository productReviewRepository;
 
     @Autowired
     public ProductReviewServiceImp(ProductReviewRepository productReviewRepository) {

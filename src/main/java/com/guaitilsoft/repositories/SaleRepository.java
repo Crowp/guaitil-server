@@ -1,7 +1,5 @@
 package com.guaitilsoft.repositories;
 
-import com.guaitilsoft.models.Product;
-import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.models.Sale;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

@@ -3,7 +3,6 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.*;
 import com.guaitilsoft.services.*;
-import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.ProductView;
 import org.modelmapper.ModelMapper;
@@ -30,7 +29,6 @@ public class ProductController {
     private ProductService productService;
     private LocalService localService;
     private MemberService memberService;
-    private SaleService saleService;
     private MultimediaService multimediaService;
     private ModelMapper modelMapper;
 

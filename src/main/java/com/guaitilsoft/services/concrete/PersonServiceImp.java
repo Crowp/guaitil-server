@@ -19,8 +19,8 @@ import java.util.List;
 @Service
 public class PersonServiceImp implements PersonService {
 
-    private PersonRepository personRepository;
-    private ReservationService reservationService;
+    private final PersonRepository personRepository;
+    private final ReservationService reservationService;
 
     @Autowired
     public PersonServiceImp(PersonRepository personRepository, ReservationService reservationService) {
