@@ -83,7 +83,7 @@ public class ProductController {
     public ResponseEntity<List<ProductView>>getAllProductAcceptedByLocalId(@PathVariable Long id) {
         Local local = localService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<ProductView> products = modelMapper.map(productService.getAllProductByMemberId(local.getId()), listType);
+        List<ProductView> products = modelMapper.map(productService.getAllProductAcceptedByLocalId(local.getId()), listType);
         products.forEach(this::addUrlToMultimedia);
         logger.info("Fetching Product with state accepted {}", id);
         return ResponseEntity.ok().body(products);
