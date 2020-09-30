@@ -27,10 +27,10 @@ import java.util.List;
 public class SaleController {
     public static final Logger logger = LoggerFactory.getLogger(SaleController.class);
 
-    private SaleService saleService;
-    private ProductService productService;
-    private MemberService memberService;
-    private ModelMapper modelMapper;
+    private final SaleService saleService;
+    private final ProductService productService;
+    private final MemberService memberService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public SaleController(SaleService saleService, ProductService productService, MemberService memberService, ModelMapper modelMapper){
@@ -48,14 +48,14 @@ public class SaleController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<SaleView> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<SaleView> getById(@PathVariable Long id) {
         SaleView sale = modelMapper.map(saleService.get(id), SaleView.class);
         logger.info("Fetching Sale with {}", id);
         return ResponseEntity.ok().body(sale);
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<SaleView>> getAllSaleByMemberId(@PathVariable Long id) throws Exception {
+    public ResponseEntity<List<SaleView>> getAllSaleByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
         Type listType = new TypeToken<List<SaleView>>(){}.getType();
         List<SaleView> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getId()), listType);
@@ -64,7 +64,7 @@ public class SaleController {
     }
 
     @PostMapping
-    public ResponseEntity<SaleView> post(@RequestBody SaleView saleRequest) throws Exception {
+    public ResponseEntity<SaleView> post(@RequestBody SaleView saleRequest) {
         Sale sale = modelMapper.map(saleRequest, Sale.class);
         logger.info("Creating sale: {}", sale);
         sale.setProduct(productService.get(sale.getProduct().getId()));
@@ -81,7 +81,7 @@ public class SaleController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<SaleView> put(@PathVariable Long id, @RequestBody SaleView saleRequest) throws Exception {
+    public ResponseEntity<SaleView> put(@PathVariable Long id, @RequestBody SaleView saleRequest) {
         if(!id.equals(saleRequest.getId())){
             throw new ApiRequestException("El id de la venta: " + saleRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -95,7 +95,7 @@ public class SaleController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<SaleView> delete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<SaleView> delete(@PathVariable Long id) {
         SaleView saleResponse = modelMapper.map(saleService.get(id), SaleView.class);
         logger.info("Deleting Sale with id {}", id);
         saleService.delete(id);

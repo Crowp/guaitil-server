@@ -106,7 +106,7 @@ public class MultimediaServiceImp implements MultimediaService {
             if(originalFileName.contains("..")) {
                 throw new ApiRequestException("Sorry! Filename contains invalid path sequence " + originalFileName);
             }
-            String fileExtension = "";
+            String fileExtension;
             try {
                 fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
             } catch(Exception e) {
@@ -135,7 +135,7 @@ public class MultimediaServiceImp implements MultimediaService {
             if(originalFileName.contains("..")) {
                 throw new ApiRequestException("Sorry! Filename contains invalid path sequence " + originalFileName);
             }
-            String fileExtension = "";
+            String fileExtension;
             try {
                 fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
             } catch(Exception e) {

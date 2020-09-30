@@ -25,8 +25,8 @@ public class TourController {
 
     public static final Logger logger = LoggerFactory.getLogger(TourController.class);
 
-    private TourService tourService;
-    private ModelMapper modelMapper;
+    private final TourService tourService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public TourController(TourService tourService, ModelMapper modelMapper){
@@ -42,14 +42,14 @@ public class TourController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<TourView> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<TourView> getById(@PathVariable Long id) {
         TourView tour = modelMapper.map(tourService.get(id), TourView.class);
         logger.info("Fetching Tour with id {}", id);
         return ResponseEntity.ok().body(tour);
     }
 
     @PostMapping
-    public ResponseEntity<TourView> post(@RequestBody TourView tourRequest) throws Exception {
+    public ResponseEntity<TourView> post(@RequestBody TourView tourRequest) {
         Tour tour = modelMapper.map(tourRequest, Tour.class);
         logger.info("Creating tour: {}", tour);
         tourService.save(tour);
@@ -65,7 +65,7 @@ public class TourController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<LoadTour> put(@PathVariable Long id, @RequestBody LoadTour tourRequest) throws Exception {
+    public ResponseEntity<LoadTour> put(@PathVariable Long id, @RequestBody LoadTour tourRequest) {
         if(!id.equals(tourRequest.getId())){
             throw new ApiRequestException("El id del tour: " + tourRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -78,7 +78,7 @@ public class TourController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<LoadTour> delete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<LoadTour> delete(@PathVariable Long id) {
         LoadTour tourResponse = modelMapper.map(tourService.get(id), LoadTour.class);
         logger.info("Deleting Tour with id {}", id);
         tourService.delete(id);

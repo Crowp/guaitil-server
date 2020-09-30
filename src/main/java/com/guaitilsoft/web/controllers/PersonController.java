@@ -22,8 +22,8 @@ public class PersonController {
 
     public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
-    private PersonService personService;
-    private ModelMapper modelMapper;
+    private final PersonService personService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public PersonController(PersonService personService, ModelMapper modelMapper){

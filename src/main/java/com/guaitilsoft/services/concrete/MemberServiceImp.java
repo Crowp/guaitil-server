@@ -93,9 +93,7 @@ public class MemberServiceImp implements MemberService {
         member.setLocals(null);
         memberRepository.save(member);
         if (locals.size() > 0) {
-            locals.forEach(local -> {
-                localService.delete(local.getId());
-            });
+            locals.forEach(local -> localService.delete(local.getId()));
         }
         userService.deleteUserByMemberId(id);
         memberRepository.delete(member);

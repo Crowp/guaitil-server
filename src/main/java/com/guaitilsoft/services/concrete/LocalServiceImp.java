@@ -95,14 +95,10 @@ public class LocalServiceImp implements LocalService {
         local.setProducts(null);
         localRepository.save(local);
         if(multimediaList.size() > 0){
-            multimediaList.forEach(media -> {
-                multimediaService.delete(media.getId());
-            });
+            multimediaList.forEach(media -> multimediaService.delete(media.getId()));
         }
         if(productList.size() > 0){
-            productList.forEach(product -> {
-                productService.delete(product.getId());
-            });
+            productList.forEach(product -> productService.delete(product.getId()));
         }
         localRepository.delete(local);
     }

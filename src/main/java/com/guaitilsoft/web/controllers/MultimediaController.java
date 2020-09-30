@@ -31,8 +31,8 @@ public class MultimediaController {
 
     public static final Logger logger = LoggerFactory.getLogger(LocalController.class);
 
-    private MultimediaService multimediaService;
-    private ModelMapper modelMapper;
+    private final MultimediaService multimediaService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public MultimediaController(MultimediaService multimediaService, ModelMapper modelMapper){

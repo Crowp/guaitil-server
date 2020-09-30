@@ -104,9 +104,7 @@ public class ProductServiceImp implements ProductService {
         product.setMultimedia(null);
         productRepository.save(product);
         if(multimediaList.size() > 0){
-            multimediaList.forEach(media -> {
-                multimediaService.delete(media.getId());
-            });
+            multimediaList.forEach(media -> multimediaService.delete(media.getId()));
         }
         productReviewService.deleteProductReviewByProductId(id);
         saleService.deleteSaleByProductId(id);

@@ -30,10 +30,10 @@ public class ActivityController {
 
     public static final Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
-    private ActivityService activityService;
-    private MultimediaService multimediaService;
-    private LocalService localService;
-    private ModelMapper modelMapper;
+    private final ActivityService activityService;
+    private final MultimediaService multimediaService;
+    private final LocalService localService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public ActivityController(
@@ -56,7 +56,7 @@ public class ActivityController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ActivityView> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ActivityView> getById(@PathVariable Long id) {
         ActivityView activity = modelMapper.map(activityService.get(id),ActivityView.class);
         addUrlToMultimedia(activity);
         logger.info("Fetching Activity with id {}", id);
@@ -64,7 +64,7 @@ public class ActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) throws Exception {
+    public ResponseEntity<ActivityView> post(@RequestBody ActivityView activityRequest) {
         Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Creating activity");
         loadMultimedia(activity);
@@ -83,7 +83,7 @@ public class ActivityController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ActivityView> put(@PathVariable Long id, @RequestBody ActivityView activityRequest) throws Exception {
+    public ResponseEntity<ActivityView> put(@PathVariable Long id, @RequestBody ActivityView activityRequest) {
         if(!id.equals(activityRequest.getId())){
             throw new ApiRequestException("El id de la actividad: " + activityRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -99,7 +99,7 @@ public class ActivityController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ActivityView> delete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ActivityView> delete(@PathVariable Long id) {
         ActivityView activityResponse = modelMapper.map(activityService.get(id), ActivityView.class);
         logger.info("Deleting Activity with id {}", id);
         activityService.delete(id);
@@ -109,7 +109,7 @@ public class ActivityController {
 
     @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<ActivityView> deleteMultimediaById(@RequestParam Long id,
-                                                             @RequestParam Long idMultimedia) throws Exception {
+                                                             @RequestParam Long idMultimedia) {
         logger.info("Deleting Activity Multimedia with id {}", id);
         ActivityView activityResponse = modelMapper.map(
                 activityService.deleteMultimediaById(id, idMultimedia),

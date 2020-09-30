@@ -29,9 +29,9 @@ public class LocalController {
 
     public static final Logger logger = LoggerFactory.getLogger(LocalController.class);
 
-    private LocalService localService;
-    private MemberService memberService;
-    private ModelMapper modelMapper;
+    private final LocalService localService;
+    private final MemberService memberService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public LocalController(LocalService localService, MemberService memberService,ModelMapper modelMapper) {
@@ -148,7 +148,7 @@ public class LocalController {
 
     @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<LocalView> deleteMultimediaById(@RequestParam Long id,
-                                                          @RequestParam Long idMultimedia) throws Exception {
+                                                          @RequestParam Long idMultimedia) {
         logger.info("Deleting Local Multimedia with id {}", id);
         LocalView localResponse = modelMapper.map(
                 localService.deleteMultimediaById(id, idMultimedia), LocalView.class);

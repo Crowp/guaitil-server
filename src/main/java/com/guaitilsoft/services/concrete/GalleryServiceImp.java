@@ -49,20 +49,19 @@ public class GalleryServiceImp implements GalleryService {
     @Override
     public Gallery addMultimedia(List<Multimedia> multimediaList) {
         Optional<Gallery> optionalGallery = this.get();
+        Gallery gallery;
         if(optionalGallery.isPresent()){
-            Gallery gallery = optionalGallery.get();
+            gallery = optionalGallery.get();
             multimediaList.addAll(gallery.getMultimedia());
             gallery.setMultimedia(multimediaList);
-            galleryRepository.save(gallery);
-            return gallery;
         } else {
-            Gallery gallery = new Gallery();
+            gallery = new Gallery();
             gallery.setMultimedia(multimediaList);
             gallery.setCreatedAt(new Date());
             gallery.setCreatedAt(new Date());
-            galleryRepository.save(gallery);
-            return gallery;
         }
+        galleryRepository.save(gallery);
+        return gallery;
     }
 
     @Override

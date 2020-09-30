@@ -87,9 +87,7 @@ public class ActivityServiceImp implements ActivityService {
         activity.setMultimedia(null);
         activityRepository.save(activity);
         if(activityList.size() > 0){
-            activityList.forEach(media -> {
-                multimediaService.delete(media.getId());
-            });
+            activityList.forEach(media -> multimediaService.delete(media.getId()));
         }
         tourService.deleteTourByActivityId(id);
         activityRepository.delete(activity);

@@ -77,11 +77,7 @@ public class ReservationServiceImp implements ReservationService {
     @Override
     public void deleteReservationsByTourId(Long idTour) {
         Optional<List<Reservation>> optionalReservations = reservationRepository.selectReservationsByTourId(idTour);
-        optionalReservations.ifPresent(reservations -> {
-            reservations.forEach(reservation -> {
-                this.delete(reservation.getId());
-            });
-        });
+        optionalReservations.ifPresent(reservations -> reservations.forEach(reservation -> this.delete(reservation.getId())));
     }
 
     @Override
