@@ -85,7 +85,6 @@ public class LocalController {
     }
 
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalView> getById(@PathVariable Long id) {
         LocalView local = modelMapper.map(localService.get(id), LocalView.class);
         addUrlToMultimedia(local);
