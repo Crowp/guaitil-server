@@ -47,7 +47,7 @@ public class ActivityController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/actividades")
+    @GetMapping
     public ResponseEntity<List<ActivityView>> get(){
         Type listType  = new TypeToken<List<ActivityView>>(){}.getType();
         List<ActivityView> activities = modelMapper.map(activityService.list(),listType);
