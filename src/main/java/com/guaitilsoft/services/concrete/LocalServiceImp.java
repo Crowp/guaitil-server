@@ -6,6 +6,7 @@ import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.repositories.LocalRepository;
+import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.ProductService;
@@ -24,12 +25,14 @@ public class LocalServiceImp implements LocalService {
     private final LocalRepository localRepository;
     private final ProductService productService;
     private final MultimediaService multimediaService;
+    private final ActivityService activityService;
 
     @Autowired
-    public LocalServiceImp(LocalRepository localRepository, ProductService productService, MultimediaService multimediaService) {
+    public LocalServiceImp(LocalRepository localRepository, ProductService productService, MultimediaService multimediaService, ActivityService activityService) {
         this.localRepository = localRepository;
         this.productService = productService;
         this.multimediaService = multimediaService;
+        this.activityService = activityService;
     }
 
     @Override
@@ -100,6 +103,7 @@ public class LocalServiceImp implements LocalService {
         if(productList.size() > 0){
             productList.forEach(product -> productService.delete(product.getId()));
         }
+        activityService.removeLocalFromActivity(id);
         localRepository.delete(local);
     }
 

@@ -1,6 +1,7 @@
 package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Activity;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.ActivityType;
 import com.guaitilsoft.repositories.ActivityRepository;
@@ -104,5 +105,22 @@ public class ActivityServiceImp implements ActivityService {
         activityRepository.save(activity);
         multimediaService.delete(idMultimedia);
         return activity;
+    }
+
+    @Override
+    public void removeLocalFromActivity(Long localId) {
+        List<Activity> activityList = this.list();
+        activityList.forEach(activity -> {
+            List<Local> localList = activity.getLocals()
+                    .stream()
+                    .filter(local -> !local.getId().equals(localId))
+                    .collect(Collectors.toList());
+            if (!localList.isEmpty()){
+                activity.setLocals(localList);
+                this.update(activity.getId(), activity);
+            }else {
+                this.delete(activity.getId());
+            }
+        });
     }
 }
