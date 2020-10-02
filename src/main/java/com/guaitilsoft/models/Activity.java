@@ -10,9 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Activity {
 
     @Id

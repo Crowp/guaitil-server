@@ -6,8 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tour {
