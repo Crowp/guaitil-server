@@ -60,7 +60,7 @@ public class ReservationServiceImp implements ReservationService {
         reservation.setDateReservation(entity.getDateReservation());
         reservation.setAmountPerson(entity.getAmountPerson());
         reservation.setReservationState(entity.getReservationState());
-        reservation.setTour(entity.getTour());
+        reservation.setActivity(entity.getActivity());
         reservation.setPerson(entity.getPerson());
         reservation.setUpdatedAt(new Date());
         reservationRepository.save(entity);
@@ -76,7 +76,7 @@ public class ReservationServiceImp implements ReservationService {
 
     @Override
     public void deleteReservationsByTourId(Long idTour) {
-        Optional<List<Reservation>> optionalReservations = reservationRepository.selectReservationsByTourId(idTour);
+        Optional<List<Reservation>> optionalReservations = reservationRepository.selectReservationsByActivityId(idTour);
         optionalReservations.ifPresent(reservations -> reservations.forEach(reservation -> this.delete(reservation.getId())));
     }
 

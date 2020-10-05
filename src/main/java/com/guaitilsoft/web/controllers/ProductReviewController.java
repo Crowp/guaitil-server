@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/product-review")
 public class ProductReviewController {
-    public static final Logger logger = LoggerFactory.getLogger(TourController.class);
+    public static final Logger logger = LoggerFactory.getLogger(ProductReviewController.class);
 
     private final ProductReviewService productReviewService;
     private final ModelMapper modelMapper;

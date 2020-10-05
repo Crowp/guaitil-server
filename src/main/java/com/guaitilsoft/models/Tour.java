@@ -26,6 +26,6 @@ public class Tour {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Activity activity;
 }

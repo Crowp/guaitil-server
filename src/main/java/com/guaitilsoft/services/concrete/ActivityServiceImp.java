@@ -3,11 +3,9 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.constant.ActivityType;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,13 +20,11 @@ public class ActivityServiceImp implements ActivityService {
 
     private final ActivityRepository activityRepository;
     private final MultimediaService multimediaService;
-    private final TourService tourService;
 
     @Autowired
-    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService, TourService tourService) {
+    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService) {
         this.activityRepository = activityRepository;
         this.multimediaService = multimediaService;
-        this.tourService = tourService;
     }
 
     @Override
@@ -69,14 +65,12 @@ public class ActivityServiceImp implements ActivityService {
         activity.setDescription(entity.getDescription());
         activity.setActivityDate(entity.getActivityDate());
         activity.setActivityType(entity.getActivityType());
+        activity.setPersonCost(entity.getPersonCost());
         activity.setUpdatedAt(entity.getUpdatedAt());
         activity.setAddress(entity.getAddress());
         activity.setMultimedia(entity.getMultimedia());
 
-        if(entity.getActivityType() == ActivityType.EXPERIENCE){
-            tourService.deleteTourByActivityId(entity.getId());
-        }
-        activityRepository.save(entity);
+        activityRepository.save(activity);
     }
 
     @Override
@@ -90,7 +84,7 @@ public class ActivityServiceImp implements ActivityService {
         if(activityList.size() > 0){
             activityList.forEach(media -> multimediaService.delete(media.getId()));
         }
-        tourService.deleteTourByActivityId(id);
+
         activityRepository.delete(activity);
     }
 

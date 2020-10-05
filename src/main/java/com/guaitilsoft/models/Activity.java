@@ -32,6 +32,9 @@ public class Activity {
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
+    @Column
+    private Double personCost;
+
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
