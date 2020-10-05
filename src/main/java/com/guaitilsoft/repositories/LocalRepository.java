@@ -15,4 +15,7 @@ public interface LocalRepository extends CrudRepository<Local, Long> {
 
     @Query("SELECT l FROM Local l WHERE l.member.id =:id")
     Iterable<Local> getAllLocalByIdMember(@Param("id") Long id);
+
+    @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM Local l WHERE l.member.id =:id AND l.localType =:localType")
+    boolean memberHaveLocal(@Param("id") Long id, @Param("localType") LocalType localType);
 }

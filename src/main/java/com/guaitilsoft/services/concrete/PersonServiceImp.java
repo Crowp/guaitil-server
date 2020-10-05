@@ -67,11 +67,6 @@ public class PersonServiceImp implements PersonService {
     public void update(String id, Person entity) {
         assert id != null;
         assert entity != null;
-        Instant nowGmt = Instant.now();
-        DateTimeZone americaCostaRica = DateTimeZone.forID("America/Costa_Rica");
-        DateTime nowCostaRica = nowGmt.toDateTime(americaCostaRica);
-        Date today = nowCostaRica.toDate();
-
 
         Person person = this.get(id);
         person.setName(entity.getName());
@@ -81,9 +76,9 @@ public class PersonServiceImp implements PersonService {
         person.setGender(entity.getGender());
         person.setEmail(entity.getEmail());
         person.setPersonType(entity.getPersonType());
-        entity.setUpdatedAt(today);
+        person.setUpdatedAt(new Date());
 
-        personRepository.save(entity);
+        personRepository.save(person);
     }
 
     @Override

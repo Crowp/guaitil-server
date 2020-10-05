@@ -63,7 +63,7 @@ public class ReservationServiceImp implements ReservationService {
         reservation.setActivity(entity.getActivity());
         reservation.setPerson(entity.getPerson());
         reservation.setUpdatedAt(new Date());
-        reservationRepository.save(entity);
+        reservationRepository.save(reservation);
     }
 
     @Override

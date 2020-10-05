@@ -81,7 +81,7 @@ public class MemberServiceImp implements MemberService {
         member.setUpdatedAt(new Date());
         member.setCreatedAt(entity.getCreatedAt());
 
-        memberRepository.save(entity);
+        memberRepository.save(member);
     }
 
     @Override

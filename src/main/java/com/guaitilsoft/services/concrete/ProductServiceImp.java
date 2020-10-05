@@ -92,7 +92,7 @@ public class ProductServiceImp implements ProductService {
         product.setProductPrice(entity.getProductPrice());
         product.setUpdatedAt(new Date());
 
-        productRepository.save(entity);
+        productRepository.save(product);
     }
 
     @Override

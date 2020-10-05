@@ -60,7 +60,7 @@ public class SaleServiceImpl implements SaleService {
         sale.setAmountSold(entity.getAmountSold());
         sale.setUpdatedAt(new Date());
 
-        saleRepository.save(entity);
+        saleRepository.save(sale);
     }
 
     @Override
