@@ -17,6 +17,8 @@ public class LoadActivityView {
 
     private Date activityDate;
 
+    private Double personCost;
+
     private ActivityType activityType;
 
     private Date createdAt;
