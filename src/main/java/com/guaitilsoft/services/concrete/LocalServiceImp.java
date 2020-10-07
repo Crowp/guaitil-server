@@ -59,7 +59,7 @@ public class LocalServiceImp implements LocalService {
         assert entity != null;
 
         if(localRepository.existMemberPersonLocal(entity.personId(),entity.getLocalType())){
-            throw new ApiRequestException("el local esta ocupado por el miembro, con cedula: " + entity.personId());
+            throw new ApiRequestException("El local esta ocupado por el miembro con cédula: " + entity.personId());
         }
         entity.setUpdatedAt(new Date());
         entity.setCreatedAt(new Date());
@@ -84,7 +84,7 @@ public class LocalServiceImp implements LocalService {
         local.setMember(entity.getMember());
 
         if(localRepository.memberHaveLocal(entity.getMember().getId(), entity.getLocalType())){
-            throw new ApiRequestException("El miembro con la cédula "+entity.getMember().getId()+" posee un local del mismo tipo");
+            throw new ApiRequestException("El miembro con la cédula "+entity.personId()+" posee un local del mismo tipo");
         }
 
         entity = local;
