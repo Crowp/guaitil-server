@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class VirtualAddress {
+public class    VirtualAddress {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
