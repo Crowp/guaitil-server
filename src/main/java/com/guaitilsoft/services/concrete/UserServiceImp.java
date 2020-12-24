@@ -21,12 +21,11 @@ import java.util.Optional;
 @Service
 public class UserServiceImp implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
     @Autowired
     public UserServiceImp(UserRepository userRepository,
@@ -89,6 +88,7 @@ public class UserServiceImp implements UserService {
         assert id != null;
         User user = this.get(id);
         user.setRoles(roles);
+        user.setUpdatedAt(new Date());
         userRepository.save(user);
         return user;
     }

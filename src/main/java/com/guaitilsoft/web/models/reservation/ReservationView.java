@@ -1,9 +1,8 @@
 package com.guaitilsoft.web.models.reservation;
 
 import com.guaitilsoft.models.Person;
-import com.guaitilsoft.models.Tour;
 import com.guaitilsoft.models.constant.ReservationState;
-import com.guaitilsoft.web.models.tour.LoadTour;
+import com.guaitilsoft.web.models.activity.LoadActivityView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,7 +26,7 @@ public class ReservationView {
 
     private Date updatedAt;
 
-    private LoadTour tour;
+    private LoadActivityView tour;
 
     private Person person;
 }

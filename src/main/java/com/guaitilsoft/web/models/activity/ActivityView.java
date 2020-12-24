@@ -28,6 +28,8 @@ public class ActivityView {
 
     private Date updatedAt;
 
+    private Double personCost;
+
     private List<GetLocal> locals;
 
     private List<MultimediaResponse> multimedia;

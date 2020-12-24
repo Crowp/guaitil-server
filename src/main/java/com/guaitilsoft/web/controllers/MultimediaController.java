@@ -31,8 +31,8 @@ public class MultimediaController {
 
     public static final Logger logger = LoggerFactory.getLogger(LocalController.class);
 
-    private MultimediaService multimediaService;
-    private ModelMapper modelMapper;
+    private final MultimediaService multimediaService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public MultimediaController(MultimediaService multimediaService, ModelMapper modelMapper){
@@ -78,7 +78,7 @@ public class MultimediaController {
     }
 
     @GetMapping("load/{filename:.+}")
-    public ResponseEntity<Resource> getFile(@PathVariable String filename, HttpServletRequest request) throws ApiRequestException {
+    public ResponseEntity<Resource> getFile(@PathVariable String filename, HttpServletRequest request) {
         Resource file = multimediaService.load(filename);
         // Try to determine file's content type
         String contentType = null;

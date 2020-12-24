@@ -10,9 +10,10 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class Activity {
 
     @Id
@@ -30,6 +31,9 @@ public class Activity {
 
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
+
+    @Column
+    private Double personCost;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.TIMESTAMP)

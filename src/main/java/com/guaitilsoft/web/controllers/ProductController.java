@@ -3,7 +3,6 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.*;
 import com.guaitilsoft.services.*;
-import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.ProductView;
 import org.modelmapper.ModelMapper;
@@ -15,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
@@ -25,14 +23,13 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/product")
 public class ProductController {
-    public static final Logger logger = LoggerFactory.getLogger(TourController.class);
+    public static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-    private ProductService productService;
-    private LocalService localService;
-    private MemberService memberService;
-    private SaleService saleService;
-    private MultimediaService multimediaService;
-    private ModelMapper modelMapper;
+    private final ProductService productService;
+    private final LocalService localService;
+    private final MemberService memberService;
+    private final MultimediaService multimediaService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public ProductController(ProductService productService,
@@ -56,7 +53,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductView> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ProductView> getById(@PathVariable Long id) {
         ProductView product = modelMapper.map(productService.get(id), ProductView.class);
         addUrlToMultimedia(product);
         logger.info("Fetching Product with id {}", id);
@@ -64,7 +61,7 @@ public class ProductController {
     }
 
     @GetMapping("/local-id/{id}")
-    public ResponseEntity<List<ProductView>>getProductsByLocalId(@PathVariable Long id) throws Exception {
+    public ResponseEntity<List<ProductView>>getProductsByLocalId(@PathVariable Long id) {
         Local local = localService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
         List<ProductView> products = modelMapper.map(productService.getAllProductByLocalId(local.getId()), listType);
@@ -74,7 +71,7 @@ public class ProductController {
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<ProductView>>getAllProductByMemberId(@PathVariable Long id) throws Exception {
+    public ResponseEntity<List<ProductView>>getAllProductByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
         List<ProductView> products = modelMapper.map(productService.getAllProductByMemberId(member.getId()), listType);
@@ -83,17 +80,17 @@ public class ProductController {
         return ResponseEntity.ok().body(products);
     }
     @GetMapping("/state/local-id/{id}")
-    public ResponseEntity<List<ProductView>>getAllProductAcceptedByLocalId(@PathVariable Long id) throws Exception, EntityNotFoundException  {
+    public ResponseEntity<List<ProductView>>getAllProductAcceptedByLocalId(@PathVariable Long id) {
         Local local = localService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<ProductView> products = modelMapper.map(productService.getAllProductByMemberId(local.getId()), listType);
+        List<ProductView> products = modelMapper.map(productService.getAllProductAcceptedByLocalId(local.getId()), listType);
         products.forEach(this::addUrlToMultimedia);
         logger.info("Fetching Product with state accepted {}", id);
         return ResponseEntity.ok().body(products);
     }
 
     @PostMapping
-    public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) throws Exception {
+    public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) {
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Creating product");
 
@@ -112,7 +109,7 @@ public class ProductController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductView> put(@PathVariable Long id, @RequestBody ProductView productRequest) throws Exception {
+    public ResponseEntity<ProductView> put(@PathVariable Long id, @RequestBody ProductView productRequest) {
         if(!id.equals(productRequest.getId())){
             throw new ApiRequestException("El id del producto: " + productRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -127,7 +124,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProductView> delete(@PathVariable Long id)throws Exception {
+    public ResponseEntity<ProductView> delete(@PathVariable Long id) {
         ProductView productResponse = modelMapper.map(productService.get(id), ProductView.class);
         logger.info("Deleting Product with id {}", id);
         productService.delete(id);
@@ -137,7 +134,7 @@ public class ProductController {
 
     @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<ProductView> deleteMultimediaById(@RequestParam Long id,
-                                                          @RequestParam Long idMultimedia) throws Exception {
+                                                          @RequestParam Long idMultimedia) {
         logger.info("Deleting Product with id {}", id);
         ProductView productResponse = modelMapper.map(
                 productService.deleteMultimediaById(id, idMultimedia), ProductView.class);

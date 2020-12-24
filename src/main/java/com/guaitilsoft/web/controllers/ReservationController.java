@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
@@ -26,9 +25,9 @@ public class ReservationController {
 
     public static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
-    private ReservationService reservationService;
-    private PersonService personService;
-    private ModelMapper modelMapper;
+    private final ReservationService reservationService;
+    private final PersonService personService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public ReservationController(ReservationService reservationService, ModelMapper modelMapper, PersonService personService){
@@ -45,16 +44,20 @@ public class ReservationController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ReservationView> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ReservationView> getById(@PathVariable Long id) {
         ReservationView reservations = modelMapper.map(reservationService.get(id), ReservationView.class);
         logger.info("Fetching Reservation with id {}", id);
         return ResponseEntity.ok().body(reservations);
     }
 
     @PostMapping
-    public ResponseEntity<ReservationView> post(@RequestBody ReservationView reservationRequest) throws  Exception{
+    public ResponseEntity<ReservationView> post(@RequestBody ReservationView reservationRequest){
         Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
         logger.info("Creating reservation: {}", reservation);
+        String personId = reservation.getPerson().getId();
+        if (personService.existPerson(personId)){
+            reservation.setPerson(personService.get(personId));
+        }
         reservationService.save(reservation);
         ReservationView reservationResponse = modelMapper.map(reservation, ReservationView.class);
 
@@ -68,7 +71,7 @@ public class ReservationController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ReservationView> put(@PathVariable Long id, @RequestBody ReservationView reservationRequest) throws Exception {
+    public ResponseEntity<ReservationView> put(@PathVariable Long id, @RequestBody ReservationView reservationRequest) {
         if(!id.equals(reservationRequest.getId())){
             throw new ApiRequestException("El id de la reservacion: " + reservationRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -81,7 +84,7 @@ public class ReservationController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ReservationView> delete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ReservationView> delete(@PathVariable Long id) {
         ReservationView reservationResponse = modelMapper.map(reservationService.get(id), ReservationView.class);
         logger.info("Deleting Reservation with id {}", id);
         reservationService.delete(id);

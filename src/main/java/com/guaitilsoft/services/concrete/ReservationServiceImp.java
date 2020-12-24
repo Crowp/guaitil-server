@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class ReservationServiceImp implements ReservationService {
 
-    private ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 
 
     @Autowired
@@ -45,7 +46,8 @@ public class ReservationServiceImp implements ReservationService {
     @Override
     public void save(Reservation entity) {
         assert entity != null;
-
+        entity.setCreatedAt(new Date());
+        entity.setUpdatedAt(new Date());
         reservationRepository.save(entity);
     }
 
@@ -58,9 +60,10 @@ public class ReservationServiceImp implements ReservationService {
         reservation.setDateReservation(entity.getDateReservation());
         reservation.setAmountPerson(entity.getAmountPerson());
         reservation.setReservationState(entity.getReservationState());
-        reservation.setTour(entity.getTour());
+        reservation.setActivity(entity.getActivity());
         reservation.setPerson(entity.getPerson());
-        reservationRepository.save(entity);
+        reservation.setUpdatedAt(new Date());
+        reservationRepository.save(reservation);
     }
 
     @Override
@@ -73,12 +76,8 @@ public class ReservationServiceImp implements ReservationService {
 
     @Override
     public void deleteReservationsByTourId(Long idTour) {
-        Optional<List<Reservation>> optionalReservations = reservationRepository.selectReservationsByTourId(idTour);
-        optionalReservations.ifPresent(reservations -> {
-            reservations.forEach(reservation -> {
-                this.delete(reservation.getId());
-            });
-        });
+        Optional<List<Reservation>> optionalReservations = reservationRepository.selectReservationsByActivityId(idTour);
+        optionalReservations.ifPresent(reservations -> reservations.forEach(reservation -> this.delete(reservation.getId())));
     }
 
     @Override

@@ -15,5 +15,4 @@ public interface ProductReviewRepository extends CrudRepository<ProductReview, L
 
      @Query("SELECT p FROM ProductReview p WHERE p.product.local.member.id = :id")
      Iterable<ProductReview> selectProductReviewByMemberId(@Param("id") Long memberId);
-
 }

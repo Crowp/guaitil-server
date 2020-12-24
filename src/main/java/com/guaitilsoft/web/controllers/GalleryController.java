@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +27,9 @@ public class GalleryController {
 
     public static final Logger logger = LoggerFactory.getLogger(GalleryController.class);
 
-    private GalleryService galleryService;
-    private MultimediaService multimediaService;
-    private ModelMapper modelMapper;
+    private final GalleryService galleryService;
+    private final MultimediaService multimediaService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public GalleryController(
@@ -62,7 +61,7 @@ public class GalleryController {
     }
 
     @PostMapping
-    public ResponseEntity<GalleryResponse> post(@RequestBody GalleryRequest galleryRequest) throws  Exception{
+    public ResponseEntity<GalleryResponse> post(@RequestBody GalleryRequest galleryRequest) {
         logger.info("Adding multimedia to gallery");
             List<Multimedia> multimediaList = new ArrayList<>();
             galleryRequest.getMultimedia().forEach(media -> {

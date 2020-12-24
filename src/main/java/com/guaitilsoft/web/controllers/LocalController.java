@@ -3,6 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.web.models.local.LocalView;
@@ -28,9 +29,9 @@ public class LocalController {
 
     public static final Logger logger = LoggerFactory.getLogger(LocalController.class);
 
-    private LocalService localService;
-    private MemberService memberService;
-    private ModelMapper modelMapper;
+    private final LocalService localService;
+    private final MemberService memberService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public LocalController(LocalService localService, MemberService memberService,ModelMapper modelMapper) {
@@ -47,8 +48,43 @@ public class LocalController {
         return  ResponseEntity.ok().body(locals);
     }
 
+    @GetMapping("/talleres")
+    public ResponseEntity<List<LocalView>> getWorkshops(){
+        LocalType localType = LocalType.WORKSHOP;
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        locals.forEach(this::addUrlToMultimedia);
+        return  ResponseEntity.ok().body(locals);
+    }
+
+    @GetMapping("/cocinas")
+    public ResponseEntity<List<LocalView>> getKitchens(){
+        LocalType localType = LocalType.KITCHEN;
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        locals.forEach(this::addUrlToMultimedia);
+        return  ResponseEntity.ok().body(locals);
+    }
+
+    @GetMapping("/hospedajes")
+    public ResponseEntity<List<LocalView>> getLodgings(){
+        LocalType localType = LocalType.LODGING;
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        locals.forEach(this::addUrlToMultimedia);
+        return  ResponseEntity.ok().body(locals);
+    }
+
+    @GetMapping("/otros-locales")
+    public ResponseEntity<List<LocalView>> getOthers(){
+        LocalType localType = LocalType.OTHERS;
+        Type listType = new TypeToken<List<LocalView>>(){}.getType();
+        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        locals.forEach(this::addUrlToMultimedia);
+        return  ResponseEntity.ok().body(locals);
+    }
+
     @GetMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalView> getById(@PathVariable Long id) {
         LocalView local = modelMapper.map(localService.get(id), LocalView.class);
         addUrlToMultimedia(local);
@@ -111,7 +147,7 @@ public class LocalController {
 
     @DeleteMapping("delete-multimedia-by-id")
     public ResponseEntity<LocalView> deleteMultimediaById(@RequestParam Long id,
-                                                          @RequestParam Long idMultimedia) throws Exception {
+                                                          @RequestParam Long idMultimedia) {
         logger.info("Deleting Local Multimedia with id {}", id);
         LocalView localResponse = modelMapper.map(
                 localService.deleteMultimediaById(id, idMultimedia), LocalView.class);

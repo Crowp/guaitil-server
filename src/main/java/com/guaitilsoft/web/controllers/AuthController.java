@@ -24,10 +24,10 @@ import java.util.List;
 @RequestMapping("/auth")
 public class AuthController {
 
-    private UserService userService;
-    private ModelMapper modelMapper;
-    private TokenProvider tokenProvider;
-    private MemberService memberService;
+    private final UserService userService;
+    private final ModelMapper modelMapper;
+    private final TokenProvider tokenProvider;
+    private final MemberService memberService;
 
     @Autowired
     public AuthController(UserService userService, ModelMapper modelMapper, TokenProvider tokenProvider, MemberService memberService) {

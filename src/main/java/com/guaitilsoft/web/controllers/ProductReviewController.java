@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
@@ -23,10 +22,10 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/api/product-review")
 public class ProductReviewController {
-    public static final Logger logger = LoggerFactory.getLogger(TourController.class);
+    public static final Logger logger = LoggerFactory.getLogger(ProductReviewController.class);
 
-    private ProductReviewService productReviewService;
-    private ModelMapper modelMapper;
+    private final ProductReviewService productReviewService;
+    private final ModelMapper modelMapper;
 
     @Autowired
     public ProductReviewController(ProductReviewService productReviewService, ModelMapper modelMapper){
@@ -51,7 +50,7 @@ public class ProductReviewController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductReviewView> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<ProductReviewView> getById(@PathVariable Long id) {
         ProductReviewView productReview = modelMapper.map(productReviewService.get(id), ProductReviewView.class);
         this.addUrlToMultimedia(productReview);
         logger.info("Fetching Product with id {}", id);
@@ -59,7 +58,7 @@ public class ProductReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductReviewView> post(@RequestBody ProductReviewView productReviewRequest) throws Exception {
+    public ResponseEntity<ProductReviewView> post(@RequestBody ProductReviewView productReviewRequest) {
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Creating a product review");
         productReviewService.save(productReview);
@@ -75,7 +74,7 @@ public class ProductReviewController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductReviewView> put(@PathVariable Long id, @RequestBody ProductReviewView productReviewRequest) throws Exception {
+    public ResponseEntity<ProductReviewView> put(@PathVariable Long id, @RequestBody ProductReviewView productReviewRequest) {
         if(!id.equals(productReviewRequest.getId())){
             throw new ApiRequestException("El id de la revision del producto: " + productReviewRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -88,7 +87,7 @@ public class ProductReviewController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProductReviewView> delete(@PathVariable Long id)throws Exception {
+    public ResponseEntity<ProductReviewView> delete(@PathVariable Long id) {
         ProductReviewView productReviewResponse = modelMapper.map(productReviewService.get(id), ProductReviewView.class);
         logger.info("Deleting Product Review with id {}", id);
         productReviewService.delete(id);

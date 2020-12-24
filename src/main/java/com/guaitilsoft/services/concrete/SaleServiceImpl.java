@@ -8,13 +8,14 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class SaleServiceImpl implements SaleService {
 
-    private SaleRepository saleRepository;
+    private final SaleRepository saleRepository;
 
     @Autowired
     public SaleServiceImpl(SaleRepository saleRepository){
@@ -43,6 +44,8 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public void save(Sale entity) {
         assert entity != null;
+        entity.setUpdatedAt(new Date());
+        entity.setCreatedAt(new Date());
         saleRepository.save(entity);
     }
 
@@ -55,9 +58,9 @@ public class SaleServiceImpl implements SaleService {
         sale.setSaleDate(entity.getSaleDate());
         sale.setProduct(entity.getProduct());
         sale.setAmountSold(entity.getAmountSold());
-        sale.setUpdatedAt(entity.getUpdatedAt());
+        sale.setUpdatedAt(new Date());
 
-        saleRepository.save(entity);
+        saleRepository.save(sale);
     }
 
     @Override

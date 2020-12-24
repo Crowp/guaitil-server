@@ -4,7 +4,6 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
-import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
@@ -15,15 +14,15 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class MemberServiceImp implements MemberService {
 
-    private MemberRepository memberRepository;
-    private LocalService localService;
-    private UserService userService;
+    private final MemberRepository memberRepository;
+    private final LocalService localService;
+    private final UserService userService;
 
 
     @Autowired
@@ -65,7 +64,7 @@ public class MemberServiceImp implements MemberService {
         if (memberRepository.existMemberPersonEmail(entity.getEmail())) {
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
         }
-
+        entity.setUpdatedAt(new Date());
         memberRepository.save(entity);
     }
 
@@ -79,10 +78,10 @@ public class MemberServiceImp implements MemberService {
         member.setLocals(entity.getLocals());
         member.setMemberType(entity.getMemberType());
         member.setPerson(entity.getPerson());
-        member.setUpdatedAt(entity.getUpdatedAt());
+        member.setUpdatedAt(new Date());
         member.setCreatedAt(entity.getCreatedAt());
 
-        memberRepository.save(entity);
+        memberRepository.save(member);
     }
 
     @Override
@@ -94,9 +93,7 @@ public class MemberServiceImp implements MemberService {
         member.setLocals(null);
         memberRepository.save(member);
         if (locals.size() > 0) {
-            locals.forEach(local -> {
-                localService.delete(local.getId());
-            });
+            locals.forEach(local -> localService.delete(local.getId()));
         }
         userService.deleteUserByMemberId(id);
         memberRepository.delete(member);

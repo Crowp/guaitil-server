@@ -90,8 +90,9 @@ public class ProductServiceImp implements ProductService {
         product.setLocal(entity.getLocal());
         product.setMultimedia(entity.getMultimedia());
         product.setProductPrice(entity.getProductPrice());
+        product.setUpdatedAt(new Date());
 
-        productRepository.save(entity);
+        productRepository.save(product);
     }
 
     @Override
@@ -103,9 +104,7 @@ public class ProductServiceImp implements ProductService {
         product.setMultimedia(null);
         productRepository.save(product);
         if(multimediaList.size() > 0){
-            multimediaList.forEach(media -> {
-                multimediaService.delete(media.getId());
-            });
+            multimediaList.forEach(media -> multimediaService.delete(media.getId()));
         }
         productReviewService.deleteProductReviewByProductId(id);
         saleService.deleteSaleByProductId(id);
@@ -146,7 +145,7 @@ public class ProductServiceImp implements ProductService {
     @Override
     public List<Product> getAllProductAcceptedByLocalId(Long id) {
         assert id != null;
-        Iterable<Product> iterable = productRepository.getAllProductAcceptedByLocalId(ReviewState.ACCEPTED,id);
+        Iterable<Product> iterable = productRepository.getAllProductAcceptedByLocalId(ReviewState.ACCEPTED, id, true);
         List<Product> products = new ArrayList<>();
         iterable.forEach(products::add);
         return products;

@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class ProductReviewServiceImp implements ProductReviewService {
 
-    private ProductReviewRepository productReviewRepository;
+    private final ProductReviewRepository productReviewRepository;
 
     @Autowired
     public ProductReviewServiceImp(ProductReviewRepository productReviewRepository) {
@@ -66,7 +66,8 @@ public class ProductReviewServiceImp implements ProductReviewService {
     @Override
     public void save(ProductReview entity)  {
         assert entity != null;
-
+        entity.setUpdatedAt(new Date());
+        entity.setCreatedAt(new Date());
         productReviewRepository.save(entity);
     }
 
@@ -79,6 +80,7 @@ public class ProductReviewServiceImp implements ProductReviewService {
         productReview.setReviewDate(new Date());
         productReview.setState(entity.getState());
         productReview.setComment(entity.getComment());
+        productReview.setUpdatedAt(new Date());
         productReviewRepository.save(entity);
         return productReview;
     }

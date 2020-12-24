@@ -27,9 +27,9 @@ public class MemberController {
 
     public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
-    private MemberService memberService;
-    private LocalService localService;
-    private ModelMapper modelMapper;
+    private final MemberService memberService;
+    private final LocalService localService;
+    private final ModelMapper modelMapper;
 
 
     @Autowired
@@ -41,14 +41,14 @@ public class MemberController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<MemberView>> get() throws Exception {
+    public ResponseEntity<List<MemberView>> get() {
         Type listType = new TypeToken<List<MemberView>>(){}.getType();
         List<MemberView> members = modelMapper.map(memberService.list(), listType);
         return  ResponseEntity.ok().body(members);
     }
 
     @GetMapping("members-without-users")
-    public ResponseEntity<List<MemberView>> getMembersWithoutUser() throws Exception {
+    public ResponseEntity<List<MemberView>> getMembersWithoutUser() {
         Type listType = new TypeToken<List<MemberView>>(){}.getType();
         List<MemberView> members = modelMapper.map(memberService.getMemberWithoutUser(), listType);
         return  ResponseEntity.ok().body(members);
@@ -56,7 +56,7 @@ public class MemberController {
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> getById(@PathVariable Long id) throws Exception {
+    public ResponseEntity<MemberView> getById(@PathVariable Long id) {
         MemberView getMember= modelMapper.map(memberService.get(id), MemberView.class);
         logger.info("Fetching Member with id: {}", id);
         return ResponseEntity.ok().body(getMember);
@@ -64,11 +64,11 @@ public class MemberController {
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) throws Exception {
+    public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) {
         memberRequest.setId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
         List<Local> locals = new ArrayList<>(member.getLocals());
-        member.setLocals(null);
+        member.setLocals(new ArrayList<>());
         logger.info("Creating Member");
         memberService.save(member);
         locals.forEach(l -> {
@@ -77,10 +77,11 @@ public class MemberController {
         });
 
         if(!locals.isEmpty()){
+            member.setLocals(locals);
+            memberService.update(member.getId(), member);
             Member memberValidate = memberService.get(member.getId());
             if(memberValidate.getLocals().isEmpty()){
                 memberService.delete(memberValidate.getId());
-                locals.forEach(local -> localService.delete(local.getId()));
                 throw new ApiRequestException("Error al crear un miembro con local");
             }
         }
@@ -98,7 +99,7 @@ public class MemberController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> put(@PathVariable Long id, @RequestBody MemberView memberRequest) throws Exception {
+    public ResponseEntity<MemberView> put(@PathVariable Long id, @RequestBody MemberView memberRequest) {
         if(!id.equals(memberRequest.getId())){
             throw new ApiRequestException("El id del miembro: " + memberRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -112,7 +113,7 @@ public class MemberController {
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> delete(@PathVariable Long id) throws Exception {
+    public ResponseEntity<MemberView> delete(@PathVariable Long id) {
         MemberView memberResponse = modelMapper.map(memberService.get(id), MemberView.class);
         logger.info("Deleting Member with id: {}", id);
         memberService.delete(id);

@@ -6,8 +6,9 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tour {
@@ -25,6 +26,6 @@ public class Tour {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date updatedAt;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Activity activity;
 }

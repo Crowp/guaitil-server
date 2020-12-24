@@ -19,8 +19,8 @@ import java.util.List;
 @Service
 public class PersonServiceImp implements PersonService {
 
-    private PersonRepository personRepository;
-    private ReservationService reservationService;
+    private final PersonRepository personRepository;
+    private final ReservationService reservationService;
 
     @Autowired
     public PersonServiceImp(PersonRepository personRepository, ReservationService reservationService) {
@@ -57,6 +57,8 @@ public class PersonServiceImp implements PersonService {
         if(personRepository.existEmail(entity.getEmail())){
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
         }
+        entity.setUpdatedAt(new Date());
+        entity.setCreatedAt(new Date());
         personRepository.save(entity);
 
     }
@@ -65,11 +67,6 @@ public class PersonServiceImp implements PersonService {
     public void update(String id, Person entity) {
         assert id != null;
         assert entity != null;
-        Instant nowGmt = Instant.now();
-        DateTimeZone americaCostaRica = DateTimeZone.forID("America/Costa_Rica");
-        DateTime nowCostaRica = nowGmt.toDateTime(americaCostaRica);
-        Date today = nowCostaRica.toDate();
-
 
         Person person = this.get(id);
         person.setName(entity.getName());
@@ -79,9 +76,9 @@ public class PersonServiceImp implements PersonService {
         person.setGender(entity.getGender());
         person.setEmail(entity.getEmail());
         person.setPersonType(entity.getPersonType());
-        entity.setUpdatedAt(today);
+        person.setUpdatedAt(new Date());
 
-        personRepository.save(entity);
+        personRepository.save(person);
     }
 
     @Override
@@ -92,5 +89,10 @@ public class PersonServiceImp implements PersonService {
 
         reservationService.deleteReservationByPersonId(id);
         personRepository.delete(person);
+    }
+
+    @Override
+    public boolean existPerson(String personId) {
+        return this.personRepository.existsById(personId);
     }
 }

@@ -1,12 +1,11 @@
 package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Activity;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.constant.ActivityType;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,15 +18,13 @@ import java.util.stream.Collectors;
 @Service
 public class ActivityServiceImp implements ActivityService {
 
-    private ActivityRepository activityRepository;
-    private MultimediaService multimediaService;
-    private TourService tourService;
+    private final ActivityRepository activityRepository;
+    private final MultimediaService multimediaService;
 
     @Autowired
-    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService, TourService tourService) {
+    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService) {
         this.activityRepository = activityRepository;
         this.multimediaService = multimediaService;
-        this.tourService = tourService;
     }
 
     @Override
@@ -64,17 +61,16 @@ public class ActivityServiceImp implements ActivityService {
 
         Activity activity = this.get(id);
         activity.setName(entity.getName());
+        activity.setUpdatedAt(new Date());
         activity.setDescription(entity.getDescription());
         activity.setActivityDate(entity.getActivityDate());
         activity.setActivityType(entity.getActivityType());
+        activity.setPersonCost(entity.getPersonCost());
         activity.setUpdatedAt(entity.getUpdatedAt());
         activity.setAddress(entity.getAddress());
         activity.setMultimedia(entity.getMultimedia());
 
-        if(entity.getActivityType() == ActivityType.EXPERIENCE){
-            tourService.deleteTourByActivityId(entity.getId());
-        }
-        activityRepository.save(entity);
+        activityRepository.save(activity);
     }
 
     @Override
@@ -86,11 +82,9 @@ public class ActivityServiceImp implements ActivityService {
         activity.setMultimedia(null);
         activityRepository.save(activity);
         if(activityList.size() > 0){
-            activityList.forEach(media -> {
-                multimediaService.delete(media.getId());
-            });
+            activityList.forEach(media -> multimediaService.delete(media.getId()));
         }
-        tourService.deleteTourByActivityId(id);
+
         activityRepository.delete(activity);
     }
 
@@ -105,5 +99,22 @@ public class ActivityServiceImp implements ActivityService {
         activityRepository.save(activity);
         multimediaService.delete(idMultimedia);
         return activity;
+    }
+
+    @Override
+    public void removeLocalFromActivity(Long localId) {
+        List<Activity> activityList = this.list();
+        activityList.forEach(activity -> {
+            List<Local> localList = activity.getLocals()
+                    .stream()
+                    .filter(local -> !local.getId().equals(localId))
+                    .collect(Collectors.toList());
+            if (!localList.isEmpty()){
+                activity.setLocals(localList);
+                this.update(activity.getId(), activity);
+            }else {
+                this.delete(activity.getId());
+            }
+        });
     }
 }
