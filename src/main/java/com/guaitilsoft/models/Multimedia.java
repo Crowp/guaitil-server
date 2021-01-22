@@ -21,6 +21,8 @@ public class Multimedia {
     @NotEmpty
     private String fileName;
 
+    private Long size;
+
     @Enumerated(EnumType.STRING)
     private MultimediaType type;
 

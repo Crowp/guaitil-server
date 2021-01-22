@@ -146,6 +146,7 @@ public class MultimediaServiceImp implements MultimediaService {
             storeFile(multimediaRequest, fileName);
             Multimedia multimedia = new Multimedia();
             multimedia.setFileName(fileName);
+            multimedia.setSize(multimediaRequest.getFile().getSize());
             multimedia.setFormat(multimediaRequest.getContentType());
             multimedia.setType(multimediaRequest.getType());
 
