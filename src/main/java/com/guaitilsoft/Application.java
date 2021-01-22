@@ -58,7 +58,7 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		try {guaitil_default_admin@gmail.com
+		try {
 			Person person = new Person();
 			person.setId("1");
 			person.setName("Guatil");
