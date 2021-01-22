@@ -58,11 +58,11 @@ public class Application implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		try {
+		try {guaitil_default_admin@gmail.com
 			Person person = new Person();
 			person.setId("1");
 			person.setName("Guatil");
-			person.setEmail("guaitil_default_admin@gmail.com");
+			person.setEmail("");
 			person.setFirstLastName("Soft");
 			person.setTelephone("8888888");
 			person.setSecondLastName("Default Admin");
