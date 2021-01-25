@@ -2,6 +2,7 @@ package com.guaitilsoft.web.models.reservation;
 
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.ReservationState;
+import com.guaitilsoft.web.models.activity.ActivityView;
 import com.guaitilsoft.web.models.activity.LoadActivityView;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,4 +30,6 @@ public class ReservationView {
     private LoadActivityView tour;
 
     private Person person;
+
+    private ActivityView activity;
 }
