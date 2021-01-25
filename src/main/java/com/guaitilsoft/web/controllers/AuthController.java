@@ -52,6 +52,13 @@ public class AuthController {
         return  ResponseEntity.ok().body(user);
     }
 
+    @GetMapping("/member/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<UserResponse> getByMemberId(@PathVariable Long id){
+        UserResponse user = modelMapper.map(userService.getByMemberID(id), UserResponse.class);
+        return  ResponseEntity.ok().body(user);
+    }
+
     @PostMapping("/login")
     public ResponseEntity<UserResponse> login(@RequestParam String email,
                                                @RequestParam String password) {

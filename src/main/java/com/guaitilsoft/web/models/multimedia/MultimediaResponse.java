@@ -16,5 +16,7 @@ public class MultimediaResponse {
 
     private String format;
 
+    private Long size;
+
     private String url;
 }

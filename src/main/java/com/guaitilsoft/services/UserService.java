@@ -7,6 +7,7 @@ import java.util.List;
 
 public interface UserService {
     User get(Long id);
+    User getByMemberID(Long id);
     User login(String email, String password);
     User register(User user);
     User updateRoles(List<Role> roles, Long id);
