@@ -62,7 +62,7 @@ public class Application implements CommandLineRunner {
 			Person person = new Person();
 			person.setId("1");
 			person.setName("Guatil");
-			person.setEmail("");
+			person.setEmail("guaitil_default_admin@gmail.com");
 			person.setFirstLastName("Soft");
 			person.setTelephone("8888888");
 			person.setSecondLastName("Default Admin");
