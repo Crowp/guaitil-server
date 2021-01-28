@@ -28,8 +28,8 @@ import java.util.*;
 @EntityScan(basePackages = {"com.guaitilsoft.models"})
 public class Application implements CommandLineRunner {
 
-	private MultimediaService multimediaService;
-	private UserService userService;
+	private final MultimediaService multimediaService;
+	private final UserService userService;
 
 	@Autowired
 	public Application(MultimediaService multimediaService, UserService userService) {
