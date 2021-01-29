@@ -5,17 +5,21 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.MemberType;
+import com.guaitilsoft.models.constant.PersonType;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.UserService;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -106,4 +110,22 @@ public class MemberServiceImp implements MemberService {
         iterable.forEach(members::add);
         return members;
     }
+
+    @Override
+    public String exportPdf(String reportFormat) throws FileNotFoundException, JRException {
+        String path = "C:\\Users\\tamom\\OneDrive\\Escritorio";
+        Iterable<Object>  iterable = memberRepository.memberReport(PersonType.ROLE_MEMBER);
+        List<Object> members = new ArrayList<>();
+        iterable.forEach(members::add);
+
+        File file = ResourceUtils.getFile("classpath:memberReport.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(members);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("crearPorId","Java Techie");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,dataSource);
+        JasperExportManager.exportReportToPdfFile(jasperPrint,path + "\\members.pdf");
+        return "report generated in path:" + path;
+    }
+
 }

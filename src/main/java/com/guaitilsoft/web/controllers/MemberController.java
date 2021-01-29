@@ -6,6 +6,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.web.models.member.MemberView;
+import net.sf.jasperreports.engine.JRException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -16,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
@@ -119,5 +121,9 @@ public class MemberController {
         memberService.delete(id);
         logger.info("Deleted Member with id: {}", id);
         return ResponseEntity.ok().body(memberResponse);
+    }
+    @GetMapping("/report/{format}")
+    public String generateReport(@PathVariable String format) throws FileNotFoundException, JRException {
+        return memberService.exportPdf(format);
     }
 }
