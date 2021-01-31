@@ -1,9 +1,12 @@
 package com.guaitilsoft.services;
 
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.web.models.member.MemberReport;
 import net.sf.jasperreports.engine.JRException;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
+import java.io.OutputStream;
 import java.util.List;
 
 public interface MemberService {
@@ -19,6 +22,6 @@ public interface MemberService {
 
     List<Member> getMemberWithoutUser();
 
-    String exportPdf(String reportFormat) throws FileNotFoundException, JRException;
+    void exportPdf(OutputStream outputStream);
 
 }

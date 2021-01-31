@@ -5,6 +5,7 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
+import com.guaitilsoft.web.models.member.MemberReport;
 import com.guaitilsoft.web.models.member.MemberView;
 import net.sf.jasperreports.engine.JRException;
 import org.modelmapper.ModelMapper;
@@ -12,12 +13,17 @@ import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.FileNotFoundException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
@@ -28,6 +34,7 @@ import java.util.List;
 public class MemberController {
 
     public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+    public ModelAndView modelAndView = new ModelAndView();
 
     private final MemberService memberService;
     private final LocalService localService;
@@ -122,8 +129,12 @@ public class MemberController {
         logger.info("Deleted Member with id: {}", id);
         return ResponseEntity.ok().body(memberResponse);
     }
-    @GetMapping("/report/{format}")
-    public String generateReport(@PathVariable String format) throws FileNotFoundException, JRException {
-        return memberService.exportPdf(format);
+
+    @GetMapping("/report")
+    public void generateReport(HttpServletResponse response) throws IOException, JRException {
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachment; filename=\"memberReport.pdf\"");
+        OutputStream out = response.getOutputStream();
+        memberService.exportPdf(out);
     }
 }

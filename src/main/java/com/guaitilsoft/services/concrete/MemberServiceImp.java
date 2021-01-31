@@ -10,19 +10,29 @@ import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.UserService;
+import com.guaitilsoft.web.models.member.MemberReport;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import javax.persistence.EntityNotFoundException;
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.*;
+import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class MemberServiceImp implements MemberService {
+
+    private static Logger logger = LoggerFactory.getLogger(MemberServiceImp.class);
 
     private final MemberRepository memberRepository;
     private final LocalService localService;
@@ -112,20 +122,23 @@ public class MemberServiceImp implements MemberService {
     }
 
     @Override
-    public String exportPdf(String reportFormat) throws FileNotFoundException, JRException {
-        String path = "C:\\Users\\tamom\\OneDrive\\Escritorio";
-        Iterable<Object>  iterable = memberRepository.memberReport(PersonType.ROLE_MEMBER);
-        List<Object> members = new ArrayList<>();
-        iterable.forEach(members::add);
+    public void exportPdf(OutputStream outputStream){
+        String reportPath = "C:\\Users\\Luis\\Desktop\\Proyecto-Guaitil\\guaitil-server\\src\\main\\java\\com\\guaitilsoft";
+        List<Member> memberReport = this.list();
 
-        File file = ResourceUtils.getFile("classpath:memberReport.jrxml");
-        JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(members);
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("crearPorId","Java Techie");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,dataSource);
-        JasperExportManager.exportReportToPdfFile(jasperPrint,path + "\\members.pdf");
-        return "report generated in path:" + path;
+        try {
+            InputStream stream = this.getClass().getResourceAsStream("main\\resources\\reports\\memberReport.jrxml");
+            File file = ResourceUtils.getFile("classpath:\\reports\\memberReport.jrxml");
+            JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(memberReport);
+
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("createdBy","GuaitilSoft");
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport,parameters,dataSource);
+            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
-
 }

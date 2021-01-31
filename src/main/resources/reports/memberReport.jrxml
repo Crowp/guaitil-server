@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.16.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Ejemplo4.0" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ee9e1ce3-18bd-4238-bdc5-87afd56bbe0b">
-    <field name="firstLastName" class="java.lang.String">
+    <field name="person.firstLastName" class="java.lang.String">
         <!--<fieldDescription><![CDATA[]]></fieldDescription>-->
     </field>
-    <field name="secondLastName" class="java.lang.String">
+    <field name="person.secondLastName" class="java.lang.String">
         <!--<fieldDescription><![CDATA[]]></fieldDescription>-->
     </field>
-    <field name="name" class="java.lang.String">
+    <field name="person.name" class="java.lang.String">
         <!--<fieldDescription><![CDATA[]]></fieldDescription>-->
     </field>
-    <field name="id" class="java.lang.String">
+    <field name="person.id" class="java.lang.String">
         <!--<fieldDescription><![CDATA[]]></fieldDescription>-->
     </field>
     <field name="occupation" class="java.lang.String">
         <!--<fieldDescription><![CDATA[]]></fieldDescription>-->
     </field>
-    <field name="telephone" class="java.lang.String">
+    <field name="person.telephone" class="java.lang.String">
         <!--<fieldDescription><![CDATA[]]></fieldDescription>-->
     </field>
     <background>
@@ -36,7 +36,7 @@
                 </staticText>
                 <image>
                     <reportElement x="470" y="10" width="115" height="68" uuid="a5abc889-24db-4a9d-84df-1b86bbf5c63e"/>
-                    <imageExpression><![CDATA["C:/Users/Luis/Downloads/Logo.png"]]></imageExpression>
+                    <imageExpression><![CDATA["reports/logoReport/Logo.png"]]></imageExpression>
                 </image>
             </frame>
         </band>
@@ -125,7 +125,7 @@
                 <textElement textAlignment="Center">
                     <font fontName="Calibri" size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{firstLastName}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{person.firstLastName}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
                 <reportElement x="92" y="0" width="92" height="20" uuid="bf3b593b-d278-4eb6-b092-332576a0cfe4">
@@ -134,7 +134,7 @@
                 <textElement textAlignment="Center">
                     <font fontName="Calibri" size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{secondLastName}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{person.secondLastName}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
                 <reportElement x="184" y="0" width="92" height="20" uuid="a29ce8c5-0124-4590-a7ab-1f070c6a75d2">
@@ -143,7 +143,7 @@
                 <textElement textAlignment="Center">
                     <font fontName="Calibri" size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{person.name}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
                 <reportElement x="276" y="0" width="92" height="20" uuid="fe86060b-3c9f-419e-8b1c-31a2bb4dd779">
@@ -152,7 +152,7 @@
                 <textElement textAlignment="Center">
                     <font fontName="Calibri" size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{person.id}]]></textFieldExpression>
             </textField>
             <textField textAdjust="StretchHeight">
                 <reportElement x="368" y="0" width="92" height="20" uuid="a08c560a-a39d-4a37-b8d3-0610d53583a6">
@@ -170,7 +170,7 @@
                 <textElement textAlignment="Center">
                     <font fontName="Calibri" size="12"/>
                 </textElement>
-                <textFieldExpression><![CDATA[$F{telephone}]]></textFieldExpression>
+                <textFieldExpression><![CDATA[$F{person.telephone}]]></textFieldExpression>
             </textField>
         </band>
     </detail>
