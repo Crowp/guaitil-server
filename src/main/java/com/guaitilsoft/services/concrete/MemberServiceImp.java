@@ -5,20 +5,12 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.MemberType;
-import com.guaitilsoft.models.constant.PersonType;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.UserService;
-import com.guaitilsoft.web.models.member.MemberReport;
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
@@ -27,12 +19,9 @@ import javax.persistence.EntityNotFoundException;
 import java.io.*;
 import java.util.*;
 import java.util.List;
-import java.util.stream.Stream;
 
 @Service
 public class MemberServiceImp implements MemberService {
-
-    private static Logger logger = LoggerFactory.getLogger(MemberServiceImp.class);
 
     private final MemberRepository memberRepository;
     private final LocalService localService;
@@ -122,10 +111,8 @@ public class MemberServiceImp implements MemberService {
     }
 
     @Override
-    public void exportPdf(OutputStream outputStream){
-        String reportPath = "C:\\Users\\Luis\\Desktop\\Proyecto-Guaitil\\guaitil-server\\src\\main\\java\\com\\guaitilsoft";
-        List<Member> memberReport = this.list();
-
+    public void exportPdf(OutputStream outputStream, List<Member> memberReport){
+        //String reportPath = "C:\\Users\\Luis\\Desktop\\Proyecto-Guaitil\\guaitil-server\\src\\main\\java\\com\\guaitilsoft";
         try {
             InputStream stream = this.getClass().getResourceAsStream("main\\resources\\reports\\memberReport.jrxml");
             File file = ResourceUtils.getFile("classpath:\\reports\\memberReport.jrxml");

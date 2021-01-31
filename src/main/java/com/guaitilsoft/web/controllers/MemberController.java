@@ -5,7 +5,6 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.web.models.member.MemberReport;
 import com.guaitilsoft.web.models.member.MemberView;
 import net.sf.jasperreports.engine.JRException;
 import org.modelmapper.ModelMapper;
@@ -13,9 +12,6 @@ import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +24,7 @@ import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(path = "/api/member")
@@ -132,9 +129,10 @@ public class MemberController {
 
     @GetMapping("/report")
     public void generateReport(HttpServletResponse response) throws IOException, JRException {
+        List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
         response.setContentType("application/x-download");
         response.setHeader("Content-Disposition", "attachment; filename=\"memberReport.pdf\"");
         OutputStream out = response.getOutputStream();
-        memberService.exportPdf(out);
+        memberService.exportPdf(out, members);
     }
 }
