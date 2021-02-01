@@ -128,10 +128,10 @@ public class MemberController {
     }
 
     @GetMapping("/report")
-    public void generateReport(HttpServletResponse response) throws IOException, JRException {
+    public void generateReport(HttpServletResponse response) throws IOException {
         List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
         response.setContentType("application/x-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"memberReport.pdf\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteAsociados.pdf\"");
         OutputStream out = response.getOutputStream();
         memberService.exportPdf(out, members);
     }
