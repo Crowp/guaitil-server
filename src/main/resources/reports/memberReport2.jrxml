@@ -30,7 +30,7 @@
                 </staticText>
                 <image>
                     <reportElement x="470" y="10" width="115" height="68" uuid="a5abc889-24db-4a9d-84df-1b86bbf5c63e"/>
-                    <imageExpression><![CDATA["C:/Users/Luis/Downloads/Logo.png"]]></imageExpression>
+                    <imageExpression><![CDATA["reports/logoReport/Logo.png"]]></imageExpression>
                 </image>
             </frame>
         </band>
@@ -114,7 +114,7 @@
         </band>
     </columnHeader>
     <detail>
-        <band height="48">
+        <band height="30">
             <line>
                 <reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="d8b08232-7349-4d3a-9110-43022ba1e547"/>
             </line>
