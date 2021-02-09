@@ -91,7 +91,7 @@ public class MemberController {
             Member memberValidate = memberService.get(member.getId());
             if(memberValidate.getLocals().isEmpty()){
                 memberService.delete(memberValidate.getId());
-                throw new ApiRequestException("Error al crear un miembro con local");
+                throw new ApiRequestException("Error al crear un miembro con un local");
             }
         }
 

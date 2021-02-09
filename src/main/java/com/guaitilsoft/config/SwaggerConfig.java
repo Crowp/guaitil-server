@@ -39,8 +39,8 @@ public class SwaggerConfig implements WebMvcConfigurer{
 
     private ApiInfo metadata() {
         return new ApiInfoBuilder()
-                .title("Todo a Mil API")
-                .description("Este es un API que maneja los procesos del proyecto Todo a Mil y presenta una autenticacion con JWT authentication app.service. Una vez iniciado sesión satifactoriamente se obtiene un token")
+                .title("GuaitilSoft API")
+                .description("Este es un API que maneja los procesos del Guaitil y presenta una autenticacion con JWT authentication app.service. Una vez iniciado sesión satifactoriamente se obtiene un token")
                 .version("0.0.1")
                 .license("MIT License").licenseUrl("http://opensource.org/licenses/MIT")
                 .build();

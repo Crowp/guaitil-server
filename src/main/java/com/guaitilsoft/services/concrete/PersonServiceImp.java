@@ -5,9 +5,6 @@ import com.guaitilsoft.models.Person;
 import com.guaitilsoft.repositories.PersonRepository;
 import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.ReservationService;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Instant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -54,6 +54,17 @@ public class UserServiceImp implements UserService {
         }
         throw new EntityNotFoundException("No se encontro un usuario con el id: " + id);
     }
+
+    @Override
+    public User getByMemberID(Long id) {
+        assert id != null;
+        Optional<User> optionalUser = userRepository.selectUserByMemberId(id);
+        if(optionalUser.isPresent()){
+           return  optionalUser.get();
+        }
+        throw new EntityNotFoundException("No se encontro un usuario que tenga un miembro con el id: " + id);
+    }
+
     @Override
     public User login(String email, String password) throws ApiRequestException {
         assert email != null;
