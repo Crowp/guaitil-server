@@ -1,9 +1,11 @@
 package com.guaitilsoft.services;
 
 import com.guaitilsoft.models.Member;
+import net.sf.jasperreports.engine.JRDataSource;
 
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 public interface MemberService {
     List<Member> list();
@@ -19,5 +21,4 @@ public interface MemberService {
     List<Member> getMemberWithoutUser();
 
     void exportPdf(OutputStream outputStream, List<Member> members);
-
 }

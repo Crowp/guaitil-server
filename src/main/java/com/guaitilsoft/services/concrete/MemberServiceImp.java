@@ -27,7 +27,6 @@ public class MemberServiceImp implements MemberService {
     private final LocalService localService;
     private final UserService userService;
 
-
     @Autowired
     public MemberServiceImp(
             MemberRepository memberRepository,
@@ -68,6 +67,7 @@ public class MemberServiceImp implements MemberService {
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
         }
         entity.setUpdatedAt(new Date());
+
         memberRepository.save(entity);
     }
 

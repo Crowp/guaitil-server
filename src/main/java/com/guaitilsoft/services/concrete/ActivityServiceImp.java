@@ -2,10 +2,12 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +22,13 @@ public class ActivityServiceImp implements ActivityService {
 
     private final ActivityRepository activityRepository;
     private final MultimediaService multimediaService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService) {
+    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService, NotificationService notificationService) {
         this.activityRepository = activityRepository;
         this.multimediaService = multimediaService;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -52,6 +56,8 @@ public class ActivityServiceImp implements ActivityService {
         entity.setUpdatedAt(new Date());
         entity.setCreatedAt(new Date());
         activityRepository.save(entity);
+
+        notificationService.save("Has sido invitado a la actividad " + entity.getName(), new ArrayList<>());
     }
 
     @Override
