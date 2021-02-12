@@ -51,7 +51,7 @@
             </staticText>
             <image>
                 <reportElement x="433" y="-115" width="267" height="209" uuid="5d64e5b3-07bb-48ab-89dc-15c0c46bb19a"/>
-                <imageExpression><![CDATA["reports/logoReport/Logo.png"]]></imageExpression>
+                <imageExpression><![CDATA["reports/logoReport/coffee_stain.png"]]></imageExpression>
             </image>
         </band>
     </pageHeader>
