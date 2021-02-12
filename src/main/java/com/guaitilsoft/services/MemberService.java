@@ -20,5 +20,7 @@ public interface MemberService {
 
     List<Member> getMemberWithoutUser();
 
+    List<Member> getAdminsMembers();
+
     void exportPdf(OutputStream outputStream, List<Member> members);
 }

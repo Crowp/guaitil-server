@@ -57,7 +57,7 @@ public class ActivityServiceImp implements ActivityService {
         entity.setCreatedAt(new Date());
         activityRepository.save(entity);
 
-        notificationService.save("Has sido invitado a la actividad " + entity.getName(), new ArrayList<>());
+        notificationService.save("Has sido invitado a la actividad " + entity.getName(), memberList(entity));
     }
 
     @Override
@@ -122,5 +122,15 @@ public class ActivityServiceImp implements ActivityService {
                 this.delete(activity.getId());
             }
         });
+    }
+
+    public List<Member> memberList(Activity entity){
+        List<Member> members = new ArrayList<>();
+
+        entity.getLocals().forEach(local -> {
+            members.add(local.getMember());
+        });
+
+        return members;
     }
 }

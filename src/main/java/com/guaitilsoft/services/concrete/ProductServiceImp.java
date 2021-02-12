@@ -6,10 +6,7 @@ import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.models.constant.ReviewState;
 import com.guaitilsoft.repositories.ProductRepository;
-import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.ProductReviewService;
-import com.guaitilsoft.services.ProductService;
-import com.guaitilsoft.services.SaleService;
+import com.guaitilsoft.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,13 +23,17 @@ public class ProductServiceImp implements ProductService {
     private final MultimediaService multimediaService;
     private final ProductReviewService productReviewService;
     private final SaleService saleService;
+    private final NotificationService notificationService;
+    private final MemberService memberService;
 
     @Autowired
-    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService, SaleService saleService) {
+    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService, SaleService saleService, NotificationService notificationService, MemberService memberService) {
         this.productRepository = productRepository;
         this.multimediaService = multimediaService;
         this.productReviewService = productReviewService;
         this.saleService = saleService;
+        this.notificationService = notificationService;
+        this.memberService = memberService;
     }
 
 
@@ -66,6 +67,7 @@ public class ProductServiceImp implements ProductService {
         review.setUpdatedAt(new Date());
         review.setState(ReviewState.INPROCESS);
         productReviewService.save(review);
+        notificationService.save("Nuevo producto creado" + entity.getName(),memberService.getAdminsMembers());
     }
 
     @Override

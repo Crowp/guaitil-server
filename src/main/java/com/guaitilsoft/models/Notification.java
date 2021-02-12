@@ -26,11 +26,11 @@ public class Notification {
     private String description;
 
     @Column
-    private Boolean state;
+    private Boolean readNotification;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    @OneToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<Member> members;
 }

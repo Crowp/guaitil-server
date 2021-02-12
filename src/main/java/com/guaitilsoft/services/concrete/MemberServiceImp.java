@@ -4,7 +4,9 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.MemberType;
+import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
@@ -111,11 +113,28 @@ public class MemberServiceImp implements MemberService {
     }
 
     @Override
+    public List<Member> getAdminsMembers() {
+        List<User> users = this.userService.getAllUsers();
+        List<Member> members = new ArrayList<>();
+
+        this.list().forEach(m -> {
+            users.forEach(u -> {
+                if (m.getId().equals(u.getMember().getId())){
+                    if (u.getRoles().contains(Role.ROLE_ADMIN) && u.getRoles().contains(Role.ROLE_SUPER_ADMIN)){
+                        members.add(m);
+                    }
+                }
+            });
+        });
+        return members;
+    }
+
+    @Override
     public void exportPdf(OutputStream outputStream, List<Member> memberReport){
         //String reportPath = "C:\\Users\\Luis\\Desktop\\Proyecto-Guaitil\\guaitil-server\\src\\main\\java\\com\\guaitilsoft";
         try {
             //InputStream stream = this.getClass().getResourceAsStream("main\\resources\\reports\\memberReport.jrxml");
-            File file = ResourceUtils.getFile("classpath:\\reports\\memberReport2.jrxml");
+            File file = ResourceUtils.getFile("classpath:\\reports\\guaitilReport.jrxml");
             JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(memberReport);
 

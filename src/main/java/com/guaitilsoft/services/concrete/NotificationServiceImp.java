@@ -11,6 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NotificationServiceImp implements NotificationService {
@@ -46,7 +47,7 @@ public class NotificationServiceImp implements NotificationService {
     public void save(String description, List<Member> members) {
         Notification notification = new Notification();
         notification.setDescription(description);
-        notification.setState(true);
+        notification.setReadNotification(true);
         notification.setMembers(members);
         notification.setDate(new Date());
 
@@ -54,12 +55,32 @@ public class NotificationServiceImp implements NotificationService {
     }
 
     @Override
-    public void update(Long id) {
+    public void update(Long id, Notification  entity) {
         assert id != null;
 
         Notification notification = this.get(id);
-        notification.setState(false);
 
         notificationRepository.save(notification);
+    }
+
+    @Override
+    public List<Notification> getAllNotificationActive() {
+        return this.list().stream().filter(Notification::getReadNotification).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Notification> getAllActiveByMemberId(Long id) {
+        List<Notification> notifications = new ArrayList<>();
+        this.list().forEach(n -> {
+            n.getMembers().forEach(m -> {
+                if (m.getId().equals(id)){
+                    if (n.getReadNotification()){
+                        notifications.add(n);
+                    }
+                }
+            });
+        });
+
+        return notifications;
     }
 }
