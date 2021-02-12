@@ -131,9 +131,7 @@ public class MemberServiceImp implements MemberService {
 
     @Override
     public void exportPdf(OutputStream outputStream, List<Member> memberReport){
-        //String reportPath = "C:\\Users\\Luis\\Desktop\\Proyecto-Guaitil\\guaitil-server\\src\\main\\java\\com\\guaitilsoft";
         try {
-            //InputStream stream = this.getClass().getResourceAsStream("main\\resources\\reports\\memberReport.jrxml");
             File file = ResourceUtils.getFile("classpath:\\reports\\guaitilReport.jrxml");
             JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(memberReport);
