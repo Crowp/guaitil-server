@@ -23,17 +23,13 @@ public class ProductServiceImp implements ProductService {
     private final MultimediaService multimediaService;
     private final ProductReviewService productReviewService;
     private final SaleService saleService;
-    private final NotificationService notificationService;
-    private final MemberService memberService;
 
     @Autowired
-    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService, SaleService saleService, NotificationService notificationService, MemberService memberService) {
+    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService, SaleService saleService) {
         this.productRepository = productRepository;
         this.multimediaService = multimediaService;
         this.productReviewService = productReviewService;
         this.saleService = saleService;
-        this.notificationService = notificationService;
-        this.memberService = memberService;
     }
 
 
@@ -67,7 +63,6 @@ public class ProductServiceImp implements ProductService {
         review.setUpdatedAt(new Date());
         review.setState(ReviewState.INPROCESS);
         productReviewService.save(review);
-        notificationService.save("Nuevo producto creado" + entity.getName(),memberService.getAdminsMembers());
     }
 
     @Override
