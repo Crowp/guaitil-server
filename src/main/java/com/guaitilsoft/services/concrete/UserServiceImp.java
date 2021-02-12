@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -42,6 +43,11 @@ public class UserServiceImp implements UserService {
         List<User> users = new ArrayList<>();
         iterable.forEach(users::add);
         return users;
+    }
+
+    @Override
+    public List<User> getUsersAdmin() {
+        return this.getAllUsers().stream().filter(u -> u.getRoles().contains(Role.ROLE_ADMIN) || u.getRoles().contains(Role.ROLE_SUPER_ADMIN)).collect(Collectors.toList());
     }
 
     @Override

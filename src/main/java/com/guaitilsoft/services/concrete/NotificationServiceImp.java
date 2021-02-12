@@ -4,6 +4,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Notification;
 import com.guaitilsoft.repositories.NotificationRepository;
 import com.guaitilsoft.services.NotificationService;
+import com.guaitilsoft.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +18,12 @@ import java.util.stream.Collectors;
 public class NotificationServiceImp implements NotificationService {
 
     private final NotificationRepository notificationRepository;
+    private final UserService userService;
 
     @Autowired
-    public NotificationServiceImp(NotificationRepository notificationRepository) {
+    public NotificationServiceImp(NotificationRepository notificationRepository, UserService userService) {
         this.notificationRepository = notificationRepository;
+        this.userService = userService;
     }
 
 
@@ -47,11 +50,19 @@ public class NotificationServiceImp implements NotificationService {
     public void save(String description, List<Member> members) {
         Notification notification = new Notification();
         notification.setDescription(description);
-        notification.setReadNotification(true);
+        notification.setIsActive(true);
         notification.setMembers(members);
         notification.setDate(new Date());
 
         notificationRepository.save(notification);
+    }
+
+    @Override
+    public void createAdminNotification(String description) {
+        List<Member> membersAdmins = new ArrayList<>();
+        userService.getUsersAdmin().forEach(user -> membersAdmins.add(user.getMember()));
+
+        this.save(description, membersAdmins );
     }
 
     @Override
@@ -65,7 +76,7 @@ public class NotificationServiceImp implements NotificationService {
 
     @Override
     public List<Notification> getAllNotificationActive() {
-        return this.list().stream().filter(Notification::getReadNotification).collect(Collectors.toList());
+        return this.list().stream().filter(Notification::getIsActive).collect(Collectors.toList());
     }
 
     @Override
@@ -74,7 +85,7 @@ public class NotificationServiceImp implements NotificationService {
         this.list().forEach(n -> {
             n.getMembers().forEach(m -> {
                 if (m.getId().equals(id)){
-                    if (n.getReadNotification()){
+                    if (n.getIsActive()){
                         notifications.add(n);
                     }
                 }

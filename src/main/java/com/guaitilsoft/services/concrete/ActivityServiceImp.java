@@ -4,6 +4,7 @@ import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
+import com.guaitilsoft.models.constant.NotificationMessage;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
@@ -57,7 +58,7 @@ public class ActivityServiceImp implements ActivityService {
         entity.setCreatedAt(new Date());
         activityRepository.save(entity);
 
-        notificationService.save("Has sido invitado a la actividad " + entity.getName(), memberList(entity));
+        notificationService.save(NotificationMessage.ACTIVITY_NOTIFICATION.getMessage() + entity.getName(), memberList(entity));
     }
 
     @Override

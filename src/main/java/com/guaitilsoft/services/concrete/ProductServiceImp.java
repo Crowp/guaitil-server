@@ -4,6 +4,7 @@ import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
 
 import com.guaitilsoft.models.ProductReview;
+import com.guaitilsoft.models.constant.NotificationMessage;
 import com.guaitilsoft.models.constant.ReviewState;
 import com.guaitilsoft.repositories.ProductRepository;
 import com.guaitilsoft.services.*;
@@ -23,13 +24,17 @@ public class ProductServiceImp implements ProductService {
     private final MultimediaService multimediaService;
     private final ProductReviewService productReviewService;
     private final SaleService saleService;
+    private final NotificationService notificationService;
 
     @Autowired
-    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService, ProductReviewService productReviewService, SaleService saleService) {
+    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService,
+                             ProductReviewService productReviewService, SaleService saleService,
+                             NotificationService notificationService) {
         this.productRepository = productRepository;
         this.multimediaService = multimediaService;
         this.productReviewService = productReviewService;
         this.saleService = saleService;
+        this.notificationService = notificationService;
     }
 
 
@@ -63,6 +68,8 @@ public class ProductServiceImp implements ProductService {
         review.setUpdatedAt(new Date());
         review.setState(ReviewState.INPROCESS);
         productReviewService.save(review);
+
+        notificationService.createAdminNotification(NotificationMessage.PRODUCT_NOTIFICATION.getMessage());
     }
 
     @Override

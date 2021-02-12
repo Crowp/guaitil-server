@@ -17,4 +17,5 @@ public interface UserService {
     User search(String email);
     User resetPassword(Long id, String newPassword);
     List<User> getAllUsers();
+    List<User> getUsersAdmin();
 }

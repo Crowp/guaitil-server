@@ -26,7 +26,7 @@ public class Notification {
     private String description;
 
     @Column
-    private Boolean readNotification;
+    private Boolean isActive;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date date;

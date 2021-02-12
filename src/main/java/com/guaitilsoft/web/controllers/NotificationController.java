@@ -2,6 +2,7 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.Notification;
 import com.guaitilsoft.services.NotificationService;
+import com.guaitilsoft.web.models.notification.LoadNotification;
 import com.guaitilsoft.web.models.notification.NotificationView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -54,11 +55,11 @@ public class NotificationController {
     }
 
     @GetMapping("/active/memberId/{id}")
-    public ResponseEntity<List<NotificationView>> getAllNotificationActiveByMemberId(@PathVariable Long id){
-        Type listType = new TypeToken<List<NotificationView>>(){}.getType();
-        List<NotificationView> notificationViews = modelMapper.map(notificationService.getAllActiveByMemberId(id), listType);
+    public ResponseEntity<List<LoadNotification>> getAllNotificationActiveByMemberId(@PathVariable Long id){
+        Type listType = new TypeToken<List<LoadNotification>>(){}.getType();
+        List<LoadNotification> notificationResponse = modelMapper.map(notificationService.getAllActiveByMemberId(id), listType);
 
-        return ResponseEntity.ok().body(notificationViews);
+        return ResponseEntity.ok().body(notificationResponse);
     }
 
     @PutMapping("{id}")
@@ -66,7 +67,7 @@ public class NotificationController {
         Notification notification = notificationService.get(id);
         logger.info("Updating Activity with id {}", id);
 
-        notification.setReadNotification(false);
+        notification.setIsActive(false);
         notificationService.update(id, notification);
         NotificationView notificationResponse = modelMapper.map(notification, NotificationView.class);
 
