@@ -33,7 +33,7 @@
             <property name="com.jaspersoft.studio.unit.height" value="px"/>
             <image>
                 <reportElement x="0" y="0" width="130" height="110" uuid="ddc15723-2728-421f-b95e-2df9faf64ce1"/>
-                <imageExpression><![CDATA["coffee.jpg"]]></imageExpression>
+                <imageExpression><![CDATA["reports/logoReport/Logo.png"]]></imageExpression>
             </image>
             <staticText>
                 <reportElement style="Title" x="140" y="0" width="292" height="88" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
@@ -51,7 +51,7 @@
             </staticText>
             <image>
                 <reportElement x="433" y="-115" width="267" height="209" uuid="5d64e5b3-07bb-48ab-89dc-15c0c46bb19a"/>
-                <imageExpression><![CDATA["coffee_stain.png"]]></imageExpression>
+                <imageExpression><![CDATA["reports/logoReport/coffee_stain.png"]]></imageExpression>
             </image>
         </band>
     </pageHeader>
