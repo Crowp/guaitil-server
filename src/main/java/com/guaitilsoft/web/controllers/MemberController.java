@@ -124,11 +124,20 @@ public class MemberController {
         return ResponseEntity.ok().body(memberResponse);
     }
 
-    @GetMapping("/report")
-    public void generateReport(HttpServletResponse response) throws IOException {
+    @GetMapping("/pdf-report")
+    public void generatePDFReport(HttpServletResponse response) throws IOException {
         List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
         response.setContentType("application/x-download");
         response.setHeader("Content-Disposition", "attachment; filename=\"ReporteAsociados.pdf\"");
+        OutputStream out = response.getOutputStream();
+        memberService.exportPdf(out, members);
+    }
+
+    @GetMapping("/xlsx-report")
+    public void generateXLSXReport(HttpServletResponse response) throws IOException {
+        List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
+        response.setContentType("application/x-xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteAsociados.xlsx\"");
         OutputStream out = response.getOutputStream();
         memberService.exportPdf(out, members);
     }
