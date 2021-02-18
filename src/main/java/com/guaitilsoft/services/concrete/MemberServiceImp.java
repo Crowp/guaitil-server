@@ -166,6 +166,10 @@ public class MemberServiceImp implements MemberService {
             JRXlsxExporter xlsxExporter = new JRXlsxExporter();
             xlsxExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
             xlsxExporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, outputStream);
+            xlsxExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, true);
+            xlsxExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND, false);
+            xlsxExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, true);
+            xlsxExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, true);
             xlsxExporter.exportReport();
 
         }catch (Exception e){

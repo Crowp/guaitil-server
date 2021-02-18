@@ -128,7 +128,7 @@ public class MemberController {
     public void generatePDFReport(HttpServletResponse response) throws IOException {
         List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
         response.setContentType("application/x-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteAsociados.pdf\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.pdf\"");
         OutputStream out = response.getOutputStream();
         memberService.exportPdf(out, members);
     }
@@ -137,8 +137,8 @@ public class MemberController {
     public void generateXLSXReport(HttpServletResponse response) throws IOException {
         List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
         response.setContentType("application/x-xlsx");
-        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteAsociados.xlsx\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.xlsx\"");
         OutputStream out = response.getOutputStream();
-        memberService.exportPdf(out, members);
+        memberService.exportXLSX(out, members);
     }
 }
