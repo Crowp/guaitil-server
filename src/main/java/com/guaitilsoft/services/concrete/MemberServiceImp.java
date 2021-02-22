@@ -138,8 +138,7 @@ public class MemberServiceImp implements MemberService {
     public void exportPdf(OutputStream outputStream, List<Member> memberReport){
         try {
             File file = ResourceUtils.getFile("classpath:\\reports\\personPDFReport.jrxml");
-            JasperDesign design = JRXmlLoader.load(file);
-            JasperReport jasperReport = JasperCompileManager.compileReport(design);
+            JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(memberReport);
 
             Map<String, Object> parameters = new HashMap<>();

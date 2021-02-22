@@ -4,7 +4,6 @@ import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.constant.NotificationMessage;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
@@ -17,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.guaitilsoft.models.constant.NotificationMessage.ACTIVITY_NOTIFICATION;
 
 @Service
 public class ActivityServiceImp implements ActivityService {
@@ -58,7 +59,7 @@ public class ActivityServiceImp implements ActivityService {
         entity.setCreatedAt(new Date());
         activityRepository.save(entity);
 
-        notificationService.save(NotificationMessage.ACTIVITY_NOTIFICATION.getMessage() + entity.getName(), memberList(entity));
+        notificationService.save(ACTIVITY_NOTIFICATION.getMessage() + entity.getName(), memberList(entity));
     }
 
     @Override

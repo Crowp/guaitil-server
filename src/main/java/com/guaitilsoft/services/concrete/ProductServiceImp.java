@@ -4,7 +4,6 @@ import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
 
 import com.guaitilsoft.models.ProductReview;
-import com.guaitilsoft.models.constant.NotificationMessage;
 import com.guaitilsoft.models.constant.ReviewState;
 import com.guaitilsoft.repositories.ProductRepository;
 import com.guaitilsoft.services.*;
@@ -16,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.guaitilsoft.models.constant.NotificationMessage.PRODUCT_NOTIFICATION;
 
 @Service
 public class ProductServiceImp implements ProductService {
@@ -69,7 +70,7 @@ public class ProductServiceImp implements ProductService {
         review.setState(ReviewState.INPROCESS);
         productReviewService.save(review);
 
-        notificationService.createAdminNotification(NotificationMessage.PRODUCT_NOTIFICATION.getMessage());
+        notificationService.createAdminNotification(PRODUCT_NOTIFICATION.getMessage());
     }
 
     @Override
