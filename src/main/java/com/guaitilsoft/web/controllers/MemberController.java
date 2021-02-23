@@ -5,6 +5,7 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
+import com.guaitilsoft.services.ReportService;
 import com.guaitilsoft.web.models.member.MemberView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -33,13 +34,15 @@ public class MemberController {
     private final MemberService memberService;
     private final LocalService localService;
     private final ModelMapper modelMapper;
+    private final ReportService<Member> reportService;
 
 
     @Autowired
-    public MemberController(MemberService memberService, LocalService localService, ModelMapper modelMapper) {
+    public MemberController(MemberService memberService, LocalService localService, ModelMapper modelMapper, ReportService<Member> reportService) {
         this.memberService = memberService;
         this.localService = localService;
         this.modelMapper = modelMapper;
+        this.reportService = reportService;
     }
 
     @GetMapping
@@ -125,20 +128,28 @@ public class MemberController {
     }
 
     @GetMapping("/pdf-report")
-    public void generatePDFReport(HttpServletResponse response) throws IOException {
+    public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
+        String template = "classpath:\\reports\\personPDFReport.jrxml";
         List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
+
         response.setContentType("application/x-download");
         response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.pdf\"");
         OutputStream out = response.getOutputStream();
-        memberService.exportPdf(out, members);
+        reportService.exportPDF(out, members, template);
+
+        return ResponseEntity.ok().body("Se generó el reporte");
     }
 
     @GetMapping("/xlsx-report")
-    public void generateXLSXReport(HttpServletResponse response) throws IOException {
+    public ResponseEntity<String> generateXLSXReport(HttpServletResponse response) throws IOException {
+        String template = "classpath:\\reports\\personXLSXReport.jrxml";
         List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
+
         response.setContentType("application/x-xlsx");
         response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.xlsx\"");
         OutputStream out = response.getOutputStream();
-        memberService.exportXLSX(out, members);
+        reportService.exportXLSX(out, members, template);
+
+        return ResponseEntity.ok().body("Se generó el reporte");
     }
 }
