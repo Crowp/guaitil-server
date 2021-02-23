@@ -1,6 +1,5 @@
 package com.guaitilsoft.web.models.notification;
 
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.web.models.member.LoadMember;
 import lombok.Data;
 import lombok.NoArgsConstructor;
