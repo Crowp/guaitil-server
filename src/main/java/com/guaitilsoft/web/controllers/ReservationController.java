@@ -20,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/api/reservation")
+@RequestMapping(path = "/api/reservations")
 public class ReservationController {
 
     public static final Logger logger = LoggerFactory.getLogger(ReservationController.class);

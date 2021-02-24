@@ -1,5 +1,6 @@
 package com.guaitilsoft.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.guaitilsoft.models.constant.LocalType;
@@ -44,7 +45,7 @@ public class Local {
 
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
-    @JsonManagedReference
+    @JsonBackReference
     private Member member;
 
     @OneToMany(targetEntity = Product.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "local")

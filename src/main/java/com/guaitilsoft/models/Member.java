@@ -34,8 +34,8 @@ public class Member {
     @OneToOne(cascade = CascadeType.ALL)
     private Person person;
 
-    @JsonBackReference
     @OneToMany(targetEntity = Local.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
+    @JsonManagedReference
     private List<Local> locals;
 
     @Enumerated(EnumType.STRING)
@@ -49,7 +49,7 @@ public class Member {
         return person.getId();
     }
 
-    @PrePersist
+    //@PrePersist
     public void populateLocals() {
         for(Local local : locals)
             local.setMember(this);

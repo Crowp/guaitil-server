@@ -25,7 +25,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/api/activity")
+@RequestMapping(path = "/api/activities")
 public class ActivityController {
 
     public static final Logger logger = LoggerFactory.getLogger(ActivityController.class);

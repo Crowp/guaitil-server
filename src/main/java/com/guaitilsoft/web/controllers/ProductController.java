@@ -21,7 +21,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/api/product")
+@RequestMapping(path = "/api/products")
 public class ProductController {
     public static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 

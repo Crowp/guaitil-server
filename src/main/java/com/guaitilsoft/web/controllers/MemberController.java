@@ -1,9 +1,7 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
-import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ReportService;
 import com.guaitilsoft.web.models.member.MemberView;
@@ -21,26 +19,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(path = "/api/member")
+@RequestMapping(path = "/api/members")
 public class MemberController {
 
     public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
 
     private final MemberService memberService;
-    private final LocalService localService;
     private final ModelMapper modelMapper;
     private final ReportService<Member> reportService;
 
 
     @Autowired
-    public MemberController(MemberService memberService, LocalService localService, ModelMapper modelMapper, ReportService<Member> reportService) {
+    public MemberController(MemberService memberService, ModelMapper modelMapper, ReportService<Member> reportService) {
         this.memberService = memberService;
-        this.localService = localService;
         this.modelMapper = modelMapper;
         this.reportService = reportService;
     }
