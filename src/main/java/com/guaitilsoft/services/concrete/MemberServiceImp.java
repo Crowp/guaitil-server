@@ -67,6 +67,7 @@ public class MemberServiceImp implements MemberService {
         if (memberRepository.existMemberPersonEmail(entity.getEmail())) {
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
         }
+        entity.setCreatedAt(new Date());
         entity.setUpdatedAt(new Date());
 
         memberRepository.save(entity);
