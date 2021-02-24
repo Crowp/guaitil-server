@@ -48,7 +48,7 @@ public class LocalController {
         return  ResponseEntity.ok().body(locals);
     }
 
-    @GetMapping("/talleres")
+    @GetMapping("/workshops")
     public ResponseEntity<List<LocalView>> getWorkshops(){
         LocalType localType = LocalType.WORKSHOP;
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
@@ -57,7 +57,7 @@ public class LocalController {
         return  ResponseEntity.ok().body(locals);
     }
 
-    @GetMapping("/cocinas")
+    @GetMapping("/kitchens")
     public ResponseEntity<List<LocalView>> getKitchens(){
         LocalType localType = LocalType.KITCHEN;
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
@@ -66,7 +66,7 @@ public class LocalController {
         return  ResponseEntity.ok().body(locals);
     }
 
-    @GetMapping("/hospedajes")
+    @GetMapping("/lodging")
     public ResponseEntity<List<LocalView>> getLodgings(){
         LocalType localType = LocalType.LODGING;
         Type listType = new TypeToken<List<LocalView>>(){}.getType();
@@ -75,7 +75,7 @@ public class LocalController {
         return  ResponseEntity.ok().body(locals);
     }
 
-    @GetMapping("/otros-locales")
+    @GetMapping("/others-locales")
     public ResponseEntity<List<LocalView>> getOthers(){
         LocalType localType = LocalType.OTHERS;
         Type listType = new TypeToken<List<LocalView>>(){}.getType();

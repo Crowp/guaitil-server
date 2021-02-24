@@ -107,7 +107,7 @@ public class ActivityController {
         return ResponseEntity.ok().body(activityResponse);
     }
 
-    @DeleteMapping("delete-multimedia-by-id")
+    @DeleteMapping("/delete/multimedia-by-id")
     public ResponseEntity<ActivityView> deleteMultimediaById(@RequestParam Long id,
                                                              @RequestParam Long idMultimedia) {
         logger.info("Deleting Activity Multimedia with id {}", id);

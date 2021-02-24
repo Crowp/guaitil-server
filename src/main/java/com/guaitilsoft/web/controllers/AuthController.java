@@ -72,7 +72,7 @@ public class AuthController {
         return ResponseEntity.ok().body(createToken(userService.register(user)));
     }
 
-    @PutMapping("reset")
+    @PutMapping("/reset")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> reset(@RequestParam Long id,
                                               @RequestParam String newPassword) {
@@ -81,7 +81,7 @@ public class AuthController {
         return ResponseEntity.ok().body(userResponse);
     }
 
-    @PutMapping("update-roles/{id}")
+    @PutMapping("/update-roles/{id}")
     @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<UserResponse> updateRoles(@RequestBody List<Role> roles, @PathVariable Long id) {
         User user = userService.updateRoles(roles, id);

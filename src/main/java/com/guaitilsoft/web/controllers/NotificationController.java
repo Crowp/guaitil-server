@@ -17,7 +17,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/api/notification")
+@RequestMapping(path = "/api/notifications")
 public class NotificationController {
 
     public static final Logger logger = LoggerFactory.getLogger(NotificationController.class);

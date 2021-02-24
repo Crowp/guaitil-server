@@ -59,7 +59,7 @@ public class MultimediaController {
         return ResponseEntity.ok().body(multimediaResponses);
     }
 
-    @PostMapping("upload")
+    @PostMapping("/upload")
     public ResponseEntity<MultimediaResponse> uploadFile(@ModelAttribute MultimediaRequest multimedia) {
         try {
             MultimediaResponse multimediaResponse = modelMapper.map(multimediaService.store(multimedia), MultimediaResponse.class);
@@ -77,7 +77,7 @@ public class MultimediaController {
         }
     }
 
-    @GetMapping("load/{filename:.+}")
+    @GetMapping("/load/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename, HttpServletRequest request) {
         Resource file = multimediaService.load(filename);
         // Try to determine file's content type

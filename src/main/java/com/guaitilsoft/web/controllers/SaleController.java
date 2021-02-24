@@ -23,7 +23,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/api/sale")
+@RequestMapping(path = "/api/sales")
 public class SaleController {
     public static final Logger logger = LoggerFactory.getLogger(SaleController.class);
 

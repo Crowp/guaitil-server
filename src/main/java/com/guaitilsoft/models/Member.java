@@ -49,7 +49,7 @@ public class Member {
         return person.getId();
     }
 
-    //@PrePersist
+    @PrePersist
     public void populateLocals() {
         for(Local local : locals)
             local.setMember(this);

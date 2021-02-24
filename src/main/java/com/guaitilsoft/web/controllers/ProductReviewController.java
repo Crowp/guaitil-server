@@ -20,7 +20,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/api/product-review")
+@RequestMapping(path = "/api/products-reviews")
 public class ProductReviewController {
     public static final Logger logger = LoggerFactory.getLogger(ProductReviewController.class);
 
@@ -41,7 +41,7 @@ public class ProductReviewController {
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
-    @GetMapping("member-id/{id}")
+    @GetMapping("/member-id/{id}")
     public ResponseEntity<List<ProductReviewView>> getByMemberId(@PathVariable Long id){
         Type listType = new TypeToken<List<ProductReviewView>>(){}.getType();
         List<ProductReviewView> productReviewViews = modelMapper.map(productReviewService.listByIdMember(id), listType);

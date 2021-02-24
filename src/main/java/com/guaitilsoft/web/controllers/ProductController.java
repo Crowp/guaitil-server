@@ -132,7 +132,7 @@ public class ProductController {
         return ResponseEntity.ok().body(productResponse);
     }
 
-    @DeleteMapping("delete-multimedia-by-id")
+    @DeleteMapping("/delete/multimedia-by-id")
     public ResponseEntity<ProductView> deleteMultimediaById(@RequestParam Long id,
                                                           @RequestParam Long idMultimedia) {
         logger.info("Deleting Product with id {}", id);
