@@ -1,6 +1,8 @@
 package com.guaitilsoft.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.guaitilsoft.models.constant.MemberType;
 import lombok.*;
 
@@ -32,6 +34,7 @@ public class Member {
     @OneToOne(cascade = CascadeType.ALL)
     private Person person;
 
+    @JsonBackReference
     @OneToMany(targetEntity = Local.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
     private List<Local> locals;
 
@@ -44,6 +47,12 @@ public class Member {
 
     public String getPersonId() {
         return person.getId();
+    }
+
+    @PrePersist
+    public void populateLocals() {
+        for(Local local : locals)
+            local.setMember(this);
     }
 }
 
