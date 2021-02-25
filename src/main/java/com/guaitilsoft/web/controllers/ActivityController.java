@@ -8,6 +8,7 @@ import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.web.models.activity.ActivityView;
+import com.guaitilsoft.web.models.activity.GetActivity;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -48,17 +49,19 @@ public class ActivityController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ActivityView>> get(){
-        Type listType  = new TypeToken<List<ActivityView>>(){}.getType();
-        List<ActivityView> activities = modelMapper.map(activityService.list(),listType);
-        activities.forEach(this::addUrlToMultimedia);
+    public ResponseEntity<List<GetActivity>> get(){
+        Type listType  = new TypeToken<List<GetActivity>>(){}.getType();
+        List<GetActivity> activities = modelMapper.map(activityService.list(),listType);
+        List<ActivityView> activityViews = modelMapper.map(activities,listType);
+        activityViews.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(activities);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ActivityView> getById(@PathVariable Long id) {
-        ActivityView activity = modelMapper.map(activityService.get(id),ActivityView.class);
-        addUrlToMultimedia(activity);
+    public ResponseEntity<GetActivity> getById(@PathVariable Long id) {
+        GetActivity activity = modelMapper.map(activityService.get(id),GetActivity.class);
+        ActivityView activityView = modelMapper.map(activity, ActivityView.class);
+        addUrlToMultimedia(activityView);
         logger.info("Fetching Activity with id {}", id);
         return ResponseEntity.ok().body(activity);
     }

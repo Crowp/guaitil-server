@@ -2,9 +2,7 @@ package com.guaitilsoft.services.concrete;
 
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
-import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.repositories.MemberRepository;
@@ -22,17 +20,10 @@ import java.util.List;
 public class MemberServiceImp implements MemberService {
 
     private final MemberRepository memberRepository;
-    private final LocalService localService;
-    private final UserService userService;
 
     @Autowired
-    public MemberServiceImp(
-            MemberRepository memberRepository,
-            LocalService localService,
-            UserService userService) {
+    public MemberServiceImp(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-        this.localService = localService;
-        this.userService = userService;
     }
 
     @Override
@@ -84,38 +75,17 @@ public class MemberServiceImp implements MemberService {
     @Override
     public void delete(Long id) {
         assert id != null;
-
         Member member = this.get(id);
-        List<Local> locals = new ArrayList<>(member.getLocals());
-        member.setLocals(null);
-        memberRepository.save(member);
-        if (locals.size() > 0) {
-            locals.forEach(local -> localService.delete(local.getId()));
-        }
-        userService.deleteUserByMemberId(id);
         memberRepository.delete(member);
     }
 
     @Override
     public List<Member> getMemberWithoutUser() {
-        Iterable<Member> iterable = memberRepository.membersWithoutUser(MemberType.ASSOCIATED);
-        List<Member> members = new ArrayList<>();
-        iterable.forEach(members::add);
-        return members;
+        return memberRepository.getMembersWithoutUser();
     }
 
     @Override
     public List<Member> getAdminsMembers() {
-        List<User> users = this.userService.getAllUsers();
-        List<Member> members = new ArrayList<>();
-
-        this.list().forEach(m -> users.forEach(u -> {
-                if (m.getId().equals(u.getMember().getId())){
-                    if (u.getRoles().contains(Role.ROLE_ADMIN) && u.getRoles().contains(Role.ROLE_SUPER_ADMIN)){
-                        members.add(m);
-                    }
-                }
-            }));
-        return members;
+        return this.memberRepository.getMembersByRole(Role.ROLE_ADMIN);
     }
 }
