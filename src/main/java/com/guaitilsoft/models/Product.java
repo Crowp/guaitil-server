@@ -45,8 +45,10 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 
-    public void removeMultimediaById(Multimedia multimedia){
+    public void removeMultimediaById(Multimedia multimedia) {
         this.multimedia.remove(multimedia);
+    }
+    
     @PrePersist
     public void prePersist(){
         this.createdAt = LocalDateTime.now();
