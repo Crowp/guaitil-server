@@ -6,6 +6,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
+import com.guaitilsoft.web.models.local.GetLocal;
 import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
@@ -41,63 +42,70 @@ public class LocalController {
     }
 
     @GetMapping
-    public ResponseEntity<List<LocalView>> get(){
-        Type listType = new TypeToken<List<LocalView>>(){}.getType();
-        List<LocalView> locals = modelMapper.map(localService.list(), listType);
-        locals.forEach(this::addUrlToMultimedia);
+    public ResponseEntity<List<GetLocal>> get(){
+        Type listType = new TypeToken<List<GetLocal>>(){}.getType();
+        List<GetLocal> locals = modelMapper.map(localService.list(), listType);
+        List<LocalView> loadLocals = modelMapper.map(locals, listType);
+        loadLocals.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(locals);
     }
 
     @GetMapping("/workshops")
-    public ResponseEntity<List<LocalView>> getWorkshops(){
+    public ResponseEntity<List<GetLocal>> getWorkshops(){
         LocalType localType = LocalType.WORKSHOP;
-        Type listType = new TypeToken<List<LocalView>>(){}.getType();
-        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
-        locals.forEach(this::addUrlToMultimedia);
+        Type listType = new TypeToken<List<GetLocal>>(){}.getType();
+        List<GetLocal> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        List<LocalView> loadLocals = modelMapper.map(locals, listType);
+        loadLocals.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(locals);
     }
 
     @GetMapping("/kitchens")
-    public ResponseEntity<List<LocalView>> getKitchens(){
+    public ResponseEntity<List<GetLocal>> getKitchens(){
         LocalType localType = LocalType.KITCHEN;
-        Type listType = new TypeToken<List<LocalView>>(){}.getType();
-        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
-        locals.forEach(this::addUrlToMultimedia);
+        Type listType = new TypeToken<List<GetLocal>>(){}.getType();
+        List<GetLocal> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        List<LocalView> loadLocals = modelMapper.map(locals,listType);
+        loadLocals.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(locals);
     }
 
     @GetMapping("/lodging")
-    public ResponseEntity<List<LocalView>> getLodgings(){
+    public ResponseEntity<List<GetLocal>> getLodgings(){
         LocalType localType = LocalType.LODGING;
-        Type listType = new TypeToken<List<LocalView>>(){}.getType();
-        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
-        locals.forEach(this::addUrlToMultimedia);
+        Type listType = new TypeToken<List<GetLocal>>(){}.getType();
+        List<GetLocal> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        List<LocalView> loadLocals = modelMapper.map(locals, listType);
+        loadLocals.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(locals);
     }
 
     @GetMapping("/others-locales")
-    public ResponseEntity<List<LocalView>> getOthers(){
+    public ResponseEntity<List<GetLocal>> getOthers(){
         LocalType localType = LocalType.OTHERS;
-        Type listType = new TypeToken<List<LocalView>>(){}.getType();
-        List<LocalView> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
-        locals.forEach(this::addUrlToMultimedia);
+        Type listType = new TypeToken<List<GetLocal>>(){}.getType();
+        List<GetLocal> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        List<LocalView> localViews = modelMapper.map(locals, listType);
+        localViews.forEach(this::addUrlToMultimedia);
         return  ResponseEntity.ok().body(locals);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<LocalView> getById(@PathVariable Long id) {
-        LocalView local = modelMapper.map(localService.get(id), LocalView.class);
-        addUrlToMultimedia(local);
+    public ResponseEntity<GetLocal> getById(@PathVariable Long id) {
+        GetLocal local = modelMapper.map(localService.get(id), GetLocal.class);
+        LocalView localView = modelMapper.map(local, LocalView.class);
+        addUrlToMultimedia(localView);
         logger.info("Fetching Local with id: {}", id);
         return ResponseEntity.ok().body(local);
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<LocalView>> getLocalsByMemberId(@PathVariable Long id) {
+    public ResponseEntity<List<GetLocal>> getLocalsByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
-        Type listType = new TypeToken<List<LocalView>>(){}.getType();
-        List<LocalView> locals = modelMapper.map(localService.getAllLocalByIdMember(member.getId()), listType);
-        locals.forEach(this::addUrlToMultimedia);
+        Type listType = new TypeToken<List<GetLocal>>(){}.getType();
+        List<GetLocal> locals = modelMapper.map(localService.getAllLocalByIdMember(member.getId()), listType);
+        List<LocalView> localViews = modelMapper.map(locals, listType);
+        localViews.forEach(this::addUrlToMultimedia);
         logger.info("Fetching Local with id: {}", id);
         return ResponseEntity.ok().body(locals);
     }

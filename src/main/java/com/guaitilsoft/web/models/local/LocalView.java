@@ -1,6 +1,5 @@
 package com.guaitilsoft.web.models.local;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.web.models.member.LoadMember;
@@ -9,7 +8,6 @@ import com.guaitilsoft.web.models.product.GetProduct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
