@@ -1,6 +1,5 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -28,8 +27,7 @@ public class Notification {
     @Column
     private Boolean isActive;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date date;
+    private LocalDateTime date;
 
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<Member> members;

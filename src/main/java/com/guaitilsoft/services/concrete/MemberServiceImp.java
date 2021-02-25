@@ -10,13 +10,12 @@ import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.services.ReportService;
 import com.guaitilsoft.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -110,15 +109,13 @@ public class MemberServiceImp implements MemberService {
         List<User> users = this.userService.getAllUsers();
         List<Member> members = new ArrayList<>();
 
-        this.list().forEach(m -> {
-            users.forEach(u -> {
+        this.list().forEach(m -> users.forEach(u -> {
                 if (m.getId().equals(u.getMember().getId())){
                     if (u.getRoles().contains(Role.ROLE_ADMIN) && u.getRoles().contains(Role.ROLE_SUPER_ADMIN)){
                         members.add(m);
                     }
                 }
-            });
-        });
+            }));
         return members;
     }
 }

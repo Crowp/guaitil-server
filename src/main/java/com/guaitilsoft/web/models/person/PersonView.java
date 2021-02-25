@@ -1,12 +1,13 @@
 package com.guaitilsoft.web.models.person;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.PersonType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -28,7 +29,9 @@ public class PersonView {
 
     private PersonType personType;
 
-    private Date createdAt;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
 
-    private Date updatedAt;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updatedAt;
 }

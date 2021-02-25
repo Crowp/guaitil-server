@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,8 +66,6 @@ public class ProductReviewServiceImp implements ProductReviewService {
     @Override
     public void save(ProductReview entity)  {
         assert entity != null;
-        entity.setUpdatedAt(new Date());
-        entity.setCreatedAt(new Date());
         productReviewRepository.save(entity);
     }
 
@@ -77,10 +75,9 @@ public class ProductReviewServiceImp implements ProductReviewService {
         assert entity != null;
 
         ProductReview productReview = this.get(id);
-        productReview.setReviewDate(new Date());
+        productReview.setReviewDate(LocalDateTime.now());
         productReview.setState(entity.getState());
         productReview.setComment(entity.getComment());
-        productReview.setUpdatedAt(new Date());
         productReviewRepository.save(entity);
         return productReview;
     }

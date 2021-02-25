@@ -1,13 +1,12 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReviewState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -19,20 +18,29 @@ public class ProductReview {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date reviewDate;
+    private LocalDateTime reviewDate;
 
     @Enumerated(EnumType.STRING)
     private ReviewState state;
 
     private String comment;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @OneToOne(cascade = CascadeType.REFRESH)
     private Product product;
+
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.reviewDate = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
 }

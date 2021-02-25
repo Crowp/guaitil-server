@@ -1,11 +1,9 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
-
+import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
@@ -20,12 +18,21 @@ public class Tour {
     @Column(nullable = false)
     private Long amountPerson;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     private Activity activity;
+
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
 }

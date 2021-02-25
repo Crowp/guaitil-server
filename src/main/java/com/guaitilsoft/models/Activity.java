@@ -1,12 +1,11 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ActivityType;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -26,8 +25,7 @@ public class Activity {
     @NotEmpty
     private String description;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date activityDate;
+    private LocalDateTime activityDate;
 
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
@@ -35,13 +33,9 @@ public class Activity {
     @Column
     private Double personCost;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
@@ -51,4 +45,16 @@ public class Activity {
 
     @OneToMany(cascade = CascadeType.MERGE)
     private List<Multimedia> multimedia;
+
+    @PrePersist
+    public void prePersist(){
+        this.activityDate = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
 }

@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -57,8 +56,6 @@ public class GalleryServiceImp implements GalleryService {
         } else {
             gallery = new Gallery();
             gallery.setMultimedia(multimediaList);
-            gallery.setCreatedAt(new Date());
-            gallery.setCreatedAt(new Date());
         }
         galleryRepository.save(gallery);
         return gallery;

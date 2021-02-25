@@ -1,5 +1,6 @@
 package com.guaitilsoft.web.models.reservation;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.ReservationState;
 import com.guaitilsoft.web.models.activity.ActivityView;
@@ -8,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,15 +18,18 @@ public class ReservationView {
 
     private Long id;
 
-    private Date dateReservation;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dateReservation;
 
     private Long amountPerson;
 
     private ReservationState reservationState;
 
-    private Date createdAt;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
 
-    private Date updatedAt;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updatedAt;
 
     private LoadActivityView tour;
 

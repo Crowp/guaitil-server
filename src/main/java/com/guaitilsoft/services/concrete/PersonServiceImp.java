@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -54,8 +53,6 @@ public class PersonServiceImp implements PersonService {
         if(personRepository.existEmail(entity.getEmail())){
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
         }
-        entity.setUpdatedAt(new Date());
-        entity.setCreatedAt(new Date());
         personRepository.save(entity);
 
     }
@@ -73,7 +70,6 @@ public class PersonServiceImp implements PersonService {
         person.setGender(entity.getGender());
         person.setEmail(entity.getEmail());
         person.setPersonType(entity.getPersonType());
-        person.setUpdatedAt(new Date());
 
         personRepository.save(person);
     }

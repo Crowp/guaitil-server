@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,8 +60,6 @@ public class LocalServiceImp implements LocalService {
         if(localRepository.existMemberPersonLocal(entity.personId(),entity.getLocalType())){
             throw new ApiRequestException("El local esta ocupado por el miembro con cédula: " + entity.personId());
         }
-        entity.setUpdatedAt(new Date());
-        entity.setCreatedAt(new Date());
         loadMultimedia(entity);
         localRepository.save(entity);
     }
@@ -80,7 +77,6 @@ public class LocalServiceImp implements LocalService {
         local.setLocalType(entity.getLocalType());
         local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
-        local.setUpdatedAt(new Date());
         if(!local.getMember().getId().equals(entity.getMember().getId())) {
             if (localRepository.memberHaveLocal(entity.getMember().getId(), entity.getLocalType())) {
                 throw new ApiRequestException("El miembro con la cédula " + entity.personId() + " posee un local del mismo tipo");

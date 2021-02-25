@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,8 +54,6 @@ public class ActivityServiceImp implements ActivityService {
     @Override
     public void save(Activity entity) {
         assert entity != null;
-        entity.setUpdatedAt(new Date());
-        entity.setCreatedAt(new Date());
         activityRepository.save(entity);
 
         notificationService.save(ACTIVITY_NOTIFICATION.getMessage() + entity.getName(), memberList(entity));
@@ -69,7 +66,6 @@ public class ActivityServiceImp implements ActivityService {
 
         Activity activity = this.get(id);
         activity.setName(entity.getName());
-        activity.setUpdatedAt(new Date());
         activity.setDescription(entity.getDescription());
         activity.setActivityDate(entity.getActivityDate());
         activity.setActivityType(entity.getActivityType());
@@ -129,9 +125,7 @@ public class ActivityServiceImp implements ActivityService {
     public List<Member> memberList(Activity entity){
         List<Member> members = new ArrayList<>();
 
-        entity.getLocals().forEach(local -> {
-            members.add(local.getMember());
-        });
+        entity.getLocals().forEach(local -> members.add(local.getMember()));
 
         return members;
     }

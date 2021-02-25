@@ -62,8 +62,8 @@ public class Application implements CommandLineRunner {
             person.setTelephone("8888888");
             person.setSecondLastName("Default Admin");
             person.setGender(Gender.MALE);
-            person.setCreatedAt(new Date());
-            person.setUpdatedAt(new Date());
+            person.setCreatedAt(LocalDateTime.now());
+            person.setUpdatedAt(LocalDateTime.now());
 
             Member member = new Member();
             member.setOccupation("Admin");
@@ -73,8 +73,8 @@ public class Application implements CommandLineRunner {
 
             User user = new User();
             user.setFirstLogin(false);
-            user.setCreatedAt(new Date());
-            user.setUpdatedAt(new Date());
+            user.setCreatedAt(LocalDateTime.now());
+            user.setUpdatedAt(LocalDateTime.now());
             user.setPassword("1234");
             user.setMember(member);
             List<Role> roles = new ArrayList<>(Collections.singletonList(Role.ROLE_ADMIN));

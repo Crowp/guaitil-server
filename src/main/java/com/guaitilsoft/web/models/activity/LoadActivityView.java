@@ -1,11 +1,12 @@
 package com.guaitilsoft.web.models.activity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.constant.ActivityType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class LoadActivityView {
@@ -15,15 +16,18 @@ public class LoadActivityView {
 
     private String description;
 
-    private Date activityDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime activityDate;
 
     private Double personCost;
 
     private ActivityType activityType;
 
-    private Date createdAt;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
 
-    private Date updatedAt;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updatedAt;
 
     private Address address;
 }

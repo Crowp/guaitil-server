@@ -52,7 +52,6 @@ public class NotificationServiceImp implements NotificationService {
         notification.setDescription(description);
         notification.setIsActive(true);
         notification.setMembers(members);
-        notification.setDate(new Date());
 
         notificationRepository.save(notification);
     }
