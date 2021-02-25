@@ -27,12 +27,6 @@ public class ProductView {
 
     private ProductType productType;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
-
     private GetLocal local;
 
     private ProductPrice productPrice;

@@ -18,18 +18,9 @@ public class ProductReviewView {
 
     private Long id;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime reviewDate;
-
     private ReviewState state;
 
     private String comment;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
 
     private ProductView product;
 

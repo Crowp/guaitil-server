@@ -34,6 +34,7 @@ public class ProductReview {
 
     @PrePersist
     public void prePersist(){
+        this.reviewDate = LocalDateTime.now();
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
