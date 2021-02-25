@@ -3,6 +3,8 @@ package com.guaitilsoft.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -44,14 +46,27 @@ public class Local {
     @JsonBackReference
     private Member member;
 
-    @OneToMany(targetEntity = Product.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "local")
+    @OneToMany(
+            targetEntity = Product.class,cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "local",
+            orphanRemoval = true
+    )
     private List<Product> products;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Multimedia> multimedia;
 
     public String personId(){
         return member.getPersonId();
+    }
+
+    public Long getMemberId(){
+        return this.member.getId();
+    }
+
+    public void removeMultimediaById(Multimedia multimedia){
+        this.multimedia.remove(multimedia);
     }
 
     @PrePersist

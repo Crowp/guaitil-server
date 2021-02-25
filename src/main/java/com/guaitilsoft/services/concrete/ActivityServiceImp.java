@@ -82,11 +82,11 @@ public class ActivityServiceImp implements ActivityService {
         assert id != null;
 
         Activity activity = this.get(id);
-        List<Multimedia> activityList = new ArrayList<>(activity.getMultimedia());
+        List<Multimedia> multimedia = activity.getMultimedia();
         activity.setMultimedia(null);
         activityRepository.save(activity);
-        if(activityList.size() > 0){
-            activityList.forEach(media -> multimediaService.delete(media.getId()));
+        if(multimedia.size() > 0){
+            multimedia.forEach(media -> multimediaService.delete(media.getId()));
         }
 
         activityRepository.delete(activity);
@@ -94,15 +94,8 @@ public class ActivityServiceImp implements ActivityService {
 
     @Override
     public Activity deleteMultimediaById(Long id, Long idMultimedia) {
-        Activity activity = this.get(id);
-        List<Multimedia> multimedia = activity.getMultimedia()
-                .stream()
-                .filter(media -> !media.getId().equals(idMultimedia))
-                .collect(Collectors.toList());
-        activity.setMultimedia(multimedia);
-        activityRepository.save(activity);
-        multimediaService.delete(idMultimedia);
-        return activity;
+        activityRepository.deleteMultimediaById(idMultimedia);
+        return this.get(id);
     }
 
     @Override
@@ -122,11 +115,9 @@ public class ActivityServiceImp implements ActivityService {
         });
     }
 
-    public List<Member> memberList(Activity entity){
-        List<Member> members = new ArrayList<>();
-
-        entity.getLocals().forEach(local -> members.add(local.getMember()));
-
-        return members;
+    private List<Member> memberList(Activity activity){
+        List<Local> locals = activity.getLocals();
+        return locals.stream().map(Local::getMember).collect(Collectors.toList());
     }
+
 }
