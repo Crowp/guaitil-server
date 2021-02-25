@@ -21,7 +21,6 @@ import org.springframework.format.Formatter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -29,74 +28,74 @@ import java.util.*;
 @EntityScan(basePackages = {"com.guaitilsoft.models"})
 public class Application implements CommandLineRunner {
 
-	private final MultimediaService multimediaService;
-	private final UserService userService;
+    private final MultimediaService multimediaService;
+    private final UserService userService;
 
-	@Autowired
-	public Application(MultimediaService multimediaService, UserService userService) {
-		this.multimediaService = multimediaService;
-		this.userService = userService;
-	}
+    @Autowired
+    public Application(MultimediaService multimediaService, UserService userService) {
+        this.multimediaService = multimediaService;
+        this.userService = userService;
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+    }
 
-	@PostConstruct
-	public void init(){
-		TimeZone.setDefault(TimeZone.getTimeZone("America/Costa_Rica"));
-	}
+    @PostConstruct
+    public void init() {
+        TimeZone.setDefault(TimeZone.getTimeZone("America/Costa_Rica"));
+    }
 
-	@Bean
-	public ModelMapper modelMapper() {
-		return new ModelMapper();
-	}
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 
-	@Override
-	public void run(String... args) {
-		try {
-			Person person = new Person();
-			person.setId("1");
-			person.setName("Guatil");
-			person.setEmail("guaitil_default_admin@gmail.com");
-			person.setFirstLastName("Soft");
-			person.setTelephone("8888888");
-			person.setSecondLastName("Default Admin");
-			person.setGender(Gender.MALE);
-			person.setCreatedAt(new Date());
-			person.setUpdatedAt(new Date());
+    @Override
+    public void run(String... args) {
+        try {
+            Person person = new Person();
+            person.setId("1");
+            person.setName("Guatil");
+            person.setEmail("guaitil_default_admin@gmail.com");
+            person.setFirstLastName("Soft");
+            person.setTelephone("8888888");
+            person.setSecondLastName("Default Admin");
+            person.setGender(Gender.MALE);
+            person.setCreatedAt(new Date());
+            person.setUpdatedAt(new Date());
 
-			Member member = new Member();
-			member.setOccupation("Admin");
-			member.setPerson(person);
-			member.setMemberType(MemberType.ASSOCIATED);
-			member.setLocals(new ArrayList<>());
+            Member member = new Member();
+            member.setOccupation("Admin");
+            member.setPerson(person);
+            member.setMemberType(MemberType.ASSOCIATED);
+            member.setLocals(new ArrayList<>());
 
-			User user = new User();
-			user.setFirstLogin(false);
-			user.setCreatedAt(new Date());
-			user.setUpdatedAt(new Date());
-			user.setPassword("1234");
-			user.setMember(member);
-			List<Role> roles = new ArrayList<>(Collections.singletonList(Role.ROLE_ADMIN));
-			roles.add(Role.ROLE_SUPER_ADMIN);
-			user.setRoles(roles);
-			userService.register(user);
+            User user = new User();
+            user.setFirstLogin(false);
+            user.setCreatedAt(new Date());
+            user.setUpdatedAt(new Date());
+            user.setPassword("1234");
+            user.setMember(member);
+            List<Role> roles = new ArrayList<>(Collections.singletonList(Role.ROLE_ADMIN));
+            roles.add(Role.ROLE_SUPER_ADMIN);
+            user.setRoles(roles);
+            userService.register(user);
 
-		}catch (Exception e){
-			System.err.println(e.getMessage());
-		}
-		multimediaService.init();
-	}
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+        }
+        multimediaService.init();
+    }
 
-	@Bean
-	@Primary
-	public Formatter<LocalDateTime> localDateFormatter() {
-		return new LocalDateFormatter();
-	}
+    @Bean
+    @Primary
+    public Formatter<LocalDateTime> localDateFormatter() {
+        return new LocalDateFormatter();
+    }
 
-	@Bean(name = "multipartResolver")
-	public CommonsMultipartResolver multiPartResolver(){
-		return new CommonsMultipartResolver();
-	}
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver multiPartResolver() {
+        return new CommonsMultipartResolver();
+    }
 }
