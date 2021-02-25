@@ -22,6 +22,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @SpringBootApplication
@@ -42,13 +43,8 @@ public class Application implements CommandLineRunner {
 	}
 
 	@PostConstruct
-	void setUTCTimezone(){
-		TimeZone.setDefault(TimeZone.getTimeZone("GMT-6"));
-	}
-
-	@PostConstruct
 	public void init(){
-		TimeZone.setDefault(TimeZone.getTimeZone("GMT+6"));
+		TimeZone.setDefault(TimeZone.getTimeZone("America/Costa_Rica"));
 	}
 
 	@Bean
@@ -71,8 +67,6 @@ public class Application implements CommandLineRunner {
 			person.setUpdatedAt(new Date());
 
 			Member member = new Member();
-			member.setCreatedAt(new Date());
-			member.setUpdatedAt(new Date());
 			member.setOccupation("Admin");
 			member.setPerson(person);
 			member.setMemberType(MemberType.ASSOCIATED);
@@ -97,7 +91,7 @@ public class Application implements CommandLineRunner {
 
 	@Bean
 	@Primary
-	public Formatter<LocalDate> localDateFormatter() {
+	public Formatter<LocalDateTime> localDateFormatter() {
 		return new LocalDateFormatter();
 	}
 

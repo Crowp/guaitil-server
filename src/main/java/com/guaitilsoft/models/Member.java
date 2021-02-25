@@ -7,7 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -24,11 +24,9 @@ public class Member {
     @NotEmpty
     private String occupation;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Person person;
@@ -49,9 +47,23 @@ public class Member {
     }
 
     @PrePersist
-    public void populateLocals() {
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+        initLocals();
+    }
+
+    @PreUpdate
+    void preUpdate(){
+        this.updatedAt = LocalDateTime.now();
+        initLocals();
+    }
+
+    private void initLocals() {
         for(Local local : locals)
             local.setMember(this);
     }
+
+
 }
 

@@ -6,6 +6,7 @@ import com.guaitilsoft.web.models.local.LoadLocal;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -16,9 +17,9 @@ public class MemberView {
 
     private String occupation;
 
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     private Person person;
 

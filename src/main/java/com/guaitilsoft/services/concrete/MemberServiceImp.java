@@ -25,17 +25,15 @@ public class MemberServiceImp implements MemberService {
     private final MemberRepository memberRepository;
     private final LocalService localService;
     private final UserService userService;
-    private final ReportService<Member> reportService;
 
     @Autowired
     public MemberServiceImp(
             MemberRepository memberRepository,
             LocalService localService,
-            UserService userService, ReportService<Member> reportService) {
+            UserService userService) {
         this.memberRepository = memberRepository;
         this.localService = localService;
         this.userService = userService;
-        this.reportService = reportService;
     }
 
     @Override
@@ -67,9 +65,6 @@ public class MemberServiceImp implements MemberService {
         if (memberRepository.existMemberPersonEmail(entity.getEmail())) {
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
         }
-        entity.setCreatedAt(new Date());
-        entity.setUpdatedAt(new Date());
-
         memberRepository.save(entity);
     }
 
@@ -83,8 +78,6 @@ public class MemberServiceImp implements MemberService {
         member.setLocals(entity.getLocals());
         member.setMemberType(entity.getMemberType());
         member.setPerson(entity.getPerson());
-        member.setUpdatedAt(new Date());
-        member.setCreatedAt(entity.getCreatedAt());
 
         memberRepository.save(member);
     }
