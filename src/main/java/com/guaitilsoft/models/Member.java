@@ -1,9 +1,11 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.guaitilsoft.models.constant.MemberType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -28,17 +30,23 @@ public class Member {
 
     private LocalDateTime updatedAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Person person;
 
-    @OneToMany(targetEntity = Local.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
+    @OneToMany(
+            targetEntity = Local.class,
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY,
+            mappedBy = "member"
+    )
     @JsonManagedReference
     private List<Local> locals;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
-    public String getEmail(){
+    public String getEmail() {
         return person.getEmail();
     }
 
@@ -54,13 +62,13 @@ public class Member {
     }
 
     @PreUpdate
-    void preUpdate(){
+    void preUpdate() {
         this.updatedAt = LocalDateTime.now();
         initLocals();
     }
 
     private void initLocals() {
-        for(Local local : locals)
+        for (Local local : locals)
             local.setMember(this);
     }
 

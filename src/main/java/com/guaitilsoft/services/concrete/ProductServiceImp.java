@@ -14,6 +14,7 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.guaitilsoft.models.constant.NotificationMessage.PRODUCT_NOTIFICATION;
@@ -22,17 +23,15 @@ import static com.guaitilsoft.models.constant.NotificationMessage.PRODUCT_NOTIFI
 public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
-    private final MultimediaService multimediaService;
     private final ProductReviewService productReviewService;
     private final SaleService saleService;
     private final NotificationService notificationService;
 
     @Autowired
-    public ProductServiceImp(ProductRepository productRepository, MultimediaService multimediaService,
+    public ProductServiceImp(ProductRepository productRepository,
                              ProductReviewService productReviewService, SaleService saleService,
                              NotificationService notificationService) {
         this.productRepository = productRepository;
-        this.multimediaService = multimediaService;
         this.productReviewService = productReviewService;
         this.saleService = saleService;
         this.notificationService = notificationService;
@@ -105,12 +104,6 @@ public class ProductServiceImp implements ProductService {
         assert id != null;
 
         Product product = this.get(id);
-        List<Multimedia> multimediaList = new ArrayList<>(product.getMultimedia());
-        product.setMultimedia(null);
-        productRepository.save(product);
-        if(multimediaList.size() > 0){
-            multimediaList.forEach(media -> multimediaService.delete(media.getId()));
-        }
         productReviewService.deleteProductReviewByProductId(id);
         saleService.deleteSaleByProductId(id);
         productRepository.delete(product);
@@ -119,13 +112,13 @@ public class ProductServiceImp implements ProductService {
     @Override
     public Product deleteMultimediaById(Long id, Long idMultimedia) {
         Product product = this.get(id);
-        List<Multimedia> multimedia = product.getMultimedia()
+        Optional<Multimedia> multimediaToDelete = product.getMultimedia()
                 .stream()
-                .filter(media -> !media.getId().equals(idMultimedia))
-                .collect(Collectors.toList());
-        product.setMultimedia(multimedia);
+                .filter(m -> m.getId().equals(idMultimedia))
+                .findFirst();
+
+        multimediaToDelete.ifPresent(product::removeMultimediaById);
         productRepository.save(product);
-        multimediaService.delete(idMultimedia);
         return product;
     }
 

@@ -17,21 +17,18 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class LocalServiceImp implements LocalService {
 
     private final LocalRepository localRepository;
-    private final ProductService productService;
-    private final MultimediaService multimediaService;
     private final ActivityService activityService;
 
     @Autowired
-    public LocalServiceImp(LocalRepository localRepository, ProductService productService, MultimediaService multimediaService, ActivityService activityService) {
+    public LocalServiceImp(LocalRepository localRepository, ActivityService activityService) {
         this.localRepository = localRepository;
-        this.productService = productService;
-        this.multimediaService = multimediaService;
         this.activityService = activityService;
     }
 
@@ -48,7 +45,7 @@ public class LocalServiceImp implements LocalService {
         assert id != null;
 
         Local local = localRepository.findById(id).orElse(null);
-        if(local != null){
+        if (local != null) {
             return local;
         }
         throw new EntityNotFoundException("No se encontro un local con el id: " + id);
@@ -58,12 +55,11 @@ public class LocalServiceImp implements LocalService {
     public void save(Local entity) {
         assert entity != null;
 
-        if(localRepository.existMemberPersonLocal(entity.personId(),entity.getLocalType())){
+        if (localRepository.existMemberPersonLocal(entity.personId(), entity.getLocalType())) {
             throw new ApiRequestException("El local esta ocupado por el miembro con cédula: " + entity.personId());
         }
         entity.setUpdatedAt(new Date());
         entity.setCreatedAt(new Date());
-        loadMultimedia(entity);
         localRepository.save(entity);
     }
 
@@ -81,16 +77,11 @@ public class LocalServiceImp implements LocalService {
         local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
         local.setUpdatedAt(new Date());
-        if(!local.getMember().getId().equals(entity.getMember().getId())) {
-            if (localRepository.memberHaveLocal(entity.getMember().getId(), entity.getLocalType())) {
-                throw new ApiRequestException("El miembro con la cédula " + entity.personId() + " posee un local del mismo tipo");
-            }
+        if (localRepository.memberHaveLocalWithType(entity.getMemberId(), entity.getLocalType())) {
+            throw new ApiRequestException("El miembro con la cédula " + entity.personId() + " posee un local del mismo tipo");
         }
         local.setMember(entity.getMember());
-
-        entity = local;
-        loadMultimedia(entity);
-        localRepository.save(entity);
+        localRepository.save(local);
     }
 
     @Override
@@ -98,17 +89,6 @@ public class LocalServiceImp implements LocalService {
         assert id != null;
 
         Local local = this.get(id);
-        List<Multimedia> multimediaList = new ArrayList<>(local.getMultimedia());
-        List<Product> productList = new ArrayList<>(local.getProducts());
-        local.setMultimedia(null);
-        local.setProducts(null);
-        localRepository.save(local);
-        if(multimediaList.size() > 0){
-            multimediaList.forEach(media -> multimediaService.delete(media.getId()));
-        }
-        if(productList.size() > 0){
-            productList.forEach(product -> productService.delete(product.getId()));
-        }
         activityService.removeLocalFromActivity(id);
         localRepository.delete(local);
     }
@@ -116,13 +96,15 @@ public class LocalServiceImp implements LocalService {
     @Override
     public Local deleteMultimediaById(Long id, Long idMultimedia) {
         Local local = this.get(id);
-        List<Multimedia> multimedia = local.getMultimedia()
+
+        Optional<Multimedia> multimediaToDelete = local.getMultimedia()
                 .stream()
-                .filter(media -> !media.getId().equals(idMultimedia))
-                .collect(Collectors.toList());
-        local.setMultimedia(multimedia);
+                .filter(m -> m.getId().equals(idMultimedia))
+                .findFirst();
+
+        multimediaToDelete.ifPresent(local::removeMultimediaById);
+
         localRepository.save(local);
-        multimediaService.delete(idMultimedia);
         return local;
     }
 
@@ -143,14 +125,4 @@ public class LocalServiceImp implements LocalService {
                 .collect(Collectors.toList());
     }
 
-    public void loadMultimedia(Local entity){
-        if (entity.getMultimedia().size() > 0){
-            List<Multimedia> multimediaList = new ArrayList<>();
-            entity.getMultimedia().forEach(media -> {
-                Multimedia multimedia = multimediaService.get(media.getId());
-                multimediaList.add(multimedia);
-            });
-            entity.setMultimedia(multimediaList);
-        }
-    }
 }

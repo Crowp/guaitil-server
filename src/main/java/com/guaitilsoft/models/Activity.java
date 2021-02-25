@@ -46,7 +46,7 @@ public class Activity {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = {CascadeType.PERSIST})
     private List<Local> locals;
 
     @OneToMany(cascade = CascadeType.MERGE)
