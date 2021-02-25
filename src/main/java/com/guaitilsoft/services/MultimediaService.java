@@ -15,13 +15,8 @@ public interface MultimediaService {
 
      void delete(Long id);
 
-     void deleteOnlyFile(String filename);
-
-     Multimedia update(Long id, MultimediaRequest multimediaRequest);
-
      Multimedia store(MultimediaRequest multimedia);
 
      Resource load(String filename);
 
-     void deleteAll();
 }
