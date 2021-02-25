@@ -28,6 +28,4 @@ public class ReservationView {
     private LoadActivityView tour;
 
     private Person person;
-
-    private ActivityView activity;
 }
