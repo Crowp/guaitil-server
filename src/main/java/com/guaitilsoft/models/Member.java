@@ -62,7 +62,5 @@ public class Member {
         for(Local local : locals)
             local.setMember(this);
     }
-
-
 }
 
