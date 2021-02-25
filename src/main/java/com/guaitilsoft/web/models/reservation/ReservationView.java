@@ -25,12 +25,6 @@ public class ReservationView {
 
     private ReservationState reservationState;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
-
     private LoadActivityView tour;
 
     private Person person;

@@ -17,12 +17,6 @@ public class MemberView {
 
     private String occupation;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
-
     private Person person;
 
     private MemberType memberType;

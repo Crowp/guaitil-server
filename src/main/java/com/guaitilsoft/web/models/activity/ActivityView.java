@@ -26,12 +26,6 @@ public class ActivityView {
 
     private Address address;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
-
     private Double personCost;
 
     private List<GetLocal> locals;

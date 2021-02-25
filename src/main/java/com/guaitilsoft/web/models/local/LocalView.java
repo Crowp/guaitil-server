@@ -26,12 +26,6 @@ public class LocalView {
 
     private LocalType localType;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
-
     private Address address;
 
     private LoadMember member;
