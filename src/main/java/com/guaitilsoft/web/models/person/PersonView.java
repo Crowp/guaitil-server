@@ -28,10 +28,4 @@ public class PersonView {
     private String email;
 
     private PersonType personType;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
 }
