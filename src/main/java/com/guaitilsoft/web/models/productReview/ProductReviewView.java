@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -17,15 +16,9 @@ public class ProductReviewView {
 
     private Long id;
 
-    private Date reviewDate;
-
     private ReviewState state;
 
     private String comment;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 
     private ProductView product;
 

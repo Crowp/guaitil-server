@@ -2,7 +2,6 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
-
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.models.constant.ReviewState;
 import com.guaitilsoft.repositories.ProductRepository;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,8 +62,6 @@ public class ProductServiceImp implements ProductService {
 
         ProductReview review = new ProductReview();
         review.setProduct(entity);
-        review.setCreatedAt(new Date());
-        review.setUpdatedAt(new Date());
         review.setState(ReviewState.INPROCESS);
         productReviewService.save(review);
 
@@ -94,7 +90,6 @@ public class ProductServiceImp implements ProductService {
         product.setLocal(entity.getLocal());
         product.setMultimedia(entity.getMultimedia());
         product.setProductPrice(entity.getProductPrice());
-        product.setUpdatedAt(new Date());
 
         productRepository.save(product);
     }

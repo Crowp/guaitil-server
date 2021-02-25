@@ -8,7 +8,6 @@ import com.guaitilsoft.web.models.product.GetProduct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -24,10 +23,6 @@ public class LocalView {
     private String telephone;
 
     private LocalType localType;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 
     private Address address;
 

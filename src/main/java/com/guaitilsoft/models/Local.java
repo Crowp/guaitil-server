@@ -1,7 +1,6 @@
 package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
@@ -9,7 +8,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -35,11 +34,9 @@ public class Local {
     @Enumerated(EnumType.STRING)
     private LocalType localType;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
@@ -72,4 +69,14 @@ public class Local {
         this.multimedia.remove(multimedia);
     }
 
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
 }

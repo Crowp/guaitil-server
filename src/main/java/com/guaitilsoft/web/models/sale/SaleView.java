@@ -1,10 +1,11 @@
 package com.guaitilsoft.web.models.sale;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.web.models.product.GetProduct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -12,13 +13,10 @@ public class SaleView {
 
     private Long id;
 
-    private Date saleDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime saleDate;
 
     private GetProduct product;
 
     private Long amountSold;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 }

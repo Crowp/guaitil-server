@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Date;
 
 @Getter
 @Setter
@@ -27,8 +26,4 @@ public class PersonView {
     private String email;
 
     private PersonType personType;
-
-    private Date createdAt;
-
-    private Date updatedAt;
 }

@@ -1,12 +1,11 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ActionType;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -21,18 +20,27 @@ public class ActivityHistory {
     @NotEmpty
     private String action;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date auditDate;
+    private LocalDateTime auditDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @Enumerated(EnumType.STRING)
     private ActionType actionType;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
+
+    @PrePersist
+    public void prePersist(){
+        this.auditDate = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
 }
