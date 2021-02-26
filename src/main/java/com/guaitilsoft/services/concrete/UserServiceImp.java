@@ -57,7 +57,7 @@ public class  UserServiceImp implements UserService {
         if(product != null){
             return product;
         }
-        throw new EntityNotFoundException("No se encontro un usuario con el id: " + id);
+        throw new EntityNotFoundException("No se encontró un usuario con el id: " + id);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class  UserServiceImp implements UserService {
         if(optionalUser.isPresent()){
            return  optionalUser.get();
         }
-        throw new EntityNotFoundException("No se encontro un usuario que tenga un miembro con el id: " + id);
+        throw new EntityNotFoundException("No se encontró un usuario que tenga un miembro con el id: " + id);
     }
 
     @Override

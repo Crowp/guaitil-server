@@ -90,7 +90,6 @@ public class NotificationServiceImp implements NotificationService {
                 }
             });
         });
-
         return notifications;
     }
 }

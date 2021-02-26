@@ -37,7 +37,7 @@ public class SaleServiceImpl implements SaleService {
         if(sale != null){
             return sale;
         }
-        throw new EntityNotFoundException("No se encontro la venta con el id: " + id);
+        throw new EntityNotFoundException("No se encontró la venta con el id: " + id);
     }
 
     @Override

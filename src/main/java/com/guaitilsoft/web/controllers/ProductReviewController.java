@@ -4,6 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.services.ProductReviewService;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
+import com.guaitilsoft.web.models.productReview.GetProductReview;
 import com.guaitilsoft.web.models.productReview.ProductReviewView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -34,25 +35,25 @@ public class ProductReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductReviewView>> get(){
+    public ResponseEntity<List<GetProductReview>> get(){
         Type listType = new TypeToken<List<ProductReviewView>>(){}.getType();
-        List<ProductReviewView> productReviewViews = modelMapper.map(productReviewService.list(), listType);
-        productReviewViews.forEach(this::addUrlToMultimedia);
+        List<GetProductReview> productReviewViews = modelMapper.map(productReviewService.list(), listType);
+        productReviewViews.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<ProductReviewView>> getByMemberId(@PathVariable Long id){
-        Type listType = new TypeToken<List<ProductReviewView>>(){}.getType();
-        List<ProductReviewView> productReviewViews = modelMapper.map(productReviewService.listByIdMember(id), listType);
-        productReviewViews.forEach(this::addUrlToMultimedia);
+    public ResponseEntity<List<GetProductReview>> getByMemberId(@PathVariable Long id){
+        Type listType = new TypeToken<List<GetProductReview>>(){}.getType();
+        List<GetProductReview> productReviewViews = modelMapper.map(productReviewService.listByIdMember(id), listType);
+        productReviewViews.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductReviewView> getById(@PathVariable Long id) {
-        ProductReviewView productReview = modelMapper.map(productReviewService.get(id), ProductReviewView.class);
-        this.addUrlToMultimedia(productReview);
+    public ResponseEntity<GetProductReview> getById(@PathVariable Long id) {
+        GetProductReview productReview = modelMapper.map(productReviewService.get(id), GetProductReview.class);
+        this.addUrlToMultimedia(productReview.getMultimedia());
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(productReview);
     }
@@ -63,7 +64,7 @@ public class ProductReviewController {
         logger.info("Creating a product review");
         productReviewService.save(productReview);
         ProductReviewView productReviewResponse = modelMapper.map(productReview, ProductReviewView.class);
-        this.addUrlToMultimedia(productReviewResponse);
+        this.addUrlToMultimedia(productReviewResponse.getMultimedia());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(productReview.getId())
@@ -81,7 +82,7 @@ public class ProductReviewController {
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Updating Product Review with id: {}", id);
         ProductReviewView productReviewResponse = modelMapper.map(productReviewService.update(id, productReview), ProductReviewView.class);
-        this.addUrlToMultimedia(productReviewResponse);
+        this.addUrlToMultimedia(productReviewResponse.getMultimedia());
         logger.info("Updated Product Review with id: {}", id);
         return ResponseEntity.ok().body(productReviewResponse);
     }
@@ -95,8 +96,8 @@ public class ProductReviewController {
         return ResponseEntity.ok().body(productReviewResponse);
     }
 
-    private void addUrlToMultimedia(ProductReviewView productView){
-        productView.getMultimedia().forEach(m -> {
+    private void addUrlToMultimedia(List<MultimediaResponse> multimedia){
+        multimedia.forEach(m -> {
             String url = getUrlHost(m);
             m.setUrl(url);
         });

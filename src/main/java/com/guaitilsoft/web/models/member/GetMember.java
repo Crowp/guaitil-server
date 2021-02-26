@@ -1,8 +1,8 @@
 package com.guaitilsoft.web.models.member;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Person;
+import com.guaitilsoft.web.models.local.LoadLocal;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,5 +25,5 @@ public class GetMember {
 
     private Person person;
 
-    private List<Local> locals;
+    private List<LoadLocal> locals;
 }

@@ -40,6 +40,8 @@ public class Activity {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
+    private Boolean isActive;
+
     @ManyToMany(cascade = {CascadeType.PERSIST})
     private List<Local> locals;
 
@@ -51,6 +53,7 @@ public class Activity {
         this.activityDate = LocalDateTime.now();
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.isActive = true;
     }
 
     @PreUpdate

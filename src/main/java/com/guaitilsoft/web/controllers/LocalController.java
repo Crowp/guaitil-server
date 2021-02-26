@@ -88,8 +88,7 @@ public class LocalController {
     @GetMapping("{id}")
     public ResponseEntity<GetLocal> getById(@PathVariable Long id) {
         GetLocal local = modelMapper.map(localService.get(id), GetLocal.class);
-        LocalView localView = modelMapper.map(local, LocalView.class);
-        addUrlToMultimedia(localView.getMultimedia());
+        addUrlToMultimedia(local.getMultimedia());
         logger.info("Fetching Local with id: {}", id);
         return ResponseEntity.ok().body(local);
     }

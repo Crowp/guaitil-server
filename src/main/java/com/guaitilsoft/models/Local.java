@@ -3,9 +3,6 @@ package com.guaitilsoft.models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
@@ -40,6 +37,8 @@ public class Local {
 
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
+
+    private Boolean state;
 
     @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")

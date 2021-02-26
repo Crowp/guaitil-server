@@ -40,7 +40,7 @@ public class PersonServiceImp implements PersonService {
         if(person != null){
             return person;
         }
-        throw new EntityNotFoundException("No se encontro una persona con el id" + id);
+        throw new EntityNotFoundException("No se encontró una persona con el id" + id);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class PersonServiceImp implements PersonService {
         assert entity != null;
 
         if(personRepository.existPersonId(entity.getId())){
-            throw new ApiRequestException("Cedula: " + entity.getId() + " esta ocupada");
+            throw new ApiRequestException("Cédula: " + entity.getId() + " esta ocupada");
         }
         if(personRepository.existEmail(entity.getEmail())){
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");

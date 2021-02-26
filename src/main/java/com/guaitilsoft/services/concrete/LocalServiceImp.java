@@ -44,7 +44,7 @@ public class LocalServiceImp implements LocalService {
         if (local != null) {
             return local;
         }
-        throw new EntityNotFoundException("No se encontro un local con el id: " + id);
+        throw new EntityNotFoundException("No se encontró un local con el id: " + id);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class LocalServiceImp implements LocalService {
         assert entity != null;
 
         if (localRepository.existMemberPersonLocal(entity.personId(), entity.getLocalType())) {
-            throw new ApiRequestException("El local esta ocupado por el miembro con cédula: " + entity.personId());
+            throw new ApiRequestException("Esta persona ya cuenta con un local del mismo tipo");
         }
         localRepository.save(entity);
     }
@@ -67,11 +67,12 @@ public class LocalServiceImp implements LocalService {
         local.setDescription(entity.getDescription());
         local.setTelephone(entity.getTelephone());
         local.setAddress(entity.getAddress());
+        local.setState(entity.getState());
         local.setLocalType(entity.getLocalType());
         local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
-        if (localRepository.memberHaveLocalWithType(entity.getMemberId(), entity.getLocalType())) {
-            throw new ApiRequestException("El miembro con la cédula " + entity.personId() + " posee un local del mismo tipo");
+        if (localRepository.existMemberPersonLocal(entity.personId(), entity.getLocalType())) {
+            throw new ApiRequestException("Esta persona ya cuenta con un local del mismo tipo");
         }
         local.setMember(entity.getMember());
         localRepository.save(local);
@@ -114,7 +115,7 @@ public class LocalServiceImp implements LocalService {
     public List<Local> getLocalByLocalType(LocalType localType) {
         return this.list()
                 .stream()
-                .filter(local -> local.getLocalType().equals(localType))
+                .filter(local -> local.getLocalType().equals(localType) && local.getState())
                 .collect(Collectors.toList());
     }
 

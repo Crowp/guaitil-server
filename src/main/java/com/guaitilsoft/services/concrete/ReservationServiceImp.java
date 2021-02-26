@@ -39,7 +39,7 @@ public class ReservationServiceImp implements ReservationService {
         if(reservation != null){
             return reservation;
         }
-        throw new EntityNotFoundException("No se encontro la reservacion con el id: ");
+        throw new EntityNotFoundException("No se encontró la reservación con el id: " + id);
     }
 
     @Override

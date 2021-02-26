@@ -34,7 +34,7 @@ public class GalleryServiceImp implements GalleryService {
         if (gallery != null){
             return gallery;
         }
-        throw new EntityNotFoundException("No se encontro una galeria con el id: " + id);
+        throw new EntityNotFoundException("No se encontró una galeria con el id: " + id);
     }
 
     @Override
