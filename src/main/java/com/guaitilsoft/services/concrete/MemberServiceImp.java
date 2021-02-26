@@ -46,7 +46,7 @@ public class MemberServiceImp implements MemberService {
     }
 
     @Override
-    public void save(Member entity) {
+    public Member save(Member entity) {
         assert entity != null;
 
         if (memberRepository.existMemberPersonId(entity.getPersonId())) {
@@ -55,7 +55,7 @@ public class MemberServiceImp implements MemberService {
         if (memberRepository.existMemberPersonEmail(entity.getEmail())) {
             throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
         }
-        memberRepository.save(entity);
+        return memberRepository.save(entity);
     }
 
     @Override
