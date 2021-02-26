@@ -3,13 +3,10 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.LocalService;
-import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

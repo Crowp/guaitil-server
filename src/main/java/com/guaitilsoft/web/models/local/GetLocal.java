@@ -15,6 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class GetLocal {
+
     private Long id;
 
     private String name;
