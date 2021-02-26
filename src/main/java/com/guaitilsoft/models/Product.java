@@ -48,7 +48,7 @@ public class Product {
     public void removeMultimediaById(Multimedia multimedia) {
         this.multimedia.remove(multimedia);
     }
-    
+
     @PrePersist
     public void prePersist(){
         this.createdAt = LocalDateTime.now();
