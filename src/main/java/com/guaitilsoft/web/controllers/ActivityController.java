@@ -52,16 +52,14 @@ public class ActivityController {
     public ResponseEntity<List<GetActivity>> get(){
         Type listType  = new TypeToken<List<GetActivity>>(){}.getType();
         List<GetActivity> activities = modelMapper.map(activityService.list(),listType);
-        List<ActivityView> activityViews = modelMapper.map(activities,listType);
-        activityViews.forEach(this::addUrlToMultimedia);
+        activities.forEach(a -> addUrlToMultimedia(a.getMultimedia()));
         return  ResponseEntity.ok().body(activities);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<GetActivity> getById(@PathVariable Long id) {
         GetActivity activity = modelMapper.map(activityService.get(id),GetActivity.class);
-        ActivityView activityView = modelMapper.map(activity, ActivityView.class);
-        addUrlToMultimedia(activityView);
+        addUrlToMultimedia(activity.getMultimedia());
         logger.info("Fetching Activity with id {}", id);
         return ResponseEntity.ok().body(activity);
     }
@@ -74,7 +72,7 @@ public class ActivityController {
         loadLocals(activity);
         activityService.save(activity);
         ActivityView activityResponse = modelMapper.map(activity, ActivityView.class);
-        addUrlToMultimedia(activityRequest);
+        addUrlToMultimedia(activityRequest.getMultimedia());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -96,7 +94,7 @@ public class ActivityController {
         logger.info("Updating Activity with id {}", id);
         activityService.update(id, activity);
         ActivityView activityResponse = modelMapper.map(activity,ActivityView.class);
-        addUrlToMultimedia(activityRequest);
+        addUrlToMultimedia(activityRequest.getMultimedia());
         logger.info("Updated Activity with id {}", id);
         return ResponseEntity.ok().body(activityResponse);
     }
@@ -117,13 +115,13 @@ public class ActivityController {
         ActivityView activityResponse = modelMapper.map(
                 activityService.deleteMultimediaById(id, idMultimedia),
                 ActivityView.class);
-        addUrlToMultimedia(activityResponse);
+        addUrlToMultimedia(activityResponse.getMultimedia());
         logger.info("Deleted Activity Multimedia with id {}", id);
         return ResponseEntity.ok().body(activityResponse);
     }
 
-    private void addUrlToMultimedia(ActivityView activityView) {
-        activityView.getMultimedia().forEach(m -> {
+    private void addUrlToMultimedia(List<MultimediaResponse> multimedia) {
+        multimedia.forEach(m -> {
             String url = getUrlHost(m);
             m.setUrl(url);
         });

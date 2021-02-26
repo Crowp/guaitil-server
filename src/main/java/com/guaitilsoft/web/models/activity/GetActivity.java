@@ -3,7 +3,7 @@ package com.guaitilsoft.web.models.activity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.constant.ActivityType;
-import com.guaitilsoft.web.models.local.GetLocal;
+import com.guaitilsoft.web.models.local.LoadLocal;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,9 +36,7 @@ public class GetActivity {
 
     private Address address;
 
-    private List<GetLocal> locals;
+    private List<LoadLocal> locals;
 
     private List<MultimediaResponse> multimedia;
-
-
 }
