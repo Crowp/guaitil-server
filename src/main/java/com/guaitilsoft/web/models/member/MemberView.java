@@ -3,7 +3,6 @@ package com.guaitilsoft.web.models.member;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.web.models.local.LoadLocal;
-import com.guaitilsoft.web.models.person.PersonView;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
