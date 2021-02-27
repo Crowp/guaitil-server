@@ -3,12 +3,9 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
-import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.repositories.MemberRepository;
-import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,16 +39,15 @@ public class MemberServiceImp implements MemberService {
         if (member != null) {
             return member;
         }
-        throw new EntityNotFoundException("No se encontro un asociado con el id: " + id);
+        throw new EntityNotFoundException("No se encontró un asociado con el id: " + id);
     }
 
     @Override
     public Member save(Member entity) {
         assert entity != null;
 
-        String personId = entity.getPerson().getId();
-        if (memberRepository.existMemberPersonId(personId)) {
-            throw new ApiRequestException("Cedula: " + personId + " esta ocupada");
+        if (memberRepository.existMemberPersonId(entity.getPersonId())) {
+            throw new ApiRequestException("Cédula: " + entity.getPersonId() + " esta ocupada");
         }
         String email = entity.getPerson().getEmail();
         if (memberRepository.existMemberPersonEmail(email)) {
@@ -84,10 +80,5 @@ public class MemberServiceImp implements MemberService {
     @Override
     public List<Member> getMemberWithoutUser() {
         return memberRepository.getMembersWithoutUser();
-    }
-
-    @Override
-    public List<Member> getAdminsMembers() {
-        return this.memberRepository.getMembersByRole(Role.ROLE_ADMIN);
     }
 }

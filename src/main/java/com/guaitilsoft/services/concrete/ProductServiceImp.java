@@ -13,7 +13,6 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.guaitilsoft.models.constant.NotificationMessage.PRODUCT_NOTIFICATION;
 
@@ -52,7 +51,7 @@ public class ProductServiceImp implements ProductService {
         if(product != null){
             return product;
         }
-        throw new EntityNotFoundException("No se encontro un producto con el id: " + id);
+        throw new EntityNotFoundException("No se encontró un producto con el id: " + id);
     }
 
     @Override

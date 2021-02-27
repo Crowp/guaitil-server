@@ -44,7 +44,7 @@ public class LocalServiceImp implements LocalService {
         if (local != null) {
             return local;
         }
-        throw new EntityNotFoundException("No se encontro un local con el id: " + id);
+        throw new EntityNotFoundException("No se encontró un local con el id: " + id);
     }
 
     @Override
@@ -66,6 +66,7 @@ public class LocalServiceImp implements LocalService {
         local.setLocalDescription(entity.getLocalDescription());
         local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
+        local.setState(entity.getState());
         if (localRepository.memberHaveLocalWithType(entity.getMemberId(), entity.getLocalType())) {
             throw new ApiRequestException("El miembro con la cédula " + entity.getPersonId() + " posee un local del mismo tipo");
         }
@@ -110,7 +111,7 @@ public class LocalServiceImp implements LocalService {
     public List<Local> getLocalByLocalType(LocalType localType) {
         return this.list()
                 .stream()
-                .filter(local -> local.getLocalType().equals(localType))
+                .filter(local -> local.getLocalType().equals(localType) && local.getState())
                 .collect(Collectors.toList());
     }
 

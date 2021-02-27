@@ -36,6 +36,8 @@ public class GetActivity {
 
     private Address address;
 
+    private Boolean isActive;
+
     private List<LoadLocal> locals;
 
     private List<MultimediaResponse> multimedia;

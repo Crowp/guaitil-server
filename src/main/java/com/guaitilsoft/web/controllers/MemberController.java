@@ -4,6 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ReportService;
+import com.guaitilsoft.web.models.member.GetMember;
 import com.guaitilsoft.web.models.member.MemberView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -42,23 +43,23 @@ public class MemberController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<MemberView>> get() {
-        Type listType = new TypeToken<List<MemberView>>(){}.getType();
-        List<MemberView> members = modelMapper.map(memberService.list(), listType);
+    public ResponseEntity<List<GetMember>> get() {
+        Type listType = new TypeToken<List<GetMember>>(){}.getType();
+        List<GetMember> members = modelMapper.map(memberService.list(), listType);
         return  ResponseEntity.ok().body(members);
     }
 
     @GetMapping("members-without-users")
-    public ResponseEntity<List<MemberView>> getMembersWithoutUser() {
-        Type listType = new TypeToken<List<MemberView>>(){}.getType();
-        List<MemberView> members = modelMapper.map(memberService.getMemberWithoutUser(), listType);
+    public ResponseEntity<List<GetMember>> getMembersWithoutUser() {
+        Type listType = new TypeToken<List<GetMember>>(){}.getType();
+        List<GetMember> members = modelMapper.map(memberService.getMemberWithoutUser(), listType);
         return  ResponseEntity.ok().body(members);
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> getById(@PathVariable Long id) {
-        MemberView getMember= modelMapper.map(memberService.get(id), MemberView.class);
+    public ResponseEntity<GetMember> getById(@PathVariable Long id) {
+        GetMember getMember= modelMapper.map(memberService.get(id), GetMember.class);
         logger.info("Fetching Member with id: {}", id);
         return ResponseEntity.ok().body(getMember);
     }

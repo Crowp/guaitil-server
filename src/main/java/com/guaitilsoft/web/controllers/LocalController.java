@@ -47,8 +47,7 @@ public class LocalController {
     public ResponseEntity<List<GetLocal>> get(){
         Type listType = new TypeToken<List<GetLocal>>(){}.getType();
         List<GetLocal> locals = modelMapper.map(localService.list(), listType);
-        List<LocalView> loadLocals = modelMapper.map(locals, listType);
-        loadLocals.forEach(this::addUrlToMultimedia);
+        locals.forEach(l -> addUrlToMultimedia(l.getMultimedia()));
         return  ResponseEntity.ok().body(locals);
     }
 
@@ -57,8 +56,7 @@ public class LocalController {
         LocalType localType = LocalType.WORKSHOP;
         Type listType = new TypeToken<List<GetLocal>>(){}.getType();
         List<GetLocal> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
-        List<LocalView> loadLocals = modelMapper.map(locals, listType);
-        loadLocals.forEach(this::addUrlToMultimedia);
+        locals.forEach(l -> addUrlToMultimedia(l.getMultimedia()));
         return  ResponseEntity.ok().body(locals);
     }
 
@@ -67,8 +65,7 @@ public class LocalController {
         LocalType localType = LocalType.KITCHEN;
         Type listType = new TypeToken<List<GetLocal>>(){}.getType();
         List<GetLocal> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
-        List<LocalView> loadLocals = modelMapper.map(locals,listType);
-        loadLocals.forEach(this::addUrlToMultimedia);
+        locals.forEach(l -> addUrlToMultimedia(l.getMultimedia()));
         return  ResponseEntity.ok().body(locals);
     }
 
@@ -77,8 +74,7 @@ public class LocalController {
         LocalType localType = LocalType.LODGING;
         Type listType = new TypeToken<List<GetLocal>>(){}.getType();
         List<GetLocal> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
-        List<LocalView> loadLocals = modelMapper.map(locals, listType);
-        loadLocals.forEach(this::addUrlToMultimedia);
+        locals.forEach(l -> addUrlToMultimedia(l.getMultimedia()));
         return  ResponseEntity.ok().body(locals);
     }
 
@@ -87,16 +83,14 @@ public class LocalController {
         LocalType localType = LocalType.OTHERS;
         Type listType = new TypeToken<List<GetLocal>>(){}.getType();
         List<GetLocal> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
-        List<LocalView> localViews = modelMapper.map(locals, listType);
-        localViews.forEach(this::addUrlToMultimedia);
+        locals.forEach(l -> addUrlToMultimedia(l.getMultimedia()));
         return  ResponseEntity.ok().body(locals);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<GetLocal> getById(@PathVariable Long id) {
         GetLocal local = modelMapper.map(localService.get(id), GetLocal.class);
-        LocalView localView = modelMapper.map(local, LocalView.class);
-        addUrlToMultimedia(localView);
+        addUrlToMultimedia(local.getMultimedia());
         logger.info("Fetching Local with id: {}", id);
         return ResponseEntity.ok().body(local);
     }
@@ -106,8 +100,7 @@ public class LocalController {
         Member member = memberService.get(id);
         Type listType = new TypeToken<List<GetLocal>>(){}.getType();
         List<GetLocal> locals = modelMapper.map(localService.getAllLocalByIdMember(member.getMemberId()), listType);
-        List<LocalView> localViews = modelMapper.map(locals, listType);
-        localViews.forEach(this::addUrlToMultimedia);
+        locals.forEach(l -> addUrlToMultimedia(l.getMultimedia()));
         logger.info("Fetching Local with id: {}", id);
         return ResponseEntity.ok().body(locals);
     }
@@ -119,7 +112,7 @@ public class LocalController {
         local.setMember(memberService.get(localRequest.getMember().getMemberId()));
         localService.save(local);
         LocalView localResponse = modelMapper.map(local, LocalView.class);
-        addUrlToMultimedia(localResponse);
+        addUrlToMultimedia(localResponse.getMultimedia());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -140,7 +133,7 @@ public class LocalController {
 
         localService.update(id, local);
         LocalView localResponse = modelMapper.map(local, LocalView.class);
-        addUrlToMultimedia(localResponse);
+        addUrlToMultimedia(localResponse.getMultimedia());
         logger.info("Updated Local with id: {}", id);
         return ResponseEntity.ok().body(localResponse);
     }
@@ -161,13 +154,13 @@ public class LocalController {
         logger.info("Deleting Local Multimedia with id {}", id);
         LocalView localResponse = modelMapper.map(
                 localService.deleteMultimediaById(id, idMultimedia), LocalView.class);
-        addUrlToMultimedia(localResponse);
+        addUrlToMultimedia(localResponse.getMultimedia());
         logger.info("Deleting Local Multimedia with id {}", id);
         return ResponseEntity.ok().body(localResponse);
     }
 
-    private void addUrlToMultimedia(LocalView localView){
-        localView.getMultimedia().forEach(m ->{
+    private void addUrlToMultimedia(List<MultimediaResponse> multimedia){
+        multimedia.forEach(m ->{
             String url = getUrlHost(m);
             m.setUrl(url);
         });

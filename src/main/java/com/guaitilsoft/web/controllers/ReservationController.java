@@ -4,6 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
 import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.ReservationService;
+import com.guaitilsoft.web.models.reservation.GetReservation;
 import com.guaitilsoft.web.models.reservation.ReservationView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -37,15 +38,15 @@ public class ReservationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReservationView>> get () {
-        Type listType  = new TypeToken<List<ReservationView>>(){}.getType();
-        List<ReservationView> reservations = modelMapper.map(reservationService.list(),listType);
+    public ResponseEntity<List<GetReservation>> get () {
+        Type listType  = new TypeToken<List<GetReservation>>(){}.getType();
+        List<GetReservation> reservations = modelMapper.map(reservationService.list(),listType);
         return ResponseEntity.ok().body(reservations);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ReservationView> getById(@PathVariable Long id) {
-        ReservationView reservations = modelMapper.map(reservationService.get(id), ReservationView.class);
+    public ResponseEntity<GetReservation> getById(@PathVariable Long id) {
+        GetReservation reservations = modelMapper.map(reservationService.get(id), GetReservation.class);
         logger.info("Fetching Reservation with id {}", id);
         return ResponseEntity.ok().body(reservations);
     }

@@ -16,6 +16,4 @@ public interface MemberService {
     void delete(Long id);
 
     List<Member> getMemberWithoutUser();
-
-    List<Member> getAdminsMembers();
 }

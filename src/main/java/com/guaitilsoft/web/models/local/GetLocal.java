@@ -5,7 +5,7 @@ import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.web.models.member.LoadMember;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
-import com.guaitilsoft.web.models.product.GetProduct;
+import com.guaitilsoft.web.models.product.LoadProduct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +15,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class GetLocal {
+
     private Long id;
 
     private String name;
@@ -33,9 +34,11 @@ public class GetLocal {
 
     private Address address;
 
+    private Boolean state;
+
     private LoadMember member;
 
     private List<MultimediaResponse> multimedia;
 
-    private List<GetProduct> products;
+    private List<LoadProduct> products;
 }

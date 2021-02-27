@@ -51,11 +51,14 @@ public class Activity {
     @OneToMany(cascade = CascadeType.MERGE)
     private List<Multimedia> multimedia;
 
+    private Boolean isActive;
+
     @PrePersist
     public void prePersist(){
         this.activityDate = LocalDateTime.now();
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.isActive = true;
     }
 
     @PreUpdate

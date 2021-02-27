@@ -4,7 +4,6 @@ import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.web.models.member.LoadMember;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
-import com.guaitilsoft.web.models.product.GetProduct;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,9 +25,9 @@ public class LocalView {
 
     private Address address;
 
+    private Boolean state;
+
     private LoadMember member;
 
     private List<MultimediaResponse> multimedia;
-
-    private List<GetProduct> products;
 }

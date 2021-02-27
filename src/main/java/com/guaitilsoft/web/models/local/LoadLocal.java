@@ -24,5 +24,7 @@ public class LoadLocal {
 
     private Address address;
 
+    private Boolean state;
+
     private List<MultimediaResponse> multimedia;
 }

@@ -42,6 +42,8 @@ public class Local {
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Multimedia> multimedia = new ArrayList<>();
 
+    private Boolean state;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

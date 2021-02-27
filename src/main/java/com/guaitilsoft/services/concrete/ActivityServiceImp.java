@@ -46,7 +46,7 @@ public class ActivityServiceImp implements ActivityService {
         if(activity != null){
             return activity;
         }
-        throw new EntityNotFoundException("No se encontro una actividad con el id: " + id);
+        throw new EntityNotFoundException("No se encontró una actividad con el id: " + id);
     }
 
     @Override
@@ -70,6 +70,7 @@ public class ActivityServiceImp implements ActivityService {
         activity.setPersonCost(entity.getPersonCost());
         activity.setUpdatedAt(entity.getUpdatedAt());
         activity.setAddress(entity.getAddress());
+        activity.setIsActive(entity.getIsActive());
         activity.setMultimedia(entity.getMultimedia());
 
         activityRepository.save(activity);
@@ -105,6 +106,11 @@ public class ActivityServiceImp implements ActivityService {
 //        });
 
         this.activityRepository.saveAll(activityList);
+    }
+
+    @Override
+    public List<Activity> getAllActivitiesActive() {
+        return this.list().stream().filter(Activity::getIsActive).collect(Collectors.toList());
     }
 
     private List<Member> memberList(Activity activity){

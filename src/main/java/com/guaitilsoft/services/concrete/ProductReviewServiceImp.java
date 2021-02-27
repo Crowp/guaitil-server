@@ -47,7 +47,7 @@ public class ProductReviewServiceImp implements ProductReviewService {
         if(productReview != null){
             return productReview;
         }
-        throw new EntityNotFoundException("No se encontro un la revision de producto con el id: ");
+        throw new EntityNotFoundException("No se encontró la revisión del producto con el id: " + id);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class ProductReviewServiceImp implements ProductReviewService {
         if(productReview != null){
             return productReview;
         }
-        throw new EntityNotFoundException("No se encontro un la revision de producto con el id: ");
+        throw new EntityNotFoundException("No se encontró la revisión del producto con el id: " + productId);
     }
 
     @Override

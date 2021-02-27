@@ -6,6 +6,7 @@ import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ProductService;
 import com.guaitilsoft.services.SaleService;
+import com.guaitilsoft.web.models.sale.GetSale;
 import com.guaitilsoft.web.models.sale.SaleView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -41,24 +42,24 @@ public class SaleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<SaleView>> get(){
-        Type lisType = new TypeToken<List<SaleView>>(){}.getType();
-        List<SaleView> sales = modelMapper.map(saleService.list(), lisType);
+    public ResponseEntity<List<GetSale>> get(){
+        Type lisType = new TypeToken<List<GetSale>>(){}.getType();
+        List<GetSale> sales = modelMapper.map(saleService.list(), lisType);
         return ResponseEntity.ok().body(sales);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<SaleView> getById(@PathVariable Long id) {
-        SaleView sale = modelMapper.map(saleService.get(id), SaleView.class);
+    public ResponseEntity<GetSale> getById(@PathVariable Long id) {
+        GetSale sale = modelMapper.map(saleService.get(id), GetSale.class);
         logger.info("Fetching Sale with {}", id);
         return ResponseEntity.ok().body(sale);
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<SaleView>> getAllSaleByMemberId(@PathVariable Long id) {
+    public ResponseEntity<List<GetSale>> getAllSaleByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
-        Type listType = new TypeToken<List<SaleView>>(){}.getType();
-        List<SaleView> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getMemberId()), listType);
+        Type listType = new TypeToken<List<GetSale>>(){}.getType();
+        List<GetSale> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getMemberId()), listType);
         logger.info("Fetching Sale with member id {}", id);
         return ResponseEntity.ok().body(sale);
     }
