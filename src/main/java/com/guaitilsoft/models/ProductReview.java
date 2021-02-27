@@ -29,8 +29,8 @@ public class ProductReview {
 
     private LocalDateTime updatedAt;
 
-    @OneToOne(cascade = CascadeType.REFRESH)
-    private Product product;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private ProductDescription productDescription;
 
     @PrePersist
     public void prePersist(){

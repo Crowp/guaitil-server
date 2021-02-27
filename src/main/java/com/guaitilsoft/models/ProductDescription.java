@@ -1,47 +1,48 @@
 package com.guaitilsoft.models;
 
 import com.guaitilsoft.models.constant.ProductType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
-
+public class ProductDescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private Boolean status;
+    @NotEmpty
+    private String name;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
-    private ProductDescription productDescription;
+    @NotEmpty
+    private String description;
 
-    @ManyToOne(targetEntity = Local.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "localId")
-    private Local local;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Multimedia> multimedia;
+    @Enumerated(EnumType.STRING)
+    private ProductType productType;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private ProductPrice productPrice;
+
+    @OneToOne(mappedBy = "productDescription", cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
+    private Product product;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    public void removeMultimediaById(Multimedia multimedia) {
-        this.multimedia.remove(multimedia);
-    }
-
     @PrePersist
     public void prePersist(){
+        this.product = null;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -50,4 +51,5 @@ public class Product {
     public void preUpdate(){
         this.updatedAt = LocalDateTime.now();
     }
+
 }

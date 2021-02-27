@@ -21,16 +21,14 @@ public class ProductServiceImp implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductReviewService productReviewService;
-    private final SaleService saleService;
     private final NotificationService notificationService;
 
     @Autowired
     public ProductServiceImp(ProductRepository productRepository,
-                             ProductReviewService productReviewService, SaleService saleService,
+                             ProductReviewService productReviewService,
                              NotificationService notificationService) {
         this.productRepository = productRepository;
         this.productReviewService = productReviewService;
-        this.saleService = saleService;
         this.notificationService = notificationService;
     }
 
@@ -60,7 +58,7 @@ public class ProductServiceImp implements ProductService {
         productRepository.save(entity);
 
         ProductReview review = new ProductReview();
-        review.setProduct(entity);
+        review.setProductDescription(entity.getProductDescription());
         review.setState(ReviewState.INPROCESS);
         productReviewService.save(review);
 
@@ -82,13 +80,11 @@ public class ProductServiceImp implements ProductService {
             }
         }
 
-        product.setName(entity.getName());
-        product.setDescription(entity.getDescription());
+        product.setProductDescription(entity.getProductDescription());
         product.setStatus(entity.getStatus());
-        product.setProductType(entity.getProductType());
         product.setLocal(entity.getLocal());
         product.setMultimedia(entity.getMultimedia());
-        product.setProductPrice(entity.getProductPrice());
+
 
         productRepository.save(product);
     }
@@ -98,8 +94,6 @@ public class ProductServiceImp implements ProductService {
         assert id != null;
 
         Product product = this.get(id);
-        productReviewService.deleteProductReviewByProductId(id);
-        saleService.deleteSaleByProductId(id);
         productRepository.delete(product);
     }
 

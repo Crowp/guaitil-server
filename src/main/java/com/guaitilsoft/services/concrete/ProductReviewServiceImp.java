@@ -90,9 +90,4 @@ public class ProductReviewServiceImp implements ProductReviewService {
         productReviewRepository.delete(productReview);
     }
 
-    @Override
-    public void deleteProductReviewByProductId(Long productId) {
-          Optional<ProductReview> productReviewOptional = productReviewRepository.selectProductReviewByProductId(productId);
-          productReviewOptional.ifPresent(productReview -> this.delete(productReview.getId()));
-    }
 }

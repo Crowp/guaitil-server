@@ -19,5 +19,4 @@ public interface ProductReviewService {
 
     void delete(Long id);
 
-    void deleteProductReviewByProductId(Long productId);
 }

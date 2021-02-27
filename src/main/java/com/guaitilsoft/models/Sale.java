@@ -18,8 +18,8 @@ public class Sale {
 
     private LocalDateTime saleDate;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Product product;
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private ProductDescription productDescription;
 
     @Column(nullable = false)
     private Long amountSold;

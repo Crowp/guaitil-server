@@ -53,7 +53,7 @@ public class SaleServiceImpl implements SaleService {
 
         Sale sale = this.get(id);
         sale.setSaleDate(entity.getSaleDate());
-        sale.setProduct(entity.getProduct());
+        sale.setProductDescription(entity.getProductDescription());
         sale.setAmountSold(entity.getAmountSold());
 
         saleRepository.save(sale);
@@ -76,9 +76,4 @@ public class SaleServiceImpl implements SaleService {
         return sales;
     }
 
-    @Override
-    public void deleteSaleByProductId(Long productId) {
-        Optional<Sale> saleOptional = saleRepository.selectSaleByProductId(productId);
-        saleOptional.ifPresent(sale -> this.delete(sale.getId()));
-    }
 }

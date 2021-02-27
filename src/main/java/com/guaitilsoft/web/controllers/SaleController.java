@@ -68,7 +68,8 @@ public class SaleController {
     public ResponseEntity<SaleView> post(@RequestBody SaleView saleRequest) {
         Sale sale = modelMapper.map(saleRequest, Sale.class);
         logger.info("Creating sale: {}", sale);
-        sale.setProduct(productService.get(sale.getProduct().getId()));
+        Long productId = saleRequest.getProduct().getId();
+        sale.setProductDescription(productService.get(productId).getProductDescription());
         saleService.save(sale);
         SaleView saleResponse = modelMapper.map(sale, SaleView.class);
 
@@ -88,7 +89,8 @@ public class SaleController {
         }
         Sale sale = modelMapper.map(saleRequest, Sale.class);
         logger.info("Updating Sale with id: {}", id);
-        sale.setProduct(productService.get(sale.getProduct().getId()));
+        Long productId = saleRequest.getProduct().getId();
+        sale.setProductDescription(productService.get(productId).getProductDescription());
         saleService.update(id, sale);
         SaleView saleResponse = modelMapper.map(sale, SaleView.class);
         logger.info("Updated Sale with id: {}", id);

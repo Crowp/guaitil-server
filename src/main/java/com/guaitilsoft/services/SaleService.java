@@ -17,5 +17,4 @@ public interface SaleService {
 
     List<Sale> getAllSaleByMemberId(Long id);
 
-    void deleteSaleByProductId(Long productId);
 }
