@@ -75,7 +75,7 @@ public class ProductController {
     public ResponseEntity<List<GetProduct>>getAllProductByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<GetProduct> products = modelMapper.map(productService.getAllProductByMemberId(member.getId()), listType);
+        List<GetProduct> products = modelMapper.map(productService.getAllProductByMemberId(member.getMemberId()), listType);
         products.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(products);

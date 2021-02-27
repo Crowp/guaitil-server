@@ -67,7 +67,7 @@ public class MemberController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) {
-        memberRequest.setId(null);
+        memberRequest.setMemberId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Creating Member");
         memberService.save(member);
@@ -75,9 +75,9 @@ public class MemberController {
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(member.getId())
+                .buildAndExpand(member.getMemberId())
                 .toUri();
-        logger.info("Created Member: {}", memberResponse.getId());
+        logger.info("Created Member: {}", memberResponse.getMemberId());
 
         return ResponseEntity.created(location).body(memberResponse);
     }
@@ -85,8 +85,8 @@ public class MemberController {
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<MemberView> put(@PathVariable Long id, @RequestBody MemberView memberRequest) {
-        if(!id.equals(memberRequest.getId())){
-            throw new ApiRequestException("El id del miembro: " + memberRequest.getId() + " es diferente al id del parametro: " + id);
+        if(!id.equals(memberRequest.getMemberId())){
+            throw new ApiRequestException("El id del miembro: " + memberRequest.getMemberId() + " es diferente al id del parametro: " + id);
         }
         Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Updating Member with id: {}", id);
@@ -109,7 +109,7 @@ public class MemberController {
     @GetMapping("/pdf-report")
     public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
         String template = "classpath:\\reports\\personPDFReport.jrxml";
-        List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
+        List<Member> members = memberService.list().stream().filter(member -> member.getMemberId() != 1).collect(Collectors.toList());
 
         response.setContentType("application/x-download");
         response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.pdf\"");
@@ -122,7 +122,7 @@ public class MemberController {
     @GetMapping("/xlsx-report")
     public ResponseEntity<String> generateXLSXReport(HttpServletResponse response) throws IOException {
         String template = "classpath:\\reports\\personXLSXReport.jrxml";
-        List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
+        List<Member> members = memberService.list().stream().filter(member -> member.getMemberId() != 1).collect(Collectors.toList());
 
         response.setContentType("application/x-xlsx");
         response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.xlsx\"");

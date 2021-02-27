@@ -1,6 +1,7 @@
 package com.guaitilsoft.repositories;
 
 import com.guaitilsoft.models.Activity;
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,4 +17,7 @@ public interface ActivityRepository extends CrudRepository<Activity, Long> {
 
     @Query("DELETE FROM Multimedia m WHERE m.id=:id")
     void deleteMultimediaById(@Param("id") Long id);
+
+    @Query("SELECT a FROM Activity a INNER JOIN a.localsDescriptions local ON local.id=:id")
+    List<Activity> getActivitiesByLocalId(@Param("id") Long id);
 }

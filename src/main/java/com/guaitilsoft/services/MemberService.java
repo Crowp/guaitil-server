@@ -9,7 +9,7 @@ public interface MemberService {
 
     Member get(Long id);
 
-    void save(Member entity);
+    Member save(Member entity);
 
     void update(Long id, Member entity);
 

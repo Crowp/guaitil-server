@@ -15,11 +15,11 @@ public class LocalView {
 
     private Long id;
 
-    private String name;
+    private String localName;
 
     private String description;
 
-    private String telephone;
+    private String localTelephone;
 
     private LocalType localType;
 

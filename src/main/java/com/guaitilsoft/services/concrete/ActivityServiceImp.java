@@ -1,9 +1,6 @@
 package com.guaitilsoft.services.concrete;
 
-import com.guaitilsoft.models.Activity;
-import com.guaitilsoft.models.Local;
-import com.guaitilsoft.models.Member;
-import com.guaitilsoft.models.Multimedia;
+import com.guaitilsoft.models.*;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
@@ -14,6 +11,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.guaitilsoft.models.constant.NotificationMessage.ACTIVITY_NOTIFICATION;
@@ -101,19 +99,13 @@ public class ActivityServiceImp implements ActivityService {
 
     @Override
     public void removeLocalFromActivity(Long localId) {
-        List<Activity> activityList = this.list();
-        activityList.forEach(activity -> {
-            List<Local> localList = activity.getLocals()
-                    .stream()
-                    .filter(local -> !local.getId().equals(localId))
-                    .collect(Collectors.toList());
-            if (!localList.isEmpty()){
-                activity.setLocals(localList);
-                this.update(activity.getId(), activity);
-            }else {
-                this.delete(activity.getId());
-            }
-        });
+        List<Activity> activityList = this.activityRepository.getActivitiesByLocalId(localId);
+
+//        activityList.forEach(activity -> {
+//            activity.getLocals().removeIf(local -> local.getId().equals(localId));
+//        });
+
+        this.activityRepository.saveAll(activityList);
     }
 
     @Override
@@ -122,8 +114,8 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     private List<Member> memberList(Activity activity){
-        List<Local> locals = activity.getLocals();
-        return locals.stream().map(Local::getMember).collect(Collectors.toList());
+        Set<Local> activityLocals = activity.getLocalsDescriptions().stream().map(LocalDescription::getLocal).collect(Collectors.toSet());
+        return activityLocals.stream().map(Local::getMember).collect(Collectors.toList());
     }
 
 }

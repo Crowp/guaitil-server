@@ -51,8 +51,8 @@ public class LocalServiceImp implements LocalService {
     public void save(Local entity) {
         assert entity != null;
 
-        if (localRepository.existMemberPersonLocal(entity.personId(), entity.getLocalType())) {
-            throw new ApiRequestException("Esta persona ya cuenta con un local del mismo tipo");
+        if (localRepository.existMemberPersonLocal(entity.getPersonId(), entity.getLocalType())) {
+            throw new ApiRequestException("El local esta ocupado por el miembro con cédula: " + entity.getPersonId());
         }
         localRepository.save(entity);
     }
@@ -63,16 +63,12 @@ public class LocalServiceImp implements LocalService {
         assert entity != null;
 
         Local local = this.get(id);
-        local.setName(entity.getName());
-        local.setDescription(entity.getDescription());
-        local.setTelephone(entity.getTelephone());
-        local.setAddress(entity.getAddress());
-        local.setState(entity.getState());
-        local.setLocalType(entity.getLocalType());
+        local.setLocalDescription(entity.getLocalDescription());
         local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
-        if (localRepository.existMemberPersonLocal(entity.personId(), entity.getLocalType())) {
-            throw new ApiRequestException("Esta persona ya cuenta con un local del mismo tipo");
+        local.setState(entity.getState());
+        if (localRepository.memberHaveLocalWithType(entity.getMemberId(), entity.getLocalType())) {
+            throw new ApiRequestException("El miembro con la cédula " + entity.getPersonId() + " posee un local del mismo tipo");
         }
         local.setMember(entity.getMember());
         localRepository.save(local);

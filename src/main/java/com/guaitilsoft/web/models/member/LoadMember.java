@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class LoadMember {
-    private Long id;
+    private Long memberId;
 
     private String occupation;
 
