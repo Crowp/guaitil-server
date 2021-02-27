@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -31,17 +30,11 @@ public class Member {
 
     private LocalDateTime updatedAt;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL)
     private Person person;
 
-    @OneToMany(
-            targetEntity = Local.class,
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY,
-            mappedBy = "member"
-    )
     @JsonManagedReference
+    @OneToMany(targetEntity = Local.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
     private List<Local> locals;
 
     @Enumerated(EnumType.STRING)
