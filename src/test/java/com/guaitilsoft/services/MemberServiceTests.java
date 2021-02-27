@@ -71,7 +71,7 @@ public class MemberServiceTests {
             memberService.save(memberBasic);
             fail("Expected an ApiRequestException to be thrown");
         } catch (ApiRequestException ex) {
-            assertThat(ex.getMessage()).isEqualTo("Cedula: " + personId + " esta ocupada");
+            assertThat(ex.getMessage()).isEqualTo("Cédula: " + personId + " esta ocupada");
         }
     }
 
@@ -115,7 +115,7 @@ public class MemberServiceTests {
             memberService.get(1L);
             fail("Expected an EntityNotFoundException to be thrown");
         } catch (EntityNotFoundException ex) {
-            assertThat(ex.getMessage()).isEqualTo("No se encontro un asociado con el id: " + 1);
+            assertThat(ex.getMessage()).isEqualTo("No se encontró un asociado con el id: " + 1);
         }
     }
 
