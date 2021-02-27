@@ -29,18 +29,18 @@ public class ProductReview {
 
     private LocalDateTime updatedAt;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private ProductDescription productDescription;
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.reviewDate = LocalDateTime.now();
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         this.reviewDate = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

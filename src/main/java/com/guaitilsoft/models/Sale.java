@@ -18,7 +18,7 @@ public class Sale {
 
     private LocalDateTime saleDate;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private ProductDescription productDescription;
 
     @Column(nullable = false)
