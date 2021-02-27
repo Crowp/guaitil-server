@@ -47,7 +47,7 @@ public class MemberRepositoryTests {
     @Test
     public void should_get_member_by_id() {
         memberRepository.save(memberBasic);
-        Long id = memberBasic.getId();
+        Long id = memberBasic.getMemberId();
         Member memberFounded = memberRepository.findById(id).orElse(null);
 
         assertThat(memberFounded).isNotNull();
@@ -56,21 +56,21 @@ public class MemberRepositoryTests {
     @Test
     public void should_create_only_member() {
         Member memberStored = memberRepository.save(memberBasic);
-        assertThat(memberStored.getId()).isNotNull();
+        assertThat(memberStored.getMemberId()).isNotNull();
     }
 
     @Test
     public void should_create_member_whit_a_local() {
         addLocalToMemberBasic();
         Member memberStored = memberRepository.save(memberBasic);
-        assertThat(memberStored.getId()).isNotNull();
+        assertThat(memberStored.getMemberId()).isNotNull();
 
         List<Local> localsStored = memberStored.getLocals();
 
         Local local = localsStored.stream().findFirst().orElse(null);
 
         assertThat(localsStored).isNotEmpty();
-        assertThat(local.getMember().getId()).isEqualTo(memberStored.getId());
+        assertThat(local.getMember().getMemberId()).isEqualTo(memberStored.getMemberId());
     }
 
     @Test
@@ -84,7 +84,7 @@ public class MemberRepositoryTests {
     @Test
     public void should_delete_only_member() {
         Member memberStored = memberRepository.save(memberBasic);
-        Long id = memberBasic.getId();
+        Long id = memberBasic.getMemberId();
         memberRepository.delete(memberStored);
 
         Member existMember = memberRepository.findById(id).orElse(null);
@@ -96,7 +96,7 @@ public class MemberRepositoryTests {
     public void should_delete_member_with_a_local() {
         addLocalToMemberBasic();
         Member memberStored = memberRepository.save(memberBasic);
-        Long id = memberBasic.getId();
+        Long id = memberBasic.getMemberId();
 
         memberRepository.delete(memberStored);
 

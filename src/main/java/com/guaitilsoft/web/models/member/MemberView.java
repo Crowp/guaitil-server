@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class MemberView {
-    private Long id;
+    private Long memberId;
 
     private String occupation;
 

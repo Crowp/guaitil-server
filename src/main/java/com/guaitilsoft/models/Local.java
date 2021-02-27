@@ -2,13 +2,16 @@ package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.guaitilsoft.models.constant.LocalType;
-import lombok.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import jdk.nashorn.internal.ir.annotations.Ignore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,61 +25,51 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
-    private String name;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    LocalDescription localDescription;
 
-    @NotEmpty
-    private String description;
+    @JsonBackReference
+    @JoinColumn(name = "memberId")
+    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    private Member member;
 
-    @NotEmpty
-    private String telephone;
+    @OneToMany(targetEntity = Product.class, cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "local",
+            orphanRemoval = true)
+    private List<Product> products = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private LocalType localType;
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
+    private List<Multimedia> multimedia = new ArrayList<>();
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
-
-    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
-    @JsonBackReference
-    private Member member;
-
-    @OneToMany(
-            targetEntity = Product.class,cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY,
-            mappedBy = "local",
-            orphanRemoval = true
-    )
-    private List<Product> products;
-
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
-    private List<Multimedia> multimedia;
-
-    public String personId(){
+    public String getPersonId() {
         return member.getPersonId();
     }
 
-    public Long getMemberId(){
-        return this.member.getId();
+    public LocalType getLocalType() {
+        return this.localDescription.getLocalType();
     }
 
-    public void removeMultimediaById(Multimedia multimedia){
+    public Long getMemberId() {
+        return this.member.getMemberId();
+    }
+
+    public void removeMultimediaById(Multimedia multimedia) {
         this.multimedia.remove(multimedia);
     }
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 }

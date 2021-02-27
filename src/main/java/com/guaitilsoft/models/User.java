@@ -1,6 +1,7 @@
 package com.guaitilsoft.models;
 
 import com.guaitilsoft.models.constant.Role;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -40,7 +41,7 @@ public class User {
     private Member member;
 
     public String getEmail(){
-        return member.getEmail();
+        return member.getPerson().getEmail();
     }
 
     @PrePersist

@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class LoadMember {
-    private Long id;
+    private Long memberId;
 
     private String occupation;
 

@@ -1,6 +1,9 @@
 package com.guaitilsoft.config;
 
 import com.guaitilsoft.localDate.LocalDateFormatter;
+import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Member;
+import com.guaitilsoft.web.models.local.LocalView;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +19,11 @@ public class BeansConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+//        modelMapper.createTypeMap(Local.class, LocalView.class).addMapping(local -> local.getLocalDescription().getName(), LocalView::setName);
+//        modelMapper.createTypeMap(Local.class, LocalView.class).addMapping(local -> local.getLocalDescription().getTelephone(), LocalView::setTelephone);
+//        modelMapper.createTypeMap(Local.class, LocalView.class).addMapping(Local::getMember, LocalView::setMember);
+//        modelMapper.getConfiguration().setAmbiguityIgnored(true);
         return modelMapper;
     }
 

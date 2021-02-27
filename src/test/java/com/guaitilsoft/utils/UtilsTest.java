@@ -1,11 +1,9 @@
 package com.guaitilsoft.utils;
 
 import com.guaitilsoft.models.*;
-import com.guaitilsoft.models.constant.Gender;
-import com.guaitilsoft.models.constant.LocalType;
-import com.guaitilsoft.models.constant.MemberType;
-import com.guaitilsoft.models.constant.PersonType;
+import com.guaitilsoft.models.constant.*;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class UtilsTest {
@@ -34,12 +32,29 @@ public class UtilsTest {
 
     public static Local createBasicLocal() {
         Local local = new Local();
-        local.setAddress(UtilsTest.createBasicAddress());
-        local.setName("Local Prueba");
-        local.setDescription("Mi bello local");
-        local.setLocalType(LocalType.WORKSHOP);
-        local.setTelephone("88888888");
+        local.setLocalDescription(UtilsTest.createBasicLocalDescription());
         return local;
+    }
+
+    public static LocalDescription createBasicLocalDescription(){
+        LocalDescription localDescription = new LocalDescription();
+        localDescription.setAddress(UtilsTest.createBasicAddress());
+        localDescription.setLocalName("Local Prueba");
+        localDescription.setDescription("Mi bello local");
+        localDescription.setLocalType(LocalType.WORKSHOP);
+        localDescription.setLocalTelephone("88888888");
+        return localDescription;
+    }
+
+    public static Activity createBasicActivity() {
+        Activity activity = new Activity();
+        activity.setActivityDate(LocalDateTime.now());
+        activity.setActivityType(ActivityType.EXPERIENCE);
+        activity.setName("Una actividad de prueba");
+        activity.setDescription("Una descripcion de prueba");
+        activity.setPersonCost(123123.0);
+        activity.setAddress(UtilsTest.createBasicAddress());
+        return activity;
     }
 
     public static Address createBasicAddress() {

@@ -49,11 +49,13 @@ public class MemberServiceImp implements MemberService {
     public Member save(Member entity) {
         assert entity != null;
 
-        if (memberRepository.existMemberPersonId(entity.getPersonId())) {
-            throw new ApiRequestException("Cedula: " + entity.getPersonId() + " esta ocupada");
+        String personId = entity.getPerson().getId();
+        if (memberRepository.existMemberPersonId(personId)) {
+            throw new ApiRequestException("Cedula: " + personId + " esta ocupada");
         }
-        if (memberRepository.existMemberPersonEmail(entity.getEmail())) {
-            throw new ApiRequestException("Email: " + entity.getEmail() + " esta ocupado");
+        String email = entity.getPerson().getEmail();
+        if (memberRepository.existMemberPersonEmail(email)) {
+            throw new ApiRequestException("Email: " + email + " esta ocupado");
         }
         return memberRepository.save(entity);
     }

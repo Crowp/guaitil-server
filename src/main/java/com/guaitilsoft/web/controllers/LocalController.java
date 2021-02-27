@@ -11,6 +11,7 @@ import com.guaitilsoft.web.models.local.LocalView;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class LocalController {
         this.localService = localService;
         this.memberService = memberService;
         this.modelMapper = modelMapper;
+
     }
 
     @GetMapping
@@ -103,7 +105,7 @@ public class LocalController {
     public ResponseEntity<List<GetLocal>> getLocalsByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
         Type listType = new TypeToken<List<GetLocal>>(){}.getType();
-        List<GetLocal> locals = modelMapper.map(localService.getAllLocalByIdMember(member.getId()), listType);
+        List<GetLocal> locals = modelMapper.map(localService.getAllLocalByIdMember(member.getMemberId()), listType);
         List<LocalView> localViews = modelMapper.map(locals, listType);
         localViews.forEach(this::addUrlToMultimedia);
         logger.info("Fetching Local with id: {}", id);
@@ -112,19 +114,20 @@ public class LocalController {
 
     @PostMapping
     public ResponseEntity<LocalView> post(@RequestBody LocalView localRequest) {
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Creating local");
-        local.setMember(memberService.get(localRequest.getMember().getId()));
+        local.setMember(memberService.get(localRequest.getMember().getMemberId()));
         localService.save(local);
         LocalView localResponse = modelMapper.map(local, LocalView.class);
         addUrlToMultimedia(localResponse);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(local.getId())
+                .buildAndExpand(localResponse.getId())
                 .toUri();
         logger.info("Created local: {}", localResponse.getId());
-
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD);
         return ResponseEntity.created(location).body(localResponse);
     }
 
@@ -178,4 +181,14 @@ public class LocalController {
                 .path(multimediaResponse.getFileName())
                 .toUriString();
     }
+
+    private Local convertToLocal(LocalView localView){
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        return modelMapper.map(localView, Local.class);
+    }
+    private LocalView convertLocalView(Local local){
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        return modelMapper.map(local, LocalView.class);
+    }
+
 }

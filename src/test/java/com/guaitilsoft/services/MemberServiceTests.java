@@ -45,7 +45,7 @@ public class MemberServiceTests {
     @Test
     public void should_create_member() {
         Member memberExpected = UtilsTest.createBasicMember();
-        memberExpected.setId(1L);
+        memberExpected.setMemberId(1L);
 
         given(memberRepository.save(memberBasic)).willReturn(memberExpected);
 
@@ -59,9 +59,9 @@ public class MemberServiceTests {
     @Test
     public void should_not_create_member_that_already_exists_by_dni() {
         Member memberExpected = UtilsTest.createBasicMember();
-        memberExpected.setId(1L);
+        memberExpected.setMemberId(1L);
 
-        String personId = memberExpected.getPersonId();
+        String personId = memberExpected.getPerson().getId();
 
         given(memberRepository.existMemberPersonId(personId)).willReturn(true);
 
@@ -78,7 +78,7 @@ public class MemberServiceTests {
     @Test
     public void should_not_create_member_that_already_exists_by_email() {
         Member memberExpected = UtilsTest.createBasicMember();
-        memberExpected.setId(1L);
+        memberExpected.setMemberId(1L);
 
         String email = memberExpected.getPerson().getEmail();
 
@@ -97,7 +97,7 @@ public class MemberServiceTests {
     @Test
     public void should_get_member_by_id() {
         Member memberExpected = UtilsTest.createBasicMember();
-        memberExpected.setId(1L);
+        memberExpected.setMemberId(1L);
         given(memberRepository.findById(1L)).willReturn(Optional.of(memberExpected));
 
         Member memberFounded = memberService.get(1L);

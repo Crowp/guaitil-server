@@ -3,13 +3,10 @@ package com.guaitilsoft.services.concrete;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.repositories.LocalRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.LocalService;
-import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +51,8 @@ public class LocalServiceImp implements LocalService {
     public void save(Local entity) {
         assert entity != null;
 
-        if (localRepository.existMemberPersonLocal(entity.personId(), entity.getLocalType())) {
-            throw new ApiRequestException("El local esta ocupado por el miembro con cédula: " + entity.personId());
+        if (localRepository.existMemberPersonLocal(entity.getPersonId(), entity.getLocalType())) {
+            throw new ApiRequestException("El local esta ocupado por el miembro con cédula: " + entity.getPersonId());
         }
         localRepository.save(entity);
     }
@@ -66,15 +63,11 @@ public class LocalServiceImp implements LocalService {
         assert entity != null;
 
         Local local = this.get(id);
-        local.setName(entity.getName());
-        local.setDescription(entity.getDescription());
-        local.setTelephone(entity.getTelephone());
-        local.setAddress(entity.getAddress());
-        local.setLocalType(entity.getLocalType());
+        local.setLocalDescription(entity.getLocalDescription());
         local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
         if (localRepository.memberHaveLocalWithType(entity.getMemberId(), entity.getLocalType())) {
-            throw new ApiRequestException("El miembro con la cédula " + entity.personId() + " posee un local del mismo tipo");
+            throw new ApiRequestException("El miembro con la cédula " + entity.getPersonId() + " posee un local del mismo tipo");
         }
         local.setMember(entity.getMember());
         localRepository.save(local);

@@ -83,7 +83,7 @@ public class NotificationServiceImp implements NotificationService {
         List<Notification> notifications = new ArrayList<>();
         this.list().forEach(n -> {
             n.getMembers().forEach(m -> {
-                if (m.getId().equals(id)){
+                if (m.getMemberId().equals(id)){
                     if (n.getIsActive()){
                         notifications.add(n);
                     }

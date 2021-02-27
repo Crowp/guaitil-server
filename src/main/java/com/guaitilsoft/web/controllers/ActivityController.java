@@ -21,8 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -69,7 +68,6 @@ public class ActivityController {
         Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Creating activity");
         loadMultimedia(activity);
-        loadLocals(activity);
         activityService.save(activity);
         ActivityView activityResponse = modelMapper.map(activity, ActivityView.class);
         addUrlToMultimedia(activityRequest.getMultimedia());
@@ -90,7 +88,6 @@ public class ActivityController {
         }
         Activity activity = modelMapper.map(activityRequest, Activity.class);
         loadMultimedia(activity);
-        loadLocals(activity);
         logger.info("Updating Activity with id {}", id);
         activityService.update(id, activity);
         ActivityView activityResponse = modelMapper.map(activity,ActivityView.class);
@@ -146,14 +143,4 @@ public class ActivityController {
         }
     }
 
-    private void loadLocals(Activity activity) {
-        if (activity.getLocals().size() > 0) {
-            List<Local> localList = new ArrayList<>();
-            activity.getLocals().forEach(item -> {
-                Local local = localService.get(item.getId());
-                localList.add(local);
-            });
-            activity.setLocals(localList);
-        }
-    }
 }
