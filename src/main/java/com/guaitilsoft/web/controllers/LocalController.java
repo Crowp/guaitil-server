@@ -33,17 +33,14 @@ public class LocalController {
     public static final Logger logger = LoggerFactory.getLogger(LocalController.class);
 
     private final LocalService localService;
-    private final MemberService memberService;
     private final ModelMapper modelMapper;
     private final Utils utils;
 
     @Autowired
     public LocalController(LocalService localService,
-                           MemberService memberService,
                            ModelMapper modelMapper,
                            Utils utils) {
         this.localService = localService;
-        this.memberService = memberService;
         this.modelMapper = modelMapper;
         this.utils = utils;
 
@@ -75,13 +72,12 @@ public class LocalController {
         return ResponseEntity.ok().body(local);
     }
 
-    @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<LocalResponse>> getLocalsByMemberId(@PathVariable Long id) {
-        Member member = memberService.get(id);
+    @GetMapping("/member-id/{memberId}")
+    public ResponseEntity<List<LocalResponse>> getLocalsByMemberId(@PathVariable Long memberId) {
         Type listType = new TypeToken<List<LocalResponse>>() {}.getType();
-        List<LocalResponse> locals = modelMapper.map(localService.getAllLocalByIdMember(member.getMemberId()), listType);
-        locals.forEach(l -> this.utils.addUrlToMultimedia(l.getMultimedia()));
-        logger.info("Fetching Local with id: {}", id);
+        List<LocalResponse> locals = modelMapper.map(localService.getAllLocalByIdMember(memberId), listType);
+        locals.forEach(local -> this.utils.addUrlToMultimedia(local.getMultimedia()));
+        logger.info("Fetching Local with id: {}", memberId);
         return ResponseEntity.ok().body(locals);
     }
 
@@ -89,7 +85,8 @@ public class LocalController {
     public ResponseEntity<LocalRequest> post(@RequestBody LocalRequest localRequest) {
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Creating local");
-        local.setMember(memberService.get(localRequest.getMember().getMemberId()));
+        Long memberId = localRequest.getMember().getMemberId();
+        local.setMember(this.utils.loadFullMember(memberId));
         localService.save(local);
         LocalRequest localResponse = modelMapper.map(local, LocalRequest.class);
         this.utils.addUrlToMultimedia(localResponse.getMultimedia());

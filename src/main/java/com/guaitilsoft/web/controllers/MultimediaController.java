@@ -34,21 +34,18 @@ public class MultimediaController {
 
     private final MultimediaService multimediaService;
     private final ModelMapper modelMapper;
-    private final Utils utils;
 
     @Autowired
     public MultimediaController(MultimediaService multimediaService,
-                                ModelMapper modelMapper,
-                                Utils utils){
+                                ModelMapper modelMapper){
         this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
-        this.utils = utils;
     }
 
     @GetMapping("{id}")
     public ResponseEntity<MultimediaResponse> getById(@PathVariable Long id){
         MultimediaResponse multimediaResponse = modelMapper.map(multimediaService.get(id), MultimediaResponse.class);
-        String url = this.utils.getUrlHost(multimediaResponse);
+        String url = this.getUrlHost(multimediaResponse);
         multimediaResponse.setUrl(url);
         return ResponseEntity.ok().body(multimediaResponse);
     }
@@ -58,7 +55,7 @@ public class MultimediaController {
         Type listType = new TypeToken<List<MultimediaResponse>>(){}.getType();
         List<MultimediaResponse> multimediaResponses = modelMapper.map(multimediaService.list(), listType);
         multimediaResponses.forEach(m -> {
-            String url = this.utils.getUrlHost(m);
+            String url = this.getUrlHost(m);
             m.setUrl(url);
         });
         return ResponseEntity.ok().body(multimediaResponses);
@@ -68,7 +65,7 @@ public class MultimediaController {
     public ResponseEntity<MultimediaResponse> uploadFile(@ModelAttribute MultimediaRequest multimedia) {
         try {
             MultimediaResponse multimediaResponse = modelMapper.map(multimediaService.store(multimedia), MultimediaResponse.class);
-            String url = this.utils.getUrlHost(multimediaResponse);
+            String url = this.getUrlHost(multimediaResponse);
             multimediaResponse.setUrl(url);
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -108,6 +105,14 @@ public class MultimediaController {
         MultimediaResponse multimediaResponse = modelMapper.map(multimediaService.get(id), MultimediaResponse.class);
         multimediaService.delete(id);
         return ResponseEntity.ok().body(multimediaResponse);
+    }
+
+    public String getUrlHost(MultimediaResponse multimediaResponse){
+        String resourcePath = "/api/multimedia/load/";
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(resourcePath)
+                .path(multimediaResponse.getFileName())
+                .toUriString();
     }
 
 }
