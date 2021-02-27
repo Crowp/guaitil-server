@@ -13,18 +13,16 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ProductView {
+public class ProductRequest {
     private Long id;
 
     private String name;
 
     private String description;
 
-    private Boolean status;
-
     private ProductType productType;
 
-    private LocalLazyResponse local;
+    private LocalId local;
 
     private ProductPrice productPrice;
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class LoadProduct {
+public class ProductLazyResponse {
     private Long id;
 
     private String name;

@@ -4,9 +4,8 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.*;
 import com.guaitilsoft.services.*;
 import com.guaitilsoft.utils.Utils;
-import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
-import com.guaitilsoft.web.models.product.GetProduct;
-import com.guaitilsoft.web.models.product.ProductView;
+import com.guaitilsoft.web.models.product.ProductResponse;
+import com.guaitilsoft.web.models.product.ProductRequest;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -18,7 +17,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -41,59 +39,63 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetProduct>> get(){
-        Type listType = new TypeToken<List<GetProduct>>(){}.getType();
-        List<GetProduct> products = modelMapper.map(productService.list(), listType);
+    public ResponseEntity<List<ProductResponse>> get(){
+        Type listType = new TypeToken<List<ProductResponse>>(){}.getType();
+        List<ProductResponse> products = modelMapper.map(productService.list(), listType);
         products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(products);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<GetProduct> getById(@PathVariable Long id) {
-        GetProduct product = modelMapper.map(productService.get(id), GetProduct.class);
+    public ResponseEntity<ProductResponse> getById(@PathVariable Long id) {
+        ProductResponse product = modelMapper.map(productService.get(id), ProductResponse.class);
         this.utils.addUrlToMultimedia(product.getMultimedia());
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(product);
     }
 
     @GetMapping("/local-id/{localId}")
-    public ResponseEntity<List<GetProduct>>getProductsByLocalId(@PathVariable Long localId) {
-        Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<GetProduct> products = modelMapper.map(productService.getAllProductByLocalId(localId), listType);
+    public ResponseEntity<List<ProductResponse>>getProductsByLocalId(@PathVariable Long localId) {
+        Type listType = new TypeToken<List<ProductRequest>>(){}.getType();
+        List<ProductResponse> products = modelMapper.map(productService.getAllProductByLocalId(localId), listType);
         products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         logger.info("Fetching Product with local id {}", localId);
         return ResponseEntity.ok().body(products);
     }
 
     @GetMapping("/member-id/{memberId}")
-    public ResponseEntity<List<GetProduct>>getAllProductByMemberId(@PathVariable Long memberId) {
-        Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<GetProduct> products = modelMapper.map(productService.getAllProductByMemberId(memberId), listType);
+    public ResponseEntity<List<ProductResponse>>getAllProductByMemberId(@PathVariable Long memberId) {
+        Type listType = new TypeToken<List<ProductRequest>>(){}.getType();
+        List<ProductResponse> products = modelMapper.map(productService.getAllProductByMemberId(memberId), listType);
         products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         logger.info("Fetching Product with id {}", memberId);
         return ResponseEntity.ok().body(products);
     }
 
     @GetMapping("/state/local-id/{localId}")
-    public ResponseEntity<List<GetProduct>>getAllProductAcceptedByLocalId(@PathVariable Long localId) {
-        Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<GetProduct> products = modelMapper.map(productService.getAllProductAcceptedByLocalId(localId), listType);
+    public ResponseEntity<List<ProductResponse>>getAllProductAcceptedByLocalId(@PathVariable Long localId) {
+        Type listType = new TypeToken<List<ProductRequest>>(){}.getType();
+        List<ProductResponse> products = modelMapper.map(productService.getAllProductAcceptedByLocalId(localId), listType);
         products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         logger.info("Fetching Product with state accepted {}", localId);
         return ResponseEntity.ok().body(products);
     }
 
     @PostMapping
-    public ResponseEntity<ProductView> post(@RequestBody ProductView productRequest) {
+    public ResponseEntity<ProductRequest> post(@RequestBody ProductRequest productRequest) {
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Creating product");
 
         this.utils.loadMultimedia(product.getMultimedia());
 
-        productService.save(product);
-        ProductView productResponse = modelMapper.map(product, ProductView.class);
-        this.utils.addUrlToMultimedia(productResponse.getMultimedia());
+        Local local = this.utils.loadFullLocal(product.getLocal().getId());
+        product.setLocal(local);
 
+        productService.save(product);
+
+        ProductRequest productResponse = modelMapper.map(product, ProductRequest.class);
+
+        this.utils.addUrlToMultimedia(productResponse.getMultimedia());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(product.getId())
@@ -104,7 +106,7 @@ public class ProductController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductView> put(@PathVariable Long id, @RequestBody ProductView productRequest) {
+    public ResponseEntity<ProductRequest> put(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
         if(!id.equals(productRequest.getId())){
             throw new ApiRequestException("El id del producto: " + productRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -112,15 +114,15 @@ public class ProductController {
         logger.info("Updating Product with id: {}", id);
         this.utils.loadMultimedia(product.getMultimedia());
         productService.update(id, product);
-        ProductView productResponse = modelMapper.map(product, ProductView.class);
+        ProductRequest productResponse = modelMapper.map(product, ProductRequest.class);
         this.utils.addUrlToMultimedia(productResponse.getMultimedia());
         logger.info("Updated Product with id: {}", id);
         return ResponseEntity.ok().body(productResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProductView> delete(@PathVariable Long id) {
-        ProductView productResponse = modelMapper.map(productService.get(id), ProductView.class);
+    public ResponseEntity<ProductRequest> delete(@PathVariable Long id) {
+        ProductRequest productResponse = modelMapper.map(productService.get(id), ProductRequest.class);
         logger.info("Deleting Product with id {}", id);
         productService.delete(id);
         logger.info("Deleted Product with id {}", id);
@@ -128,11 +130,11 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/multimedia-by-id")
-    public ResponseEntity<ProductView> deleteMultimediaById(@RequestParam Long id,
-                                                          @RequestParam Long idMultimedia) {
+    public ResponseEntity<ProductRequest> deleteMultimediaById(@RequestParam Long id,
+                                                               @RequestParam Long idMultimedia) {
         logger.info("Deleting Product with id {}", id);
-        ProductView productResponse = modelMapper.map(
-                productService.deleteMultimediaById(id, idMultimedia), ProductView.class);
+        ProductRequest productResponse = modelMapper.map(
+                productService.deleteMultimediaById(id, idMultimedia), ProductRequest.class);
         this.utils.addUrlToMultimedia(productResponse.getMultimedia());
         logger.info("Deleted Product with id {}", id);
         return ResponseEntity.ok().body(productResponse);

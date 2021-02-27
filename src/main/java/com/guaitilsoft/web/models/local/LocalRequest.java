@@ -29,7 +29,7 @@ public class LocalRequest {
 
     private Boolean state;
 
-    private MemberLazyResponse member;
+    private MemberId member;
 
     private List<MultimediaResponse> multimedia;
 

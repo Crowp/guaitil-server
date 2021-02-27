@@ -13,7 +13,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class GetProduct {
+public class ProductResponse {
     private Long id;
 
     private String name;
@@ -24,15 +24,15 @@ public class GetProduct {
 
     private ProductType productType;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
-
     private LocalLazyResponse local;
 
     private ProductPrice productPrice;
 
     private List<MultimediaResponse> multimedia;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updatedAt;
 }

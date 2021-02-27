@@ -5,7 +5,7 @@ import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.web.models.member.MemberLazyResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
-import com.guaitilsoft.web.models.product.LoadProduct;
+import com.guaitilsoft.web.models.product.ProductLazyResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -32,7 +32,7 @@ public class LocalResponse {
 
     private MemberLazyResponse member;
 
-    private List<LoadProduct> products;
+    private List<ProductLazyResponse> products;
 
     private List<MultimediaResponse> multimedia;
 

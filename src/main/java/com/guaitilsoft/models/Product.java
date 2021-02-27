@@ -42,6 +42,7 @@ public class Product {
 
     @PrePersist
     public void prePersist(){
+        this.status =  true;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

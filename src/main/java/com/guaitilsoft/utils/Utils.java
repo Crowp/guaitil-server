@@ -1,10 +1,10 @@
 package com.guaitilsoft.utils;
 
+import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.services.ActivityService;
+import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -16,10 +16,16 @@ import java.util.List;
 public class Utils {
 
     private final MultimediaService multimediaService;
+    private final LocalService localService;
 
     @Autowired
-    public Utils(MultimediaService multimediaService) {
+    public Utils(MultimediaService multimediaService, LocalService localService) {
         this.multimediaService = multimediaService;
+        this.localService = localService;
+    }
+
+    public Local loadFullLocal(Long id){
+        return this.localService.get(id);
     }
 
     public void addUrlToMultimedia(List<MultimediaResponse> multimedia){

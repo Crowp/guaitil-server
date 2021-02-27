@@ -3,7 +3,7 @@ package com.guaitilsoft.web.models.productReview;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReviewState;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
-import com.guaitilsoft.web.models.product.LoadProduct;
+import com.guaitilsoft.web.models.product.ProductLazyResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -28,7 +28,7 @@ public class GetProductReview {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    private LoadProduct product;
+    private ProductLazyResponse product;
 
     public List<MultimediaResponse> getMultimedia(){
         return product.getMultimedia();
