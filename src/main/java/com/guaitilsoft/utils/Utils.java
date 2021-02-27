@@ -37,10 +37,6 @@ public class Utils {
         return this.memberService.get(id);
     }
 
-    public void addUrlToMultimedia(List<MultimediaResponse> multimedia){
-        multimedia.forEach(m -> m.setUrl(getUrlHost(m)));
-    }
-
     public void loadMultimedia(List<Multimedia> multimediaList) {
         List<Multimedia> multimediaLoaded = new ArrayList<>();
         multimediaList.forEach(media -> {
@@ -50,7 +46,11 @@ public class Utils {
         multimediaList.addAll(multimediaLoaded);
     }
 
-    public String getUrlHost(MultimediaResponse multimediaResponse){
+    public void addUrlToMultimedia(List<MultimediaResponse> multimedia){
+        multimedia.forEach(m -> m.setUrl(getUrlHost(m)));
+    }
+
+    public static String getUrlHost(MultimediaResponse multimediaResponse){
         String resourcePath = "/api/multimedia/load/";
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(resourcePath)
