@@ -1,7 +1,7 @@
 package com.guaitilsoft.web.models.member;
 
 import com.guaitilsoft.models.constant.MemberType;
-import com.guaitilsoft.web.models.person.PersonView;
+import com.guaitilsoft.web.models.person.PersonRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +12,7 @@ public class LoadMember {
 
     private String occupation;
 
-    private PersonView person;
+    private PersonRequest person;
 
     private MemberType memberType;
 }
