@@ -1,5 +1,6 @@
 package com.guaitilsoft.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -36,7 +37,11 @@ public class LocalDescription {
     @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
-    @OneToOne(mappedBy = "localDescription", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @OneToOne(mappedBy = "localDescription",
+            cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE},
+            orphanRemoval = true,
+            fetch = FetchType.LAZY)
     private Local local;
 
     private LocalDateTime createdAt;

@@ -114,7 +114,6 @@ public class LocalController {
 
     @PostMapping
     public ResponseEntity<LocalView> post(@RequestBody LocalView localRequest) {
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Creating local");
         local.setMember(memberService.get(localRequest.getMember().getMemberId()));

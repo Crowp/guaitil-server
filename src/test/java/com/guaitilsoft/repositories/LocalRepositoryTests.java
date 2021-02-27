@@ -3,6 +3,7 @@ package com.guaitilsoft.repositories;
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.LocalDescription;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.utils.UtilsTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,7 +13,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.TransactionTemplate;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -29,7 +29,7 @@ public class LocalRepositoryTests {
     ActivityRepository activityRepository;
 
     @Autowired
-    TransactionTemplate txTemplate;
+    MemberRepository memberRepository;
 
 
     Local localBasic;
@@ -41,6 +41,10 @@ public class LocalRepositoryTests {
 
     @Test
     public void should_create_local() {
+        Member member = UtilsTest.createBasicMember();
+        Member memberStored = memberRepository.save(member);
+
+        localBasic.setMember(memberStored);
         Local localStored = localRepository.save(localBasic);
         assertThat(localStored.getMember()).isNotNull();
     }
