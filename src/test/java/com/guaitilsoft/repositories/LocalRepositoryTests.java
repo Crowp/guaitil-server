@@ -7,6 +7,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.utils.UtilsTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -65,28 +66,27 @@ public class LocalRepositoryTests {
         Local localStored = localRepository.save(localBasic);
         Long id = localStored.getId();
 
-        Activity activityWithLocal = addToActivity(localStored.getLocalDescription());
-
-        assertThat(activityWithLocal.getLocalsDescriptions()).isNotEmpty();
+        Long activityId = addToActivity(localStored.getLocalDescription());
 
         localRepository.delete(localStored);
 
         Local existsLocal = localRepository.findById(id).orElse(null);
 
-        Activity activityWithoutLocal = activityRepository.findById(activityWithLocal.getId()).orElse(null);
+        Activity activityWithoutLocal = activityRepository.findById(activityId).orElse(null);
 
         assertThat(activityWithoutLocal).isNotNull();
+        assertThat(activityWithoutLocal.getLocalsDescriptions()).contains(localStored.getLocalDescription());
         assertThat(existsLocal).isNull();
     }
 
-    private Activity addToActivity(LocalDescription localDescription) {
+    private Long addToActivity(LocalDescription localDescription) {
         Activity activity = UtilsTest.createBasicActivity();
 
         activity.getLocalsDescriptions().add(localDescription);
 
         activityRepository.save(activity);
 
-        return activity;
+        return activity.getId();
     }
 
 }

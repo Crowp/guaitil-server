@@ -3,7 +3,7 @@ package com.guaitilsoft.web.models.reservation;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReservationState;
 import com.guaitilsoft.web.models.activity.LoadActivityView;
-import com.guaitilsoft.web.models.person.PersonView;
+import com.guaitilsoft.web.models.person.PersonRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -30,5 +30,5 @@ public class GetReservation {
 
     private LoadActivityView activity;
 
-    private PersonView person;
+    private PersonRequest person;
 }

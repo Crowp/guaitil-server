@@ -34,15 +34,12 @@ public class LocalDescription {
     @Enumerated(EnumType.STRING)
     private LocalType localType;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "localDescription",
-            cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE},
-            orphanRemoval = true,
-            fetch = FetchType.LAZY)
-    private Local local;
+    @OneToOne(mappedBy = "localDescription", cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
+    private Local local = null;
 
     private LocalDateTime createdAt;
 
@@ -50,6 +47,7 @@ public class LocalDescription {
 
     @PrePersist
     public void prePersist() {
+        this.local = null;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

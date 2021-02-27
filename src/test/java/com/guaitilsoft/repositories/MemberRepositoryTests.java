@@ -5,6 +5,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.utils.UtilsTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

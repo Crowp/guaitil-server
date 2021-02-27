@@ -3,7 +3,6 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
-import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.repositories.MemberRepository;
 import com.guaitilsoft.services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +45,8 @@ public class MemberServiceImp implements MemberService {
     public Member save(Member entity) {
         assert entity != null;
 
-        if (memberRepository.existMemberPersonId(entity.getPersonId())) {
-            throw new ApiRequestException("Cédula: " + entity.getPersonId() + " esta ocupada");
+        if (memberRepository.existMemberPersonId(entity.getDni())) {
+            throw new ApiRequestException("Cédula: " + entity.getDni() + " esta ocupada");
         }
         String email = entity.getPerson().getEmail();
         if (memberRepository.existMemberPersonEmail(email)) {

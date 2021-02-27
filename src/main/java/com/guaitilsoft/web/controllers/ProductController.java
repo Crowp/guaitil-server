@@ -3,6 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.*;
 import com.guaitilsoft.services.*;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.GetProduct;
 import com.guaitilsoft.web.models.product.ProductView;
@@ -27,66 +28,58 @@ public class ProductController {
     public static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     private final ProductService productService;
-    private final LocalService localService;
-    private final MemberService memberService;
-    private final MultimediaService multimediaService;
     private final ModelMapper modelMapper;
+    private final Utils utils;
 
     @Autowired
     public ProductController(ProductService productService,
-                             MultimediaService multimediaService,
-                             LocalService localService,
-                             MemberService memberService,
-                             ModelMapper modelMapper){
+                             ModelMapper modelMapper,
+                             Utils utils){
         this.productService = productService;
-        this.multimediaService = multimediaService;
-        this.localService = localService;
         this.modelMapper = modelMapper;
-        this.memberService = memberService;
+        this.utils = utils;
     }
 
     @GetMapping
     public ResponseEntity<List<GetProduct>> get(){
         Type listType = new TypeToken<List<GetProduct>>(){}.getType();
         List<GetProduct> products = modelMapper.map(productService.list(), listType);
-        products.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
+        products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(products);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<GetProduct> getById(@PathVariable Long id) {
         GetProduct product = modelMapper.map(productService.get(id), GetProduct.class);
-        addUrlToMultimedia(product.getMultimedia());
+        this.utils.addUrlToMultimedia(product.getMultimedia());
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(product);
     }
 
-    @GetMapping("/local-id/{id}")
-    public ResponseEntity<List<GetProduct>>getProductsByLocalId(@PathVariable Long id) {
-        Local local = localService.get(id);
+    @GetMapping("/local-id/{localId}")
+    public ResponseEntity<List<GetProduct>>getProductsByLocalId(@PathVariable Long localId) {
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<GetProduct> products = modelMapper.map(productService.getAllProductByLocalId(local.getId()), listType);
-        products.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
-        logger.info("Fetching Product with local id {}", id);
+        List<GetProduct> products = modelMapper.map(productService.getAllProductByLocalId(localId), listType);
+        products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
+        logger.info("Fetching Product with local id {}", localId);
         return ResponseEntity.ok().body(products);
     }
 
-    @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<GetProduct>>getAllProductByMemberId(@PathVariable Long id) {
-        Member member = memberService.get(id);
+    @GetMapping("/member-id/{memberId}")
+    public ResponseEntity<List<GetProduct>>getAllProductByMemberId(@PathVariable Long memberId) {
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<GetProduct> products = modelMapper.map(productService.getAllProductByMemberId(member.getMemberId()), listType);
-        products.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
-        logger.info("Fetching Product with id {}", id);
+        List<GetProduct> products = modelMapper.map(productService.getAllProductByMemberId(memberId), listType);
+        products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
+        logger.info("Fetching Product with id {}", memberId);
         return ResponseEntity.ok().body(products);
     }
-    @GetMapping("/state/local-id/{id}")
-    public ResponseEntity<List<GetProduct>>getAllProductAcceptedByLocalId(@PathVariable Long id) {
-        Local local = localService.get(id);
+
+    @GetMapping("/state/local-id/{localId}")
+    public ResponseEntity<List<GetProduct>>getAllProductAcceptedByLocalId(@PathVariable Long localId) {
         Type listType = new TypeToken<List<ProductView>>(){}.getType();
-        List<GetProduct> products = modelMapper.map(productService.getAllProductAcceptedByLocalId(local.getId()), listType);
-        products.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
-        logger.info("Fetching Product with state accepted {}", id);
+        List<GetProduct> products = modelMapper.map(productService.getAllProductAcceptedByLocalId(localId), listType);
+        products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
+        logger.info("Fetching Product with state accepted {}", localId);
         return ResponseEntity.ok().body(products);
     }
 
@@ -95,10 +88,11 @@ public class ProductController {
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Creating product");
 
-        loadMultimedia(product);
+        this.utils.loadMultimedia(product.getMultimedia());
+
         productService.save(product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
-        addUrlToMultimedia(productResponse.getMultimedia());
+        this.utils.addUrlToMultimedia(productResponse.getMultimedia());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -116,10 +110,10 @@ public class ProductController {
         }
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Updating Product with id: {}", id);
-        loadMultimedia(product);
+        this.utils.loadMultimedia(product.getMultimedia());
         productService.update(id, product);
         ProductView productResponse = modelMapper.map(product, ProductView.class);
-        addUrlToMultimedia(productResponse.getMultimedia());
+        this.utils.addUrlToMultimedia(productResponse.getMultimedia());
         logger.info("Updated Product with id: {}", id);
         return ResponseEntity.ok().body(productResponse);
     }
@@ -139,35 +133,9 @@ public class ProductController {
         logger.info("Deleting Product with id {}", id);
         ProductView productResponse = modelMapper.map(
                 productService.deleteMultimediaById(id, idMultimedia), ProductView.class);
-        addUrlToMultimedia(productResponse.getMultimedia());
+        this.utils.addUrlToMultimedia(productResponse.getMultimedia());
         logger.info("Deleted Product with id {}", id);
         return ResponseEntity.ok().body(productResponse);
     }
 
-
-    private void addUrlToMultimedia(List<MultimediaResponse> multimedia){
-        multimedia.forEach(m -> {
-            String url = getUrlHost(m);
-            m.setUrl(url);
-        });
-    }
-
-    private String getUrlHost(MultimediaResponse multimediaResponse){
-        String resourcePath = "/api/multimedia/load/";
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(resourcePath)
-                .path(multimediaResponse.getFileName())
-                .toUriString();
-    }
-
-    private void loadMultimedia(Product product){
-        if(product.getMultimedia().size() > 0){
-            List<Multimedia> multimediaList = new ArrayList<>();
-            product.getMultimedia().forEach(media -> {
-                Multimedia multimedia = multimediaService.get(media.getId());
-                multimediaList.add(multimedia);
-            });
-            product.setMultimedia(multimediaList);
-        }
-    }
 }

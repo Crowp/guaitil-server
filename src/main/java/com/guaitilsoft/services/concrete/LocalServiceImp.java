@@ -20,12 +20,10 @@ import java.util.stream.Collectors;
 public class LocalServiceImp implements LocalService {
 
     private final LocalRepository localRepository;
-    private final ActivityService activityService;
 
     @Autowired
-    public LocalServiceImp(LocalRepository localRepository, ActivityService activityService) {
+    public LocalServiceImp(LocalRepository localRepository) {
         this.localRepository = localRepository;
-        this.activityService = activityService;
     }
 
     @Override
@@ -79,7 +77,6 @@ public class LocalServiceImp implements LocalService {
         assert id != null;
 
         Local local = this.get(id);
-        activityService.removeLocalFromActivity(id);
         localRepository.delete(local);
     }
 

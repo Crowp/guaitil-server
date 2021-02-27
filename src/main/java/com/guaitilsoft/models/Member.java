@@ -47,11 +47,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
-    public String getEmail() {
-        return person.getEmail();
-    }
-
-    public String getPersonId() {
+    public String getDni() {
         return person.getId();
     }
 

@@ -17,7 +17,5 @@ public interface ActivityService {
 
     Activity deleteMultimediaById(Long id, Long idMultimedia);
 
-    void removeLocalFromActivity(Long localId);
-
     List<Activity> getAllActivitiesActive();
 }

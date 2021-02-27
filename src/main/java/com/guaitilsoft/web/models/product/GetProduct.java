@@ -3,7 +3,7 @@ package com.guaitilsoft.web.models.product;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.ProductPrice;
 import com.guaitilsoft.models.constant.ProductType;
-import com.guaitilsoft.web.models.local.LoadLocal;
+import com.guaitilsoft.web.models.local.LocalLazyResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,7 +30,7 @@ public class GetProduct {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    private LoadLocal local;
+    private LocalLazyResponse local;
 
     private ProductPrice productPrice;
 

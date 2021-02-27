@@ -4,8 +4,8 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ReportService;
-import com.guaitilsoft.web.models.member.GetMember;
-import com.guaitilsoft.web.models.member.MemberView;
+import com.guaitilsoft.web.models.member.MemberResponse;
+import com.guaitilsoft.web.models.member.MemberRequest;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -43,35 +43,35 @@ public class MemberController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<GetMember>> get() {
-        Type listType = new TypeToken<List<GetMember>>(){}.getType();
-        List<GetMember> members = modelMapper.map(memberService.list(), listType);
+    public ResponseEntity<List<MemberResponse>> get() {
+        Type listType = new TypeToken<List<MemberResponse>>(){}.getType();
+        List<MemberResponse> members = modelMapper.map(memberService.list(), listType);
         return  ResponseEntity.ok().body(members);
     }
 
     @GetMapping("members-without-users")
-    public ResponseEntity<List<GetMember>> getMembersWithoutUser() {
-        Type listType = new TypeToken<List<GetMember>>(){}.getType();
-        List<GetMember> members = modelMapper.map(memberService.getMemberWithoutUser(), listType);
+    public ResponseEntity<List<MemberResponse>> getMembersWithoutUser() {
+        Type listType = new TypeToken<List<MemberResponse>>(){}.getType();
+        List<MemberResponse> members = modelMapper.map(memberService.getMemberWithoutUser(), listType);
         return  ResponseEntity.ok().body(members);
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<GetMember> getById(@PathVariable Long id) {
-        GetMember getMember= modelMapper.map(memberService.get(id), GetMember.class);
+    public ResponseEntity<MemberResponse> getById(@PathVariable Long id) {
+        MemberResponse memberResponse = modelMapper.map(memberService.get(id), MemberResponse.class);
         logger.info("Fetching Member with id: {}", id);
-        return ResponseEntity.ok().body(getMember);
+        return ResponseEntity.ok().body(memberResponse);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) {
+    public ResponseEntity<MemberRequest> post(@RequestBody MemberRequest memberRequest) {
         memberRequest.setMemberId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Creating Member");
         memberService.save(member);
-        MemberView memberResponse = modelMapper.map(member, MemberView.class);
+        MemberRequest memberResponse = modelMapper.map(member, MemberRequest.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -84,22 +84,22 @@ public class MemberController {
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> put(@PathVariable Long id, @RequestBody MemberView memberRequest) {
+    public ResponseEntity<MemberRequest> put(@PathVariable Long id, @RequestBody MemberRequest memberRequest) {
         if(!id.equals(memberRequest.getMemberId())){
             throw new ApiRequestException("El id del miembro: " + memberRequest.getMemberId() + " es diferente al id del parametro: " + id);
         }
         Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Updating Member with id: {}", id);
         memberService.update(id, member);
-        MemberView memberResponse = modelMapper.map(member, MemberView.class);
+        MemberRequest memberResponse = modelMapper.map(member, MemberRequest.class);
         logger.info("Updated Member with id: {}", id);
         return ResponseEntity.ok().body(memberResponse);
     }
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> delete(@PathVariable Long id) {
-        MemberView memberResponse = modelMapper.map(memberService.get(id), MemberView.class);
+    public ResponseEntity<MemberRequest> delete(@PathVariable Long id) {
+        MemberRequest memberResponse = modelMapper.map(memberService.get(id), MemberRequest.class);
         logger.info("Deleting Member with id: {}", id);
         memberService.delete(id);
         logger.info("Deleted Member with id: {}", id);

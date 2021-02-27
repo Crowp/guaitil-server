@@ -1,10 +1,10 @@
-package com.guaitilsoft.web.models.member;
+package com.guaitilsoft.web.models.local;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class GetMemberId {
+public class MemberId {
     private Long memberId;
 }

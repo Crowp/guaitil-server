@@ -1,13 +1,11 @@
 package com.guaitilsoft.web.models.member;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.MemberType;
-import com.guaitilsoft.web.models.local.LoadLocal;
+import com.guaitilsoft.web.models.local.LocalLazyResponse;
 import com.guaitilsoft.web.models.person.PersonRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -21,6 +19,6 @@ public class MemberRequest {
 
     private MemberType memberType;
 
-    private List<LoadLocal> locals;
+    private List<LocalLazyResponse> locals;
 
 }

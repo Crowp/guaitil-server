@@ -3,6 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.services.ProductReviewService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.productReview.GetProductReview;
 import com.guaitilsoft.web.models.productReview.ProductReviewView;
@@ -27,18 +28,22 @@ public class ProductReviewController {
 
     private final ProductReviewService productReviewService;
     private final ModelMapper modelMapper;
+    private final Utils utils;
 
     @Autowired
-    public ProductReviewController(ProductReviewService productReviewService, ModelMapper modelMapper){
+    public ProductReviewController(ProductReviewService productReviewService,
+                                   ModelMapper modelMapper,
+                                   Utils utils){
         this.productReviewService = productReviewService;
         this.modelMapper = modelMapper;
+        this.utils = utils;
     }
 
     @GetMapping
     public ResponseEntity<List<GetProductReview>> get(){
         Type listType = new TypeToken<List<ProductReviewView>>(){}.getType();
         List<GetProductReview> productReviewViews = modelMapper.map(productReviewService.list(), listType);
-        productReviewViews.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
+        productReviewViews.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
@@ -46,14 +51,14 @@ public class ProductReviewController {
     public ResponseEntity<List<GetProductReview>> getByMemberId(@PathVariable Long id){
         Type listType = new TypeToken<List<GetProductReview>>(){}.getType();
         List<GetProductReview> productReviewViews = modelMapper.map(productReviewService.listByIdMember(id), listType);
-        productReviewViews.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
+        productReviewViews.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<GetProductReview> getById(@PathVariable Long id) {
         GetProductReview productReview = modelMapper.map(productReviewService.get(id), GetProductReview.class);
-        this.addUrlToMultimedia(productReview.getMultimedia());
+        this.utils.addUrlToMultimedia(productReview.getMultimedia());
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(productReview);
     }
@@ -64,7 +69,7 @@ public class ProductReviewController {
         logger.info("Creating a product review");
         productReviewService.save(productReview);
         ProductReviewView productReviewResponse = modelMapper.map(productReview, ProductReviewView.class);
-        this.addUrlToMultimedia(productReviewResponse.getMultimedia());
+        this.utils.addUrlToMultimedia(productReviewResponse.getMultimedia());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(productReview.getId())
@@ -82,7 +87,7 @@ public class ProductReviewController {
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Updating Product Review with id: {}", id);
         ProductReviewView productReviewResponse = modelMapper.map(productReviewService.update(id, productReview), ProductReviewView.class);
-        this.addUrlToMultimedia(productReviewResponse.getMultimedia());
+        this.utils.addUrlToMultimedia(productReviewResponse.getMultimedia());
         logger.info("Updated Product Review with id: {}", id);
         return ResponseEntity.ok().body(productReviewResponse);
     }
@@ -96,18 +101,4 @@ public class ProductReviewController {
         return ResponseEntity.ok().body(productReviewResponse);
     }
 
-    private void addUrlToMultimedia(List<MultimediaResponse> multimedia){
-        multimedia.forEach(m -> {
-            String url = getUrlHost(m);
-            m.setUrl(url);
-        });
-    }
-
-    private String getUrlHost(MultimediaResponse multimediaResponse){
-        String resourcePath = "/api/multimedia/load/";
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(resourcePath)
-                .path(multimediaResponse.getFileName())
-                .toUriString();
-    }
 }

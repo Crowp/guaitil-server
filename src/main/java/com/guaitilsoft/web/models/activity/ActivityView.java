@@ -3,7 +3,7 @@ package com.guaitilsoft.web.models.activity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.constant.ActivityType;
-import com.guaitilsoft.web.models.local.LoadLocal;
+import com.guaitilsoft.web.models.local.LocalLazyResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -29,7 +29,7 @@ public class ActivityView {
 
     private Double personCost;
 
-    private List<LoadLocal> locals;
+    private List<LocalLazyResponse> locals;
 
     private List<MultimediaResponse> multimedia;
 }

@@ -7,6 +7,7 @@ import com.guaitilsoft.services.concrete.MemberServiceImp;
 import com.guaitilsoft.utils.UtilsTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;

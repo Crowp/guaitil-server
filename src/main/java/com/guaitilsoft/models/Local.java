@@ -2,12 +2,10 @@ package com.guaitilsoft.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.guaitilsoft.models.constant.LocalType;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.modelmapper.internal.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,7 +23,7 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     LocalDescription localDescription;
 
     @JsonBackReference
@@ -42,14 +40,14 @@ public class Local {
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
     private List<Multimedia> multimedia = new ArrayList<>();
 
-    private Boolean state;
+    private Boolean state = true;
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     public String getPersonId() {
-        return member.getPersonId();
+        return member.getDni();
     }
 
     public LocalType getLocalType() {
@@ -66,6 +64,7 @@ public class Local {
 
     @PrePersist
     public void prePersist() {
+        this.state = true;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

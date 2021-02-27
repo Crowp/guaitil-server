@@ -1,18 +1,13 @@
 package com.guaitilsoft;
 
-import com.guaitilsoft.models.Person;
-import com.guaitilsoft.models.constant.Gender;
-import com.guaitilsoft.models.constant.PersonType;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
 
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
-//@SpringBootConfiguration
-//@AutoConfigurationPackage
+@Configuration
 public class TestConfiguration {
-
+    @Bean
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
 }

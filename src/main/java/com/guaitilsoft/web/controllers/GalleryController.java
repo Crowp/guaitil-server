@@ -4,9 +4,9 @@ import com.guaitilsoft.models.Gallery;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.GalleryService;
 import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.gallery.GalleryRequest;
 import com.guaitilsoft.web.models.gallery.GalleryResponse;
-import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,17 +28,17 @@ public class GalleryController {
     public static final Logger logger = LoggerFactory.getLogger(GalleryController.class);
 
     private final GalleryService galleryService;
-    private final MultimediaService multimediaService;
     private final ModelMapper modelMapper;
+    private final Utils utils;
 
     @Autowired
     public GalleryController(
             GalleryService galleryService,
-            MultimediaService multimediaService,
-            ModelMapper modelMapper){
+            ModelMapper modelMapper,
+            Utils utils){
         this.galleryService  = galleryService;
-        this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
+        this.utils = utils;
     }
 
     @GetMapping
@@ -46,7 +46,7 @@ public class GalleryController {
         Optional<Gallery> optionalGallery = galleryService.get();
         if(optionalGallery.isPresent()){
             GalleryResponse gallery = this.modelMapper.map(optionalGallery.get(), GalleryResponse.class);
-            addUrlToMultimedia(gallery);
+            this.utils.addUrlToMultimedia(gallery.getMultimedia());
             return  ResponseEntity.ok().body(gallery);
         }
         GalleryResponse gallery = this.modelMapper.map(galleryService.addMultimedia(new ArrayList<>()), GalleryResponse.class);
@@ -63,13 +63,10 @@ public class GalleryController {
     @PostMapping
     public ResponseEntity<GalleryResponse> post(@RequestBody GalleryRequest galleryRequest) {
         logger.info("Adding multimedia to gallery");
-            List<Multimedia> multimediaList = new ArrayList<>();
-            galleryRequest.getMultimedia().forEach(media -> {
-                Multimedia multimedia = multimediaService.get(media.getId());
-                multimediaList.add(multimedia);
-            });
+        List<Multimedia> multimediaList = galleryRequest.getMultimedia();
+        utils.loadMultimedia(multimediaList);
         GalleryResponse gallery = this.modelMapper.map(galleryService.addMultimedia(multimediaList), GalleryResponse.class);
-        addUrlToMultimedia(gallery);
+        this.utils.addUrlToMultimedia(gallery.getMultimedia());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(gallery.getId())
@@ -77,20 +74,5 @@ public class GalleryController {
         logger.info("Add Multimedia to gallery : {}", gallery.getId());
 
         return ResponseEntity.created(location).body(gallery);
-    }
-
-    private void addUrlToMultimedia(GalleryResponse gallery) {
-        gallery.getMultimedia().forEach(m -> {
-            String url = getUrlHost(m);
-            m.setUrl(url);
-        });
-    }
-
-    private String getUrlHost(MultimediaResponse multimediaResponse) {
-        String resourcePath = "/api/multimedia/load/";
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(resourcePath)
-                .path(multimediaResponse.getFileName())
-                .toUriString();
     }
 }

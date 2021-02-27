@@ -72,6 +72,7 @@ public class ActivityServiceImp implements ActivityService {
         activity.setAddress(entity.getAddress());
         activity.setIsActive(entity.getIsActive());
         activity.setMultimedia(entity.getMultimedia());
+        activity.setLocalsDescriptions(entity.getLocalsDescriptions());
 
         activityRepository.save(activity);
     }
@@ -95,17 +96,6 @@ public class ActivityServiceImp implements ActivityService {
     public Activity deleteMultimediaById(Long id, Long idMultimedia) {
         activityRepository.deleteMultimediaById(idMultimedia);
         return this.get(id);
-    }
-
-    @Override
-    public void removeLocalFromActivity(Long localId) {
-        List<Activity> activityList = this.activityRepository.getActivitiesByLocalId(localId);
-
-//        activityList.forEach(activity -> {
-//            activity.getLocals().removeIf(local -> local.getId().equals(localId));
-//        });
-
-        this.activityRepository.saveAll(activityList);
     }
 
     @Override
