@@ -38,5 +38,6 @@ public class LocalDescriptionServiceImp implements LocalDescriptionService {
     public void deleteLocalsDescriptionsNotRelationships() {
         List<Local> locals = localService.list();
 
+        locals.forEach(local -> this.list().forEach(localDescription -> ));
     }
 }
