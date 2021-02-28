@@ -35,51 +35,37 @@ public class MapperConfig {
 
     private void memberResponseConfig(ModelMapper modelMapper) {
         modelMapper.typeMap(Local.class, LocalResponse.class)
-                .addMappings(mapping -> {
-                    mapping.map(
-                            source -> source.getLocalDescription().getAddress(),
-                            (destination, value) -> destination.setAddress((Address) value)
-                    );
-                });
+                .addMappings(mapping -> mapping.map(
+                        source -> source.getLocalDescription().getAddress(),
+                        (destination, value) -> destination.setAddress((Address) value)
+                ));
         modelMapper.typeMap(LocalResponse.class, Local.class)
-                .addMappings(mapping -> {
-                    mapping.map(LocalResponse::getAddress,
-                            (destination, value) -> destination.getLocalDescription().setAddress((Address) value));
-                });
+                .addMappings(mapping -> mapping.map(LocalResponse::getAddress,
+                        (destination, value) -> destination.getLocalDescription().setAddress((Address) value)));
     }
 
     private void productRequestConfig(ModelMapper modelMapper) {
         modelMapper.typeMap(Product.class, ProductRequest.class)
-                .addMappings(mapping -> {
-                    mapping.map(
-                            source -> source.getProductDescription().getName(),
-                            (destination, value) -> destination.setName((String) value)
-                    );
-                });
+                .addMappings(mapping -> mapping.map(
+                        source -> source.getProductDescription().getName(),
+                        (destination, value) -> destination.setName((String) value)
+                ));
 
         modelMapper.typeMap(Product.class, ProductLazyResponse.class)
-                .addMappings(mapping -> {
-                    mapping.map(
-                            source -> source.getProductDescription().getName(),
-                            (destination, value) -> destination.setName((String) value)
-                    );
-                });
+                .addMappings(mapping -> mapping.map(
+                        source -> source.getProductDescription().getName(),
+                        (destination, value) -> destination.setName((String) value)
+                ));
 
         modelMapper.typeMap(ProductRequest.class, Product.class)
-                .addMappings(mapping -> {
-                    mapping.map(ProductRequest::getName,
-                            (destination, value) -> destination.getProductDescription().setName((String) value)
-                    );
-                })
-                .addMappings(mapping -> {
-                    mapping.map(ProductRequest::getProductType,
-                            (destination, value) -> destination.getProductDescription().setProductType((ProductType) value)
-                    );
-                })
-                .addMappings(mapping -> {
-                    mapping.map(ProductRequest::getProductPrice,
-                            (destination, value) -> destination.getProductDescription().setProductPrice((ProductPrice) value)
-                    );
-                });
+                .addMappings(mapping -> mapping.map(ProductRequest::getName,
+                        (destination, value) -> destination.getProductDescription().setName((String) value)
+                ))
+                .addMappings(mapping -> mapping.map(ProductRequest::getProductType,
+                        (destination, value) -> destination.getProductDescription().setProductType((ProductType) value)
+                ))
+                .addMappings(mapping -> mapping.map(ProductRequest::getProductPrice,
+                        (destination, value) -> destination.getProductDescription().setProductPrice((ProductPrice) value)
+                ));
     }
 }

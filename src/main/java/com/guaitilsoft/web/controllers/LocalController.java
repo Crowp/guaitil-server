@@ -2,14 +2,11 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.services.LocalService;
-import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.local.LocalRequest;
 import com.guaitilsoft.web.models.local.LocalResponse;
-import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.modelmapper.convention.MatchingStrategies;
@@ -48,8 +45,7 @@ public class LocalController {
 
     @GetMapping
     public ResponseEntity<List<LocalResponse>> get() {
-        Type listType = new TypeToken<List<LocalResponse>>() {
-        }.getType();
+        Type listType = new TypeToken<List<LocalResponse>>() {}.getType();
         List<LocalResponse> locals = modelMapper.map(localService.list(), listType);
         locals.forEach(l -> this.utils.addUrlToMultimedia(l.getMultimedia()));
         return ResponseEntity.ok().body(locals);
@@ -57,8 +53,7 @@ public class LocalController {
 
     @GetMapping("/local-types/{localType}")
     public ResponseEntity<List<LocalResponse>> getLocalsByLocalType(@PathVariable LocalType localType) {
-        Type listType = new TypeToken<List<LocalResponse>>() {
-        }.getType();
+        Type listType = new TypeToken<List<LocalResponse>>() {}.getType();
         List<LocalResponse> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
         locals.forEach(l -> this.utils.addUrlToMultimedia(l.getMultimedia()));
         return ResponseEntity.ok().body(locals);

@@ -4,7 +4,6 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.services.ProductReviewService;
 import com.guaitilsoft.utils.Utils;
-import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.productReview.GetProductReview;
 import com.guaitilsoft.web.models.productReview.ProductReviewView;
 import org.modelmapper.ModelMapper;
