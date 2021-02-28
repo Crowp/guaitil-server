@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class TokenFilter extends OncePerRequestFilter {
-    private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
 
     public TokenFilter(TokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;

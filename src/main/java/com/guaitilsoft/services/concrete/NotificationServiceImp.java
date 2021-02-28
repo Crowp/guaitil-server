@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,15 +80,13 @@ public class NotificationServiceImp implements NotificationService {
     @Override
     public List<Notification> getAllActiveByMemberId(Long id) {
         List<Notification> notifications = new ArrayList<>();
-        this.list().forEach(n -> {
-            n.getMembers().forEach(m -> {
-                if (m.getMemberId().equals(id)){
-                    if (n.getIsActive()){
-                        notifications.add(n);
-                    }
+        this.list().forEach(n -> n.getMembers().forEach(m -> {
+            if (m.getMemberId().equals(id)){
+                if (n.getIsActive()){
+                    notifications.add(n);
                 }
-            });
-        });
+            }
+        }));
         return notifications;
     }
 }

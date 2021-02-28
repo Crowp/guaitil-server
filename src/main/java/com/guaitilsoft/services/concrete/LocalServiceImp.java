@@ -5,7 +5,6 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.repositories.LocalRepository;
-import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

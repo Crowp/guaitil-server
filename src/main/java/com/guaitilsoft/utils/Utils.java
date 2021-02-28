@@ -46,9 +46,7 @@ public class Utils {
 
     public void loadMultimedia(List<Multimedia> multimediaList) {
         List<Multimedia> multimediaLoaded = new ArrayList<>();
-        multimediaList.forEach(media -> {
-            multimediaLoaded.add(multimediaService.get(media.getId()));
-        });
+        multimediaList.forEach(media -> multimediaLoaded.add(multimediaService.get(media.getId())));
         multimediaList.clear();
         multimediaList.addAll(multimediaLoaded);
     }

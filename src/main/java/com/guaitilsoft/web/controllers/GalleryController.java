@@ -3,7 +3,6 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.models.Gallery;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.GalleryService;
-import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.gallery.GalleryRequest;
 import com.guaitilsoft.web.models.gallery.GalleryResponse;
