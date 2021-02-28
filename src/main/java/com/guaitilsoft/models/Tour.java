@@ -23,7 +23,7 @@ public class Tour {
     private LocalDateTime updatedAt;
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-    private Activity activity;
+    private ActivityDescription activityDescription;
 
     @PrePersist
     public void prePersist(){

@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface ReservationRepository extends CrudRepository<Reservation, Long> {
-    @Query("SELECT r FROM Reservation r WHERE r.activity.id = :id")
+    @Query("SELECT r FROM Reservation r INNER JOIN Activity a ON a.activityDescription.id = r.activityDescription.id WHERE a.id= :id")
     Optional<List<Reservation>> selectReservationsByActivityId(@Param("id") Long id);
 
     @Query("SELECT r FROM Reservation r WHERE r.person.id = :id")

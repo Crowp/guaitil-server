@@ -42,10 +42,6 @@ public class Local {
 
     private Boolean state = true;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
     public String getPersonId() {
         return member.getDni();
     }
@@ -65,12 +61,6 @@ public class Local {
     @PrePersist
     public void prePersist() {
         this.state = true;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 }

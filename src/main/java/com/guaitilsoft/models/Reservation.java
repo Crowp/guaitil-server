@@ -29,7 +29,7 @@ public class Reservation {
     private LocalDateTime updatedAt;
 
     @OneToOne(cascade = CascadeType.MERGE)
-    private Activity activity;
+    private ActivityDescription activityDescription;
 
     @ManyToOne(targetEntity = Person.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "personId")

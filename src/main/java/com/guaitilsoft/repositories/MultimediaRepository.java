@@ -8,6 +8,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MultimediaRepository extends CrudRepository<Multimedia, Long> {
-    @Query("SELECT CASE WHEN COUNT(m) > 0 THEN true ELSE false END FROM Multimedia m WHERE m.fileName = :fileName")
-    boolean existFileName(@Param("fileName") String fileName);
 }

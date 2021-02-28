@@ -34,9 +34,6 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     List<Role> roles;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<ActivityHistory> activityHistories;
-
     @OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     private Member member;
 

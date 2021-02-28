@@ -1,40 +1,46 @@
 package com.guaitilsoft.models;
 
-import com.guaitilsoft.models.constant.ActionType;
-import lombok.*;
+import com.guaitilsoft.models.constant.ActivityType;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.time.LocalDateTime;
 
-@Data
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActivityHistory {
-
+public class ActivityDescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotEmpty
-    private String action;
+    private String name;
 
-    private LocalDateTime auditDate;
+    @NotEmpty
+    private String description;
+
+    private LocalDateTime activityDate;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Address address;
+
+    @Enumerated(EnumType.STRING)
+    private ActivityType activityType;
+
 
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    @Enumerated(EnumType.STRING)
-    private ActionType actionType;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    private User user;
-
     @PrePersist
     public void prePersist(){
-        this.auditDate = LocalDateTime.now();
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
@@ -43,4 +49,5 @@ public class ActivityHistory {
     public void preUpdate(){
         this.updatedAt = LocalDateTime.now();
     }
+
 }
