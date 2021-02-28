@@ -28,7 +28,7 @@ public class Reservation {
 
     private LocalDateTime updatedAt;
 
-    @OneToOne(cascade = CascadeType.MERGE)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private ActivityDescription activityDescription;
 
     @ManyToOne(targetEntity = Person.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})

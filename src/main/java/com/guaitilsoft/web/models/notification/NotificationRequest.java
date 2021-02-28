@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class NotificationView {
+public class NotificationRequest {
 
     private Long id;
 

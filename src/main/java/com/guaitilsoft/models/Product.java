@@ -22,7 +22,7 @@ public class Product {
     @Column
     private Boolean status;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private ProductDescription productDescription;
 
     @ManyToOne(targetEntity = Local.class, fetch = FetchType.LAZY)

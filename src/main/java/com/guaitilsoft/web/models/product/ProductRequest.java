@@ -2,7 +2,7 @@ package com.guaitilsoft.web.models.product;
 
 import com.guaitilsoft.models.ProductPrice;
 import com.guaitilsoft.models.constant.ProductType;
-import com.guaitilsoft.web.models.local.LocalLazyResponse;
+import com.guaitilsoft.web.models.local.LocalId;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

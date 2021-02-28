@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-public class LocalDateFormatter implements Formatter<LocalDateTime> {
+public class LocalDateFormatter implements Formatter<LocalDate> {
     @Override
-    public LocalDateTime parse(String text, Locale locale) throws ParseException {
-        return LocalDateTime.parse(text, DateTimeFormatter.ISO_DATE);
+    public LocalDate parse(String text, Locale locale) {
+        return LocalDate.parse(text, DateTimeFormatter.ISO_LOCAL_DATE);
     }
 
     @Override
-    public String print(LocalDateTime object, Locale locale) {
-        return DateTimeFormatter.ISO_DATE.format(object);
+    public String print(LocalDate object, Locale locale) {
+        return DateTimeFormatter.ISO_LOCAL_DATE.format(object);
     }
 }

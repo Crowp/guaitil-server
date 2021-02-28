@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class ProductReviewView {
+public class ProductReviewRequest {
 
     private Long id;
 

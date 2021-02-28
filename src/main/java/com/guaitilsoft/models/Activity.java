@@ -21,7 +21,7 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH })
     private ActivityDescription activityDescription;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
@@ -30,7 +30,7 @@ public class Activity {
             inverseJoinColumns = { @JoinColumn(name = "fk_local_description_id") })
     private Set<LocalDescription> localsDescriptions = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Multimedia> multimedia;
 
     private Boolean isActive;

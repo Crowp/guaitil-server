@@ -29,7 +29,7 @@ public class ProductReview {
 
     private LocalDateTime updatedAt;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private ProductDescription productDescription;
 
     @PrePersist

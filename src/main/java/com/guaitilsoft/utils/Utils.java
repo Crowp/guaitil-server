@@ -1,6 +1,7 @@
 package com.guaitilsoft.utils;
 
 import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.LocalService;
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class Utils {
@@ -31,6 +34,10 @@ public class Utils {
 
     public Local loadFullLocal(Long id){
         return this.localService.get(id);
+    }
+
+    public LocalDescription loadFullLocalDescriptionByLocalId(Long id){
+        return this.localService.get(id).getLocalDescription();
     }
 
     public Member loadFullMember(Long id){

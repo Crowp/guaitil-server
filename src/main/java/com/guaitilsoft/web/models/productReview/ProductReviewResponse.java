@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class GetProductReview {
+public class ProductReviewResponse {
 
     private Long id;
 
@@ -22,13 +22,13 @@ public class GetProductReview {
 
     private String comment;
 
+    private ProductLazyResponse product;
+
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
-
-    private ProductLazyResponse product;
 
     public List<MultimediaResponse> getMultimedia(){
         return product.getMultimedia();
