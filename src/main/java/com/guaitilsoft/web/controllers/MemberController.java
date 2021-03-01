@@ -1,7 +1,6 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ReportService;
@@ -69,7 +68,7 @@ public class MemberController {
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<MemberRequest> post(@RequestBody MemberRequest memberRequest) {
         memberRequest.setMemberId(null);
-        Member member = mapperMemberWithLocal(memberRequest);
+        Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Creating Member");
         memberService.save(member);
         MemberRequest memberResponse = modelMapper.map(member, MemberRequest.class);
@@ -81,14 +80,6 @@ public class MemberController {
         logger.info("Created Member: {}", memberResponse.getMemberId());
 
         return ResponseEntity.created(location).body(memberResponse);
-    }
-
-    private Member mapperMemberWithLocal(@RequestBody MemberRequest memberRequest) {
-        Type listType = new TypeToken<List<Local>>(){}.getType();
-        List<Local> locals = modelMapper.map(memberRequest.getLocals(), listType);
-        Member member = modelMapper.map(memberRequest, Member.class);
-        member.setLocals(locals);
-        return member;
     }
 
     @PutMapping("{id}")
