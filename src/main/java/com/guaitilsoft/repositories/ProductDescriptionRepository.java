@@ -10,7 +10,7 @@ public interface ProductDescriptionRepository extends CrudRepository<ProductDesc
     @Query("SELECT pd FROM ProductDescription pd LEFT JOIN Product p ON pd.id=p.productDescription.id " +
                                                 "LEFT JOIN Sale s ON pd.id=s.productDescription.id " +
                                                 "LEFT JOIN ProductReview pr ON pd.id=pr.productDescription.id " +
-            "WHERE p.productDescription.id IS NULL AND s.productDescription.id IS NULL AND s.productDescription.id IS NULL")
+            "WHERE p.productDescription.id IS NULL AND s.productDescription.id IS NULL AND pr.productDescription.id IS NULL")
     List<ProductDescription> getProductsDescriptionNoRelationships();
 }
 
