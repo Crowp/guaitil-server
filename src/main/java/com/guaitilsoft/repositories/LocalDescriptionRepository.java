@@ -7,7 +7,6 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface LocalDescriptionRepository extends CrudRepository<LocalDescription, Long> {
-    @Query("SELECT locald FROM LocalDescription locald, Activity a LEFT JOIN a.localsDescriptions ld ON locald.id=ld.id" +
-            " WHERE ld.id IS NULL")
+    @Query("SELECT locald FROM LocalDescription locald LEFT JOIN Local l ON locald.id=l. WHERE l.id IS NULL")
     List<LocalDescription> getLocalsDescriptionNoRelationships();
 }

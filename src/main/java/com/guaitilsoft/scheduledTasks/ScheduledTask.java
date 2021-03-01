@@ -38,7 +38,7 @@ public class ScheduledTask {
             localDescriptions.forEach(localDescriptionRepository::delete);
         }else {
             locals.forEach(local -> localDescriptions.forEach(localDescription -> {
-                if (!local.getLocalDescription().getId().equals(localDescription.getId())) {
+                if (local.getLocalDescription().getId().equals(localDescription.getId())) {
                     localDescriptionRepository.delete(localDescription);
                 }
             }));
