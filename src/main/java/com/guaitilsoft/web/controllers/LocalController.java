@@ -40,7 +40,6 @@ public class LocalController {
         this.localService = localService;
         this.modelMapper = modelMapper;
         this.utils = utils;
-
     }
 
     @GetMapping
