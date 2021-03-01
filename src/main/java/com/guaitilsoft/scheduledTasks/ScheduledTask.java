@@ -42,7 +42,7 @@ public class ScheduledTask {
         List<ProductDescription> productDescriptions = productDescriptionRepository.getProductsDescriptionNoRelationships();
         if (productDescriptions.size() != 0) {
             productDescriptions.forEach(productDescriptionRepository::delete);
-            logger.info("product descriptions deleted", dateTimeFormatter.format(LocalDateTime.now()) );
+            logger.info("Products descriptions deleted", dateTimeFormatter.format(LocalDateTime.now()) );
         }
     }
 }
