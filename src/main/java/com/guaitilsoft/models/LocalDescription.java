@@ -1,6 +1,5 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

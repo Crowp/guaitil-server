@@ -19,8 +19,4 @@ public class ProductReviewRequest {
     private String comment;
 
     private ProductRequest product;
-
-    public List<MultimediaResponse> getMultimedia(){
-        return product.getMultimedia();
-    }
 }

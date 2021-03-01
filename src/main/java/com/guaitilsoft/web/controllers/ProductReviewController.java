@@ -3,7 +3,6 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.services.ProductReviewService;
-import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.productReview.ProductReviewResponse;
 import com.guaitilsoft.web.models.productReview.ProductReviewRequest;
 import org.modelmapper.ModelMapper;
@@ -27,22 +26,18 @@ public class ProductReviewController {
 
     private final ProductReviewService productReviewService;
     private final ModelMapper modelMapper;
-    private final Utils utils;
 
     @Autowired
     public ProductReviewController(ProductReviewService productReviewService,
-                                   ModelMapper modelMapper,
-                                   Utils utils){
+                                   ModelMapper modelMapper){
         this.productReviewService = productReviewService;
         this.modelMapper = modelMapper;
-        this.utils = utils;
     }
 
     @GetMapping
     public ResponseEntity<List<ProductReviewResponse>> get(){
         Type listType = new TypeToken<List<ProductReviewRequest>>(){}.getType();
         List<ProductReviewResponse> productReviewViews = modelMapper.map(productReviewService.list(), listType);
-        productReviewViews.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
@@ -50,14 +45,12 @@ public class ProductReviewController {
     public ResponseEntity<List<ProductReviewResponse>> getByMemberId(@PathVariable Long id){
         Type listType = new TypeToken<List<ProductReviewResponse>>(){}.getType();
         List<ProductReviewResponse> productReviewViews = modelMapper.map(productReviewService.listByIdMember(id), listType);
-        productReviewViews.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<ProductReviewResponse> getById(@PathVariable Long id) {
         ProductReviewResponse productReview = modelMapper.map(productReviewService.get(id), ProductReviewResponse.class);
-        this.utils.addUrlToMultimedia(productReview.getMultimedia());
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(productReview);
     }
@@ -68,7 +61,6 @@ public class ProductReviewController {
         logger.info("Creating a product review");
         productReviewService.save(productReview);
         ProductReviewRequest productReviewResponse = modelMapper.map(productReview, ProductReviewRequest.class);
-        this.utils.addUrlToMultimedia(productReviewResponse.getMultimedia());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(productReview.getId())
@@ -86,7 +78,6 @@ public class ProductReviewController {
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Updating Product Review with id: {}", id);
         ProductReviewRequest productReviewResponse = modelMapper.map(productReviewService.update(id, productReview), ProductReviewRequest.class);
-        this.utils.addUrlToMultimedia(productReviewResponse.getMultimedia());
         logger.info("Updated Product Review with id: {}", id);
         return ResponseEntity.ok().body(productReviewResponse);
     }
