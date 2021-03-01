@@ -2,8 +2,10 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.services.LocalService;
+import com.guaitilsoft.services.ReportService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.local.LocalRequest;
 import com.guaitilsoft.web.models.local.LocalResponse;
@@ -18,9 +20,13 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -32,14 +38,16 @@ public class LocalController {
     private final LocalService localService;
     private final ModelMapper modelMapper;
     private final Utils utils;
+    private final ReportService<Local> reportService;
 
     @Autowired
     public LocalController(LocalService localService,
                            ModelMapper modelMapper,
-                           Utils utils) {
+                           Utils utils, ReportService<Local> reportService) {
         this.localService = localService;
         this.modelMapper = modelMapper;
         this.utils = utils;
+        this.reportService = reportService;
     }
 
     @GetMapping
@@ -130,4 +138,29 @@ public class LocalController {
         return ResponseEntity.ok().body(localResponse);
     }
 
+    @GetMapping("/pdf-report")
+    public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
+        String template = "classpath:\\reports\\localReports\\localPDFReport.jrxml";
+        List<Local> locals = localService.list();
+
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de locales.pdf\"");
+        OutputStream out = response.getOutputStream();
+        reportService.exportPDF(out, locals, template);
+
+        return ResponseEntity.ok().body("Se generó el reporte");
+    }
+
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<String> generateXLSXReport(HttpServletResponse response) throws IOException {
+        String template = "classpath:\\reports\\localReports\\localXLSXReport.jrxml";
+        List<Local> locals = localService.list();
+
+        response.setContentType("application/x-xlsx");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de locales.xlsx\"");
+        OutputStream out = response.getOutputStream();
+        reportService.exportXLSX(out, locals, template);
+
+        return ResponseEntity.ok().body("Se generó el reporte");
+    }
 }

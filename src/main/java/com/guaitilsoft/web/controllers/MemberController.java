@@ -117,11 +117,11 @@ public class MemberController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
-        String template = "classpath:\\reports\\personPDFReport.jrxml";
+        String template = "classpath:\\reports\\memberReports\\memberPDFReport.jrxml";
         List<Member> members = memberService.list().stream().filter(member -> member.getMemberId() != 1).collect(Collectors.toList());
 
         response.setContentType("application/x-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.pdf\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de asociados.pdf\"");
         OutputStream out = response.getOutputStream();
         reportService.exportPDF(out, members, template);
 
@@ -130,11 +130,11 @@ public class MemberController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<String> generateXLSXReport(HttpServletResponse response) throws IOException {
-        String template = "classpath:\\reports\\personXLSXReport.jrxml";
+        String template = "classpath:\\reports\\memberReports\\memberXLSXReport.jrxml";
         List<Member> members = memberService.list().stream().filter(member -> member.getMemberId() != 1).collect(Collectors.toList());
 
         response.setContentType("application/x-xlsx");
-        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.xlsx\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteAsociados.xlsx\"");
         OutputStream out = response.getOutputStream();
         reportService.exportXLSX(out, members, template);
 

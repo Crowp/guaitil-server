@@ -26,7 +26,6 @@ public class ProductDescription {
     @NotEmpty
     private String description;
 
-
     @Enumerated(EnumType.STRING)
     private ProductType productType;
 

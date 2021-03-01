@@ -38,7 +38,7 @@ public class ReportServiceImpl<T> implements ReportService<T> {
             JasperPrint jasperPrint = makeFile(list, template);
             JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
         }catch (Exception e){
-            throw new ApiRequestException("El archivo no se pudo crear");
+            throw new ApiRequestException("El archivo no se pudo crear " + e.getMessage());
         }
     }
 
