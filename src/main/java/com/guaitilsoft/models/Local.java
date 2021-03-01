@@ -23,7 +23,7 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     LocalDescription localDescription;
 
     @JsonBackReference
@@ -41,10 +41,6 @@ public class Local {
     private List<Multimedia> multimedia = new ArrayList<>();
 
     private Boolean state = true;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
 
     public String getPersonId() {
         return member.getDni();
@@ -65,12 +61,6 @@ public class Local {
     @PrePersist
     public void prePersist() {
         this.state = true;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
     }
 
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
 }

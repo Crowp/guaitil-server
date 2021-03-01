@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class LoadNotification {
+public class NotificationLazyResponse {
     private Long id;
 
     private String description;

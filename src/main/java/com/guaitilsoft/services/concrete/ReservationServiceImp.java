@@ -57,7 +57,7 @@ public class ReservationServiceImp implements ReservationService {
         reservation.setDateReservation(entity.getDateReservation());
         reservation.setAmountPerson(entity.getAmountPerson());
         reservation.setReservationState(entity.getReservationState());
-        reservation.setActivity(entity.getActivity());
+        reservation.setActivityDescription(entity.getActivityDescription());
         reservation.setPerson(entity.getPerson());
         reservationRepository.save(reservation);
     }

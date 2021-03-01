@@ -21,26 +21,8 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
-    private String name;
-
-    @NotEmpty
-    private String description;
-
-    private LocalDateTime activityDate;
-
-    @Enumerated(EnumType.STRING)
-    private ActivityType activityType;
-
-    @Column
-    private Double personCost;
-
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
+    @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH })
+    private ActivityDescription activityDescription;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinTable(name = "activity_local_description",
@@ -48,21 +30,14 @@ public class Activity {
             inverseJoinColumns = { @JoinColumn(name = "fk_local_description_id") })
     private Set<LocalDescription> localsDescriptions = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Multimedia> multimedia;
 
     private Boolean isActive;
 
     @PrePersist
     public void prePersist(){
-        this.activityDate = LocalDateTime.now();
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
         this.isActive = true;
     }
 
-    @PreUpdate
-    public void preUpdate(){
-        this.updatedAt = LocalDateTime.now();
-    }
 }

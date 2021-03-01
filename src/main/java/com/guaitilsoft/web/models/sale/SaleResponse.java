@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class SaleView {
+public class SaleResponse {
 
     private Long id;
 
@@ -19,4 +19,10 @@ public class SaleView {
     private ProductLazyResponse product;
 
     private Long amountSold;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
+
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updatedAt;
 }

@@ -21,13 +21,11 @@ public class ActivityServiceImp implements ActivityService {
 
     private final ActivityRepository activityRepository;
     private final MultimediaService multimediaService;
-    private final NotificationService notificationService;
 
     @Autowired
-    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService, NotificationService notificationService) {
+    public ActivityServiceImp(ActivityRepository activityRepository, MultimediaService multimediaService) {
         this.activityRepository = activityRepository;
         this.multimediaService = multimediaService;
-        this.notificationService = notificationService;
     }
 
     @Override
@@ -53,8 +51,6 @@ public class ActivityServiceImp implements ActivityService {
     public void save(Activity entity) {
         assert entity != null;
         activityRepository.save(entity);
-
-        notificationService.save(ACTIVITY_NOTIFICATION.getMessage() + entity.getName(), memberList(entity));
     }
 
     @Override
@@ -63,13 +59,7 @@ public class ActivityServiceImp implements ActivityService {
         assert entity != null;
 
         Activity activity = this.get(id);
-        activity.setName(entity.getName());
-        activity.setDescription(entity.getDescription());
-        activity.setActivityDate(entity.getActivityDate());
-        activity.setActivityType(entity.getActivityType());
-        activity.setPersonCost(entity.getPersonCost());
-        activity.setUpdatedAt(entity.getUpdatedAt());
-        activity.setAddress(entity.getAddress());
+        activity.setActivityDescription(entity.getActivityDescription());
         activity.setIsActive(entity.getIsActive());
         activity.setMultimedia(entity.getMultimedia());
         activity.setLocalsDescriptions(entity.getLocalsDescriptions());
@@ -101,11 +91,6 @@ public class ActivityServiceImp implements ActivityService {
     @Override
     public List<Activity> getAllActivitiesActive() {
         return this.list().stream().filter(Activity::getIsActive).collect(Collectors.toList());
-    }
-
-    private List<Member> memberList(Activity activity){
-        Set<Local> activityLocals = activity.getLocalsDescriptions().stream().map(LocalDescription::getLocal).collect(Collectors.toSet());
-        return activityLocals.stream().map(Local::getMember).collect(Collectors.toList());
     }
 
 }

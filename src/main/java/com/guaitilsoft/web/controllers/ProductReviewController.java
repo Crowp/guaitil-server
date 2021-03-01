@@ -4,8 +4,8 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.services.ProductReviewService;
 import com.guaitilsoft.utils.Utils;
-import com.guaitilsoft.web.models.productReview.GetProductReview;
-import com.guaitilsoft.web.models.productReview.ProductReviewView;
+import com.guaitilsoft.web.models.productReview.ProductReviewResponse;
+import com.guaitilsoft.web.models.productReview.ProductReviewRequest;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -39,35 +39,35 @@ public class ProductReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetProductReview>> get(){
-        Type listType = new TypeToken<List<ProductReviewView>>(){}.getType();
-        List<GetProductReview> productReviewViews = modelMapper.map(productReviewService.list(), listType);
+    public ResponseEntity<List<ProductReviewResponse>> get(){
+        Type listType = new TypeToken<List<ProductReviewRequest>>(){}.getType();
+        List<ProductReviewResponse> productReviewViews = modelMapper.map(productReviewService.list(), listType);
         productReviewViews.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<GetProductReview>> getByMemberId(@PathVariable Long id){
-        Type listType = new TypeToken<List<GetProductReview>>(){}.getType();
-        List<GetProductReview> productReviewViews = modelMapper.map(productReviewService.listByIdMember(id), listType);
+    public ResponseEntity<List<ProductReviewResponse>> getByMemberId(@PathVariable Long id){
+        Type listType = new TypeToken<List<ProductReviewResponse>>(){}.getType();
+        List<ProductReviewResponse> productReviewViews = modelMapper.map(productReviewService.listByIdMember(id), listType);
         productReviewViews.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         return  ResponseEntity.ok().body(productReviewViews);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<GetProductReview> getById(@PathVariable Long id) {
-        GetProductReview productReview = modelMapper.map(productReviewService.get(id), GetProductReview.class);
+    public ResponseEntity<ProductReviewResponse> getById(@PathVariable Long id) {
+        ProductReviewResponse productReview = modelMapper.map(productReviewService.get(id), ProductReviewResponse.class);
         this.utils.addUrlToMultimedia(productReview.getMultimedia());
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(productReview);
     }
 
     @PostMapping
-    public ResponseEntity<ProductReviewView> post(@RequestBody ProductReviewView productReviewRequest) {
+    public ResponseEntity<ProductReviewRequest> post(@RequestBody ProductReviewRequest productReviewRequest) {
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Creating a product review");
         productReviewService.save(productReview);
-        ProductReviewView productReviewResponse = modelMapper.map(productReview, ProductReviewView.class);
+        ProductReviewRequest productReviewResponse = modelMapper.map(productReview, ProductReviewRequest.class);
         this.utils.addUrlToMultimedia(productReviewResponse.getMultimedia());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -79,21 +79,21 @@ public class ProductReviewController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductReviewView> put(@PathVariable Long id, @RequestBody ProductReviewView productReviewRequest) {
+    public ResponseEntity<ProductReviewRequest> put(@PathVariable Long id, @RequestBody ProductReviewRequest productReviewRequest) {
         if(!id.equals(productReviewRequest.getId())){
             throw new ApiRequestException("El id de la revision del producto: " + productReviewRequest.getId() + " es diferente al id del parametro: " + id);
         }
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Updating Product Review with id: {}", id);
-        ProductReviewView productReviewResponse = modelMapper.map(productReviewService.update(id, productReview), ProductReviewView.class);
+        ProductReviewRequest productReviewResponse = modelMapper.map(productReviewService.update(id, productReview), ProductReviewRequest.class);
         this.utils.addUrlToMultimedia(productReviewResponse.getMultimedia());
         logger.info("Updated Product Review with id: {}", id);
         return ResponseEntity.ok().body(productReviewResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProductReviewView> delete(@PathVariable Long id) {
-        ProductReviewView productReviewResponse = modelMapper.map(productReviewService.get(id), ProductReviewView.class);
+    public ResponseEntity<ProductReviewRequest> delete(@PathVariable Long id) {
+        ProductReviewRequest productReviewResponse = modelMapper.map(productReviewService.get(id), ProductReviewRequest.class);
         logger.info("Deleting Product Review with id {}", id);
         productReviewService.delete(id);
         logger.info("Deleted Product Review with id {}", id);

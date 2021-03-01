@@ -19,6 +19,4 @@ public class Address {
     @NotEmpty
     private String physicalAddress;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private VirtualAddress virtualAddress;
 }

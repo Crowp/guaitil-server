@@ -3,6 +3,7 @@ package com.guaitilsoft.web.models.member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.web.models.person.PersonRequest;
+import com.guaitilsoft.web.models.person.PersonResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,13 +16,8 @@ public class MemberLazyResponse {
 
     private String occupation;
 
-    private PersonRequest person;
+    private PersonResponse person;
 
     private MemberType memberType;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
 }

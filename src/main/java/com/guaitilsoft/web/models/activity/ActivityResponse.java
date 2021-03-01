@@ -2,6 +2,7 @@ package com.guaitilsoft.web.models.activity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Address;
+import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.models.constant.ActivityType;
 import com.guaitilsoft.web.models.local.LocalLazyResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class GetActivity {
+public class ActivityResponse {
 
     private Long id;
 
@@ -21,24 +22,22 @@ public class GetActivity {
 
     private String description;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime activityDate;
 
     private ActivityType activityType;
-
-    private Double personCost;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
 
     private Address address;
 
     private Boolean isActive;
 
-    private List<LocalLazyResponse> locals;
+    private List<LocalDescription> localDescriptions;
 
     private List<MultimediaResponse> multimedia;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime updatedAt;
 }

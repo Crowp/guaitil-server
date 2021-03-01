@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class PersonRequest {
+public class PersonResponse {
     private String id;
 
     private String name;

@@ -48,27 +48,24 @@ public class UtilsTest {
 
     public static Activity createBasicActivity() {
         Activity activity = new Activity();
-        activity.setActivityDate(LocalDateTime.now());
-        activity.setActivityType(ActivityType.EXPERIENCE);
-        activity.setName("Una actividad de prueba");
-        activity.setDescription("Una descripcion de prueba");
-        activity.setPersonCost(123123.0);
-        activity.setAddress(UtilsTest.createBasicAddress());
+        activity.setActivityDescription(UtilsTest.createActivityDescriptionBasic());
         return activity;
+    }
+
+    public static ActivityDescription createActivityDescriptionBasic(){
+        ActivityDescription activityDescription =  new ActivityDescription();
+        activityDescription.setActivityDate(LocalDateTime.now());
+        activityDescription.setActivityType(ActivityType.EXPERIENCE);
+        activityDescription.setName("Una actividad de prueba");
+        activityDescription.setDescription("Una descripcion de prueba");
+        activityDescription.setAddress(UtilsTest.createBasicAddress());
+        return activityDescription;
     }
 
     public static Address createBasicAddress() {
         Address address = new Address();
         address.setPhysicalAddress("Hojancha");
-        address.setVirtualAddress(UtilsTest.createBasicVirtualAddress());
         return address;
-    }
-
-    private static VirtualAddress createBasicVirtualAddress() {
-        VirtualAddress virtualAddress = new VirtualAddress();
-        virtualAddress.setLatitude("123431234");
-        virtualAddress.setLongitude("12312312");
-        return virtualAddress;
     }
 
 }

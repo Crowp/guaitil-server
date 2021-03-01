@@ -6,7 +6,7 @@ import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.UserService;
 import com.guaitilsoft.web.models.member.MemberRequest;
-import com.guaitilsoft.web.models.user.GetUsers;
+import com.guaitilsoft.web.models.user.UserLazyResponse;
 import com.guaitilsoft.web.models.user.UserRequest;
 import com.guaitilsoft.web.models.user.UserResponse;
 import org.modelmapper.ModelMapper;
@@ -39,9 +39,9 @@ public class AuthController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<GetUsers>> get(){
-        Type listType  = new TypeToken<List<GetUsers>>(){}.getType();
-        List<GetUsers> users = modelMapper.map(userService.getAllUsers(),listType);
+    public ResponseEntity<List<UserLazyResponse>> get(){
+        Type listType  = new TypeToken<List<UserLazyResponse>>(){}.getType();
+        List<UserLazyResponse> users = modelMapper.map(userService.getAllUsers(),listType);
         return  ResponseEntity.ok().body(users);
     }
 

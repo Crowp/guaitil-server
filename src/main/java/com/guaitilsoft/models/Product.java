@@ -22,7 +22,7 @@ public class Product {
     @Column
     private Boolean status;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private ProductDescription productDescription;
 
     @ManyToOne(targetEntity = Local.class, fetch = FetchType.LAZY)
@@ -32,10 +32,6 @@ public class Product {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
     public void removeMultimediaById(Multimedia multimedia) {
         this.multimedia.remove(multimedia);
     }
@@ -43,12 +39,5 @@ public class Product {
     @PrePersist
     public void prePersist(){
         this.status =  true;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate(){
-        this.updatedAt = LocalDateTime.now();
     }
 }

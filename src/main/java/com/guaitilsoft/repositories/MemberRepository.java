@@ -21,7 +21,4 @@ public interface MemberRepository extends CrudRepository<Member, Long> {
 
     @Query("SELECT m FROM Member m WHERE m.id NOT IN (SELECT u.member.id FROM User u)")
     List<Member> getMembersWithoutUser();
-
-    @Query("SELECT m FROM Member m INNER JOIN User u ON u.roles=:role")
-    List<Member> getMembersByRole(@Param("role") Role role);
 }

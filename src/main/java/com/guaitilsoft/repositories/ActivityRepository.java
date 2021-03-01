@@ -12,12 +12,6 @@ import java.util.List;
 
 @Repository
 public interface ActivityRepository extends CrudRepository<Activity, Long> {
-    @Query("SELECT m FROM Multimedia m INNER JOIN Activity a ON a.id=:id")
-    List<Multimedia> getActivityMultimedia(@Param("id") Long id);
-
     @Query("DELETE FROM Multimedia m WHERE m.id=:id")
     void deleteMultimediaById(@Param("id") Long id);
-
-    @Query("SELECT a FROM Activity a INNER JOIN a.localsDescriptions local ON local.id=:id")
-    List<Activity> getActivitiesByLocalId(@Param("id") Long id);
 }

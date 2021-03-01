@@ -11,16 +11,10 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class GetUsers {
+public class UserLazyResponse {
     private Long id;
 
     List<Role> roles;
 
     private MemberLazyResponse member;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updatedAt;
 }

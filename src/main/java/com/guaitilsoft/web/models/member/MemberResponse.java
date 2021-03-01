@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.web.models.local.LocalLazyResponse;
 import com.guaitilsoft.web.models.person.PersonRequest;
+import com.guaitilsoft.web.models.person.PersonResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,15 +19,15 @@ public class MemberResponse {
 
     private String occupation;
 
-    private PersonRequest person;
+    private PersonResponse person;
 
     private MemberType memberType;
 
     private List<LocalLazyResponse> locals;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime createdAt;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime updatedAt;
 }

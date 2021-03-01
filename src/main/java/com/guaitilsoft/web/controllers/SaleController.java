@@ -6,8 +6,8 @@ import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ProductService;
 import com.guaitilsoft.services.SaleService;
-import com.guaitilsoft.web.models.sale.GetSale;
-import com.guaitilsoft.web.models.sale.SaleView;
+import com.guaitilsoft.web.models.sale.SaleResponse;
+import com.guaitilsoft.web.models.sale.SaleRequest;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,36 +42,36 @@ public class SaleController {
     }
 
     @GetMapping
-    public ResponseEntity<List<GetSale>> get(){
-        Type lisType = new TypeToken<List<GetSale>>(){}.getType();
-        List<GetSale> sales = modelMapper.map(saleService.list(), lisType);
+    public ResponseEntity<List<SaleResponse>> get(){
+        Type lisType = new TypeToken<List<SaleResponse>>(){}.getType();
+        List<SaleResponse> sales = modelMapper.map(saleService.list(), lisType);
         return ResponseEntity.ok().body(sales);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<GetSale> getById(@PathVariable Long id) {
-        GetSale sale = modelMapper.map(saleService.get(id), GetSale.class);
+    public ResponseEntity<SaleResponse> getById(@PathVariable Long id) {
+        SaleResponse sale = modelMapper.map(saleService.get(id), SaleResponse.class);
         logger.info("Fetching Sale with {}", id);
         return ResponseEntity.ok().body(sale);
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<GetSale>> getAllSaleByMemberId(@PathVariable Long id) {
+    public ResponseEntity<List<SaleResponse>> getAllSaleByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
-        Type listType = new TypeToken<List<GetSale>>(){}.getType();
-        List<GetSale> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getMemberId()), listType);
+        Type listType = new TypeToken<List<SaleResponse>>(){}.getType();
+        List<SaleResponse> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getMemberId()), listType);
         logger.info("Fetching Sale with member id {}", id);
         return ResponseEntity.ok().body(sale);
     }
 
     @PostMapping
-    public ResponseEntity<SaleView> post(@RequestBody SaleView saleRequest) {
+    public ResponseEntity<SaleRequest> post(@RequestBody SaleRequest saleRequest) {
         Sale sale = modelMapper.map(saleRequest, Sale.class);
         logger.info("Creating sale: {}", sale);
         Long productId = saleRequest.getProduct().getId();
         sale.setProductDescription(productService.get(productId).getProductDescription());
         saleService.save(sale);
-        SaleView saleResponse = modelMapper.map(sale, SaleView.class);
+        SaleRequest saleResponse = modelMapper.map(sale, SaleRequest.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -83,7 +83,7 @@ public class SaleController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<SaleView> put(@PathVariable Long id, @RequestBody SaleView saleRequest) {
+    public ResponseEntity<SaleRequest> put(@PathVariable Long id, @RequestBody SaleRequest saleRequest) {
         if(!id.equals(saleRequest.getId())){
             throw new ApiRequestException("El id de la venta: " + saleRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -92,14 +92,14 @@ public class SaleController {
         Long productId = saleRequest.getProduct().getId();
         sale.setProductDescription(productService.get(productId).getProductDescription());
         saleService.update(id, sale);
-        SaleView saleResponse = modelMapper.map(sale, SaleView.class);
+        SaleRequest saleResponse = modelMapper.map(sale, SaleRequest.class);
         logger.info("Updated Sale with id: {}", id);
         return ResponseEntity.ok().body(saleResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<SaleView> delete(@PathVariable Long id) {
-        SaleView saleResponse = modelMapper.map(saleService.get(id), SaleView.class);
+    public ResponseEntity<SaleRequest> delete(@PathVariable Long id) {
+        SaleRequest saleResponse = modelMapper.map(saleService.get(id), SaleRequest.class);
         logger.info("Deleting Sale with id {}", id);
         saleService.delete(id);
         logger.info("Deleted Tour with id {}", id);

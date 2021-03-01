@@ -1,4 +1,4 @@
-package com.guaitilsoft.web.models.local;
+package com.guaitilsoft.web.models.member;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

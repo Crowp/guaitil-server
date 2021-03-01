@@ -2,7 +2,7 @@ package com.guaitilsoft.web.models.reservation;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReservationState;
-import com.guaitilsoft.web.models.activity.LoadActivityView;
+import com.guaitilsoft.web.models.activity.ActivityLazyResponse;
 import com.guaitilsoft.web.models.person.PersonRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ReservationView {
+public class ReservationRequest {
 
     private Long id;
 
@@ -24,7 +24,7 @@ public class ReservationView {
 
     private ReservationState reservationState;
 
-    private LoadActivityView tour;
+    private ActivityLazyResponse tour;
 
     private PersonRequest person;
 }
