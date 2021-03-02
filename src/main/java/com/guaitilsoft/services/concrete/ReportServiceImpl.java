@@ -58,7 +58,7 @@ public class ReportServiceImpl<T> implements ReportService<T> {
             xlsxExporter.exportReport();
 
         }catch (Exception e){
-            throw new ApiRequestException("El archivo no se pudo crear");
+            throw new ApiRequestException("El archivo no se pudo crear " + e.getMessage());
         }
     }
 }

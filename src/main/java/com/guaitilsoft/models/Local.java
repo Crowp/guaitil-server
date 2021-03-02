@@ -37,7 +37,7 @@ public class Local {
             orphanRemoval = true)
     private List<Product> products = new ArrayList<>();
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Multimedia> multimedia = new ArrayList<>();
 
     private Boolean state = true;
