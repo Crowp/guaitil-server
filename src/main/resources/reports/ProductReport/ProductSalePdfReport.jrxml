@@ -42,7 +42,7 @@
             <staticText>
                 <reportElement style="SubTitle" x="110" y="100" width="402" height="22" forecolor="#030303" uuid="88d4231e-f014-4b0d-b871-1737ba63a1ae"/>
                 <textElement textAlignment="Center">
-                    <font fontName="Times New Roman" size="14"/>
+                    <font fontName="Times New Roman" size="12"/>
                 </textElement>
                 <text><![CDATA[Productos vendidos de la Asociación de Desarrollo Integral de Guaitil]]></text>
             </staticText>

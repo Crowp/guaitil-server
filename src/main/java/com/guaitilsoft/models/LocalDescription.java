@@ -56,5 +56,4 @@ public class LocalDescription {
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
-
 }
