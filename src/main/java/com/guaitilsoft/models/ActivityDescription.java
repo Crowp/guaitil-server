@@ -34,7 +34,6 @@ public class ActivityDescription {
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
-
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
