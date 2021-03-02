@@ -1,7 +1,8 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.*;
+import com.guaitilsoft.models.Activity;
+import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.ReportService;
 import com.guaitilsoft.utils.Utils;

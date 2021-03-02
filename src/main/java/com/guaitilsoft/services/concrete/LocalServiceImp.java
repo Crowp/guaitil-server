@@ -64,7 +64,7 @@ public class LocalServiceImp implements LocalService {
         local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
         local.setState(entity.getState());
-        if (localRepository.memberHaveLocalWithType(entity.getMemberId(), entity.getLocalType())) {
+        if (localRepository.memberHaveLocalWithType(entity.getMemberId(), id , entity.getLocalType())) {
             throw new ApiRequestException("El miembro con la cédula " + entity.getPersonId() + " posee un local del mismo tipo");
         }
         local.setMember(entity.getMember());

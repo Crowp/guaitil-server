@@ -15,9 +15,9 @@
     </style>
     <field name="activityDescription.name" class="java.lang.String">
     </field>
-    <field name="activitiDescription.activityDate" class="java.sql.Timestamp">
+    <field name="activityDescription.activityDate" class="java.time.LocalDateTime">
     </field>
-    <field name="activityDescription.activityType" class="java.lang.String">
+    <field name="activityDescription.activityType" class="com.guaitilsoft.models.constant.ActivityType">
     </field>
     <field name="activityDescription.personPrice" class="java.lang.Double">
     </field>
@@ -35,17 +35,14 @@
                 <textElement verticalAlignment="Middle">
                     <font fontName="Arial" size="22" isBold="false"/>
                 </textElement>
-                <text><![CDATA[Asociación de Desarrollo
-Integral de Guaitil
-]]></text>
+                <text><![CDATA[Asociación de Desarrollo Integral de Guaitil ]]></text>
             </staticText>
             <staticText>
                 <reportElement style="SubTitle" x="130" y="110" width="360" height="22" forecolor="#050505" uuid="88d4231e-f014-4b0d-b871-1737ba63a1ae"/>
                 <textElement textAlignment="Center">
                     <font fontName="Arial" size="14"/>
                 </textElement>
-                <text><![CDATA[Afiliados de la Asociación de Desarrollo Integral de Guaitil
-]]></text>
+                <text><![CDATA[Afiliados de la Asociación de Desarrollo Integral de Guaitil]]></text>
             </staticText>
             <image>
                 <reportElement x="433" y="-115" width="267" height="209" uuid="5d64e5b3-07bb-48ab-89dc-15c0c46bb19a"/>
@@ -103,28 +100,28 @@ Integral de Guaitil
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ce9275cd-f6a2-4f13-acdc-bbb358611ea8"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{activityDescription.name}]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="120" y="0" width="100" height="15" uuid="e1073343-3b45-472f-a6e9-787846bd4ed7">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="299a7f23-679f-46fd-8839-3bf28b52ddfe"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{activityDate}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{activityDescription.activityDate}]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="220" y="-1" width="98" height="15" uuid="31942871-51f2-4765-800d-f864cfc1d180">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0cc8aefe-b7ba-480a-b062-c60f6b81dd02"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{activityType}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{activityDescription.activityType}]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="318" y="1" width="116" height="15" uuid="a616bc4d-327f-44b5-8c6c-ab76d4255f4e">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ce038274-27cd-41eb-86f8-c86c0e8a69af"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{personPrice}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{activityDescription.personPrice}]]></textFieldExpression>
                 </textField>
                 <textField>
                     <reportElement x="0" y="-1" width="26" height="17" uuid="b8561765-e8b4-4682-84aa-85a10f8b5b25"/>

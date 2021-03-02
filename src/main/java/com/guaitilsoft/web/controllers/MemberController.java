@@ -125,7 +125,7 @@ public class MemberController {
         List<Member> members = memberService.list().stream().filter(member -> member.getMemberId() != 1).collect(Collectors.toList());
 
         response.setContentType("application/x-xlsx");
-        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteAsociados.xlsx\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de asociados.xlsx\"");
         OutputStream out = response.getOutputStream();
         reportService.exportXLSX(out, members, template);
 
