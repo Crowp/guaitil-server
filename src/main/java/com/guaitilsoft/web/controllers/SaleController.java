@@ -5,6 +5,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ProductService;
+import com.guaitilsoft.services.ReportService;
 import com.guaitilsoft.services.SaleService;
 import com.guaitilsoft.web.models.sale.SaleResponse;
 import com.guaitilsoft.web.models.sale.SaleRequest;
@@ -18,6 +19,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
@@ -32,13 +36,28 @@ public class SaleController {
     private final ProductService productService;
     private final MemberService memberService;
     private final ModelMapper modelMapper;
+    private final ReportService<Sale> reportService;
 
     @Autowired
-    public SaleController(SaleService saleService, ProductService productService, MemberService memberService, ModelMapper modelMapper){
+    public SaleController(SaleService saleService, ProductService productService, MemberService memberService, ModelMapper modelMapper, ReportService<Sale> reportService){
         this.saleService = saleService;
         this.productService = productService;
         this.memberService = memberService;
         this.modelMapper = modelMapper;
+        this.reportService = reportService;
+    }
+
+    @GetMapping("/pdf-report")
+    public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
+        String template = "classpath:\\reports\\productReport\\ProductSalePdfReport.jrxml";
+        List<Sale> sales = saleService.list();
+
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de Ventas de Productos.pdf\"");
+        OutputStream out = response.getOutputStream();
+        reportService.exportPDF(out, sales, template);
+
+        return ResponseEntity.ok().body("Se generó el reporte");
     }
 
     @GetMapping
