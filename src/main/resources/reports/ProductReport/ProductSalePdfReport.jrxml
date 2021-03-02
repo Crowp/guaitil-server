@@ -178,7 +178,7 @@
                     <textElement textAlignment="Right" verticalAlignment="Middle">
                         <font size="10" isBold="false"/>
                     </textElement>
-                    <textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+                    <textFieldExpression><![CDATA["Página "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
                 </textField>
                 <textField pattern="EEEEE dd MMMMM yyyy">
                     <reportElement style="Column header" x="22" y="1" width="197" height="20" forecolor="#736343" uuid="0616f3fe-0354-456f-8911-ec30ec51a5ae"/>

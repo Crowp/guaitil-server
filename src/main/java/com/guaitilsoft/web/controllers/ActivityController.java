@@ -1,10 +1,9 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.Activity;
-import com.guaitilsoft.models.Local;
-import com.guaitilsoft.models.LocalDescription;
+import com.guaitilsoft.models.*;
 import com.guaitilsoft.services.ActivityService;
+import com.guaitilsoft.services.ReportService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.activity.ActivityRequest;
 import com.guaitilsoft.web.models.activity.ActivityResponse;
@@ -17,10 +16,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin
 @RestController
@@ -32,14 +33,29 @@ public class ActivityController {
     private final ActivityService activityService;
     private final ModelMapper modelMapper;
     private final Utils utils;
+    private final ReportService<Activity> reportService;
 
     @Autowired
     public ActivityController(ActivityService activityService,
                               ModelMapper modelMapper,
-                              Utils utils) {
+                              Utils utils, ReportService<Activity> reportService) {
         this.activityService = activityService;
         this.modelMapper = modelMapper;
         this.utils = utils;
+        this.reportService = reportService;
+    }
+
+    @GetMapping("/pdf-report")
+    public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
+        String template = "classpath:\\reports\\activityReports\\activityPdfReport.jrxml";
+        List<Activity> activities = activityService.list();
+
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de actividades.pdf\"");
+        OutputStream out = response.getOutputStream();
+        reportService.exportPDF(out, activities, template);
+
+        return ResponseEntity.ok().body("Se generó el reporte");
     }
 
     @GetMapping

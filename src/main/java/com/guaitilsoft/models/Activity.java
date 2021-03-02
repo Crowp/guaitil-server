@@ -1,11 +1,8 @@
 package com.guaitilsoft.models;
 
-import com.guaitilsoft.models.constant.ActivityType;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
