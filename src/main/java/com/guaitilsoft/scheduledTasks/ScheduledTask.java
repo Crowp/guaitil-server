@@ -26,36 +26,38 @@ public class ScheduledTask {
     private final ActivityDescriptionRepository activityDescriptionRepository;
 
     @Autowired
-    public ScheduledTask(LocalDescriptionRepository localDescriptionRepository, ProductDescriptionRepository productDescriptionRepository, ActivityDescriptionRepository activityDescriptionRepository) {
+    public ScheduledTask(LocalDescriptionRepository localDescriptionRepository,
+                         ProductDescriptionRepository productDescriptionRepository,
+                         ActivityDescriptionRepository activityDescriptionRepository) {
         this.localDescriptionRepository = localDescriptionRepository;
         this.productDescriptionRepository = productDescriptionRepository;
         this.activityDescriptionRepository = activityDescriptionRepository;
     }
 
-   // @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0 23 31 * ?")
     public void deleteLocalDescriptionWithoutRelationship(){
         List<LocalDescription> localDescriptions = localDescriptionRepository.getLocalsDescriptionNoRelationships();
         if (localDescriptions.size() != 0) {
             localDescriptions.forEach(localDescriptionRepository::delete);
-            logger.info("Locals descriptions deleted", dateTimeFormatter.format(LocalDateTime.now()) );
+            logger.info("Locals descriptions deleted {}", dateTimeFormatter.format(LocalDateTime.now()) );
         }
     }
 
-  //  @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0 23 30 * ?")
     public void deleteProductDescriptionWithoutRelationship(){
         List<ProductDescription> productDescriptions = productDescriptionRepository.getProductsDescriptionNoRelationships();
         if (productDescriptions.size() != 0) {
             productDescriptions.forEach(productDescriptionRepository::delete);
-            logger.info("Products descriptions deleted", dateTimeFormatter.format(LocalDateTime.now()) );
+            logger.info("Products descriptions deleted {}", dateTimeFormatter.format(LocalDateTime.now()) );
         }
     }
 
-    @Scheduled(cron = "0 * * * * ?")
+    @Scheduled(cron = "0 0 23 29 * ?")
     public void deleteActivityDescriptionWithoutRelationship(){
         List<ActivityDescription> activityDescriptions = activityDescriptionRepository.getActivityDescriptionNoRelationships();
         if (activityDescriptions.size() != 0) {
             activityDescriptions.forEach(activityDescriptionRepository::delete);
-            logger.info("Activities descriptions deleted", dateTimeFormatter.format(LocalDateTime.now()) );
+            logger.info("Activities descriptions deleted {}", dateTimeFormatter.format(LocalDateTime.now()) );
         }
     }
 }
