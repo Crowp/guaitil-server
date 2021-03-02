@@ -34,6 +34,8 @@ public class ActivityDescription {
     @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
+    private Double personPrice;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
