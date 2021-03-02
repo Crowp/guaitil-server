@@ -15,7 +15,7 @@
     </style>
     <field name="localDescription.localName" class="java.lang.String">
     </field>
-    <field name="localDescription.localType" class="java.lang.Object">
+    <field name="localDescription.localType" class="com.guaitilsoft.models.constant.LocalType">
     </field>
     <field name="localDescription.localTelephone" class="java.lang.String">
     </field>
@@ -141,7 +141,7 @@
                     <textElement textAlignment="Center">
                         <font fontName="Arial" size="11"/>
                     </textElement>
-                    <textFieldExpression><![CDATA[$F{localDescription.localType}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{localDescription.localType}.getMessage()]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="184" y="0" width="92" height="15" uuid="c3521502-5772-4fc2-aded-056e17874e2c">
