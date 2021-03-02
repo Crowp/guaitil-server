@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Repository
 public interface ProductReviewRepository extends CrudRepository<ProductReview, Long> {
-     @Query("SELECT pr FROM ProductReview pr INNER JOIN Product p ON p.productDescription.id = pr.productDescription.id WHERE p.id = :id")
+     @Query("SELECT pr FROM ProductReview pr  WHERE pr.productDescription.product.id = :id")
      Optional<ProductReview> selectProductReviewByProductId(@Param("id") Long id);
 
-     @Query("SELECT pr FROM ProductReview pr INNER JOIN Product p ON  p.productDescription.id = pr.productDescription.id WHERE p.local.member.memberId = :id")
+     @Query("SELECT pr FROM ProductReview pr WHERE pr.productDescription.product.local.member.memberId = :id")
      Iterable<ProductReview> selectProductReviewByMemberId(@Param("id") Long memberId);
 }
