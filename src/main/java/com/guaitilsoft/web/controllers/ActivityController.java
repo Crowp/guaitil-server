@@ -2,7 +2,6 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
-import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.utils.Utils;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
-import java.util.Set;
 
 @CrossOrigin
 @RestController

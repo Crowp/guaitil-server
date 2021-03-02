@@ -1,8 +1,10 @@
 package com.guaitilsoft.config;
 
-import com.guaitilsoft.models.*;
+import com.guaitilsoft.models.Address;
+import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Product;
+import com.guaitilsoft.models.ProductPrice;
 import com.guaitilsoft.models.constant.ProductType;
-import com.guaitilsoft.web.models.activity.ActivityResponse;
 import com.guaitilsoft.web.models.local.LocalResponse;
 import com.guaitilsoft.web.models.product.ProductLazyResponse;
 import com.guaitilsoft.web.models.product.ProductRequest;

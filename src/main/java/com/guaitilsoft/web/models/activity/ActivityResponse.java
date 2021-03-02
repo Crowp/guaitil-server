@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Address;
 import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.models.constant.ActivityType;
-import com.guaitilsoft.web.models.local.LocalLazyResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;

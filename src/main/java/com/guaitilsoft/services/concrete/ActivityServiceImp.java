@@ -1,20 +1,17 @@
 package com.guaitilsoft.services.concrete;
 
-import com.guaitilsoft.models.*;
+import com.guaitilsoft.models.Activity;
+import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.ActivityService;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.guaitilsoft.models.constant.NotificationMessage.ACTIVITY_NOTIFICATION;
 
 @Service
 public class ActivityServiceImp implements ActivityService {
