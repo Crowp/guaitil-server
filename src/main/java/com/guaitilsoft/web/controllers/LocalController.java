@@ -157,7 +157,7 @@ public class LocalController {
         List<Local> locals = localService.list();
 
         response.setContentType("application/x-xlsx");
-        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.xlsx\"");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte locales.xlsx\"");
         OutputStream out = response.getOutputStream();
         reportService.exportXLSX(out, locals, template);
 
