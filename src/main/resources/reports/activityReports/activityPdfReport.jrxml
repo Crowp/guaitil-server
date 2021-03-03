@@ -102,12 +102,12 @@
                     <textElement textAlignment="Center"/>
                     <textFieldExpression><![CDATA[$F{activityDescription.name}]]></textFieldExpression>
                 </textField>
-                <textField textAdjust="StretchHeight">
+                <textField pattern=" dd/MM/yyyy hh:mm" textAdjust="StretchHeight" >
                     <reportElement style="Detail" x="120" y="0" width="100" height="15" uuid="e1073343-3b45-472f-a6e9-787846bd4ed7">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="299a7f23-679f-46fd-8839-3bf28b52ddfe"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{activityDescription.activityDate}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[java.util.Date.from($F{activityDescription.activityDate}.atZone(java.time.ZoneId.systemDefault()).toInstant())]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="220" y="-1" width="98" height="15" uuid="31942871-51f2-4765-800d-f864cfc1d180">
