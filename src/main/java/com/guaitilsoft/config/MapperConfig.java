@@ -2,7 +2,6 @@ package com.guaitilsoft.config;
 
 import com.guaitilsoft.models.*;
 import com.guaitilsoft.models.constant.ProductType;
-import com.guaitilsoft.web.models.activity.ActivityResponse;
 import com.guaitilsoft.web.models.local.LocalResponse;
 import com.guaitilsoft.web.models.product.ProductLazyResponse;
 import com.guaitilsoft.web.models.product.ProductRequest;
