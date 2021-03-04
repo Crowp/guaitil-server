@@ -29,7 +29,6 @@ public class ActivityController {
 
     @GetMapping
     public ResponseEntity<List<ActivityResponse>> get() {
-
         List<ActivityResponse> activities = activityService.list();
         return ResponseEntity.ok().body(activities);
     }

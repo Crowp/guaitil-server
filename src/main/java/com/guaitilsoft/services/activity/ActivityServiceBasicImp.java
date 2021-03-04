@@ -77,24 +77,27 @@ public class ActivityServiceBasicImp implements ActivityServiceBasic {
         activityRepositoryService.delete(id);
     }
 
+    protected ActivityRequest parseToActivityRequest(ActivityResponse activity) {
+        return this.modelMapper.map(activity, ActivityRequest.class);
+    }
+
+    protected List<ActivityResponse> parseToActivityResponseList(List<Activity> activities){
+        Type listType = new TypeToken<List<ActivityResponse>>() {}.getType();
+        return this.modelMapper.map(activities, listType);
+    }
+
+    protected ActivityResponse parseToActivityResponse(Activity activity){
+        return this.modelMapper.map(activity, ActivityResponse.class);
+    }
+
+    protected Activity parseToActivity(ActivityRequest activityRequest){
+        return this.modelMapper.map(activityRequest, Activity.class);
+    }
 
     private ActivityResponse getActivityResponse(Activity activityStored) {
         ActivityResponse activityResponse = this.parseToActivityResponse(activityStored);
         this.utils.addUrlToMultimedia(activityResponse.getMultimedia());
         return activityResponse;
-    }
-
-    private List<ActivityResponse> parseToActivityResponseList(List<Activity> activities){
-        Type listType = new TypeToken<List<ActivityResponse>>() {}.getType();
-        return this.modelMapper.map(activities, listType);
-    }
-
-    private ActivityResponse parseToActivityResponse(Activity activity){
-        return this.modelMapper.map(activity, ActivityResponse.class);
-    }
-
-    public Activity parseToActivity(ActivityRequest activityRequest){
-        return this.modelMapper.map(activityRequest, Activity.class);
     }
 
     private void loadLocalDescriptions(ActivityRequest activityRequest, Activity activity) {
