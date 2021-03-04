@@ -90,7 +90,7 @@ public class ActivityController {
         Activity activity = modelMapper.map(activityRequest, Activity.class);
         logger.info("Creating activity");
         this.utils.loadMultimedia(activity.getMultimedia());
-        loadLocalDescriptions(activityRequest, activity);
+        //loadLocalDescriptions(activityRequest, activity);
         activityService.save(activity);
         ActivityResponse activityResponse = modelMapper.map(activity, ActivityResponse.class);
         this.utils.addUrlToMultimedia(activityRequest.getMultimedia());
@@ -142,7 +142,7 @@ public class ActivityController {
 
     private void loadLocalDescriptions(@RequestBody ActivityRequest activityRequest, Activity activity) {
         activity.getLocalsDescriptions().clear();
-        activityRequest.getLocals().forEach(local -> {
+        activityRequest.getLocalsDescriptions().forEach(local -> {
             LocalDescription localDescription = this.utils.loadFullLocalDescriptionByLocalId(local.getId());
             activity.getLocalsDescriptions().add(localDescription);
         });

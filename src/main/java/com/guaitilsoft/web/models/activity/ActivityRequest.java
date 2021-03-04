@@ -15,7 +15,7 @@ public class ActivityRequest {
 
     private ActivityDescriptionRequest activityDescription;
 
-    private List<LocalDescriptionId> locals;
+    private List<LocalDescriptionId> localsDescriptions;
 
     private List<MultimediaResponse> multimedia;
 
