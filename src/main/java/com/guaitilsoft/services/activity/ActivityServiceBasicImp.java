@@ -55,12 +55,6 @@ public class ActivityServiceBasicImp implements ActivityServiceBasic {
         return onSaveActivity(activity);
     }
 
-    private ActivityResponse onSaveActivity(Activity activityToStore) {
-        this.utils.loadMultimedia(activityToStore.getMultimedia());
-        Activity activityStored =this.activityRepositoryService.save(activityToStore);
-        return getActivityResponse(activityStored);
-    }
-
     @Override
     public ActivityResponse update(Long id, ActivityRequest entity) {
 
@@ -94,8 +88,14 @@ public class ActivityServiceBasicImp implements ActivityServiceBasic {
         return this.modelMapper.map(activityRequest, Activity.class);
     }
 
-    private ActivityResponse getActivityResponse(Activity activityStored) {
-        ActivityResponse activityResponse = this.parseToActivityResponse(activityStored);
+    private ActivityResponse onSaveActivity(Activity activityToStore) {
+        this.utils.loadMultimedia(activityToStore.getMultimedia());
+        Activity activityStored =this.activityRepositoryService.save(activityToStore);
+        return getActivityResponse(activityStored);
+    }
+
+    private ActivityResponse getActivityResponse(Activity activity) {
+        ActivityResponse activityResponse = this.parseToActivityResponse(activity);
         this.utils.addUrlToMultimedia(activityResponse.getMultimedia());
         return activityResponse;
     }
