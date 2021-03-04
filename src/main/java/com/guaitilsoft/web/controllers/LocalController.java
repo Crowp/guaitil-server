@@ -2,7 +2,6 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.services.LocalService;
 import com.guaitilsoft.services.ReportService;
@@ -26,7 +25,6 @@ import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController

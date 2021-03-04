@@ -3,6 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
 import com.guaitilsoft.services.PersonService;
+import com.guaitilsoft.services.ReportService;
 import com.guaitilsoft.services.ReservationService;
 import com.guaitilsoft.web.models.reservation.ReservationResponse;
 import com.guaitilsoft.web.models.reservation.ReservationRequest;
@@ -15,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
@@ -29,12 +33,27 @@ public class ReservationController {
     private final ReservationService reservationService;
     private final PersonService personService;
     private final ModelMapper modelMapper;
+    private final ReportService<Reservation> reportService;
 
     @Autowired
-    public ReservationController(ReservationService reservationService, ModelMapper modelMapper, PersonService personService){
+    public ReservationController(ReservationService reservationService, ModelMapper modelMapper, PersonService personService, ReportService<Reservation> reportService){
         this.reservationService = reservationService;
         this.personService = personService;
         this.modelMapper = modelMapper;
+        this.reportService = reportService;
+    }
+
+    @GetMapping("/pdf-report")
+    public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
+        String template = "classpath:\\reports\\ReservationReports\\ReservationPdfReport.jrxml";
+        List<Reservation> reservations = reservationService.list();
+
+        response.setContentType("application/x-download");
+        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de reservaciones.pdf\"");
+        OutputStream out = response.getOutputStream();
+        reportService.exportPDF(out, reservations, template);
+
+        return ResponseEntity.ok().body("Se generó el reporte");
     }
 
     @GetMapping
