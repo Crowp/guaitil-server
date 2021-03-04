@@ -21,7 +21,7 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH })
+    @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH })
     private ActivityDescription activityDescription;
 
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
@@ -34,10 +34,5 @@ public class Activity {
     private List<Multimedia> multimedia;
 
     private Boolean isActive;
-
-    @PrePersist
-    public void prePersist(){
-        this.isActive = true;
-    }
 
 }

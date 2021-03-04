@@ -1,15 +1,12 @@
 package com.guaitilsoft.web.models.local;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.guaitilsoft.models.Address;
-import com.guaitilsoft.models.constant.LocalType;
+import com.guaitilsoft.web.models.localDescription.LocalDescriptionResponse;
 import com.guaitilsoft.web.models.member.MemberLazyResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.product.ProductLazyResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -18,15 +15,7 @@ public class LocalResponse {
 
     private Long id;
 
-    private String localName;
-
-    private String description;
-
-    private String localTelephone;
-
-    private LocalType localType;
-
-    private Address address;
+    private LocalDescriptionResponse localDescriptionResponse;
 
     private Boolean state;
 
@@ -35,11 +24,5 @@ public class LocalResponse {
     private List<ProductLazyResponse> products;
 
     private List<MultimediaResponse> multimedia;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime createdAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime updatedAt;
 
 }

@@ -1,6 +1,5 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.guaitilsoft.models.constant.LocalType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,17 +36,12 @@ public class LocalDescription {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Address address;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "localDescription", cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
-    private Local local = null;
-
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     @PrePersist
     public void prePersist() {
-        this.local = null;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }
