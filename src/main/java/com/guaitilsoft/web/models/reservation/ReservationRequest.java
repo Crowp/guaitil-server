@@ -1,9 +1,9 @@
 package com.guaitilsoft.web.models.reservation;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.ReservationState;
 import com.guaitilsoft.web.models.activity.ActivityLazyResponse;
-import com.guaitilsoft.web.models.person.PersonRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,5 +26,5 @@ public class ReservationRequest {
 
     private ActivityLazyResponse tour;
 
-    private PersonRequest person;
+    private Person person;
 }
