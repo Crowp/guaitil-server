@@ -55,6 +55,12 @@ public class ActivityServiceBasicImp implements ActivityServiceBasic {
         return onSaveActivity(activity);
     }
 
+    private ActivityResponse onSaveActivity(Activity activityToStore) {
+        this.utils.loadMultimedia(activityToStore.getMultimedia());
+        Activity activityStored =this.activityRepositoryService.save(activityToStore);
+        return getActivityResponse(activityStored);
+    }
+
     @Override
     public ActivityResponse update(Long id, ActivityRequest entity) {
 
@@ -71,33 +77,24 @@ public class ActivityServiceBasicImp implements ActivityServiceBasic {
         activityRepositoryService.delete(id);
     }
 
-    protected ActivityRequest parseToActivityRequest(ActivityResponse activity) {
-        return this.modelMapper.map(activity, ActivityRequest.class);
+
+    private ActivityResponse getActivityResponse(Activity activityStored) {
+        ActivityResponse activityResponse = this.parseToActivityResponse(activityStored);
+        this.utils.addUrlToMultimedia(activityResponse.getMultimedia());
+        return activityResponse;
     }
 
-    protected List<ActivityResponse> parseToActivityResponseList(List<Activity> activities){
+    private List<ActivityResponse> parseToActivityResponseList(List<Activity> activities){
         Type listType = new TypeToken<List<ActivityResponse>>() {}.getType();
         return this.modelMapper.map(activities, listType);
     }
 
-    protected ActivityResponse parseToActivityResponse(Activity activity){
+    private ActivityResponse parseToActivityResponse(Activity activity){
         return this.modelMapper.map(activity, ActivityResponse.class);
     }
 
-    protected Activity parseToActivity(ActivityRequest activityRequest){
+    public Activity parseToActivity(ActivityRequest activityRequest){
         return this.modelMapper.map(activityRequest, Activity.class);
-    }
-
-    private ActivityResponse onSaveActivity(Activity activityToStore) {
-        this.utils.loadMultimedia(activityToStore.getMultimedia());
-        Activity activityStored =this.activityRepositoryService.save(activityToStore);
-        return getActivityResponse(activityStored);
-    }
-
-    private ActivityResponse getActivityResponse(Activity activity) {
-        ActivityResponse activityResponse = this.parseToActivityResponse(activity);
-        this.utils.addUrlToMultimedia(activityResponse.getMultimedia());
-        return activityResponse;
     }
 
     private void loadLocalDescriptions(ActivityRequest activityRequest, Activity activity) {
