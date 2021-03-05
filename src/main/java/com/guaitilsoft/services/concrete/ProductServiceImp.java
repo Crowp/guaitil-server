@@ -72,7 +72,7 @@ public class ProductServiceImp implements ProductService {
 
         Product product = this.get(id);
 
-        ProductReview review = productReviewService.getByProductId(id);
+        ProductReview review = productReviewService.getByProductId(entity.getProductDescription().getId());
         if(review != null){
             if(review.getState() != ReviewState.ACCEPTED){
                 review.setState(ReviewState.INPROCESS);

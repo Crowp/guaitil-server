@@ -4,6 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.*;
 import com.guaitilsoft.services.*;
 import com.guaitilsoft.utils.Utils;
+import com.guaitilsoft.web.models.product.ProductLazyResponse;
 import com.guaitilsoft.web.models.product.ProductResponse;
 import com.guaitilsoft.web.models.product.ProductRequest;
 import org.modelmapper.ModelMapper;
@@ -106,7 +107,7 @@ public class ProductController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductRequest> put(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductLazyResponse> put(@PathVariable Long id, @RequestBody ProductLazyResponse productRequest) {
         if(!id.equals(productRequest.getId())){
             throw new ApiRequestException("El id del producto: " + productRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -114,7 +115,7 @@ public class ProductController {
         logger.info("Updating Product with id: {}", id);
         this.utils.loadMultimedia(product.getMultimedia());
         productService.update(id, product);
-        ProductRequest productResponse = modelMapper.map(product, ProductRequest.class);
+        ProductLazyResponse productResponse = modelMapper.map(product, ProductLazyResponse.class);
         this.utils.addUrlToMultimedia(productResponse.getMultimedia());
         logger.info("Updated Product with id: {}", id);
         return ResponseEntity.ok().body(productResponse);

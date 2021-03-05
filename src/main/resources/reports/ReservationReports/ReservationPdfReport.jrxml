@@ -17,11 +17,11 @@
     </field>
     <field name="activityDescription.name" class="java.lang.String">
     </field>
-    <field name="activityDescription.activityDate" class="java.sql.Timestamp">
+    <field name="activityDescription.activityDate" class="java.time.LocalDateTime">
     </field>
-    <field name="reservation.dateReservation" class="java.sql.Timestamp">
+    <field name="dateReservation"  class="java.time.LocalDateTime">
     </field>
-    <field name="reservation.amountPerson" class="java.lang.Long">
+    <field name="amountPerson" class="java.lang.Long">
     </field>
     <background>
         <band splitType="Stretch"/>
@@ -125,21 +125,21 @@
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="3fe44dea-f296-4673-8f63-578e4c119366"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{activityDescription.activityDate}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[java.util.Date.from($F{activityDescription.activityDate}.atZone(java.time.ZoneId.systemDefault()).toInstant())]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="329" y="0" width="111" height="15" uuid="4d0d18ff-9378-40ed-afd7-3ca8428e06ea">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e9844d84-204a-4ac1-afb1-741e804beb21"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{reservation.dateReservation}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[java.util.Date.from($F{dateReservation}.atZone(java.time.ZoneId.systemDefault()).toInstant())]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="440" y="0" width="115" height="15" uuid="6d7f9df8-04cd-4f57-be2b-8f10e61dbfb1">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="fccb0204-fff9-40f2-a0b6-cc5b5aca56e4"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{reservation.amountPerson}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{amountPerson}]]></textFieldExpression>
                 </textField>
                 <textField>
                     <reportElement x="9" y="-1" width="25" height="16" uuid="4c65cec2-4c9c-408f-93d5-8ea22bcdee29"/>

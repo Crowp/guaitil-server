@@ -2,13 +2,11 @@ package com.guaitilsoft.web.models.productReview;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReviewState;
-import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
-import com.guaitilsoft.web.models.product.ProductLazyResponse;
+import com.guaitilsoft.web.models.productDescription.ProductDescriptionRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +20,7 @@ public class ProductReviewResponse {
 
     private String comment;
 
-    private ProductLazyResponse product;
+    private ProductDescriptionRequest productDescription;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;

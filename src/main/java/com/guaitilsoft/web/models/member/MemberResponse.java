@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.web.models.local.LocalLazyResponse;
 import com.guaitilsoft.web.models.person.PersonRequest;
-import com.guaitilsoft.web.models.person.PersonResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +18,7 @@ public class MemberResponse {
 
     private String occupation;
 
-    private PersonResponse person;
+    private PersonRequest person;
 
     private MemberType memberType;
 

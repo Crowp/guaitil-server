@@ -5,6 +5,7 @@ import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.MemberType;
+import com.guaitilsoft.models.constant.PersonType;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.UserService;
@@ -41,6 +42,7 @@ public class ApplicationConfig implements CommandLineRunner  {
             person.setGender(Gender.MALE);
             person.setCreatedAt(LocalDateTime.now());
             person.setUpdatedAt(LocalDateTime.now());
+            person.setPersonType(PersonType.ROLE_MEMBER);
 
             Member member = new Member();
             member.setOccupation("Admin");
