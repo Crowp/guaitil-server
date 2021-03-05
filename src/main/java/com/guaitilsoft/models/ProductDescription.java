@@ -32,16 +32,12 @@ public class ProductDescription {
     @OneToOne(cascade = CascadeType.ALL)
     private ProductPrice productPrice;
 
-    @OneToOne(mappedBy = "productDescription", cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.MERGE})
-    private Product product;
-
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
     @PrePersist
     public void prePersist(){
-        this.product = null;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
     }

@@ -1,9 +1,8 @@
 package com.guaitilsoft.web.models.product;
 
-import com.guaitilsoft.models.ProductPrice;
-import com.guaitilsoft.models.constant.ProductType;
 import com.guaitilsoft.web.models.local.LocalId;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
+import com.guaitilsoft.web.models.productDescription.ProductDescriptionRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,15 +15,9 @@ import java.util.List;
 public class ProductRequest {
     private Long id;
 
-    private String name;
-
-    private String description;
-
-    private ProductType productType;
-
     private LocalId local;
 
-    private ProductPrice productPrice;
+    private ProductDescriptionRequest productDescription;
 
     private List<MultimediaResponse> multimedia;
 }

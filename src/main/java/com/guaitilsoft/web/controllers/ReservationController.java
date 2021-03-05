@@ -45,7 +45,7 @@ public class ReservationController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
-        String template = "classpath:\\reports\\ReservationReports\\ReservationPdfReport.jrxml";
+        String template = "classpath:\\reports\\ReservationReports\\ReservationPdfReport1.jrxml";
         List<Reservation> reservations = reservationService.list();
 
         response.setContentType("application/x-download");

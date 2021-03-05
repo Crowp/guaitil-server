@@ -20,5 +20,4 @@ public class MemberRequest {
     private MemberType memberType;
 
     private List<LocalLazyResponse> locals;
-
 }
