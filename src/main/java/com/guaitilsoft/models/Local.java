@@ -51,7 +51,7 @@ public class Local {
     }
 
     public Long getMemberId() {
-        return this.member.getMemberId();
+        return this.member.getId();
     }
 
     public void removeMultimediaById(Multimedia multimedia) {

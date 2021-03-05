@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class MemberRequest {
-    private Long memberId;
+    private Long id;
 
     private String occupation;
 

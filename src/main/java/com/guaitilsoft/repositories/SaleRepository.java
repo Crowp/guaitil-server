@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface SaleRepository extends CrudRepository<Sale, Long> {
-    @Query("SELECT s FROM Sale s INNER JOIN Product p ON s.productDescription.id = p.productDescription.id WHERE p.local.member.memberId=:id")
+    @Query("SELECT s FROM Sale s INNER JOIN Product p ON s.productDescription.id = p.productDescription.id WHERE p.local.member.id=:id")
     Iterable<Sale> getAllSaleByMemberId(@Param("id") Long id);
 }

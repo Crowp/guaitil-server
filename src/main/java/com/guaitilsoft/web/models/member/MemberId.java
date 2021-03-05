@@ -6,5 +6,5 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class MemberId {
-    private Long memberId;
+    private Long id;
 }

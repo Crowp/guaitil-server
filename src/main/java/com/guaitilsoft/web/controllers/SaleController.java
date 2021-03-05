@@ -78,7 +78,7 @@ public class SaleController {
     public ResponseEntity<List<SaleResponse>> getAllSaleByMemberId(@PathVariable Long id) {
         Member member = memberService.get(id);
         Type listType = new TypeToken<List<SaleResponse>>(){}.getType();
-        List<SaleResponse> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getMemberId()), listType);
+        List<SaleResponse> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getId()), listType);
         logger.info("Fetching Sale with member id {}", id);
         return ResponseEntity.ok().body(sale);
     }

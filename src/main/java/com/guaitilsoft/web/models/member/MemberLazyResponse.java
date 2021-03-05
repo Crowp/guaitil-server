@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 public class MemberLazyResponse {
-    private Long memberId;
+    private Long id;
 
     private String occupation;
 

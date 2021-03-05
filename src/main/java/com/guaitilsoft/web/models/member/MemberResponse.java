@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MemberResponse {
 
-    private Long memberId;
+    private Long id;
 
     private String occupation;
 

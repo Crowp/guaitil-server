@@ -14,6 +14,6 @@ public interface ProductReviewRepository extends CrudRepository<ProductReview, L
      Optional<ProductReview> selectProductReviewByProductId(@Param("id") Long id);
 
      @Query("SELECT pr FROM ProductReview pr INNER JOIN Product p ON pr.productDescription.id=p.productDescription.id" +
-             " WHERE p.local.member.memberId =:id")
+             " WHERE p.local.member.id =:id")
      Iterable<ProductReview> selectProductReviewByMemberId(@Param("id") Long memberId);
 }

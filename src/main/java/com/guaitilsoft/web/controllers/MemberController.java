@@ -75,7 +75,7 @@ public class MemberController {
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(member.getMemberId())
+                .buildAndExpand(member.getId())
                 .toUri();
         logger.info("Created Member: {}", memberResponse.getMemberId());
 
@@ -109,7 +109,7 @@ public class MemberController {
     @GetMapping("/pdf-report")
     public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
         String template = "classpath:\\reports\\memberReports\\memberPDFReport.jrxml";
-        List<Member> members = memberService.list().stream().filter(member -> member.getMemberId() != 1).collect(Collectors.toList());
+        List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
 
         response.setContentType("application/x-download");
         response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de asociados.pdf\"");
@@ -122,7 +122,7 @@ public class MemberController {
     @GetMapping("/xlsx-report")
     public ResponseEntity<String> generateXLSXReport(HttpServletResponse response) throws IOException {
         String template = "classpath:\\reports\\memberReports\\memberXLSXReport.jrxml";
-        List<Member> members = memberService.list().stream().filter(member -> member.getMemberId() != 1).collect(Collectors.toList());
+        List<Member> members = memberService.list().stream().filter(member -> member.getId() != 1).collect(Collectors.toList());
 
         response.setContentType("application/octet-stream");
         response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.xlsx\"");

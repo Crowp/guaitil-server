@@ -68,7 +68,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody UserRequest userRequest) {
         User user = modelMapper.map(userRequest, User.class);
-        user.setMember(memberService.get(user.getMember().getMemberId()));
+        user.setMember(memberService.get(user.getMember().getId()));
         return ResponseEntity.ok().body(createToken(userService.register(user)));
     }
 

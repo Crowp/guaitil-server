@@ -12,7 +12,7 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.local.id =:id")
     Iterable<Product> getAllProductByLocalId(@Param("id") Long id);
 
-    @Query("SELECT p FROM Product p WHERE p.local.member.memberId =:id")
+    @Query("SELECT p FROM Product p WHERE p.local.member.id =:id")
     Iterable<Product> getAllProductByMemberId(@Param("id") Long id);
 
     @Query("SELECT p FROM Product p INNER JOIN ProductReview pr ON pr.productDescription.id = p.productDescription.id WHERE pr.state =:reviewState AND p.local.id=:id AND p.status=:status")
