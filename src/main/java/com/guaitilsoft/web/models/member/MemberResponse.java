@@ -18,6 +18,9 @@ public class MemberResponse {
 
     private String occupation;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime affiliationDate;
+
     private PersonRequest person;
 
     private MemberType memberType;

@@ -65,6 +65,7 @@ public class MemberServiceImp implements MemberService {
         member.setLocals(entity.getLocals());
         member.setMemberType(entity.getMemberType());
         member.setPerson(entity.getPerson());
+        member.setAffiliationDate(entity.getAffiliationDate());
 
         memberRepository.save(member);
     }

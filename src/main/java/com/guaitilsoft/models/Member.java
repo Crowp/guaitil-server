@@ -21,10 +21,12 @@ public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    private Long id;
 
     @NotEmpty
     private String occupation;
+
+    private LocalDateTime affiliationDate;
 
     private LocalDateTime createdAt;
 

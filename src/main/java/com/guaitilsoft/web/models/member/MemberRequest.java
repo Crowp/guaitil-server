@@ -1,11 +1,13 @@
 package com.guaitilsoft.web.models.member;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.web.models.local.LocalLazyResponse;
 import com.guaitilsoft.web.models.person.PersonRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -14,6 +16,9 @@ public class MemberRequest {
     private Long memberId;
 
     private String occupation;
+
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime affiliationDate;
 
     private PersonRequest person;
 
