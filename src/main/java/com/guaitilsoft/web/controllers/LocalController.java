@@ -85,7 +85,7 @@ public class LocalController {
     public ResponseEntity<LocalRequest> post(@RequestBody LocalRequest localRequest) {
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Creating local");
-        Long memberId = localRequest.getMember().getMemberId();
+        Long memberId = localRequest.getMember().getId();
         local.setMember(this.utils.loadFullMember(memberId));
         localService.save(local);
         LocalRequest localResponse = modelMapper.map(local, LocalRequest.class);

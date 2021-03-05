@@ -67,7 +67,7 @@ public class MemberController {
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<MemberRequest> post(@RequestBody MemberRequest memberRequest) {
-        memberRequest.setMemberId(null);
+        memberRequest.setId(null);
         Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Creating Member");
         memberService.save(member);
@@ -77,7 +77,7 @@ public class MemberController {
                 .path("/{id}")
                 .buildAndExpand(member.getId())
                 .toUri();
-        logger.info("Created Member: {}", memberResponse.getMemberId());
+        logger.info("Created Member: {}", memberResponse.getId());
 
         return ResponseEntity.created(location).body(memberResponse);
     }
@@ -85,8 +85,8 @@ public class MemberController {
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<MemberRequest> put(@PathVariable Long id, @RequestBody MemberRequest memberRequest) {
-        if(!id.equals(memberRequest.getMemberId())){
-            throw new ApiRequestException("El id del miembro: " + memberRequest.getMemberId() + " es diferente al id del parametro: " + id);
+        if(!id.equals(memberRequest.getId())){
+            throw new ApiRequestException("El id del miembro: " + memberRequest.getId() + " es diferente al id del parametro: " + id);
         }
         Member member = modelMapper.map(memberRequest, Member.class);
         logger.info("Updating Member with id: {}", id);
