@@ -12,6 +12,4 @@ import java.util.List;
 
 @Repository
 public interface ActivityRepository extends CrudRepository<Activity, Long> {
-    @Query("DELETE FROM Multimedia m WHERE m.id=:id")
-    void deleteMultimediaById(@Param("id") Long id);
 }
