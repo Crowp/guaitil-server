@@ -15,7 +15,7 @@ public class LocalResponse {
 
     private Long id;
 
-    private LocalDescriptionResponse localDescriptionResponse;
+    private LocalDescriptionResponse localDescription;
 
     private Boolean state;
 
