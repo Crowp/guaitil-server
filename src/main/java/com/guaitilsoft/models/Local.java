@@ -23,7 +23,7 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     LocalDescription localDescription;
 
     @JsonBackReference
@@ -35,10 +35,10 @@ public class Local {
             fetch = FetchType.LAZY,
             mappedBy = "local",
             orphanRemoval = true)
-    private List<Product> products = new ArrayList<>();
+    private List<Product> products;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Multimedia> multimedia = new ArrayList<>();
+    private List<Multimedia> multimedia;
 
     private Boolean state = true;
 

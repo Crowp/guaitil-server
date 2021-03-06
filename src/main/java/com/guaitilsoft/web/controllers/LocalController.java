@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -50,16 +51,14 @@ public class LocalController {
 
     @GetMapping
     public ResponseEntity<List<LocalResponse>> get() {
-        Type listType = new TypeToken<List<LocalResponse>>() {}.getType();
-        List<LocalResponse> locals = modelMapper.map(localService.list(), listType);
+        List<LocalResponse> locals = parseToLocalResponses(this.localService.list());
         locals.forEach(l -> this.utils.addUrlToMultimedia(l.getMultimedia()));
         return ResponseEntity.ok().body(locals);
     }
 
     @GetMapping("/local-types/{localType}")
     public ResponseEntity<List<LocalResponse>> getLocalsByLocalType(@PathVariable LocalType localType) {
-        Type listType = new TypeToken<List<LocalResponse>>() {}.getType();
-        List<LocalResponse> locals = modelMapper.map(localService.getLocalByLocalType(localType), listType);
+        List<LocalResponse> locals = parseToLocalResponses(this.localService.getLocalByLocalType(localType));
         locals.forEach(l -> this.utils.addUrlToMultimedia(l.getMultimedia()));
         return ResponseEntity.ok().body(locals);
     }
@@ -74,8 +73,7 @@ public class LocalController {
 
     @GetMapping("/member-id/{memberId}")
     public ResponseEntity<List<LocalResponse>> getLocalsByMemberId(@PathVariable Long memberId) {
-        Type listType = new TypeToken<List<LocalResponse>>() {}.getType();
-        List<LocalResponse> locals = modelMapper.map(localService.getAllLocalByIdMember(memberId), listType);
+        List<LocalResponse> locals = parseToLocalResponses(this.localService.getAllLocalByIdMember(memberId));
         locals.forEach(local -> this.utils.addUrlToMultimedia(local.getMultimedia()));
         logger.info("Fetching Local with id: {}", memberId);
         return ResponseEntity.ok().body(locals);
@@ -87,6 +85,7 @@ public class LocalController {
         logger.info("Creating local");
         Long memberId = localRequest.getMember().getId();
         local.setMember(this.utils.loadFullMember(memberId));
+        this.utils.loadMultimedia(local.getMultimedia());
         localService.save(local);
         LocalRequest localResponse = modelMapper.map(local, LocalRequest.class);
         this.utils.addUrlToMultimedia(localResponse.getMultimedia());
@@ -160,5 +159,9 @@ public class LocalController {
         reportService.exportXLSX(out, locals, template);
 
         return ResponseEntity.ok().body("Se generó el reporte");
+    }
+
+    private List<LocalResponse> parseToLocalResponses(List<Local> locals) {
+        return locals.stream().map(local -> this.modelMapper.map(local, LocalResponse.class)).collect(Collectors.toList());
     }
 }
