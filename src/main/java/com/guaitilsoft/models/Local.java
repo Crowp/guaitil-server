@@ -23,22 +23,21 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     LocalDescription localDescription;
 
     @JsonBackReference
     @JoinColumn(name = "memberId")
-    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @OneToMany(targetEntity = Product.class, cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
-            mappedBy = "local",
-            orphanRemoval = true)
-    private List<Product> products = new ArrayList<>();
+            mappedBy = "local")
+    private List<Product> products;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Multimedia> multimedia = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Multimedia> multimedia;
 
     private Boolean state = true;
 
