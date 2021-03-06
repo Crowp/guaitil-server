@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 public class ActivityLazyResponse {
     private Long id;
 
-    private ActivityDescriptionRequest activityDescriptionRequest;
+    private ActivityDescriptionRequest activityDescription;
 
     private Boolean isActive;
 

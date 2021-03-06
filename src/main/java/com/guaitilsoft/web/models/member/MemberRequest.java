@@ -17,7 +17,7 @@ public class MemberRequest {
 
     private String occupation;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime affiliationDate;
 
     private PersonRequest person;

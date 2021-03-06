@@ -1,7 +1,6 @@
 package com.guaitilsoft.web.models.user;
 
 import com.guaitilsoft.models.constant.Role;
-import com.guaitilsoft.web.models.member.MemberRequest;
 import com.guaitilsoft.web.models.member.MemberResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
