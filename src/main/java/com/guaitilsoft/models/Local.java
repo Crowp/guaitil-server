@@ -28,16 +28,15 @@ public class Local {
 
     @JsonBackReference
     @JoinColumn(name = "memberId")
-    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @OneToMany(targetEntity = Product.class, cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
-            mappedBy = "local",
-            orphanRemoval = true)
+            mappedBy = "local")
     private List<Product> products;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 
     private Boolean state = true;
