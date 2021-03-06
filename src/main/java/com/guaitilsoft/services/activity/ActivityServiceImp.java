@@ -125,7 +125,7 @@ public class ActivityServiceImp implements ActivityService {
 
     private void loadLocalDescriptions(ActivityRequest activityRequest, Activity activity) {
         activity.getLocalsDescriptions().clear();
-        activityRequest.getLocals().forEach(local -> {
+        activityRequest.getLocalsDescriptions().forEach(local -> {
             LocalDescription localDescription = this.utils.loadFullLocalDescriptionByLocalId(local.getId());
             activity.getLocalsDescriptions().add(localDescription);
         });
