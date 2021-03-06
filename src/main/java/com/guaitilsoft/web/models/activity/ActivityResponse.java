@@ -27,9 +27,6 @@ public class ActivityResponse {
 
     private List<LocalDescriptionResponse> localDescriptions;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime updatedAt;
-
     private List<MultimediaResponse> multimedia;
 
     public void removeMultimediaById(Long id){
