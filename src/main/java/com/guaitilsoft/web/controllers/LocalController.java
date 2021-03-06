@@ -106,8 +106,11 @@ public class LocalController {
         if (!id.equals(localRequest.getId())) {
             throw new ApiRequestException("El id del local: " + localRequest.getId() + " es diferente al id del parametro: " + id);
         }
-        Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Updating Local with id: {}", id);
+        Local local = modelMapper.map(localRequest, Local.class);
+        Long memberId = localRequest.getMember().getId();
+        local.setMember(this.utils.loadFullMember(memberId));
+        this.utils.loadMultimedia(local.getMultimedia());
 
         localService.update(id, local);
         LocalRequest localResponse = modelMapper.map(local, LocalRequest.class);
