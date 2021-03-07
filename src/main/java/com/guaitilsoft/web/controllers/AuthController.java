@@ -3,8 +3,8 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.config.security.TokenProvider;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Role;
-import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.UserService;
+import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.web.models.member.MemberRequest;
 import com.guaitilsoft.web.models.user.UserLazyResponse;
 import com.guaitilsoft.web.models.user.UserRequest;
@@ -12,6 +12,7 @@ import com.guaitilsoft.web.models.user.UserResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -27,14 +28,17 @@ public class AuthController {
     private final UserService userService;
     private final ModelMapper modelMapper;
     private final TokenProvider tokenProvider;
-    private final MemberService memberService;
+    private final MemberRepositoryService memberRepositoryService;
 
     @Autowired
-    public AuthController(UserService userService, ModelMapper modelMapper, TokenProvider tokenProvider, MemberService memberService) {
+    public AuthController(UserService userService,
+                          ModelMapper modelMapper,
+                          TokenProvider tokenProvider,
+                          @Qualifier("MemberRepositoryServiceValidation") MemberRepositoryService memberRepositoryService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
         this.tokenProvider = tokenProvider;
-        this.memberService = memberService;
+        this.memberRepositoryService = memberRepositoryService;
     }
 
     @GetMapping
@@ -68,7 +72,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserResponse> register(@RequestBody UserRequest userRequest) {
         User user = modelMapper.map(userRequest, User.class);
-        user.setMember(memberService.get(user.getMember().getId()));
+        user.setMember(memberRepositoryService.get(user.getMember().getId()));
         return ResponseEntity.ok().body(createToken(userService.register(user)));
     }
 

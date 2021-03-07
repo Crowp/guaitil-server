@@ -3,8 +3,8 @@ package com.guaitilsoft.services.sale;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
-import com.guaitilsoft.services.MemberService;
 import com.guaitilsoft.services.ProductDescriptionService;
+import com.guaitilsoft.services.member.MemberRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,15 @@ public class SaleValidationRepositoryServiceImp implements SaleRepositoryService
 
     private final SaleRepositoryService saleRepositoryService;
     private final ProductDescriptionService productDescriptionService;
-    private final MemberService memberService;
+    private final MemberRepositoryService memberRepositoryService;
 
     @Autowired
-    public SaleValidationRepositoryServiceImp(@Qualifier("SaleRepositoryServiceBasic") SaleRepositoryService saleRepositoryService, ProductDescriptionService productDescriptionService, MemberService memberService) {
+    public SaleValidationRepositoryServiceImp(@Qualifier("SaleRepositoryServiceBasic") SaleRepositoryService saleRepositoryService,
+                                              ProductDescriptionService productDescriptionService,
+                                              @Qualifier("MemberRepositoryServiceValidation") MemberRepositoryService memberRepositoryService) {
         this.saleRepositoryService = saleRepositoryService;
         this.productDescriptionService = productDescriptionService;
-        this.memberService = memberService;
+        this.memberRepositoryService = memberRepositoryService;
     }
 
     @Override
@@ -62,7 +64,7 @@ public class SaleValidationRepositoryServiceImp implements SaleRepositoryService
 
     @Override
     public List<Sale> getAllSaleByMemberId(Long id) {
-        Member member = memberService.get(id);
+        Member member = memberRepositoryService.get(id);
         return saleRepositoryService.getAllSaleByMemberId(member.getId());
     }
 

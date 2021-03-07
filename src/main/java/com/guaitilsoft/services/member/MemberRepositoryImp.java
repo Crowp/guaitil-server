@@ -1,24 +1,21 @@
-package com.guaitilsoft.services.concrete;
-
+package com.guaitilsoft.services.member;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.repositories.MemberRepository;
-import com.guaitilsoft.services.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class MemberServiceImp implements MemberService {
+@Service("MemberRepositoryServiceBasic")
+public class MemberRepositoryImp implements MemberRepositoryService{
 
     private final MemberRepository memberRepository;
 
     @Autowired
-    public MemberServiceImp(MemberRepository memberRepository) {
+    public MemberRepositoryImp(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
@@ -32,13 +29,7 @@ public class MemberServiceImp implements MemberService {
 
     @Override
     public Member get(Long id) {
-        assert id != null;
-
-        Member member = memberRepository.findById(id).orElse(null);
-        if (member != null) {
-            return member;
-        }
-        throw new EntityNotFoundException("No se encontró un asociado con el id: " + id);
+        return this.memberRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -52,11 +43,12 @@ public class MemberServiceImp implements MemberService {
         if (memberRepository.existMemberPersonEmail(email)) {
             throw new ApiRequestException("Email: " + email + " esta ocupado");
         }
-        return memberRepository.save(entity);
+
+        return this.memberRepository.save(entity);
     }
 
     @Override
-    public void update(Long id, Member entity) {
+    public Member update(Long id, Member entity) {
         assert id != null;
         assert entity != null;
 
@@ -67,18 +59,17 @@ public class MemberServiceImp implements MemberService {
         member.setPerson(entity.getPerson());
         member.setAffiliationDate(entity.getAffiliationDate());
 
-        memberRepository.save(member);
+        return this.memberRepository.save(member);
     }
 
     @Override
     public void delete(Long id) {
-        assert id != null;
         Member member = this.get(id);
-        memberRepository.delete(member);
+        this.memberRepository.delete(member);
     }
 
     @Override
     public List<Member> getMemberWithoutUser() {
-        return memberRepository.getMembersWithoutUser();
+        return this.memberRepository.getMembersWithoutUser();
     }
 }

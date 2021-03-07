@@ -1,17 +1,17 @@
-package com.guaitilsoft.services;
+package com.guaitilsoft.services.member;
 
 import com.guaitilsoft.models.Member;
 
 import java.util.List;
 
-public interface MemberService {
+public interface MemberRepositoryService {
     List<Member> list();
 
     Member get(Long id);
 
     Member save(Member entity);
 
-    void update(Long id, Member entity);
+    Member update(Long id, Member entity);
 
     void delete(Long id);
 
