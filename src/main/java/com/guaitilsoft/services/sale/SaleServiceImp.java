@@ -26,7 +26,7 @@ public class SaleServiceImp implements SaleService {
 
     @Override
     public List<SaleResponse> list() {
-        return this.parteToSaleResponseList(saleRepositoryService.list());
+        return this.parseToSaleResponseList(saleRepositoryService.list());
     }
 
     @Override
@@ -57,7 +57,7 @@ public class SaleServiceImp implements SaleService {
 
     @Override
     public List<SaleResponse> getAllSaleByMemberId(Long id) {
-        return parteToSaleResponseList(saleRepositoryService.getAllSaleByMemberId(id));
+        return parseToSaleResponseList(saleRepositoryService.getAllSaleByMemberId(id));
     }
 
     @Override
@@ -65,7 +65,7 @@ public class SaleServiceImp implements SaleService {
         return saleRepositoryService.list();
     }
 
-    private List<SaleResponse> parteToSaleResponseList(List<Sale> sales){
+    private List<SaleResponse> parseToSaleResponseList(List<Sale> sales){
         Type lisType = new TypeToken<List<SaleResponse>>(){}.getType();
         return this.modelMapper.map(sales, lisType);
     }
