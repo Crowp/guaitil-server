@@ -83,7 +83,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductRequest> post(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> post(@RequestBody ProductRequest productRequest) {
         Product product = modelMapper.map(productRequest, Product.class);
         logger.info("Creating product");
 
@@ -94,7 +94,7 @@ public class ProductController {
 
         productService.save(product);
 
-        ProductRequest productResponse = modelMapper.map(product, ProductRequest.class);
+        ProductResponse productResponse = modelMapper.map(product, ProductResponse.class);
 
         this.utils.addUrlToMultimedia(productResponse.getMultimedia());
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -107,7 +107,7 @@ public class ProductController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductLazyResponse> put(@PathVariable Long id, @RequestBody ProductLazyResponse productRequest) {
+    public ResponseEntity<ProductResponse> put(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
         if(!id.equals(productRequest.getId())){
             throw new ApiRequestException("El id del producto: " + productRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -115,15 +115,15 @@ public class ProductController {
         logger.info("Updating Product with id: {}", id);
         this.utils.loadMultimedia(product.getMultimedia());
         productService.update(id, product);
-        ProductLazyResponse productResponse = modelMapper.map(product, ProductLazyResponse.class);
+        ProductResponse productResponse = modelMapper.map(product, ProductResponse.class);
         this.utils.addUrlToMultimedia(productResponse.getMultimedia());
         logger.info("Updated Product with id: {}", id);
         return ResponseEntity.ok().body(productResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProductRequest> delete(@PathVariable Long id) {
-        ProductRequest productResponse = modelMapper.map(productService.get(id), ProductRequest.class);
+    public ResponseEntity<ProductResponse> delete(@PathVariable Long id) {
+        ProductResponse productResponse = modelMapper.map(productService.get(id), ProductResponse.class);
         logger.info("Deleting Product with id {}", id);
         productService.delete(id);
         logger.info("Deleted Product with id {}", id);
@@ -131,11 +131,11 @@ public class ProductController {
     }
 
     @DeleteMapping("/delete/multimedia-by-id")
-    public ResponseEntity<ProductRequest> deleteMultimediaById(@RequestParam Long id,
+    public ResponseEntity<ProductResponse> deleteMultimediaById(@RequestParam Long id,
                                                                @RequestParam Long idMultimedia) {
         logger.info("Deleting Product with id {}", id);
-        ProductRequest productResponse = modelMapper.map(
-                productService.deleteMultimediaById(id, idMultimedia), ProductRequest.class);
+        ProductResponse productResponse = modelMapper.map(
+                productService.deleteMultimediaById(id, idMultimedia), ProductResponse.class);
         this.utils.addUrlToMultimedia(productResponse.getMultimedia());
         logger.info("Deleted Product with id {}", id);
         return ResponseEntity.ok().body(productResponse);
