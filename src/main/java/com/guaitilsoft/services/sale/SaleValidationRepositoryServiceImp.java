@@ -12,15 +12,15 @@ import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
-@Service("SaleRepositoryServiceMemberProduct")
-public class SaleMemberProdRepositoryServiceImp implements SaleRepositoryService{
+@Service("SaleRepositoryServiceValidation")
+public class SaleValidationRepositoryServiceImp implements SaleRepositoryService{
 
     private final SaleRepositoryService saleRepositoryService;
     private final ProductDescriptionService productDescriptionService;
     private final MemberService memberService;
 
     @Autowired
-    public SaleMemberProdRepositoryServiceImp(@Qualifier("SaleRepositoryServiceBasic") SaleRepositoryService saleRepositoryService, ProductDescriptionService productDescriptionService, MemberService memberService) {
+    public SaleValidationRepositoryServiceImp(@Qualifier("SaleRepositoryServiceBasic") SaleRepositoryService saleRepositoryService, ProductDescriptionService productDescriptionService, MemberService memberService) {
         this.saleRepositoryService = saleRepositoryService;
         this.productDescriptionService = productDescriptionService;
         this.memberService = memberService;

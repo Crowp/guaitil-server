@@ -19,7 +19,7 @@ public class SaleServiceImp implements SaleService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public SaleServiceImp(@Qualifier("SaleRepositoryServiceMemberProduct") SaleRepositoryService saleRepositoryService, ModelMapper modelMapper) {
+    public SaleServiceImp(@Qualifier("SaleRepositoryServiceValidation") SaleRepositoryService saleRepositoryService, ModelMapper modelMapper) {
         this.saleRepositoryService = saleRepositoryService;
         this.modelMapper = modelMapper;
     }

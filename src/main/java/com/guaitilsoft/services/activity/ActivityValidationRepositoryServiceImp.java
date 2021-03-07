@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Service("ActivityRepositoryServiceLocal")
-public class ActivityLocalRepositoryServiceImp implements ActivityRepositoryService {
+@Service("ActivityRepositoryServiceValidation")
+public class ActivityValidationRepositoryServiceImp implements ActivityRepositoryService {
 
     private final ActivityRepositoryService activityRepositoryService;
     private final LocalDescriptionService localDescriptionService;
 
     @Autowired
-    public ActivityLocalRepositoryServiceImp(@Qualifier("ActivityRepositoryServiceBasic") ActivityRepositoryService activityRepositoryService, LocalDescriptionService localDescriptionService) {
+    public ActivityValidationRepositoryServiceImp(@Qualifier("ActivityRepositoryServiceBasic") ActivityRepositoryService activityRepositoryService, LocalDescriptionService localDescriptionService) {
         this.activityRepositoryService = activityRepositoryService;
         this.localDescriptionService = localDescriptionService;
     }

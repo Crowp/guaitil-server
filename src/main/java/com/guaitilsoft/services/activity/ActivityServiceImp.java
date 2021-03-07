@@ -22,7 +22,7 @@ public class ActivityServiceImp implements ActivityService {
     private final ModelMapper modelMapper;
     private final Utils utils;
 
-    public ActivityServiceImp(@Qualifier("ActivityRepositoryServiceLocal") ActivityRepositoryService activityRepositoryService,
+    public ActivityServiceImp(@Qualifier("ActivityRepositoryServiceValidation") ActivityRepositoryService activityRepositoryService,
                               MultimediaService multimediaService, ModelMapper modelMapper,
                               Utils utils) {
         this.activityRepositoryService = activityRepositoryService;
