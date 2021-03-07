@@ -1,25 +1,20 @@
 package com.guaitilsoft.web.controllers;
 
-import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
-import com.guaitilsoft.services.*;
-import com.guaitilsoft.web.models.sale.SaleResponse;
+import com.guaitilsoft.services.ReportService;
+import com.guaitilsoft.services.sale.SaleService;
 import com.guaitilsoft.web.models.sale.SaleRequest;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import com.guaitilsoft.web.models.sale.SaleResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
 
@@ -30,24 +25,66 @@ public class SaleController {
     public static final Logger logger = LoggerFactory.getLogger(SaleController.class);
 
     private final SaleService saleService;
-    private final ProductDescriptionService productDescriptionService;
-    private final MemberService memberService;
-    private final ModelMapper modelMapper;
     private final ReportService<Sale> reportService;
 
     @Autowired
-    public SaleController(SaleService saleService, ProductDescriptionService productDescriptionService, MemberService memberService, ModelMapper modelMapper, ReportService<Sale> reportService){
+    public SaleController(SaleService saleService, ReportService<Sale> reportService){
         this.saleService = saleService;
-        this.productDescriptionService = productDescriptionService;
-        this.memberService = memberService;
-        this.modelMapper = modelMapper;
         this.reportService = reportService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<SaleResponse>> get(){
+        List<SaleResponse> sales = saleService.list();
+        return ResponseEntity.ok().body(sales);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<SaleResponse> getById(@PathVariable Long id) {
+        SaleResponse sale = saleService.get(id);
+        logger.info("Fetching Sale with {}", id);
+        return ResponseEntity.ok().body(sale);
+    }
+
+    @GetMapping("/member-id/{id}")
+    public ResponseEntity<List<SaleResponse>> getAllSaleByMemberId(@PathVariable Long id) {
+        List<SaleResponse> sale = saleService.getAllSaleByMemberId(id);
+        logger.info("Fetching Sale with member id {}", id);
+        return ResponseEntity.ok().body(sale);
+    }
+
+    @PostMapping
+    public ResponseEntity<SaleResponse> post(@RequestBody SaleRequest saleRequest) {
+        logger.info("Creating sale");
+
+        SaleResponse saleResponse = saleService.save(saleRequest);
+        URI location = getUriResourceLocation(saleResponse.getId());
+
+        logger.info("Created activity : {}", saleResponse.getId());
+        return ResponseEntity.created(location).body(saleResponse);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<SaleResponse> put(@PathVariable Long id, @RequestBody SaleRequest saleRequest) {
+        logger.info("Updating Sale with id: {}", id);
+        SaleResponse saleResponse = saleService.update(id, saleRequest);
+        logger.info("Updated Sale with id: {}", id);
+        return ResponseEntity.ok().body(saleResponse);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<SaleResponse> delete(@PathVariable Long id) {
+        logger.info("Deleting Sale with id {}", id);
+        SaleResponse saleResponse = saleService.get(id);
+        saleService.delete(id);
+        logger.info("Deleted Tour with id {}", id);
+        return ResponseEntity.ok().body(saleResponse);
     }
 
     @GetMapping("/pdf-report")
     public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
         String template = "classpath:\\reports\\productReport\\ProductSalePdfReport.jrxml";
-        List<Sale> sales = saleService.list();
+        List<Sale> sales = saleService.saleList();
 
         response.setContentType("application/x-download");
         response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de Ventas de Productos.pdf\"");
@@ -57,68 +94,10 @@ public class SaleController {
         return ResponseEntity.ok().body("Se generó el reporte");
     }
 
-    @GetMapping
-    public ResponseEntity<List<SaleResponse>> get(){
-        Type lisType = new TypeToken<List<SaleResponse>>(){}.getType();
-        List<SaleResponse> sales = modelMapper.map(saleService.list(), lisType);
-        return ResponseEntity.ok().body(sales);
-    }
-
-    @GetMapping("{id}")
-    public ResponseEntity<SaleResponse> getById(@PathVariable Long id) {
-        SaleResponse sale = modelMapper.map(saleService.get(id), SaleResponse.class);
-        logger.info("Fetching Sale with {}", id);
-        return ResponseEntity.ok().body(sale);
-    }
-
-    @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<SaleResponse>> getAllSaleByMemberId(@PathVariable Long id) {
-        Member member = memberService.get(id);
-        Type listType = new TypeToken<List<SaleResponse>>(){}.getType();
-        List<SaleResponse> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getId()), listType);
-        logger.info("Fetching Sale with member id {}", id);
-        return ResponseEntity.ok().body(sale);
-    }
-
-    @PostMapping
-    public ResponseEntity<SaleRequest> post(@RequestBody SaleRequest saleRequest) {
-        Sale sale = modelMapper.map(saleRequest, Sale.class);
-        logger.info("Creating sale: {}", sale);
-        Long productId = saleRequest.getProductDescription().getId();
-        sale.setProductDescription(productDescriptionService.get(productId));
-        saleService.save(sale);
-        SaleRequest saleResponse = modelMapper.map(sale, SaleRequest.class);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+    private URI getUriResourceLocation(Long id) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(sale.getId())
+                .buildAndExpand(id)
                 .toUri();
-        logger.info("Created activity : {}", saleResponse.getId());
-
-        return ResponseEntity.created(location).body(saleResponse);
-    }
-
-    @PutMapping("{id}")
-    public ResponseEntity<SaleRequest> put(@PathVariable Long id, @RequestBody SaleRequest saleRequest) {
-        if(!id.equals(saleRequest.getId())){
-            throw new ApiRequestException("El id de la venta: " + saleRequest.getId() + " es diferente al id del parametro: " + id);
-        }
-        Sale sale = modelMapper.map(saleRequest, Sale.class);
-        logger.info("Updating Sale with id: {}", id);
-        Long productId = saleRequest.getProductDescription().getId();
-        sale.setProductDescription(productDescriptionService.get(productId));
-        saleService.update(id, sale);
-        SaleRequest saleResponse = modelMapper.map(sale, SaleRequest.class);
-        logger.info("Updated Sale with id: {}", id);
-        return ResponseEntity.ok().body(saleResponse);
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<SaleRequest> delete(@PathVariable Long id) {
-        SaleRequest saleResponse = modelMapper.map(saleService.get(id), SaleRequest.class);
-        logger.info("Deleting Sale with id {}", id);
-        saleService.delete(id);
-        logger.info("Deleted Tour with id {}", id);
-        return ResponseEntity.ok().body(saleResponse);
     }
 }

@@ -1,20 +1,19 @@
-package com.guaitilsoft.services;
+package com.guaitilsoft.services.sale;
 
 import com.guaitilsoft.models.Sale;
 
 import java.util.List;
 
-public interface SaleService {
+public interface SaleRepositoryService {
     List<Sale> list();
 
     Sale get(Long id);
 
-    void save(Sale entity);
+    Sale save(Sale entity);
 
-    void update(Long id, Sale entity);
+    Sale update(Long id, Sale entity);
 
     void delete(Long id);
 
     List<Sale> getAllSaleByMemberId(Long id);
-
 }

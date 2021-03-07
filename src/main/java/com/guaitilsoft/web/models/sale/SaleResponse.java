@@ -16,7 +16,7 @@ public class SaleResponse {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime saleDate;
 
-    private ProductDescriptionLazyResponse product;
+    private ProductDescriptionLazyResponse productDescription;
 
     private Long amountSold;
 

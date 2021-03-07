@@ -1,5 +1,6 @@
 package com.guaitilsoft.services.activity;
 
+import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.services.LocalDescriptionService;
@@ -7,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -31,7 +32,11 @@ public class ActivityLocalRepositoryServiceImp implements ActivityRepositoryServ
 
     @Override
     public Activity get(Long id) {
-        return this.activityRepositoryService.get(id);
+        Activity activity = activityRepositoryService.get(id);
+        if(activity != null){
+            return activity;
+        }
+        throw new EntityNotFoundException("No se encontró una actividad con el id: " + id);
     }
 
     @Override
@@ -42,6 +47,10 @@ public class ActivityLocalRepositoryServiceImp implements ActivityRepositoryServ
 
     @Override
     public Activity update(Long id, Activity entity) {
+        if (!id.equals(entity.getId())) {
+            throw new ApiRequestException("El id de la actividad: " + entity.getId() + " es diferente al id del parametro: " + id);
+        }
+
         entity.setLocalsDescriptions(this.loadLocalDescription(entity.getLocalsDescriptions()));
         return this.activityRepositoryService.update(id, entity);
     }

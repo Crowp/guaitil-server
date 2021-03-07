@@ -1,8 +1,6 @@
 package com.guaitilsoft.services.activity;
 
-import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
-import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.activity.ActivityRequest;
@@ -12,8 +10,6 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-
-import javax.persistence.EntityNotFoundException;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,11 +47,7 @@ public class ActivityServiceImp implements ActivityService {
 
     @Override
     public ActivityResponse get(Long id) {
-        Activity activity = this.activityRepositoryService.get(id);
-        if(activity != null){
-            return getActivityResponse(activity);
-        }
-        throw new EntityNotFoundException("No se encontró una actividad con el id: " + id);
+        return getActivityResponse(activityRepositoryService.get(id));
     }
 
     @Override
@@ -72,13 +64,7 @@ public class ActivityServiceImp implements ActivityService {
 
     @Override
     public ActivityResponse update(Long id, ActivityRequest entity) {
-
-        if (!id.equals(entity.getId())) {
-            throw new ApiRequestException("El id de la actividad: " + entity.getId() + " es diferente al id del parametro: " + id);
-        }
-
-        Activity activity =  activityRepositoryService.update(id, this.parseToActivity(entity));
-        return getActivityResponse(activity);
+        return getActivityResponse(activityRepositoryService.update(id, this.parseToActivity(entity)));
     }
 
     @Override

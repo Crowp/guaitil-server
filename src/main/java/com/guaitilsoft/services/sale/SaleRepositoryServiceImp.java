@@ -1,22 +1,20 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services.sale;
 
 import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.repositories.SaleRepository;
-import com.guaitilsoft.services.SaleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class SaleServiceImpl implements SaleService {
+@Service("SaleRepositoryServiceBasic")
+public class SaleRepositoryServiceImp implements SaleRepositoryService {
 
     private final SaleRepository saleRepository;
 
     @Autowired
-    public SaleServiceImpl(SaleRepository saleRepository){
+    public SaleRepositoryServiceImp(SaleRepository saleRepository) {
         this.saleRepository = saleRepository;
     }
 
@@ -30,23 +28,17 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public Sale get(Long id) {
-        assert id != null;
-
-        Sale sale = saleRepository.findById(id).orElse(null);
-        if(sale != null){
-            return sale;
-        }
-        throw new EntityNotFoundException("No se encontró la venta con el id: " + id);
+        return this.saleRepository.findById(id).orElse(null);
     }
 
     @Override
-    public void save(Sale entity) {
+    public Sale save(Sale entity) {
         assert entity != null;
-        saleRepository.save(entity);
+        return this.saleRepository.save(entity);
     }
 
     @Override
-    public void update(Long id, Sale entity) {
+    public Sale update(Long id, Sale entity) {
         assert id != null;
         assert entity != null;
 
@@ -55,15 +47,13 @@ public class SaleServiceImpl implements SaleService {
         sale.setProductDescription(entity.getProductDescription());
         sale.setAmountSold(entity.getAmountSold());
 
-        saleRepository.save(sale);
+        return saleRepository.save(sale);
     }
 
     @Override
     public void delete(Long id) {
-        assert id != null;
-
         Sale sale = this.get(id);
-        saleRepository.delete(sale);
+        this.saleRepository.delete(sale);
     }
 
     @Override
@@ -74,5 +64,4 @@ public class SaleServiceImpl implements SaleService {
         iterable.forEach(sales::add);
         return sales;
     }
-
 }
