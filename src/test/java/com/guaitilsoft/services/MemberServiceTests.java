@@ -3,11 +3,11 @@ package com.guaitilsoft.services;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.repositories.MemberRepository;
-import com.guaitilsoft.services.concrete.MemberServiceImp;
+import com.guaitilsoft.services.member.MemberRepositoryImp;
+import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.utils.UtilsTest;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -32,14 +32,14 @@ public class MemberServiceTests {
     @Mock
     MemberRepository memberRepository;
 
-    MemberService memberService;
+    MemberRepositoryService memberRepositoryService;
 
     Member memberBasic;
 
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        this.memberService = new MemberServiceImp(memberRepository);
+        this.memberRepositoryService = new MemberRepositoryImp(memberRepository);
         this.memberBasic = UtilsTest.createBasicMember();
     }
 
@@ -50,7 +50,7 @@ public class MemberServiceTests {
 
         given(memberRepository.save(memberBasic)).willReturn(memberExpected);
 
-        Member memberStored = memberService.save(memberBasic);
+        Member memberStored = memberRepositoryService.save(memberBasic);
 
         assertThat(memberStored).isNotNull();
 
@@ -69,7 +69,7 @@ public class MemberServiceTests {
         memberBasic.getPerson().setId(personId);
 
         try {
-            memberService.save(memberBasic);
+            memberRepositoryService.save(memberBasic);
             fail("Expected an ApiRequestException to be thrown");
         } catch (ApiRequestException ex) {
             assertThat(ex.getMessage()).isEqualTo("Cédula: " + personId + " esta ocupada");
@@ -88,7 +88,7 @@ public class MemberServiceTests {
         memberBasic.getPerson().setEmail(email);
 
         try {
-            memberService.save(memberBasic);
+            memberRepositoryService.save(memberBasic);
             fail("Expected an ApiRequestException to be thrown");
         } catch (ApiRequestException ex) {
             assertThat(ex.getMessage()).isEqualTo("Email: " + email + " esta ocupado");
@@ -101,7 +101,7 @@ public class MemberServiceTests {
         memberExpected.setId(1L);
         given(memberRepository.findById(1L)).willReturn(Optional.of(memberExpected));
 
-        Member memberFounded = memberService.get(1L);
+        Member memberFounded = memberRepositoryService.get(1L);
 
         assertThat(memberFounded).isEqualTo(memberExpected);
 
@@ -113,7 +113,7 @@ public class MemberServiceTests {
         given(memberRepository.findById(1L)).willReturn(Optional.empty());
 
         try {
-            memberService.get(1L);
+            memberRepositoryService.get(1L);
             fail("Expected an EntityNotFoundException to be thrown");
         } catch (EntityNotFoundException ex) {
             assertThat(ex.getMessage()).isEqualTo("No se encontró un asociado con el id: " + 1);

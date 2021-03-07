@@ -49,6 +49,7 @@ public class ApplicationConfig implements CommandLineRunner  {
             member.setPerson(person);
             member.setMemberType(MemberType.ASSOCIATED);
             member.setLocals(new ArrayList<>());
+            member.setAffiliationDate(LocalDateTime.now());
 
             User user = new User();
             user.setFirstLogin(false);
