@@ -42,10 +42,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
-    public String getDni() {
-        return person.getId();
-    }
-
     @PrePersist
     public void prePersist() {
         this.createdAt = LocalDateTime.now();

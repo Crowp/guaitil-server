@@ -30,7 +30,7 @@ spring:
     jwt:
       token:
         secret-key : "secret-key"
-        expire-length : 5
+        expire-length : 30
       header: "Authorization"
 
 

@@ -3,10 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
-import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.services.ProductService;
-import com.guaitilsoft.services.ReportService;
-import com.guaitilsoft.services.SaleService;
+import com.guaitilsoft.services.*;
 import com.guaitilsoft.web.models.sale.SaleResponse;
 import com.guaitilsoft.web.models.sale.SaleRequest;
 import org.modelmapper.ModelMapper;
@@ -33,15 +30,15 @@ public class SaleController {
     public static final Logger logger = LoggerFactory.getLogger(SaleController.class);
 
     private final SaleService saleService;
-    private final ProductService productService;
+    private final ProductDescriptionService productDescriptionService;
     private final MemberService memberService;
     private final ModelMapper modelMapper;
     private final ReportService<Sale> reportService;
 
     @Autowired
-    public SaleController(SaleService saleService, ProductService productService, MemberService memberService, ModelMapper modelMapper, ReportService<Sale> reportService){
+    public SaleController(SaleService saleService, ProductDescriptionService productDescriptionService, MemberService memberService, ModelMapper modelMapper, ReportService<Sale> reportService){
         this.saleService = saleService;
-        this.productService = productService;
+        this.productDescriptionService = productDescriptionService;
         this.memberService = memberService;
         this.modelMapper = modelMapper;
         this.reportService = reportService;
@@ -87,8 +84,8 @@ public class SaleController {
     public ResponseEntity<SaleRequest> post(@RequestBody SaleRequest saleRequest) {
         Sale sale = modelMapper.map(saleRequest, Sale.class);
         logger.info("Creating sale: {}", sale);
-        Long productId = saleRequest.getProduct().getId();
-        sale.setProductDescription(productService.get(productId).getProductDescription());
+        Long productId = saleRequest.getProductDescription().getId();
+        sale.setProductDescription(productDescriptionService.get(productId));
         saleService.save(sale);
         SaleRequest saleResponse = modelMapper.map(sale, SaleRequest.class);
 
@@ -108,8 +105,8 @@ public class SaleController {
         }
         Sale sale = modelMapper.map(saleRequest, Sale.class);
         logger.info("Updating Sale with id: {}", id);
-        Long productId = saleRequest.getProduct().getId();
-        sale.setProductDescription(productService.get(productId).getProductDescription());
+        Long productId = saleRequest.getProductDescription().getId();
+        sale.setProductDescription(productDescriptionService.get(productId));
         saleService.update(id, sale);
         SaleRequest saleResponse = modelMapper.map(sale, SaleRequest.class);
         logger.info("Updated Sale with id: {}", id);

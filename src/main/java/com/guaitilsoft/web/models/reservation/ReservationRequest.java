@@ -18,7 +18,7 @@ public class ReservationRequest {
 
     private Long id;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime dateReservation;
 
     private Long amountPerson;

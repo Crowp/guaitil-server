@@ -41,16 +41,8 @@ public class Local {
 
     private Boolean state = true;
 
-    public String getPersonId() {
-        return member.getDni();
-    }
-
     public LocalType getLocalType() {
         return this.localDescription.getLocalType();
-    }
-
-    public Long getMemberId() {
-        return this.member.getId();
     }
 
     public void removeMultimediaById(Multimedia multimedia) {

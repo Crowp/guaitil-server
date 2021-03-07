@@ -9,6 +9,7 @@ import com.guaitilsoft.web.models.activity.ActivityRequest;
 import com.guaitilsoft.web.models.activity.ActivityResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 
@@ -25,9 +26,8 @@ public class ActivityServiceImp implements ActivityService {
     private final ModelMapper modelMapper;
     private final Utils utils;
 
-    public ActivityServiceImp(ActivityRepositoryService activityRepositoryService,
-                              MultimediaService multimediaService,
-                              ModelMapper modelMapper,
+    public ActivityServiceImp(@Qualifier("ActivityRepositoryServiceLocal") ActivityRepositoryService activityRepositoryService,
+                              MultimediaService multimediaService, ModelMapper modelMapper,
                               Utils utils) {
         this.activityRepositoryService = activityRepositoryService;
         this.multimediaService = multimediaService;
@@ -61,7 +61,6 @@ public class ActivityServiceImp implements ActivityService {
     @Override
     public ActivityResponse save(ActivityRequest entity) {
         Activity activity = this.parseToActivity(entity);
-        this.loadLocalDescriptions(entity, activity);
         return onSaveActivity(activity);
     }
 
@@ -121,13 +120,5 @@ public class ActivityServiceImp implements ActivityService {
 
     public Activity parseToActivity(ActivityRequest activityRequest){
         return this.modelMapper.map(activityRequest, Activity.class);
-    }
-
-    private void loadLocalDescriptions(ActivityRequest activityRequest, Activity activity) {
-        activity.getLocalsDescriptions().clear();
-        activityRequest.getLocalsDescriptions().forEach(local -> {
-            LocalDescription localDescription = this.utils.loadFullLocalDescriptionByLocalId(local.getId());
-            activity.getLocalsDescriptions().add(localDescription);
-        });
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("ActivityRepositoryServiceBasic")
 public class ActivityRepositoryServiceImp implements ActivityRepositoryService {
 
     private final ActivityRepository activityRepository;

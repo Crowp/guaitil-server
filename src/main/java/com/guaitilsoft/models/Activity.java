@@ -24,7 +24,7 @@ public class Activity {
     @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH })
     private ActivityDescription activityDescription;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REMOVE, CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JoinTable(name = "activity_local_description",
             joinColumns = { @JoinColumn(name = "fk_activity_id") },
             inverseJoinColumns = { @JoinColumn(name = "fk_local_description_id") })

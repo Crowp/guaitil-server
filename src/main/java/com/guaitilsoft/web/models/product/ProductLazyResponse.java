@@ -17,5 +17,4 @@ public class ProductLazyResponse {
     private ProductDescriptionRequest productDescription;
 
     private List<MultimediaResponse> multimedia;
-
 }

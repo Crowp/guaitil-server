@@ -25,7 +25,7 @@ public class ActivityResponse {
 
     private ActivityDescription activityDescription;
 
-    private List<LocalDescriptionResponse> localDescriptions;
+    private List<LocalDescriptionResponse> localsDescriptions;
 
     private List<MultimediaResponse> multimedia;
 

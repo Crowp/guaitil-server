@@ -57,7 +57,7 @@ public class ProductController {
 
     @GetMapping("/local-id/{localId}")
     public ResponseEntity<List<ProductResponse>>getProductsByLocalId(@PathVariable Long localId) {
-        Type listType = new TypeToken<List<ProductRequest>>(){}.getType();
+        Type listType = new TypeToken<List<ProductResponse>>(){}.getType();
         List<ProductResponse> products = modelMapper.map(productService.getAllProductByLocalId(localId), listType);
         products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         logger.info("Fetching Product with local id {}", localId);
@@ -66,7 +66,7 @@ public class ProductController {
 
     @GetMapping("/member-id/{memberId}")
     public ResponseEntity<List<ProductResponse>>getAllProductByMemberId(@PathVariable Long memberId) {
-        Type listType = new TypeToken<List<ProductRequest>>(){}.getType();
+        Type listType = new TypeToken<List<ProductResponse>>(){}.getType();
         List<ProductResponse> products = modelMapper.map(productService.getAllProductByMemberId(memberId), listType);
         products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         logger.info("Fetching Product with id {}", memberId);
@@ -75,7 +75,7 @@ public class ProductController {
 
     @GetMapping("/state/local-id/{localId}")
     public ResponseEntity<List<ProductResponse>>getAllProductAcceptedByLocalId(@PathVariable Long localId) {
-        Type listType = new TypeToken<List<ProductRequest>>(){}.getType();
+        Type listType = new TypeToken<List<ProductResponse>>(){}.getType();
         List<ProductResponse> products = modelMapper.map(productService.getAllProductAcceptedByLocalId(localId), listType);
         products.forEach(p -> this.utils.addUrlToMultimedia(p.getMultimedia()));
         logger.info("Fetching Product with state accepted {}", localId);

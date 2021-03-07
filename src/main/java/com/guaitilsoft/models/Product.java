@@ -19,10 +19,10 @@ public class Product {
     @Column
     private Boolean status;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private ProductDescription productDescription;
 
-    @ManyToOne(targetEntity = Local.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Local.class)
     @JoinColumn(name = "localId")
     private Local local;
 
