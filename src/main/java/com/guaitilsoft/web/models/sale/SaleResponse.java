@@ -1,7 +1,7 @@
 package com.guaitilsoft.web.models.sale;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.guaitilsoft.web.models.productDescription.ProductDescriptionLazyResponse;
+import com.guaitilsoft.web.models.productDescription.ProductDescriptionResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +16,7 @@ public class SaleResponse {
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
     private LocalDateTime saleDate;
 
-    private ProductDescriptionLazyResponse productDescription;
+    private ProductDescriptionResponse productDescription;
 
     private Long amountSold;
 

@@ -3,7 +3,8 @@ package com.guaitilsoft.web.models.member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.web.models.local.LocalLazyResponse;
-import com.guaitilsoft.web.models.person.PersonRequest;
+import com.guaitilsoft.web.models.local.LocalRequest;
+import com.guaitilsoft.web.models.person.PersonDTO;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,9 +21,9 @@ public class MemberRequest {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime affiliationDate;
 
-    private PersonRequest person;
+    private PersonDTO person;
 
     private MemberType memberType;
 
-    private List<LocalLazyResponse> locals;
+    private List<LocalRequest> locals;
 }

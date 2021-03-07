@@ -2,7 +2,7 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.services.PersonService;
-import com.guaitilsoft.web.models.person.PersonRequest;
+import com.guaitilsoft.web.models.person.PersonDTO;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,12 +43,12 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonRequest> post(@RequestBody PersonRequest personRequest) {
-        Person person = modelMapper.map(personRequest, Person.class);
+    public ResponseEntity<PersonDTO> post(@RequestBody PersonDTO personDTO) {
+        Person person = modelMapper.map(personDTO, Person.class);
         logger.info("Creating person");
         personService.save(person);
 
-        PersonRequest personResponse = modelMapper.map(person, PersonRequest.class);
+        PersonDTO personResponse = modelMapper.map(person, PersonDTO.class);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(person.getId())
@@ -59,18 +59,18 @@ public class PersonController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<PersonRequest> put(@PathVariable String id, @RequestBody PersonRequest personRequest) {
-        Person person = modelMapper.map(personRequest, Person.class);
+    public ResponseEntity<PersonDTO> put(@PathVariable String id, @RequestBody PersonDTO personDTO) {
+        Person person = modelMapper.map(personDTO, Person.class);
         logger.info("Updating Person with id: {}", id);
         personService.update(id, person);
-        PersonRequest personResponse = modelMapper.map(person, PersonRequest.class);
+        PersonDTO personResponse = modelMapper.map(person, PersonDTO.class);
         logger.info("Updated Person with id: {}", id);
         return ResponseEntity.ok().body(personResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<PersonRequest> delete(@PathVariable String id) {
-        PersonRequest personResponse = modelMapper.map(personService.get(id), PersonRequest.class);
+    public ResponseEntity<PersonDTO> delete(@PathVariable String id) {
+        PersonDTO personResponse = modelMapper.map(personService.get(id), PersonDTO.class);
         logger.info("Deleting Person with id: {}", id);
         personService.delete(id);
         logger.info("Deleted Person with id: {}", id);

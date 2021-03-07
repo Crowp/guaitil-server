@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class ActivityDescriptionLazyResponse {
+public class ActivityDescriptionResponse {
 
     private Long id;
 
@@ -26,4 +26,10 @@ public class ActivityDescriptionLazyResponse {
     private ActivityType activityType;
 
     private Double personPrice;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime createdAt;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private LocalDateTime updatedAt;
 }

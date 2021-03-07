@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class ProductDescriptionLazyResponse {
+public class ProductDescriptionResponse {
 
     private Long id;
 
