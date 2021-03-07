@@ -82,14 +82,14 @@ public class LocalController {
     }
 
     @PostMapping
-    public ResponseEntity<LocalRequest> post(@RequestBody LocalRequest localRequest) {
+    public ResponseEntity<LocalResponse> post(@RequestBody LocalRequest localRequest) {
         Local local = modelMapper.map(localRequest, Local.class);
         logger.info("Creating local");
         Long memberId = localRequest.getMember().getId();
         local.setMember(this.utils.loadFullMember(memberId));
         this.utils.loadMultimedia(local.getMultimedia());
         localService.save(local);
-        LocalRequest localResponse = modelMapper.map(local, LocalRequest.class);
+        LocalResponse localResponse = modelMapper.map(local, LocalResponse.class);
         this.utils.addUrlToMultimedia(localResponse.getMultimedia());
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -102,7 +102,7 @@ public class LocalController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<LocalRequest> put(@PathVariable Long id, @RequestBody LocalRequest localRequest) {
+    public ResponseEntity<LocalResponse> put(@PathVariable Long id, @RequestBody LocalRequest localRequest) {
         if (!id.equals(localRequest.getId())) {
             throw new ApiRequestException("El id del local: " + localRequest.getId() + " es diferente al id del parametro: " + id);
         }
@@ -113,7 +113,7 @@ public class LocalController {
         this.utils.loadMultimedia(local.getMultimedia());
 
         localService.update(id, local);
-        LocalRequest localResponse = modelMapper.map(local, LocalRequest.class);
+        LocalResponse localResponse = modelMapper.map(local, LocalResponse.class);
         this.utils.addUrlToMultimedia(localResponse.getMultimedia());
         logger.info("Updated Local with id: {}", id);
         return ResponseEntity.ok().body(localResponse);

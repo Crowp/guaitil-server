@@ -56,11 +56,11 @@ public class ProductReviewController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductReviewRequest> post(@RequestBody ProductReviewRequest productReviewRequest) {
+    public ResponseEntity<ProductReviewResponse> post(@RequestBody ProductReviewRequest productReviewRequest) {
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Creating a product review");
         productReviewService.save(productReview);
-        ProductReviewRequest productReviewResponse = modelMapper.map(productReview, ProductReviewRequest.class);
+        ProductReviewResponse productReviewResponse = modelMapper.map(productReview, ProductReviewResponse.class);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(productReview.getId())
@@ -71,20 +71,20 @@ public class ProductReviewController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductReviewRequest> put(@PathVariable Long id, @RequestBody ProductReviewRequest productReviewRequest) {
+    public ResponseEntity<ProductReviewResponse> put(@PathVariable Long id, @RequestBody ProductReviewRequest productReviewRequest) {
         if(!id.equals(productReviewRequest.getId())){
             throw new ApiRequestException("El id de la revision del producto: " + productReviewRequest.getId() + " es diferente al id del parametro: " + id);
         }
         ProductReview productReview = modelMapper.map(productReviewRequest, ProductReview.class);
         logger.info("Updating Product Review with id: {}", id);
-        ProductReviewRequest productReviewResponse = modelMapper.map(productReviewService.update(id, productReview), ProductReviewRequest.class);
+        ProductReviewResponse productReviewResponse = modelMapper.map(productReviewService.update(id, productReview), ProductReviewResponse.class);
         logger.info("Updated Product Review with id: {}", id);
         return ResponseEntity.ok().body(productReviewResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProductReviewRequest> delete(@PathVariable Long id) {
-        ProductReviewRequest productReviewResponse = modelMapper.map(productReviewService.get(id), ProductReviewRequest.class);
+    public ResponseEntity<ProductReviewResponse> delete(@PathVariable Long id) {
+        ProductReviewResponse productReviewResponse = modelMapper.map(productReviewService.get(id), ProductReviewResponse.class);
         logger.info("Deleting Product Review with id {}", id);
         productReviewService.delete(id);
         logger.info("Deleted Product Review with id {}", id);
