@@ -22,7 +22,7 @@ public class Product {
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private ProductDescription productDescription;
 
-    @ManyToOne(targetEntity = Local.class)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "localId")
     private Local local;
 

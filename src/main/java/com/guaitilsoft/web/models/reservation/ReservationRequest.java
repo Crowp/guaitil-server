@@ -3,7 +3,8 @@ package com.guaitilsoft.web.models.reservation;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.ReservationState;
-import com.guaitilsoft.web.models.activityDescription.ActivityDescriptionLazyResponse;
+import com.guaitilsoft.web.models.activityDescription.ActivityDescriptionRequest;
+import com.guaitilsoft.web.models.activityDescription.ActivityDescriptionResponse;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ public class ReservationRequest {
 
     private ReservationState reservationState;
 
-    private ActivityDescriptionLazyResponse activityDescription;
+    private ActivityDescriptionRequest activityDescription;
 
     private Person person;
 }

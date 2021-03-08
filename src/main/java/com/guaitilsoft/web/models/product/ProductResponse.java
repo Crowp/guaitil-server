@@ -3,6 +3,7 @@ package com.guaitilsoft.web.models.product;
 import com.guaitilsoft.models.ProductDescription;
 import com.guaitilsoft.web.models.local.LocalLazyResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
+import com.guaitilsoft.web.models.productDescription.ProductDescriptionResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +16,7 @@ public class ProductResponse {
 
     private Boolean status;
 
-    private ProductDescription productDescription;
+    private ProductDescriptionResponse productDescription;
 
     private LocalLazyResponse local;
 

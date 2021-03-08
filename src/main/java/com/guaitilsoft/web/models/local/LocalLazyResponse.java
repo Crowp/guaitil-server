@@ -1,6 +1,7 @@
 package com.guaitilsoft.web.models.local;
 
 import com.guaitilsoft.web.models.localDescription.LocalDescriptionRequest;
+import com.guaitilsoft.web.models.localDescription.LocalDescriptionResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ public class LocalLazyResponse {
 
     private Long id;
 
-    private LocalDescriptionRequest localDescription;
+    private LocalDescriptionResponse localDescription;
 
     private Boolean show;
 

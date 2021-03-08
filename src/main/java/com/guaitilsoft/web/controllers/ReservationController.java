@@ -5,6 +5,7 @@ import com.guaitilsoft.models.Reservation;
 import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.ReportService;
 import com.guaitilsoft.services.ReservationService;
+import com.guaitilsoft.web.models.productReview.ProductReviewResponse;
 import com.guaitilsoft.web.models.reservation.ReservationResponse;
 import com.guaitilsoft.web.models.reservation.ReservationRequest;
 import org.modelmapper.ModelMapper;
@@ -71,7 +72,7 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationRequest> post(@RequestBody ReservationRequest reservationRequest){
+    public ResponseEntity<ProductReviewResponse> post(@RequestBody ReservationRequest reservationRequest){
         Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
         logger.info("Creating reservation: {}", reservation);
         String personId = reservation.getPerson().getId();
@@ -79,7 +80,7 @@ public class ReservationController {
             reservation.setPerson(personService.get(personId));
         }
         reservationService.save(reservation);
-        ReservationRequest reservationResponse = modelMapper.map(reservation, ReservationRequest.class);
+        ProductReviewResponse reservationResponse = modelMapper.map(reservation, ProductReviewResponse.class);
 
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -91,21 +92,21 @@ public class ReservationController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ReservationRequest> put(@PathVariable Long id, @RequestBody ReservationRequest reservationRequest) {
+    public ResponseEntity<ProductReviewResponse> put(@PathVariable Long id, @RequestBody ReservationRequest reservationRequest) {
         if(!id.equals(reservationRequest.getId())){
             throw new ApiRequestException("El id de la reservacion: " + reservationRequest.getId() + " es diferente al id del parametro: " + id);
         }
         Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
         logger.info("Updating Reservation with id {}", id);
         reservationService.update(id, reservation);
-        ReservationRequest reservationResponse = modelMapper.map(reservation, ReservationRequest.class);
+        ProductReviewResponse reservationResponse = modelMapper.map(reservation, ProductReviewResponse.class);
         logger.info("Updated Reservation with id {}", id);
         return ResponseEntity.ok().body(reservationResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ReservationRequest> delete(@PathVariable Long id) {
-        ReservationRequest reservationResponse = modelMapper.map(reservationService.get(id), ReservationRequest.class);
+    public ResponseEntity<ProductReviewResponse> delete(@PathVariable Long id) {
+        ProductReviewResponse reservationResponse = modelMapper.map(reservationService.get(id), ProductReviewResponse.class);
         logger.info("Deleting Reservation with id {}", id);
         reservationService.delete(id);
         logger.info("Deleted Reservation with id {}", id);

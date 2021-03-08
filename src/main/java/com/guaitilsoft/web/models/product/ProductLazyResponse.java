@@ -2,6 +2,7 @@ package com.guaitilsoft.web.models.product;
 
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import com.guaitilsoft.web.models.productDescription.ProductDescriptionRequest;
+import com.guaitilsoft.web.models.productDescription.ProductDescriptionResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,7 @@ public class ProductLazyResponse {
 
     private Boolean status;
 
-    private ProductDescriptionRequest productDescription;
+    private ProductDescriptionResponse productDescription;
 
     private List<MultimediaResponse> multimedia;
 }
