@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -39,7 +37,7 @@ public class Local {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 
-    private Boolean state = true;
+    private Boolean showLocal = true;
 
     public LocalType getLocalType() {
         return this.localDescription.getLocalType();
@@ -51,7 +49,7 @@ public class Local {
 
     @PrePersist
     public void prePersist() {
-        this.state = true;
+        this.showLocal = true;
     }
 
 }

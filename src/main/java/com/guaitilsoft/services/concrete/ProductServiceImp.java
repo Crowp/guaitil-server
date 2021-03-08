@@ -87,6 +87,7 @@ public class ProductServiceImp implements ProductService {
 
         product.setProductDescription(entity.getProductDescription());
         product.setMultimedia(entity.getMultimedia());
+        product.setShowProduct(entity.getShowProduct());
         product.setLocal(product.getLocal());
 
 

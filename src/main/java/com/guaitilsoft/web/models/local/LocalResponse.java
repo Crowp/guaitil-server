@@ -17,7 +17,7 @@ public class LocalResponse {
 
     private LocalDescriptionResponse localDescription;
 
-    private Boolean state;
+    private Boolean showLocal;
 
     private MemberLazyResponse member;
 

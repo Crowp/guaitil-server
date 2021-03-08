@@ -1,6 +1,5 @@
 package com.guaitilsoft.web.models.local;
 
-import com.guaitilsoft.web.models.localDescription.LocalDescriptionRequest;
 import com.guaitilsoft.web.models.localDescription.LocalDescriptionResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import lombok.Data;
@@ -16,7 +15,7 @@ public class LocalLazyResponse {
 
     private LocalDescriptionResponse localDescription;
 
-    private Boolean state;
+    private Boolean showLocal;
 
     private List<MultimediaResponse> multimedia;
 }
