@@ -53,6 +53,7 @@ public class SaleRepositoryServiceImp implements SaleRepositoryService {
 
     @Override
     public void delete(Long id) {
+        assert id != null;
         Sale sale = this.get(id);
         this.saleRepository.delete(sale);
     }

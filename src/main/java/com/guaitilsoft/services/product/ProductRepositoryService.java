@@ -1,22 +1,19 @@
-package com.guaitilsoft.services;
-
+package com.guaitilsoft.services.product;
 
 import com.guaitilsoft.models.Product;
 
 import java.util.List;
 
-public interface ProductService {
+public interface ProductRepositoryService {
     List<Product> list();
 
     Product get(Long id);
 
-    void save(Product entity);
+    Product save(Product entity);
 
-    void update(Long id, Product entity);
+    Product update(Long id, Product entity);
 
     void delete(Long id);
-
-    Product deleteMultimediaById(Long id, Long idMultimedia);
 
     List<Product> getAllProductByLocalId(Long id);
 

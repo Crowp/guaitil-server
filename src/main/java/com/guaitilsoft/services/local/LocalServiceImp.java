@@ -129,18 +129,18 @@ public class LocalServiceImp implements LocalService {
         return this.memberRepositoryService.get(id);
     }
 
-    public void loadMultimedia(List<Multimedia> multimediaList) {
+    private void loadMultimedia(List<Multimedia> multimediaList) {
         List<Multimedia> multimediaLoaded = new ArrayList<>();
         multimediaList.forEach(media -> multimediaLoaded.add(multimediaService.get(media.getId())));
         multimediaList.clear();
         multimediaList.addAll(multimediaLoaded);
     }
 
-    public void addUrlToMultimedia(List<MultimediaResponse> multimedia){
+    private void addUrlToMultimedia(List<MultimediaResponse> multimedia){
         multimedia.forEach(m -> m.setUrl(getUrlHost(m)));
     }
 
-    public static String getUrlHost(MultimediaResponse multimediaResponse){
+    private static String getUrlHost(MultimediaResponse multimediaResponse){
         String resourcePath = "/api/multimedia/load/";
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(resourcePath)
