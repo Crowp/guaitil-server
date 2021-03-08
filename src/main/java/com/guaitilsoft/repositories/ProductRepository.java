@@ -16,7 +16,8 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     Iterable<Product> getAllProductByMemberId(@Param("id") Long id);
 
     @Query("SELECT p FROM Product p INNER JOIN ProductReview pr ON pr.productDescription.id = p.productDescription.id WHERE pr.state =:reviewState AND p.local.id=:id AND p.showProduct=:showProduct")
-    Iterable<Product> getAllProductAcceptedByLocalId(@Param("reviewState") ReviewState reviewState, @Param("id") Long id, @Param("status") Boolean status);
+    Iterable<Product> getAllProductAcceptedByLocalId(@Param("reviewState") ReviewState reviewState, @Param("id") Long id, @Param("showProduct") Boolean showProduct);
 
-    Product getProductByProductDescriptionId(Long id);
+    @Query("SELECT p FROM Product p WHERE p.productDescription.id=:id")
+    Product getProductByProductDescriptionId(@Param("id")Long id);
 }
