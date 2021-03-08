@@ -1,4 +1,4 @@
-package com.guaitilsoft.services;
+package com.guaitilsoft.services.reservation;
 
 import com.guaitilsoft.models.Reservation;
 

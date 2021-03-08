@@ -4,7 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
 import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.ReportService;
-import com.guaitilsoft.services.ReservationService;
+import com.guaitilsoft.services.reservation.ReservationService;
 import com.guaitilsoft.web.models.productReview.ProductReviewResponse;
 import com.guaitilsoft.web.models.reservation.ReservationResponse;
 import com.guaitilsoft.web.models.reservation.ReservationRequest;
