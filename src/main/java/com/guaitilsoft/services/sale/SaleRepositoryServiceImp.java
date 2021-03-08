@@ -28,6 +28,7 @@ public class SaleRepositoryServiceImp implements SaleRepositoryService {
 
     @Override
     public Sale get(Long id) {
+        assert id != null;
         return this.saleRepository.findById(id).orElse(null);
     }
 

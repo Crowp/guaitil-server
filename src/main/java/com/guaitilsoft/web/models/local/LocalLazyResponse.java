@@ -15,7 +15,7 @@ public class LocalLazyResponse {
 
     private LocalDescriptionRequest localDescription;
 
-    private Boolean state;
+    private Boolean show;
 
     private List<MultimediaResponse> multimedia;
 }
