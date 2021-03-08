@@ -50,6 +50,11 @@ public class ProductServiceImp implements ProductService{
     }
 
     @Override
+    public ProductResponse getByProductDescriptionId(Long id) {
+        return this.parseToProductResponse(productRepositoryService.getByProductDescriptionId(id));
+    }
+
+    @Override
     public ProductResponse save(ProductRequest entity) {
         Product product = this.parseToProduct(entity);
         Local local = loadFullLocal(product.getLocal().getId());

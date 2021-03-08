@@ -39,6 +39,13 @@ public class ProductController {
         return ResponseEntity.ok().body(product);
     }
 
+    @GetMapping("product-description/{id}")
+    public ResponseEntity<ProductResponse> getByProductDescriptionId(@PathVariable Long id) {
+        ProductResponse product = productService.getByProductDescriptionId(id);
+        logger.info("Fetching Product with product description id {}", id);
+        return ResponseEntity.ok().body(product);
+    }
+
     @GetMapping("/local-id/{localId}")
     public ResponseEntity<List<ProductResponse>>getProductsByLocalId(@PathVariable Long localId) {
         List<ProductResponse> products = productService.getAllProductByLocalId(localId);

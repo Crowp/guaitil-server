@@ -9,6 +9,8 @@ public interface ProductRepositoryService {
 
     Product get(Long id);
 
+    Product getByProductDescriptionId(Long id);
+
     Product save(Product entity);
 
     Product update(Long id, Product entity);

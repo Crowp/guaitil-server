@@ -10,6 +10,8 @@ public interface ProductService {
 
     ProductResponse get(Long id);
 
+    ProductResponse getByProductDescriptionId(Long id);
+
     ProductResponse save(ProductRequest entity);
 
     ProductResponse update(Long id, ProductRequest entity);

@@ -44,6 +44,11 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
     }
 
     @Override
+    public Product getByProductDescriptionId(Long id) {
+        return productRepositoryService.getByProductDescriptionId(id);
+    }
+
+    @Override
     public Product save(Product entity) {
         Product product = productRepositoryService.save(entity);
 

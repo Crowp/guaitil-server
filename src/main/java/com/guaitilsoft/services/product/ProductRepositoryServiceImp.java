@@ -34,6 +34,11 @@ public class ProductRepositoryServiceImp implements ProductRepositoryService {
     }
 
     @Override
+    public Product getByProductDescriptionId(Long id) {
+        return productRepository.getProductByProductDescriptionId(id);
+    }
+
+    @Override
     public Product save(Product entity) {
         assert entity != null;
         return productRepository.save(entity);
