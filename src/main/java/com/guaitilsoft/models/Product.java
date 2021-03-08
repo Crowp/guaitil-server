@@ -17,7 +17,7 @@ public class Product {
     private Long id;
 
     @Column
-    private Boolean show;
+    private Boolean showProduct;
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     private ProductDescription productDescription;
@@ -35,6 +35,6 @@ public class Product {
 
     @PrePersist
     public void prePersist(){
-        this.show =  true;
+        this.showProduct =  true;
     }
 }

@@ -20,5 +20,5 @@ public class LocalRequest {
 
     private List<MultimediaResponse> multimedia;
 
-    private Boolean show;
+    private Boolean showLocal;
 }

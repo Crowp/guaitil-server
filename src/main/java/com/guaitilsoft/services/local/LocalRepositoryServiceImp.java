@@ -51,7 +51,7 @@ public class LocalRepositoryServiceImp implements LocalRepositoryService {
         local.setLocalDescription(entity.getLocalDescription());
         local.setProducts(entity.getProducts());
         local.setMultimedia(entity.getMultimedia());
-        local.setState(entity.getState());
+        local.setShowLocal(entity.getShowLocal());
         if (localRepository.memberHaveLocalWithType(entity.getMember().getId(), entity.getId() , entity.getLocalType())) {
             throw new ApiRequestException("El miembro con la cédula " + this.getPersonId(entity) + " posee un local del mismo tipo");
         }

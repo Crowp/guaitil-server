@@ -1,18 +1,23 @@
 package com.guaitilsoft.services.local;
 
 import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
-import com.guaitilsoft.utils.Utils;
+import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.web.models.local.LocalRequest;
 import com.guaitilsoft.web.models.local.LocalResponse;
+import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,21 +26,23 @@ import java.util.stream.Collectors;
 public class LocalServiceImp implements LocalService {
 
     private final LocalRepositoryService localRepositoryService;
+    private final MemberRepositoryService memberRepositoryService;
+    private final MultimediaService multimediaService;
     private final ModelMapper modelMapper;
-    private final Utils utils;
 
     @Autowired
     public LocalServiceImp(@Qualifier("LocalRepositoryServiceValidation") LocalRepositoryService localRepositoryService,
-                           ModelMapper modelMapper,
-                           Utils utils) {
+                           @Qualifier("MemberRepositoryServiceValidation") MemberRepositoryService memberRepositoryService,
+                           MultimediaService multimediaService,
+                           ModelMapper modelMapper) {
         this.localRepositoryService = localRepositoryService;
+        this.memberRepositoryService = memberRepositoryService;
+        this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
-        this.utils = utils;
     }
 
     @Override
     public List<LocalResponse> list() {
-
         return this.parseToLocalResponseList(localRepositoryService.list());
     }
 
@@ -48,16 +55,14 @@ public class LocalServiceImp implements LocalService {
     public LocalResponse save(LocalRequest entity) {
         Local local = this.parseToLocal(entity);
         Long memberId = entity.getMember().getId();
-        local.setMember(this.utils.loadFullMember(memberId));
-        this.utils.loadMultimedia(local.getMultimedia());
+        local.setMember(loadFullMember(memberId));
+        loadMultimedia(local.getMultimedia());
         return onSaveLocal(local);
     }
 
     private LocalResponse onSaveLocal(Local localToStore){
         Local local = localRepositoryService.save(localToStore);
-        LocalResponse localResponse = this.parseToLocalResponse(local);
-        this.utils.addUrlToMultimedia(localResponse.getMultimedia());
-        return localResponse;
+        return this.parseToLocalResponse(local);
     }
 
     @Override
@@ -94,7 +99,7 @@ public class LocalServiceImp implements LocalService {
     public List<LocalResponse> getLocalByLocalType(LocalType localType) {
         return this.list()
                 .stream()
-                .filter(local -> local.getLocalDescription().getLocalType().equals(localType) && local.getState())
+                .filter(local -> local.getLocalDescription().getLocalType().equals(localType) && local.getShowLocal())
                 .collect(Collectors.toList());
     }
 
@@ -107,12 +112,39 @@ public class LocalServiceImp implements LocalService {
         return modelMapper.map(localRequest, Local.class);
     }
 
-    private List<LocalResponse> parseToLocalResponseList(List<Local> locals){
+    private List<LocalResponse> parseToLocalResponseList(List<Local> list){
         Type lisType = new TypeToken<List<LocalResponse>>(){}.getType();
-        return modelMapper.map(locals, lisType);
+        List<LocalResponse> locals = modelMapper.map(list, lisType);
+        locals.forEach(l -> addUrlToMultimedia(l.getMultimedia()));
+        return locals;
     }
 
     private LocalResponse parseToLocalResponse(Local local){
-        return modelMapper.map(local, LocalResponse.class);
+        LocalResponse localResponse =  modelMapper.map(local, LocalResponse.class);
+        addUrlToMultimedia(localResponse.getMultimedia());
+        return localResponse;
+    }
+
+    public Member loadFullMember(Long id){
+        return this.memberRepositoryService.get(id);
+    }
+
+    public void loadMultimedia(List<Multimedia> multimediaList) {
+        List<Multimedia> multimediaLoaded = new ArrayList<>();
+        multimediaList.forEach(media -> multimediaLoaded.add(multimediaService.get(media.getId())));
+        multimediaList.clear();
+        multimediaList.addAll(multimediaLoaded);
+    }
+
+    public void addUrlToMultimedia(List<MultimediaResponse> multimedia){
+        multimedia.forEach(m -> m.setUrl(getUrlHost(m)));
+    }
+
+    public static String getUrlHost(MultimediaResponse multimediaResponse){
+        String resourcePath = "/api/multimedia/load/";
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(resourcePath)
+                .path(multimediaResponse.getFileName())
+                .toUriString();
     }
 }

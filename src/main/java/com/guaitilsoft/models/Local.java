@@ -37,7 +37,7 @@ public class Local {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 
-    private Boolean show = true;
+    private Boolean showLocal = true;
 
     public LocalType getLocalType() {
         return this.localDescription.getLocalType();
@@ -49,7 +49,7 @@ public class Local {
 
     @PrePersist
     public void prePersist() {
-        this.show = true;
+        this.showLocal = true;
     }
 
 }
