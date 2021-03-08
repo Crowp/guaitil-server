@@ -4,7 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.repositories.PersonRepository;
 import com.guaitilsoft.services.PersonService;
-import com.guaitilsoft.services.ReservationService;
+import com.guaitilsoft.services.reservation.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

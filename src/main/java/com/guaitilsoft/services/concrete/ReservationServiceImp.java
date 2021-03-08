@@ -2,7 +2,7 @@ package com.guaitilsoft.services.concrete;
 
 import com.guaitilsoft.models.Reservation;
 import com.guaitilsoft.repositories.ReservationRepository;
-import com.guaitilsoft.services.ReservationService;
+import com.guaitilsoft.services.reservation.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
