@@ -1,8 +1,7 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services.productDescription;
 
 import com.guaitilsoft.models.ProductDescription;
 import com.guaitilsoft.repositories.ProductDescriptionRepository;
-import com.guaitilsoft.services.ProductDescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ProductDescriptionServiceImp implements ProductDescriptionService {
+public class ProductDesRepositoryImp implements ProductDesRepositoryService {
 
     private final ProductDescriptionRepository productDescriptionRepository;
 
     @Autowired
-    public ProductDescriptionServiceImp(ProductDescriptionRepository productDescriptionRepository) {
+    public ProductDesRepositoryImp(ProductDescriptionRepository productDescriptionRepository) {
         this.productDescriptionRepository = productDescriptionRepository;
     }
 
@@ -37,5 +36,17 @@ public class ProductDescriptionServiceImp implements ProductDescriptionService {
             return productDescription;
         }
         throw new EntityNotFoundException("No se encontró un product description con el id: " + id);
+    }
+
+    @Override
+    public List<ProductDescription> getLocalsDescriptionNoRelationships() {
+        return productDescriptionRepository.getProductsDescriptionNoRelationships();
+    }
+
+    @Override
+    public void delete(Long id) {
+        assert id != null;
+        ProductDescription productDescription = this.get(id);
+        productDescriptionRepository.delete(productDescription);
     }
 }

@@ -1,8 +1,7 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services.localDescription;
 
 import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.repositories.LocalDescriptionRepository;
-import com.guaitilsoft.services.LocalDescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class LocalDescriptionServiceImp implements LocalDescriptionService {
+public class LocalDesRepositoryServiceImp implements LocalDesRepositoryService {
 
     private final LocalDescriptionRepository localDescriptionRepository;
 
     @Autowired
-    public LocalDescriptionServiceImp(LocalDescriptionRepository localDescriptionRepository) {
+    public LocalDesRepositoryServiceImp(LocalDescriptionRepository localDescriptionRepository) {
         this.localDescriptionRepository = localDescriptionRepository;
     }
 
@@ -37,5 +36,17 @@ public class LocalDescriptionServiceImp implements LocalDescriptionService {
             return localDescription;
         }
         throw new EntityNotFoundException("No se encontró el local description con el id: " + id);
+    }
+
+    @Override
+    public List<LocalDescription> getLocalsDescriptionNoRelationships() {
+        return localDescriptionRepository.getLocalsDescriptionNoRelationships();
+    }
+
+    @Override
+    public void delete(Long id) {
+        assert id != null;
+        LocalDescription localDescription = this.get(id);
+        localDescriptionRepository.delete(localDescription);
     }
 }

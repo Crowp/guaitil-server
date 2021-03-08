@@ -3,8 +3,8 @@ package com.guaitilsoft.services.sale;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
-import com.guaitilsoft.services.ProductDescriptionService;
 import com.guaitilsoft.services.member.MemberRepositoryService;
+import com.guaitilsoft.services.productDescription.ProductDesRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,12 +16,12 @@ import java.util.List;
 public class SaleValidationRepositoryServiceImp implements SaleRepositoryService{
 
     private final SaleRepositoryService saleRepositoryService;
-    private final ProductDescriptionService productDescriptionService;
+    private final ProductDesRepositoryService productDescriptionService;
     private final MemberRepositoryService memberRepositoryService;
 
     @Autowired
     public SaleValidationRepositoryServiceImp(@Qualifier("SaleRepositoryServiceBasic") SaleRepositoryService saleRepositoryService,
-                                              ProductDescriptionService productDescriptionService,
+                                              ProductDesRepositoryService productDescriptionService,
                                               @Qualifier("MemberRepositoryServiceValidation") MemberRepositoryService memberRepositoryService) {
         this.saleRepositoryService = saleRepositoryService;
         this.productDescriptionService = productDescriptionService;

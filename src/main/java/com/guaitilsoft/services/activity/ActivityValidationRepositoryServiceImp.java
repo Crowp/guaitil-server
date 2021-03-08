@@ -3,7 +3,7 @@ package com.guaitilsoft.services.activity;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.LocalDescription;
-import com.guaitilsoft.services.LocalDescriptionService;
+import com.guaitilsoft.services.localDescription.LocalDesRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -17,12 +17,12 @@ import java.util.stream.Collectors;
 public class ActivityValidationRepositoryServiceImp implements ActivityRepositoryService {
 
     private final ActivityRepositoryService activityRepositoryService;
-    private final LocalDescriptionService localDescriptionService;
+    private final LocalDesRepositoryService localDesRepositoryService;
 
     @Autowired
-    public ActivityValidationRepositoryServiceImp(@Qualifier("ActivityRepositoryServiceBasic") ActivityRepositoryService activityRepositoryService, LocalDescriptionService localDescriptionService) {
+    public ActivityValidationRepositoryServiceImp(@Qualifier("ActivityRepositoryServiceBasic") ActivityRepositoryService activityRepositoryService, LocalDesRepositoryService localDesRepositoryService) {
         this.activityRepositoryService = activityRepositoryService;
-        this.localDescriptionService = localDescriptionService;
+        this.localDesRepositoryService = localDesRepositoryService;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
     private Set<LocalDescription> loadLocalDescription(Set<LocalDescription> localDescriptions){
         return localDescriptions
                 .stream()
-                .map(localDes -> localDescriptionService.get(localDes.getId()))
+                .map(localDes -> localDesRepositoryService.get(localDes.getId()))
                 .collect(Collectors.toSet());
     }
 }
