@@ -10,6 +10,8 @@ public interface ProductService {
 
     Product get(Long id);
 
+    Product getByProductDescriptionId(Long id);
+
     void save(Product entity);
 
     void update(Long id, Product entity);

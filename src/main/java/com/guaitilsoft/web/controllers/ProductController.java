@@ -54,6 +54,13 @@ public class ProductController {
         logger.info("Fetching Product with id {}", id);
         return ResponseEntity.ok().body(product);
     }
+    @GetMapping("product-description/{id}")
+    public ResponseEntity<ProductResponse> getByProductDescriptionId(@PathVariable Long id) {
+        ProductResponse product = modelMapper.map(productService.get(id), ProductResponse.class);
+        this.utils.addUrlToMultimedia(product.getMultimedia());
+        logger.info("Fetching Product with id {}", id);
+        return ResponseEntity.ok().body(product);
+    }
 
     @GetMapping("/local-id/{localId}")
     public ResponseEntity<List<ProductResponse>>getProductsByLocalId(@PathVariable Long localId) {
