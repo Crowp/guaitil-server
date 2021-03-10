@@ -1,23 +1,21 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services.productReview;
 
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.repositories.ProductReviewRepository;
-import com.guaitilsoft.services.ProductReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class ProductReviewServiceImp implements ProductReviewService {
+@Service("ProductReviewRepositoryServiceBasic")
+public class ProductReviewRepositoryServiceImp implements ProductReviewRepositoryService {
 
     private final ProductReviewRepository productReviewRepository;
 
     @Autowired
-    public ProductReviewServiceImp(ProductReviewRepository productReviewRepository) {
+    public ProductReviewRepositoryServiceImp(ProductReviewRepository productReviewRepository) {
         this.productReviewRepository = productReviewRepository;
     }
 
@@ -41,31 +39,22 @@ public class ProductReviewServiceImp implements ProductReviewService {
     @Override
     public ProductReview get(Long id) {
         assert id != null;
-
-        ProductReview productReview = productReviewRepository.findById(id).orElse(null);
-        if(productReview != null){
-            return productReview;
-        }
-        throw new EntityNotFoundException("No se encontró la revisión del producto con el id: " + id);
+        return productReviewRepository.findById(id).orElse(null);
     }
 
     @Override
     public ProductReview getByProductId(Long productId) {
         assert productId != null;
 
-        ProductReview productReview = productReviewRepository
+        return productReviewRepository
                 .selectProductReviewByProductId(productId)
                 .orElse(null);
-        if(productReview != null){
-            return productReview;
-        }
-        throw new EntityNotFoundException("No se encontró la revisión del producto con el id: " + productId);
     }
 
     @Override
-    public void save(ProductReview entity)  {
+    public ProductReview save(ProductReview entity)  {
         assert entity != null;
-        productReviewRepository.save(entity);
+        return productReviewRepository.save(entity);
     }
 
     @Override
@@ -77,6 +66,7 @@ public class ProductReviewServiceImp implements ProductReviewService {
         productReview.setReviewDate(LocalDateTime.now());
         productReview.setState(entity.getState());
         productReview.setComment(entity.getComment());
+        productReview.setCreatedAt(productReview.getCreatedAt());
         productReviewRepository.save(entity);
         return productReview;
     }

@@ -23,7 +23,7 @@ import java.util.List;
 @RequestMapping(path = "/api/members")
 public class MemberController {
 
-    public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+    public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     private final MemberService memberService;
     private final ReportService<Member> reportService;

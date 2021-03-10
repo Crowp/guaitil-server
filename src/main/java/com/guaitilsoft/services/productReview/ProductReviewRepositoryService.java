@@ -1,10 +1,10 @@
-package com.guaitilsoft.services;
+package com.guaitilsoft.services.productReview;
 
 import com.guaitilsoft.models.ProductReview;
 
 import java.util.List;
 
-public interface ProductReviewService {
+public interface ProductReviewRepositoryService {
     List<ProductReview> list();
 
     List<ProductReview> listByIdMember(Long memberId);
@@ -13,7 +13,7 @@ public interface ProductReviewService {
 
     ProductReview getByProductId(Long productId);
 
-    void save(ProductReview entity);
+    ProductReview save(ProductReview entity);
 
     ProductReview update(Long id, ProductReview entity);
 

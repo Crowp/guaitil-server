@@ -51,7 +51,7 @@ public class MultimediaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MultimediaResponse>> list(HttpServletRequest request){
+    public ResponseEntity<List<MultimediaResponse>> list(){
         Type listType = new TypeToken<List<MultimediaResponse>>(){}.getType();
         List<MultimediaResponse> multimediaResponses = modelMapper.map(multimediaService.list(), listType);
         multimediaResponses.forEach(m -> {
