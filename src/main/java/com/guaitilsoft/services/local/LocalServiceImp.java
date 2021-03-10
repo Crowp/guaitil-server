@@ -12,7 +12,6 @@ import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -31,8 +30,8 @@ public class LocalServiceImp implements LocalService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public LocalServiceImp(@Qualifier("LocalRepositoryServiceValidation") LocalRepositoryService localRepositoryService,
-                           @Qualifier("MemberRepositoryServiceValidation") MemberRepositoryService memberRepositoryService,
+    public LocalServiceImp(LocalRepositoryService localRepositoryService,
+                           MemberRepositoryService memberRepositoryService,
                            MultimediaService multimediaService,
                            ModelMapper modelMapper) {
         this.localRepositoryService = localRepositoryService;

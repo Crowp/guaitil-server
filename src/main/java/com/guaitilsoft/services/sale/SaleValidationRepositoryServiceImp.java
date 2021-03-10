@@ -7,11 +7,13 @@ import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.services.productDescription.ProductDesRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Primary
 @Service("SaleRepositoryServiceValidation")
 public class SaleValidationRepositoryServiceImp implements SaleRepositoryService{
 

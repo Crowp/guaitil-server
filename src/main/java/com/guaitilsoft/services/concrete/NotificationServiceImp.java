@@ -4,8 +4,9 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Notification;
 import com.guaitilsoft.repositories.NotificationRepository;
 import com.guaitilsoft.services.NotificationService;
-import com.guaitilsoft.services.UserService;
+import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -17,12 +18,13 @@ import java.util.stream.Collectors;
 public class NotificationServiceImp implements NotificationService {
 
     private final NotificationRepository notificationRepository;
-    private final UserService userService;
+    private final UserRepositoryService userRepositoryService;
 
     @Autowired
-    public NotificationServiceImp(NotificationRepository notificationRepository, UserService userService) {
+    public NotificationServiceImp(NotificationRepository notificationRepository,
+                                  @Qualifier("UserRepositoryServiceValidation") UserRepositoryService userRepositoryService) {
         this.notificationRepository = notificationRepository;
-        this.userService = userService;
+        this.userRepositoryService = userRepositoryService;
     }
 
 
@@ -58,7 +60,7 @@ public class NotificationServiceImp implements NotificationService {
     @Override
     public void createAdminNotification(String description) {
         List<Member> membersAdmins = new ArrayList<>();
-        userService.getUsersAdmin().forEach(user -> membersAdmins.add(user.getMember()));
+        userRepositoryService.getUsersAdmin().forEach(user -> membersAdmins.add(user.getMember()));
 
         this.save(description, membersAdmins );
     }

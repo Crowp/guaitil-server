@@ -6,7 +6,6 @@ import com.guaitilsoft.web.models.sale.SaleResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -19,7 +18,8 @@ public class SaleServiceImp implements SaleService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public SaleServiceImp(@Qualifier("SaleRepositoryServiceValidation") SaleRepositoryService saleRepositoryService, ModelMapper modelMapper) {
+    public SaleServiceImp(SaleRepositoryService saleRepositoryService,
+                          ModelMapper modelMapper) {
         this.saleRepositoryService = saleRepositoryService;
         this.modelMapper = modelMapper;
     }

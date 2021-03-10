@@ -8,8 +8,9 @@ import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.models.constant.PersonType;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.UserService;
+import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,12 +22,13 @@ import java.util.List;
 @Configuration
 public class ApplicationConfig implements CommandLineRunner  {
     private final MultimediaService multimediaService;
-    private final UserService userService;
+    private final UserRepositoryService userRepositoryService;
 
     @Autowired
-    public ApplicationConfig(MultimediaService multimediaService, UserService userService) {
+    public ApplicationConfig(MultimediaService multimediaService,
+                             @Qualifier("UserRepositoryServiceBasic") UserRepositoryService userRepositoryService) {
         this.multimediaService = multimediaService;
-        this.userService = userService;
+        this.userRepositoryService = userRepositoryService;
     }
 
     @Override
@@ -60,7 +62,7 @@ public class ApplicationConfig implements CommandLineRunner  {
             List<Role> roles = new ArrayList<>(Collections.singletonList(Role.ROLE_ADMIN));
             roles.add(Role.ROLE_SUPER_ADMIN);
             user.setRoles(roles);
-            userService.register(user);
+            userRepositoryService.register(user);
 
         } catch (Exception e) {
             System.err.println(e.getMessage());

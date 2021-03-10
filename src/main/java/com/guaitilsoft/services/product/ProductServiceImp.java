@@ -11,7 +11,6 @@ import com.guaitilsoft.web.models.product.ProductResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -29,10 +28,10 @@ public class ProductServiceImp implements ProductService{
     private final LocalRepositoryService localRepositoryService;
 
     @Autowired
-    public ProductServiceImp(@Qualifier("ProductRepositoryServiceValidation") ProductRepositoryService productRepositoryService,
+    public ProductServiceImp(ProductRepositoryService productRepositoryService,
                              MultimediaService multimediaService, 
                              ModelMapper modelMapper,
-                             @Qualifier("LocalRepositoryServiceValidation") LocalRepositoryService localRepositoryService) {
+                             LocalRepositoryService localRepositoryService) {
         this.productRepositoryService = productRepositoryService;
         this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;

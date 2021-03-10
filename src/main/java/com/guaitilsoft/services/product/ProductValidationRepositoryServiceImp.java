@@ -7,6 +7,7 @@ import com.guaitilsoft.models.constant.ReviewState;
 import com.guaitilsoft.services.NotificationService;
 import com.guaitilsoft.services.ProductReviewService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -14,6 +15,7 @@ import java.util.List;
 
 import static com.guaitilsoft.models.constant.NotificationMessage.PRODUCT_NOTIFICATION;
 
+@Primary
 @Service("ProductRepositoryServiceValidation")
 public class ProductValidationRepositoryServiceImp implements ProductRepositoryService {
 

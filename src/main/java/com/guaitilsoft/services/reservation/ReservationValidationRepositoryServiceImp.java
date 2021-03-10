@@ -6,19 +6,24 @@ import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.activityDescription.ActivityDesRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Primary
 @Service("ReservationRepositoryServiceValidation")
 public class ReservationValidationRepositoryServiceImp implements ReservationRepositoryService {
+
     private final ReservationRepositoryService reservationRepositoryService;
     private final PersonService personService;
     private final ActivityDesRepositoryService activityDesRepositoryService;
 
     @Autowired
-    public ReservationValidationRepositoryServiceImp(@Qualifier("ReservationRepositoryServiceBasic") ReservationRepositoryService reservationRepositoryService, PersonService personService, ActivityDesRepositoryService activityDesRepositoryService) {
+    public ReservationValidationRepositoryServiceImp(@Qualifier("ReservationRepositoryServiceBasic") ReservationRepositoryService reservationRepositoryService,
+                                                     PersonService personService,
+                                                     ActivityDesRepositoryService activityDesRepositoryService) {
         this.reservationRepositoryService = reservationRepositoryService;
         this.personService = personService;
         this.activityDesRepositoryService = activityDesRepositoryService;

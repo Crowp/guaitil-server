@@ -1,10 +1,9 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services.user;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.repositories.UserRepository;
-import com.guaitilsoft.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,19 +17,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
-public class  UserServiceImp implements UserService {
+@Service("UserRepositoryServiceBasic")
+public class UserRepositoryServiceImp implements UserRepositoryService {
 
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final AuthenticationManager authenticationManager;
 
     @Autowired
-    public UserServiceImp(UserRepository userRepository,
-                          PasswordEncoder passwordEncoder,
-                          AuthenticationManager authenticationManager) {
+    public UserRepositoryServiceImp(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
@@ -46,18 +41,16 @@ public class  UserServiceImp implements UserService {
 
     @Override
     public List<User> getUsersAdmin() {
-        return this.getAllUsers().stream().filter(u -> u.getRoles().contains(Role.ROLE_ADMIN) || u.getRoles().contains(Role.ROLE_SUPER_ADMIN)).collect(Collectors.toList());
+        return this.getAllUsers()
+                .stream()
+                .filter(u -> u.getRoles().contains(Role.ROLE_ADMIN) || u.getRoles().contains(Role.ROLE_SUPER_ADMIN))
+                .collect(Collectors.toList());
     }
 
     @Override
     public User get(Long id) {
         assert id != null;
-
-        User product = userRepository.findById(id).orElse(null);
-        if(product != null){
-            return product;
-        }
-        throw new EntityNotFoundException("No se encontró un usuario con el id: " + id);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -65,14 +58,15 @@ public class  UserServiceImp implements UserService {
         assert id != null;
         Optional<User> optionalUser = userRepository.selectUserByMemberId(id);
         if(optionalUser.isPresent()){
-           return  optionalUser.get();
+            return  optionalUser.get();
         }
         throw new EntityNotFoundException("No se encontró un usuario que tenga un miembro con el id: " + id);
     }
 
     @Override
-    public User login(String email, String password) throws ApiRequestException {
+    public User login(String email, String password) {
         assert email != null;
+
         assert password != null;
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
@@ -84,7 +78,7 @@ public class  UserServiceImp implements UserService {
     }
 
     @Override
-    public User register(User user) throws ApiRequestException{
+    public User register(User user) {
         assert user != null;
 
         if (!userRepository.existsByEmail(user.getEmail())) {
@@ -109,7 +103,6 @@ public class  UserServiceImp implements UserService {
     @Override
     public void deleteByEmail(String email) {
         assert email != null;
-
         userRepository.deleteByEmail(email);
     }
 
@@ -131,12 +124,7 @@ public class  UserServiceImp implements UserService {
     @Override
     public User search(String email) {
         assert email != null;
-
-        User user = userRepository.findByEmail(email);
-        if (user != null) {
-            return user;
-        }
-        throw new EntityNotFoundException("El usuario no fue encontrado");
+        return userRepository.findByEmail(email);
     }
 
     @Override

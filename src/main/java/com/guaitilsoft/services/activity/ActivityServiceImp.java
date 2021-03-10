@@ -7,7 +7,6 @@ import com.guaitilsoft.web.models.activity.ActivityRequest;
 import com.guaitilsoft.web.models.activity.ActivityResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -22,7 +21,7 @@ public class ActivityServiceImp implements ActivityService {
     private final ModelMapper modelMapper;
     private final Utils utils;
 
-    public ActivityServiceImp(@Qualifier("ActivityRepositoryServiceValidation") ActivityRepositoryService activityRepositoryService,
+    public ActivityServiceImp(ActivityRepositoryService activityRepositoryService,
                               MultimediaService multimediaService, ModelMapper modelMapper,
                               Utils utils) {
         this.activityRepositoryService = activityRepositoryService;

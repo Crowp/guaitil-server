@@ -18,7 +18,7 @@ import org.springframework.web.cors.CorsUtils;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
 
     @Autowired
     public WebSecurityConfig(TokenProvider tokenProvider) {

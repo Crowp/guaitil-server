@@ -6,6 +6,7 @@ import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.services.localDescription.LocalDesRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Primary
 @Service("ActivityRepositoryServiceValidation")
 public class ActivityValidationRepositoryServiceImp implements ActivityRepositoryService {
 

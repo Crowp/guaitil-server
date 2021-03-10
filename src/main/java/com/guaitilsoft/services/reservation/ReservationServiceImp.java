@@ -6,7 +6,6 @@ import com.guaitilsoft.web.models.reservation.ReservationResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -18,7 +17,8 @@ public class ReservationServiceImp implements ReservationService{
     private final ModelMapper modelMapper;
 
     @Autowired
-    public ReservationServiceImp(@Qualifier("ReservationRepositoryServiceValidation") ReservationRepositoryService reservationRepositoryService, ModelMapper modelMapper) {
+    public ReservationServiceImp(ReservationRepositoryService reservationRepositoryService,
+                                 ModelMapper modelMapper) {
         this.reservationRepositoryService = reservationRepositoryService;
         this.modelMapper = modelMapper;
     }

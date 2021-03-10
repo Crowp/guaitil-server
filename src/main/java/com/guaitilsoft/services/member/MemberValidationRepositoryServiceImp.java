@@ -4,11 +4,13 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Primary
 @Service("MemberRepositoryServiceValidation")
 public class MemberValidationRepositoryServiceImp implements MemberRepositoryService {
 

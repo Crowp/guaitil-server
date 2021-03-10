@@ -6,7 +6,6 @@ import com.guaitilsoft.web.models.member.MemberResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -19,7 +18,7 @@ public class MemberServiceImp implements MemberService {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public MemberServiceImp(@Qualifier("MemberRepositoryServiceValidation") MemberRepositoryService memberRepositoryService, ModelMapper modelMapper) {
+    public MemberServiceImp(MemberRepositoryService memberRepositoryService, ModelMapper modelMapper) {
         this.memberRepositoryService = memberRepositoryService;
         this.modelMapper = modelMapper;
     }
