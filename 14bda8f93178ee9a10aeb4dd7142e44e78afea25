@@ -1,0 +1,249 @@
+[33mcommit 08d6c05110b485be7fed10680854746b6f1a4ad8[m[33m ([m[1;36mHEAD -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Merge: 5799f34 a1eb6a1
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Mon Mar 8 11:17:03 2021 -0600
+
+    Merge branch 'develop' of https://github.com/Crowp/guaitil-server into develop
+
+[33mcommit 5799f34b72f2c0cd683278b911ba6de418e95852[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Mon Mar 8 11:16:51 2021 -0600
+
+    Modificaciones en los descriptions
+
+[33mcommit a1eb6a13a18a406d28e1d95583a4252afa54a964[m
+Author: tatimoramen <tatimorales02@icloud.com>
+Date:   Mon Mar 8 10:33:03 2021 -0600
+
+    decorador incompleto reservaciones
+
+[33mcommit a124252fd9f8cc94bd988a06728084a6c15bd349[m
+Author: tatimoramen <tatimorales02@icloud.com>
+Date:   Mon Mar 8 10:19:07 2021 -0600
+
+    decorador incompleto reservaciones
+
+[33mcommit 75133baaa6626f6c7b3ee0364fa405b826d1cd7d[m
+Merge: 8131091 14bda8f
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Mon Mar 8 10:15:57 2021 -0600
+
+    Decorator product, and fixed some errors
+
+[33mcommit 8131091ac90a79eb96c1fb03fe1af064cf10ed93[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Mon Mar 8 10:00:22 2021 -0600
+
+    Routes fixed
+
+[33mcommit 14bda8f93178ee9a10aeb4dd7142e44e78afea25[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sun Mar 7 20:06:32 2021 -0600
+
+    fix merge commit
+
+[33mcommit 64217df4264e3adfacef73a857bbd74ef0215b2c[m
+Merge: 2020f25 49b91c3
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sun Mar 7 20:01:32 2021 -0600
+
+    Merge branch 'develop' of https://github.com/Crowp/guaitil-server into develop
+
+[33mcommit 2020f25b5c43c984e15771974179c5bcc21b39af[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sun Mar 7 20:00:11 2021 -0600
+
+    add getProductByProductDescriptionId endpoint
+
+[33mcommit 49b91c3a2b937a3044240e9fbdee287481b3443e[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Sun Mar 7 19:35:05 2021 -0600
+
+    Decorator local
+
+[33mcommit a1e7cfae1284bea33dcfae624061437d647b8861[m
+Merge: b8584f5 271e84d
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Sun Mar 7 18:05:27 2021 -0600
+
+    Merge branch 'develop' of https://github.com/Crowp/guaitil-server into develop
+
+[33mcommit b8584f59119b0657333a5081c24a7269c9b5a1f4[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Sun Mar 7 18:05:22 2021 -0600
+
+    Decorator local
+
+[33mcommit 271e84d267e07ea4ace6b18d448fd4518a33245b[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sun Mar 7 16:23:39 2021 -0600
+
+    fix dtos and remove setStatus on pdate product service
+
+[33mcommit c39565ecdee7fdccacf055c61eb0632387c3a634[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sun Mar 7 15:57:18 2021 -0600
+
+    remove setLocal on update productServiceImp
+
+[33mcommit 3127e1933996dcf3c65c04cc4b297c170ce83e5e[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sun Mar 7 15:56:00 2021 -0600
+
+    fix return type on controllers
+
+[33mcommit 4088cfb6f1b4158a9042823ed7f5377cb5e52e31[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sun Mar 7 15:52:48 2021 -0600
+
+    fix product controller
+
+[33mcommit c5c3719c0bba54cf8d183d6a98b1e56297c8d988[m
+Merge: b181ac4 3d274ec
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sun Mar 7 13:22:26 2021 -0600
+
+    Merge branch 'develop' of https://github.com/Crowp/guaitil-server into develop
+
+[33mcommit b181ac41f36c64f2def4eed1fbf2197549a7101a[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sun Mar 7 13:21:30 2021 -0600
+
+    add fetch.EAGER on product.local
+
+[33mcommit 3d274ecb7dab222fd3d0da2403a7b56b567018fd[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Sun Mar 7 10:28:03 2021 -0600
+
+    Member decorator created
+
+[33mcommit a3d38fa38c77f0a3ad25387b642d2381735825a1[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Sat Mar 6 21:44:39 2021 -0600
+
+    rename function on SaleServiceimp
+
+[33mcommit 2cb0eb3cbb9f50ef41bdd82034c8757d9e758d18[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Sat Mar 6 21:25:41 2021 -0600
+
+    Rename ActivityValidationRepositoryServiceImp and SaleValidationRepositoryServiceImp
+
+[33mcommit f63129be475e274248de032c5fdbe779b8b6f0fc[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Sat Mar 6 21:21:14 2021 -0600
+
+    Creacion decorator sales, arreglos en decorator activity
+
+[33mcommit 3898ef74e5ff6a29ba52cc55d7ed48f8ac9ac059[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Sat Mar 6 18:28:32 2021 -0600
+
+    Correcciones dto, services, y pruebas de endpoint
+
+[33mcommit 1a41ce779914a24c19affbee916871a5002eb9ab[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Sat Mar 6 14:16:45 2021 -0600
+
+    Correccion de errores, dto y modelos
+
+[33mcommit 7adc9f769297a7c9381fee0682d325f0b9c9bb1c[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Fri Mar 5 20:47:32 2021 -0600
+
+    Merge con rama decorator, correccion de erroes
+
+[33mcommit 0dc92e37b5d4387af4aec957594a38514b52f586[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Fri Mar 5 20:43:04 2021 -0600
+
+    Correccion de conflictos
+
+[33mcommit b8566a55c14ccbc8dd27296cf4cfdd2f68b779ad[m
+Merge: abf6fc7 7fa8405
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Fri Mar 5 20:42:20 2021 -0600
+
+    Merge remote-tracking branch 'origin/feature/decorator-activity' into develop
+
+[33mcommit abf6fc7a1271d54f210454c3ecf0e05cd21d00bb[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Fri Mar 5 20:11:02 2021 -0600
+
+    Correccion de errores
+
+[33mcommit b81bfe4c68eced60521ca5af353386574c7e9bf9[m
+Merge: d8df6c9 b177e1d
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Fri Mar 5 20:05:06 2021 -0600
+
+    Merge branch 'develop' of https://github.com/Crowp/guaitil-server into develop
+
+[33mcommit d8df6c9adb51ff228398b912973f2224040834d4[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Fri Mar 5 20:05:01 2021 -0600
+
+    ...
+
+[33mcommit b177e1d4bf05235e8bcc43a2e5fd34f8546e9831[m
+Merge: 757fb82 c954b86
+Author: arlenvargas2000@gmail.com <arlenvargas2000@gmail.com>
+Date:   Fri Mar 5 19:50:43 2021 -0600
+
+    Merge branch 'develop' of https://github.com/Crowp/guaitil-server into develop
+
+[33mcommit 757fb82b957a6c92924313d471b2fb8c820ba5a4[m
+Author: arlenvargas2000@gmail.com <arlenvargas2000@gmail.com>
+Date:   Fri Mar 5 19:49:40 2021 -0600
+
+    agregar segundos al member request formato fecha
+
+[33mcommit c954b86acc11c71ab34f5165efe3fd01dd9e5d4e[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Fri Mar 5 19:20:04 2021 -0600
+
+    Cascade Delete fix on Local Model
+
+[33mcommit b96ae3fd21fda46f177f64df1307f444d7e13fbd[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Fri Mar 5 19:00:11 2021 -0600
+
+    fix localControllar ModelMapper list
+
+[33mcommit cfd6223880cef2d02ce5971a0a3b3fd65e0079bc[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Fri Mar 5 18:48:10 2021 -0600
+
+    fix localController
+
+[33mcommit 07c7b4873e22824ef1d72f1fd390a5131dc056de[m
+Merge: ea8657a 8cc039e
+Author: arlenvargas2000@gmail.com <arlenvargas2000@gmail.com>
+Date:   Fri Mar 5 17:15:17 2021 -0600
+
+    Merge branch 'develop' of https://github.com/Crowp/guaitil-server into develop
+
+[33mcommit ea8657a13b4ca576c81f79df986a93583f591679[m
+Author: arlenvargas2000@gmail.com <arlenvargas2000@gmail.com>
+Date:   Fri Mar 5 17:15:11 2021 -0600
+
+    cambiar setMemberId por setId
+
+[33mcommit 8cc039eaa0bd435a804fa4b94bd53d321ab045d7[m
+Author: itsRicmor <ricardojms1999@gmail.com>
+Date:   Fri Mar 5 17:13:35 2021 -0600
+
+    change setter and getter from memberId to id
+
+[33mcommit 0028b8f17f6d521864a5935437b26024efb4a751[m
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Fri Mar 5 10:02:59 2021 -0600
+
+    Cambios en los dto y modelos
+
+[33mcommit 0004251b3fcf071bdf85feebb613f5ec640574dd[m[33m ([m[1;31morigin/develop-luis[m[33m)[m
+Merge: 49c4125 adaa7e2
+Author: Luis <luis.rodriguez.baltodano@est.una.ac.cr>
+Date:   Fri Mar 5 09:50:18 2021 -0600
+
+    Merge branch 'develop-luis' of https://github.com/Crowp/guaitil-server int

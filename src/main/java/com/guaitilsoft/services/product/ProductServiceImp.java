@@ -59,6 +59,7 @@ public class ProductServiceImp implements ProductService{
         Product product = this.parseToProduct(entity);
         Local local = loadFullLocal(product.getLocal().getId());
         product.setLocal(local);
+        loadMultimedia(local.getMultimedia());
         return onSaveProduct(product);
     }
 
