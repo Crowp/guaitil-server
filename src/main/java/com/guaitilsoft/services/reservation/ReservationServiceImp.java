@@ -1,83 +1,69 @@
 package com.guaitilsoft.services.reservation;
 
 import com.guaitilsoft.models.Reservation;
-import com.guaitilsoft.repositories.ReservationRepository;
+import com.guaitilsoft.web.models.reservation.ReservationRequest;
+import com.guaitilsoft.web.models.reservation.ReservationResponse;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
+import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class ReservationServiceImp implements ReservationService {
-
-    private final ReservationRepository reservationRepository;
-
+public class ReservationServiceImp implements ReservationService{
+    private final ReservationRepositoryService reservationRepositoryService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public ReservationServiceImp(ReservationRepository reservationRepository){
-        this.reservationRepository = reservationRepository;
+    public ReservationServiceImp(@Qualifier("ReservationRepositoryServiceValidation") ReservationRepositoryService reservationRepositoryService, ModelMapper modelMapper) {
+        this.reservationRepositoryService = reservationRepositoryService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public List<Reservation> list() {
-        Iterable<Reservation> iterable = reservationRepository.findAll();
-        List<Reservation> reservations = new ArrayList<>();
-        iterable.forEach(reservations::add);
-
-        return reservations;
+    public List<ReservationResponse> list() {
+        return this.parseToListReservationResponses(reservationRepositoryService.list());
     }
 
     @Override
-    public Reservation get(Long id) {
-        assert id != null;
-
-        Reservation reservation = reservationRepository.findById(id).orElse(null);
-        if(reservation != null){
-            return reservation;
-        }
-        throw new EntityNotFoundException("No se encontró la reservación con el id: " + id);
+    public ReservationResponse get(Long id) {
+        return this.parseToReservationResponse(reservationRepositoryService.get(id));
     }
 
     @Override
-    public void save(Reservation entity) {
-        assert entity != null;
-        reservationRepository.save(entity);
+    public ReservationResponse save(ReservationRequest entity) {
+        Reservation reservation = this.parseToReservation(entity);
+        return onSaveReservationResponse(reservation);
+    }
+    private ReservationResponse onSaveReservationResponse (Reservation reservationToStore){
+        Reservation reservation = reservationRepositoryService.save(reservationToStore);
+        return this.parseToReservationResponse(reservation);
     }
 
     @Override
-    public void update(Long id, Reservation entity) {
-        assert id != null;
-        assert entity != null;
-
-        Reservation reservation = this.get(id);
-        reservation.setDateReservation(entity.getDateReservation());
-        reservation.setAmountPerson(entity.getAmountPerson());
-        reservation.setReservationState(entity.getReservationState());
-        reservation.setActivityDescription(entity.getActivityDescription());
-        reservation.setPerson(entity.getPerson());
-        reservationRepository.save(reservation);
+    public ReservationResponse update(Long id, ReservationRequest entity) {
+        return parseToReservationResponse(reservationRepositoryService.update(id, this.parseToReservation(entity)));
     }
 
     @Override
-    public void delete(Long id) {
-        assert id != null;
-
-        Reservation reservation = this.get(id);
-        reservationRepository.delete(reservation);
-    }
+    public void delete(Long id) { reservationRepositoryService.delete(id);  }
 
     @Override
-    public void deleteReservationsByTourId(Long idTour) {
-        Optional<List<Reservation>> optionalReservations = reservationRepository.selectReservationsByActivityId(idTour);
-        optionalReservations.ifPresent(reservations -> reservations.forEach(reservation -> this.delete(reservation.getId())));
+    public List<Reservation> listReservation() {
+        return reservationRepositoryService.list();
     }
 
-    @Override
-    public void deleteReservationByPersonId(String idPerson) {
-        Optional<Reservation> reservationOptional = reservationRepository.selectReservationByPersonId(idPerson);
-        reservationOptional.ifPresent(reservation -> this.delete(reservation.getId()));
+    private List<ReservationResponse> parseToListReservationResponses (List<Reservation> reservationList){
+        Type lisType = new TypeToken<List<ReservationResponse>>(){}.getType();
+        return modelMapper.map(reservationList, lisType);
+    }
+    private ReservationResponse parseToReservationResponse (Reservation reservation){
+        return modelMapper.map(reservation, ReservationResponse.class);
+    }
+    private Reservation parseToReservation (ReservationRequest reservationRequest){
+        return modelMapper.map(reservationRequest, Reservation.class);
     }
 }

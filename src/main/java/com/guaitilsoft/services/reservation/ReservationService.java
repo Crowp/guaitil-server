@@ -1,22 +1,21 @@
 package com.guaitilsoft.services.reservation;
 
 import com.guaitilsoft.models.Reservation;
+import com.guaitilsoft.web.models.reservation.ReservationRequest;
+import com.guaitilsoft.web.models.reservation.ReservationResponse;
 
 import java.util.List;
 
 public interface ReservationService {
-    List<Reservation> list();
+    List<ReservationResponse> list();
 
-    Reservation get(Long id);
+    ReservationResponse get(Long id);
 
-    void save(Reservation entity);
+    ReservationResponse save(ReservationRequest entity);
 
-    void update(Long id, Reservation entity);
+    ReservationResponse update(Long id, ReservationRequest entity);
 
     void delete(Long id);
 
-    void deleteReservationsByTourId(Long idTour);
-
-    void deleteReservationByPersonId(String idPerson);
-
+    List<Reservation> listReservation();
 }

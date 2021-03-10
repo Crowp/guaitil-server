@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.models.constant.ReservationState;
 import com.guaitilsoft.web.models.activityDescription.ActivityDescriptionRequest;
-import com.guaitilsoft.web.models.activityDescription.ActivityDescriptionResponse;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

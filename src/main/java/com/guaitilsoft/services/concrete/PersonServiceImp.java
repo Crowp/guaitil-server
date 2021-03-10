@@ -4,7 +4,6 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Person;
 import com.guaitilsoft.repositories.PersonRepository;
 import com.guaitilsoft.services.PersonService;
-import com.guaitilsoft.services.reservation.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +15,10 @@ import java.util.List;
 public class PersonServiceImp implements PersonService {
 
     private final PersonRepository personRepository;
-    private final ReservationService reservationService;
 
     @Autowired
-    public PersonServiceImp(PersonRepository personRepository, ReservationService reservationService) {
+    public PersonServiceImp(PersonRepository personRepository) {
         this.personRepository = personRepository;
-        this.reservationService = reservationService;
     }
 
     @Override
@@ -80,7 +77,7 @@ public class PersonServiceImp implements PersonService {
 
         Person person = this.get(id);
 
-        reservationService.deleteReservationByPersonId(id);
+       // reservationRepositoryService.deleteReservationByPersonId(id);
         personRepository.delete(person);
     }
 

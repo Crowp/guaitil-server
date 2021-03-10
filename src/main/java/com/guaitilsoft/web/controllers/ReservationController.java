@@ -4,6 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
 import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.ReportService;
+import com.guaitilsoft.services.reservation.ReservationRepositoryService;
 import com.guaitilsoft.services.reservation.ReservationService;
 import com.guaitilsoft.web.models.productReview.ProductReviewResponse;
 import com.guaitilsoft.web.models.reservation.ReservationResponse;
@@ -32,22 +33,18 @@ public class ReservationController {
     public static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
     private final ReservationService reservationService;
-    private final PersonService personService;
-    private final ModelMapper modelMapper;
     private final ReportService<Reservation> reportService;
 
     @Autowired
-    public ReservationController(ReservationService reservationService, ModelMapper modelMapper, PersonService personService, ReportService<Reservation> reportService){
+    public ReservationController(ReservationService reservationService, ReportService<Reservation> reportService){
         this.reservationService = reservationService;
-        this.personService = personService;
-        this.modelMapper = modelMapper;
         this.reportService = reportService;
     }
 
     @GetMapping("/pdf-report")
     public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
         String template = "classpath:\\reports\\ReservationReports\\ReservationPdfReport1.jrxml";
-        List<Reservation> reservations = reservationService.list();
+        List<Reservation> reservations = reservationService.listReservation();
 
         response.setContentType("application/x-download");
         response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de reservaciones.pdf\"");
@@ -59,57 +56,48 @@ public class ReservationController {
 
     @GetMapping
     public ResponseEntity<List<ReservationResponse>> get () {
-        Type listType  = new TypeToken<List<ReservationResponse>>(){}.getType();
-        List<ReservationResponse> reservations = modelMapper.map(reservationService.list(),listType);
+        List<ReservationResponse> reservations = reservationService.list();
         return ResponseEntity.ok().body(reservations);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<ReservationResponse> getById(@PathVariable Long id) {
-        ReservationResponse reservations = modelMapper.map(reservationService.get(id), ReservationResponse.class);
+        ReservationResponse reservations = reservationService.get(id);
         logger.info("Fetching Reservation with id {}", id);
         return ResponseEntity.ok().body(reservations);
     }
 
     @PostMapping
-    public ResponseEntity<ProductReviewResponse> post(@RequestBody ReservationRequest reservationRequest){
-        Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
-        logger.info("Creating reservation: {}", reservation);
-        String personId = reservation.getPerson().getId();
-        if (personService.existPerson(personId)){
-            reservation.setPerson(personService.get(personId));
-        }
-        reservationService.save(reservation);
-        ProductReviewResponse reservationResponse = modelMapper.map(reservation, ProductReviewResponse.class);
+    public ResponseEntity<ReservationResponse> post(@RequestBody ReservationRequest reservationRequest){ ;
+        logger.info("Creating reservation");
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(reservation.getId())
-                .toUri();
+        ReservationResponse reservationResponse =  reservationService.save(reservationRequest);
+        URI location = getUriResourceLocation(reservationResponse.getId());
+
         logger.info("Created reservation : {}", reservationResponse.getId());
-
         return ResponseEntity.created(location).body(reservationResponse);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ProductReviewResponse> put(@PathVariable Long id, @RequestBody ReservationRequest reservationRequest) {
-        if(!id.equals(reservationRequest.getId())){
-            throw new ApiRequestException("El id de la reservacion: " + reservationRequest.getId() + " es diferente al id del parametro: " + id);
-        }
-        Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
+    public ResponseEntity<ReservationResponse> put(@PathVariable Long id, @RequestBody ReservationRequest reservationRequest) {
         logger.info("Updating Reservation with id {}", id);
-        reservationService.update(id, reservation);
-        ProductReviewResponse reservationResponse = modelMapper.map(reservation, ProductReviewResponse.class);
+        ReservationResponse reservationResponse = reservationService.update(id, reservationRequest);
         logger.info("Updated Reservation with id {}", id);
         return ResponseEntity.ok().body(reservationResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ProductReviewResponse> delete(@PathVariable Long id) {
-        ProductReviewResponse reservationResponse = modelMapper.map(reservationService.get(id), ProductReviewResponse.class);
+    public ResponseEntity<ReservationResponse> delete(@PathVariable Long id) {
+        ReservationResponse reservationResponse = reservationService.get(id);
         logger.info("Deleting Reservation with id {}", id);
         reservationService.delete(id);
         logger.info("Deleted Reservation with id {}", id);
         return ResponseEntity.ok().body(reservationResponse);
+    }
+    private URI getUriResourceLocation(Long id) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
     }
 }
