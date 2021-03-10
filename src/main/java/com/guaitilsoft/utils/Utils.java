@@ -1,15 +1,9 @@
 package com.guaitilsoft.utils;
 
-import com.guaitilsoft.models.Local;
-import com.guaitilsoft.models.LocalDescription;
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.MultimediaService;
-import com.guaitilsoft.services.local.LocalRepositoryService;
-import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -20,29 +14,10 @@ import java.util.List;
 public class Utils {
 
     private final MultimediaService multimediaService;
-    private final LocalRepositoryService localRepositoryService;
-    private final MemberRepositoryService memberRepositoryService;
-
 
     @Autowired
-    public Utils(MultimediaService multimediaService,
-                 @Qualifier("LocalRepositoryServiceValidation") LocalRepositoryService localRepositoryService,
-                 @Qualifier("MemberRepositoryServiceValidation") MemberRepositoryService memberRepositoryService) {
+    public Utils(MultimediaService multimediaService) {
         this.multimediaService = multimediaService;
-        this.localRepositoryService = localRepositoryService;
-        this.memberRepositoryService = memberRepositoryService;
-    }
-
-    public Local loadFullLocal(Long id){
-        return this.localRepositoryService.get(id);
-    }
-
-    public LocalDescription loadFullLocalDescriptionByLocalId(Long id){
-        return this.localRepositoryService.get(id).getLocalDescription();
-    }
-
-    public Member loadFullMember(Long id){
-        return this.memberRepositoryService.get(id);
     }
 
     public void loadMultimedia(List<Multimedia> multimediaList) {

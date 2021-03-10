@@ -1,16 +1,10 @@
 package com.guaitilsoft.web.controllers;
 
-import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
-import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.ReportService;
-import com.guaitilsoft.services.reservation.ReservationRepositoryService;
 import com.guaitilsoft.services.reservation.ReservationService;
-import com.guaitilsoft.web.models.productReview.ProductReviewResponse;
 import com.guaitilsoft.web.models.reservation.ReservationResponse;
 import com.guaitilsoft.web.models.reservation.ReservationRequest;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
 
@@ -68,7 +61,7 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationResponse> post(@RequestBody ReservationRequest reservationRequest){ ;
+    public ResponseEntity<ReservationResponse> post(@RequestBody ReservationRequest reservationRequest){
         logger.info("Creating reservation");
 
         ReservationResponse reservationResponse =  reservationService.save(reservationRequest);
@@ -94,6 +87,7 @@ public class ReservationController {
         logger.info("Deleted Reservation with id {}", id);
         return ResponseEntity.ok().body(reservationResponse);
     }
+
     private URI getUriResourceLocation(Long id) {
         return ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")

@@ -71,7 +71,7 @@ public class ProductController {
     public ResponseEntity<ProductResponse> post(@RequestBody ProductRequest productRequest) {
         logger.info("Creating product");
 
-        ProductResponse productResponse = productService.save(productRequest);;
+        ProductResponse productResponse = productService.save(productRequest);
         URI location = getUriResourceLocation(productResponse.getId());
 
         logger.info("Created product : {}", productResponse.getId());
@@ -81,7 +81,7 @@ public class ProductController {
     @PutMapping("{id}")
     public ResponseEntity<ProductResponse> put(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
         logger.info("Updating Product with id: {}", id);
-        ProductResponse productResponse = productService.update(id, productRequest);;
+        ProductResponse productResponse = productService.update(id, productRequest);
         logger.info("Updated Product with id: {}", id);
         return ResponseEntity.ok().body(productResponse);
     }

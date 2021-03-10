@@ -1,8 +1,6 @@
 package com.guaitilsoft.repositories;
 
 import com.guaitilsoft.models.Member;
-import com.guaitilsoft.models.constant.MemberType;
-import com.guaitilsoft.models.constant.Role;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
