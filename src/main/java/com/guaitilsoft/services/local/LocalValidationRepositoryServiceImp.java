@@ -3,7 +3,6 @@ package com.guaitilsoft.services.local;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public class LocalValidationRepositoryServiceImp implements LocalRepositoryServi
     private final LocalRepositoryService localRepositoryService;
 
     @Autowired
-    public LocalValidationRepositoryServiceImp(@Qualifier("LocalRepositoryServiceBasic") LocalRepositoryService localRepositoryService) {
+    public LocalValidationRepositoryServiceImp(LocalRepositoryService localRepositoryService) {
         this.localRepositoryService = localRepositoryService;
     }
 

@@ -5,7 +5,6 @@ import com.guaitilsoft.web.models.productReview.ProductReviewRequest;
 import com.guaitilsoft.web.models.productReview.ProductReviewResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -16,7 +15,8 @@ public class ProductReviewServiceImp implements ProductReviewService {
     private final ProductReviewRepositoryService productReviewRepositoryService;
     private final ModelMapper modelMapper;
 
-    public ProductReviewServiceImp(@Qualifier("ProductReviewRepositoryServiceValidation") ProductReviewRepositoryService productReviewRepositoryService, ModelMapper modelMapper) {
+    public ProductReviewServiceImp(ProductReviewRepositoryService productReviewRepositoryService,
+                                   ModelMapper modelMapper) {
         this.productReviewRepositoryService = productReviewRepositoryService;
         this.modelMapper = modelMapper;
     }

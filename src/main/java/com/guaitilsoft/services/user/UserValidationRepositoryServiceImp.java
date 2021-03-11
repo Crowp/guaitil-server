@@ -4,7 +4,6 @@ import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.member.MemberRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +18,8 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
     private final MemberRepositoryService memberRepositoryService;
 
     @Autowired
-    public UserValidationRepositoryServiceImp(@Qualifier("UserRepositoryServiceBasic") UserRepositoryService userRepositoryService,
-                                              @Qualifier("MemberRepositoryServiceBasic") MemberRepositoryService memberRepositoryService) {
+    public UserValidationRepositoryServiceImp(UserRepositoryService userRepositoryService,
+                                              MemberRepositoryService memberRepositoryService) {
         this.userRepositoryService = userRepositoryService;
         this.memberRepositoryService = memberRepositoryService;
     }

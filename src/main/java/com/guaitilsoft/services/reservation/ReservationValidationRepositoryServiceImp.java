@@ -2,10 +2,9 @@ package com.guaitilsoft.services.reservation;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
-import com.guaitilsoft.services.PersonService;
 import com.guaitilsoft.services.activityDescription.ActivityDesRepositoryService;
+import com.guaitilsoft.services.person.PersonRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -17,15 +16,15 @@ import java.util.List;
 public class ReservationValidationRepositoryServiceImp implements ReservationRepositoryService {
 
     private final ReservationRepositoryService reservationRepositoryService;
-    private final PersonService personService;
+    private final PersonRepositoryService personRepositoryService;
     private final ActivityDesRepositoryService activityDesRepositoryService;
 
     @Autowired
-    public ReservationValidationRepositoryServiceImp(@Qualifier("ReservationRepositoryServiceBasic") ReservationRepositoryService reservationRepositoryService,
-                                                     PersonService personService,
+    public ReservationValidationRepositoryServiceImp(ReservationRepositoryService reservationRepositoryService,
+                                                     PersonRepositoryService personRepositoryService,
                                                      ActivityDesRepositoryService activityDesRepositoryService) {
         this.reservationRepositoryService = reservationRepositoryService;
-        this.personService = personService;
+        this.personRepositoryService = personRepositoryService;
         this.activityDesRepositoryService = activityDesRepositoryService;
     }
 
@@ -46,8 +45,8 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
     @Override
     public Reservation save(Reservation entity) {
         String personId = entity.getPerson().getId();
-        if (personService.existPerson(personId)){
-            entity.setPerson(personService.get(personId));
+        if (personRepositoryService.existPerson(personId)){
+            entity.setPerson(personRepositoryService.get(personId));
         }
         return reservationRepositoryService.save(entity);
     }

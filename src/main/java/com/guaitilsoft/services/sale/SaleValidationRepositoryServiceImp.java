@@ -6,7 +6,6 @@ import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.services.productDescription.ProductDesRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,9 @@ public class SaleValidationRepositoryServiceImp implements SaleRepositoryService
     private final MemberRepositoryService memberRepositoryService;
 
     @Autowired
-    public SaleValidationRepositoryServiceImp(@Qualifier("SaleRepositoryServiceBasic") SaleRepositoryService saleRepositoryService,
+    public SaleValidationRepositoryServiceImp(SaleRepositoryService saleRepositoryService,
                                               ProductDesRepositoryService productDescriptionService,
-                                              @Qualifier("MemberRepositoryServiceValidation") MemberRepositoryService memberRepositoryService) {
+                                              MemberRepositoryService memberRepositoryService) {
         this.saleRepositoryService = saleRepositoryService;
         this.productDescriptionService = productDescriptionService;
         this.memberRepositoryService = memberRepositoryService;

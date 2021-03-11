@@ -3,7 +3,6 @@ package com.guaitilsoft.services.member;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,7 @@ public class MemberValidationRepositoryServiceImp implements MemberRepositorySer
     private final MemberRepositoryService memberRepositoryService;
 
     @Autowired
-    public MemberValidationRepositoryServiceImp(@Qualifier("MemberRepositoryServiceBasic") MemberRepositoryService memberRepositoryService) {
+    public MemberValidationRepositoryServiceImp(MemberRepositoryService memberRepositoryService) {
         this.memberRepositoryService = memberRepositoryService;
     }
 

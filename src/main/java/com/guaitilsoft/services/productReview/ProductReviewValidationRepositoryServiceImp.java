@@ -2,18 +2,19 @@ package com.guaitilsoft.services.productReview;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.ProductReview;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+@Primary
 @Service("ProductReviewRepositoryServiceValidation")
 public class ProductReviewValidationRepositoryServiceImp implements ProductReviewRepositoryService{
 
     private final ProductReviewRepositoryService productReviewRepositoryService;
 
-    public ProductReviewValidationRepositoryServiceImp(@Qualifier("ProductReviewRepositoryServiceBasic") ProductReviewRepositoryService productReviewRepositoryService) {
+    public ProductReviewValidationRepositoryServiceImp(ProductReviewRepositoryService productReviewRepositoryService) {
         this.productReviewRepositoryService = productReviewRepositoryService;
     }
 

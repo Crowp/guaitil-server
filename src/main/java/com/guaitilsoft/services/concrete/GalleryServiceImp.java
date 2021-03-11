@@ -52,11 +52,10 @@ public class GalleryServiceImp implements GalleryService {
         if(optionalGallery.isPresent()){
             gallery = optionalGallery.get();
             multimediaList.addAll(gallery.getMultimedia());
-            gallery.setMultimedia(multimediaList);
         } else {
             gallery = new Gallery();
-            gallery.setMultimedia(multimediaList);
         }
+        gallery.setMultimedia(multimediaList);
         galleryRepository.save(gallery);
         return gallery;
     }

@@ -24,7 +24,8 @@ public class UserServiceImp implements UserService {
 
     @Autowired
     public UserServiceImp(UserRepositoryService userRepositoryService,
-                          ModelMapper modelMapper, TokenProvider tokenProvider) {
+                          ModelMapper modelMapper,
+                          TokenProvider tokenProvider) {
         this.userRepositoryService = userRepositoryService;
         this.modelMapper = modelMapper;
         this.tokenProvider = tokenProvider;

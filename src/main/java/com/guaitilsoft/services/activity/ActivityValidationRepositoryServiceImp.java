@@ -5,7 +5,6 @@ import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.LocalDescription;
 import com.guaitilsoft.services.localDescription.LocalDesRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +21,8 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
     private final LocalDesRepositoryService localDesRepositoryService;
 
     @Autowired
-    public ActivityValidationRepositoryServiceImp(@Qualifier("ActivityRepositoryServiceBasic") ActivityRepositoryService activityRepositoryService, LocalDesRepositoryService localDesRepositoryService) {
+    public ActivityValidationRepositoryServiceImp(ActivityRepositoryService activityRepositoryService,
+                                                  LocalDesRepositoryService localDesRepositoryService) {
         this.activityRepositoryService = activityRepositoryService;
         this.localDesRepositoryService = localDesRepositoryService;
     }

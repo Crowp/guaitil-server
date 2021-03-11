@@ -10,7 +10,6 @@ import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,7 +25,7 @@ public class ApplicationConfig implements CommandLineRunner  {
 
     @Autowired
     public ApplicationConfig(MultimediaService multimediaService,
-                             @Qualifier("UserRepositoryServiceBasic") UserRepositoryService userRepositoryService) {
+                             UserRepositoryService userRepositoryService) {
         this.multimediaService = multimediaService;
         this.userRepositoryService = userRepositoryService;
     }

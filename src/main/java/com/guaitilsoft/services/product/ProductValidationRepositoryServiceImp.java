@@ -6,7 +6,6 @@ import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.models.constant.ReviewState;
 import com.guaitilsoft.services.NotificationService;
 import com.guaitilsoft.services.productReview.ProductReviewRepositoryService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +22,8 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
     private final ProductReviewRepositoryService productReviewService;
     private final NotificationService notificationService;
 
-    public ProductValidationRepositoryServiceImp(@Qualifier("ProductRepositoryServiceBasic") ProductRepositoryService productRepositoryService,
-                                                 @Qualifier("ProductReviewRepositoryServiceValidation") ProductReviewRepositoryService productReviewService,
+    public ProductValidationRepositoryServiceImp(ProductRepositoryService productRepositoryService,
+                                                 ProductReviewRepositoryService productReviewService,
                                                  NotificationService notificationService) {
         this.productRepositoryService = productRepositoryService;
         this.productReviewService = productReviewService;
