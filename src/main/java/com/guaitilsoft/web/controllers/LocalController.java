@@ -9,6 +9,8 @@ import com.guaitilsoft.web.models.local.LocalResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -102,29 +104,30 @@ public class LocalController {
     }
 
     @GetMapping("/pdf-report")
-    public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
-        String template = "classpath:\\reports\\localReports\\localPDFReport.jrxml";
+    public ResponseEntity<byte[]> generatePDFReport() {
+        String template = "classpath:reports/localReports/localPDFReport.jrxml";
         List<Local> locals = localService.localList();
 
-        response.setContentType("application/x-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de locales.pdf\"");
-        OutputStream out = response.getOutputStream();
-        reportService.exportPDF(out, locals, template);
+        byte[] bytes = reportService.exportPDF(locals, template);
+        String nameFile = "reporte_locales.pdf";
 
-        return ResponseEntity.ok().body("Se generó el reporte");
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
     }
 
     @GetMapping("/xlsx-report")
-    public ResponseEntity<String> generateXLSXReport(HttpServletResponse response) throws IOException {
-        String template = "classpath:\\reports\\localReports\\localXLSXReport.jrxml";
+    public ResponseEntity<byte[]> generateXLSXReport() {
+        String template = "classpath:reports/localReports/localXLSXReport.jrxml";
         List<Local> locals = localService.localList();
 
-        response.setContentType("application/x-xlsx");
-        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte locales.xlsx\"");
-        OutputStream out = response.getOutputStream();
-        reportService.exportXLSX(out, locals, template);
-
-        return ResponseEntity.ok().body("Se generó el reporte");
+        byte[] bytes = reportService.exportXLSX(locals, template);
+        String nameFile = "reporte_locales.xlsx";
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
     }
 
     private URI getUriResourceLocation(Long id) {
