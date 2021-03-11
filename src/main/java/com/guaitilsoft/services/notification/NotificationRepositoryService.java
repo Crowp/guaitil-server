@@ -12,5 +12,5 @@ public interface NotificationRepositoryService {
 
     void save(String description, List<Member> members);
 
-    Notification update(Long id, Notification entity);
+    Notification update(Notification entity);
 }

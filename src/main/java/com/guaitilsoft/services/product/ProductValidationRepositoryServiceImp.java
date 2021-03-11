@@ -4,7 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.models.constant.ReviewState;
-import com.guaitilsoft.services.NotificationService;
+import com.guaitilsoft.services.notification.NotificationRepServ;
 import com.guaitilsoft.services.productReview.ProductReviewRepositoryService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -20,14 +20,14 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
 
     private final ProductRepositoryService productRepositoryService;
     private final ProductReviewRepositoryService productReviewService;
-    private final NotificationService notificationService;
+    private final NotificationRepServ notificationRepServ;
 
     public ProductValidationRepositoryServiceImp(ProductRepositoryService productRepositoryService,
                                                  ProductReviewRepositoryService productReviewService,
-                                                 NotificationService notificationService) {
+                                                 NotificationRepServ notificationRepServ) {
         this.productRepositoryService = productRepositoryService;
         this.productReviewService = productReviewService;
-        this.notificationService = notificationService;
+        this.notificationRepServ = notificationRepServ;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
         review.setState(ReviewState.INPROCESS);
         productReviewService.save(review);
 
-        notificationService.createAdminNotification(PRODUCT_NOTIFICATION.getMessage());
+        notificationRepServ.createAdminNotification(PRODUCT_NOTIFICATION.getMessage());
         return product;
     }
 

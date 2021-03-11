@@ -1,6 +1,5 @@
 package com.guaitilsoft.services.notification;
 
-import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Notification;
 import com.guaitilsoft.services.user.UserRepositoryService;
@@ -38,7 +37,7 @@ public class NotificationRepValidationRepositoryServiceImp implements Notificati
         if (notification != null){
             return notification;
         }
-        throw new EntityNotFoundException("No se encontro la notificación con el id: "+ id);
+        throw new EntityNotFoundException("No se encontró la notificación con el id: "+ id);
     }
 
     @Override
@@ -47,13 +46,18 @@ public class NotificationRepValidationRepositoryServiceImp implements Notificati
     }
 
     @Override
-    public Notification update(Long id, Notification entity) {
-        if(!id.equals(entity.getId())){
-            throw new ApiRequestException("El id de la notitificación: " + entity.getId() + " es diferente al id del parametro: " + id);
-        }
-        entity.setIsActive(false);
-        return notificationRepositoryService.update(id, entity);
+    public Notification update(Notification entity) {
+        return notificationRepositoryService.update(entity);
     }
+
+
+    @Override
+    public Notification updateNotification(Long id) {
+        Notification entity = this.get(id);
+        entity.setIsActive(false);
+        return this.update(entity);
+    }
+
 
     @Override
     public void createAdminNotification(String description) {

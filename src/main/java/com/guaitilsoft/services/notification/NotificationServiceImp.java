@@ -1,6 +1,7 @@
 package com.guaitilsoft.services.notification;
 
 import com.guaitilsoft.models.Notification;
+import com.guaitilsoft.web.models.notification.NotificationLazyResponse;
 import com.guaitilsoft.web.models.notification.NotificationResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -34,8 +35,8 @@ public class NotificationServiceImp implements NotificationService {
     }
 
     @Override
-    public NotificationResponse update(Long id, Notification entity) {
-        return this.parseToNotificationResponse(notificationRepServ.update(id, entity));
+    public NotificationResponse update(Long id) {
+        return this.parseToNotificationResponse(notificationRepServ.updateNotification(id));
     }
 
     @Override
@@ -44,8 +45,8 @@ public class NotificationServiceImp implements NotificationService {
     }
 
     @Override
-    public List<NotificationResponse> getAllActiveByMemberId(Long id) {
-        return this.parseToNotificationResponseList(notificationRepServ.getAllActiveByMemberId(id));
+    public List<NotificationLazyResponse> getAllActiveByMemberId(Long id) {
+        return this.parseToNotificationLazyResponse(notificationRepServ.getAllActiveByMemberId(id));
     }
 
     private List<NotificationResponse> parseToNotificationResponseList(List<Notification> notifications){
@@ -55,5 +56,10 @@ public class NotificationServiceImp implements NotificationService {
 
     private NotificationResponse parseToNotificationResponse(Notification notification){
         return modelMapper.map(notification, NotificationResponse.class);
+    }
+
+    private List<NotificationLazyResponse> parseToNotificationLazyResponse(List<Notification> notifications){
+        Type listType = new TypeToken<List<NotificationResponse>>(){}.getType();
+        return modelMapper.map(notifications, listType);
     }
 }
