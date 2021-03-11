@@ -44,10 +44,7 @@ public class NotificationRepositoryServiceImp implements NotificationRepositoryS
     }
 
     @Override
-    public Notification update(Long id, Notification entity) {
-        assert id != null;
-        Notification notification = this.get(id);
-
-        return notificationRepository.save(notification);
+    public Notification update(Notification entity) {
+        return notificationRepository.save(entity);
     }
 }
