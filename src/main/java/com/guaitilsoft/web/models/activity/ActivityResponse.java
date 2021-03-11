@@ -1,6 +1,5 @@
 package com.guaitilsoft.web.models.activity;
 
-import com.guaitilsoft.models.ActivityDescription;
 import com.guaitilsoft.web.models.activityDescription.ActivityDescriptionResponse;
 import com.guaitilsoft.web.models.localDescription.LocalDescriptionResponse;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;

@@ -2,7 +2,6 @@ package com.guaitilsoft.web.models.productReview;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReviewState;
-import com.guaitilsoft.web.models.productDescription.ProductDescriptionRequest;
 import com.guaitilsoft.web.models.productDescription.ProductDescriptionResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;

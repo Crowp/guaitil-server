@@ -1,6 +1,5 @@
 package com.guaitilsoft.web.models.activity;
 
-import com.guaitilsoft.web.models.activityDescription.ActivityDescriptionRequest;
 import com.guaitilsoft.web.models.activityDescription.ActivityDescriptionResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;

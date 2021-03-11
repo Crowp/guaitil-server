@@ -1,12 +1,10 @@
 package com.guaitilsoft.web.models.user;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.web.models.member.MemberLazyResponse;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data

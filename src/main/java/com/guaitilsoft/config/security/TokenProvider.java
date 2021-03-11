@@ -36,8 +36,12 @@ public class TokenProvider {
     @Value("${spring.security.jwt.token.expire-length}")
     private long cantOfDays; // 1h
 
+    private final UserDetailServiceImp myUserDetails;
+
     @Autowired
-    private UserDetailServiceImp myUserDetails;
+    public TokenProvider(UserDetailServiceImp myUserDetails) {
+        this.myUserDetails = myUserDetails;
+    }
 
     @PostConstruct
     protected void init() {
