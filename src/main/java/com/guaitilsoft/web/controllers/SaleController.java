@@ -1,7 +1,7 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.Sale;
-import com.guaitilsoft.services.ReportService;
+import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.sale.SaleService;
 import com.guaitilsoft.web.models.sale.SaleRequest;
 import com.guaitilsoft.web.models.sale.SaleResponse;

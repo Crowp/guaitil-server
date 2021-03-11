@@ -6,7 +6,6 @@ import com.guaitilsoft.repositories.NotificationRepository;
 import com.guaitilsoft.services.NotificationService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -22,7 +21,7 @@ public class NotificationServiceImp implements NotificationService {
 
     @Autowired
     public NotificationServiceImp(NotificationRepository notificationRepository,
-                                  @Qualifier("UserRepositoryServiceValidation") UserRepositoryService userRepositoryService) {
+                                  UserRepositoryService userRepositoryService) {
         this.notificationRepository = notificationRepository;
         this.userRepositoryService = userRepositoryService;
     }

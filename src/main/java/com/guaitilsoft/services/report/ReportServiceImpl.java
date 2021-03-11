@@ -1,7 +1,6 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services.report;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.services.ReportService;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
