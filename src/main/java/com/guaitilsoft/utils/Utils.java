@@ -27,7 +27,7 @@ public class Utils {
         multimediaList.addAll(multimediaLoaded);
     }
 
-    public void addUrlToMultimedia(List<MultimediaResponse> multimedia){
+    public static void addUrlToMultimedia(List<MultimediaResponse> multimedia){
         multimedia.forEach(m -> m.setUrl(getUrlHost(m)));
     }
 

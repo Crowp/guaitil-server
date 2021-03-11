@@ -1,28 +1,26 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services.gallery;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Gallery;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.GalleryRepository;
-import com.guaitilsoft.services.GalleryService;
 import com.guaitilsoft.services.MultimediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Service
-public class GalleryServiceImp implements GalleryService {
+@Service("GalleryRepositoryServiceBasic")
+public class GalleryRepositoryServiceImp implements GalleryRepositoryService {
 
     private final GalleryRepository galleryRepository;
     private final MultimediaService multimediaService;
 
     @Autowired
-    public GalleryServiceImp(GalleryRepository galleryRepository, MultimediaService multimediaService) {
+    public GalleryRepositoryServiceImp(GalleryRepository galleryRepository, MultimediaService multimediaService) {
         this.galleryRepository = galleryRepository;
         this.multimediaService = multimediaService;
     }
@@ -30,11 +28,7 @@ public class GalleryServiceImp implements GalleryService {
     @Override
     public Gallery getById(Long id) {
         assert id != null;
-        Gallery gallery = galleryRepository.findById(id).orElse(null);
-        if (gallery != null){
-            return gallery;
-        }
-        throw new EntityNotFoundException("No se encontró una galeria con el id: " + id);
+        return galleryRepository.findById(id).orElse(null);
     }
 
     @Override

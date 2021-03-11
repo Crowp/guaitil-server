@@ -2,6 +2,8 @@ package com.guaitilsoft.services.local;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
+import com.guaitilsoft.models.Member;
+import com.guaitilsoft.services.member.MemberRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,13 @@ import java.util.List;
 public class LocalValidationRepositoryServiceImp implements LocalRepositoryService {
 
     private final LocalRepositoryService localRepositoryService;
+    private final MemberRepositoryService memberRepositoryService;
 
     @Autowired
-    public LocalValidationRepositoryServiceImp(LocalRepositoryService localRepositoryService) {
+    public LocalValidationRepositoryServiceImp(LocalRepositoryService localRepositoryService,
+                                               MemberRepositoryService memberRepositoryService) {
         this.localRepositoryService = localRepositoryService;
+        this.memberRepositoryService = memberRepositoryService;
     }
 
     @Override
@@ -36,6 +41,8 @@ public class LocalValidationRepositoryServiceImp implements LocalRepositoryServi
 
     @Override
     public Local save(Local entity) {
+        Long memberId = entity.getMember().getId();
+        entity.setMember(loadFullMember(memberId));
         return localRepositoryService.save(entity);
     }
 
@@ -55,5 +62,9 @@ public class LocalValidationRepositoryServiceImp implements LocalRepositoryServi
     @Override
     public List<Local> getAllLocalByIdMember(Long id) {
         return localRepositoryService.getAllLocalByIdMember(id);
+    }
+
+    public Member loadFullMember(Long id){
+        return this.memberRepositoryService.get(id);
     }
 }

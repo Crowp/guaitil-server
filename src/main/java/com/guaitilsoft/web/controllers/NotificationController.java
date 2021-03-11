@@ -1,18 +1,15 @@
 package com.guaitilsoft.web.controllers;
 
-import com.guaitilsoft.models.Notification;
-import com.guaitilsoft.services.NotificationService;
+import com.guaitilsoft.services.notification.NotificationService;
 import com.guaitilsoft.web.models.notification.NotificationLazyResponse;
-import com.guaitilsoft.web.models.notification.NotificationRequest;
+import com.guaitilsoft.web.models.notification.NotificationResponse;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Type;
 import java.util.List;
 
 @CrossOrigin
@@ -32,44 +29,34 @@ public class NotificationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<NotificationRequest>> get(){
-        Type listType = new TypeToken<List<NotificationRequest>>(){}.getType();
-        List<NotificationRequest> notificationRequest = modelMapper.map(notificationService.list(), listType);
-        return ResponseEntity.ok().body(notificationRequest);
+    public ResponseEntity<List<NotificationResponse>> get(){
+        List<NotificationResponse> notificationResponse = notificationService.list();
+        return ResponseEntity.ok().body(notificationResponse);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<NotificationRequest> getById(@PathVariable Long id){
-        NotificationRequest notificationRequest = modelMapper.map(notificationService.get(id), NotificationRequest.class);
+    public ResponseEntity<NotificationResponse> getById(@PathVariable Long id){
+        NotificationResponse notificationResponse = notificationService.get(id);
         logger.info("Fetching Activity with id {}", id);
-        return ResponseEntity.ok().body(notificationRequest);
+        return ResponseEntity.ok().body(notificationResponse);
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<NotificationRequest>> getAllNotificationActive(){
-        Type listType = new TypeToken<List<NotificationRequest>>(){}.getType();
-        List<NotificationRequest> notificationRequest = modelMapper.map(notificationService.getAllNotificationActive(), listType);
-
-        return ResponseEntity.ok().body(notificationRequest);
+    public ResponseEntity<List<NotificationResponse>> getAllNotificationActive(){
+        List<NotificationResponse> notificationResponse = notificationService.getAllNotificationActive();
+        return ResponseEntity.ok().body(notificationResponse);
     }
 
     @GetMapping("/active/memberId/{id}")
     public ResponseEntity<List<NotificationLazyResponse>> getAllNotificationActiveByMemberId(@PathVariable Long id){
-        Type listType = new TypeToken<List<NotificationLazyResponse>>(){}.getType();
-        List<NotificationLazyResponse> notificationResponse = modelMapper.map(notificationService.getAllActiveByMemberId(id), listType);
-
+        List<NotificationLazyResponse> notificationResponse = notificationService.getAllActiveByMemberId(id);
         return ResponseEntity.ok().body(notificationResponse);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<NotificationRequest> put(@PathVariable Long id) {
-        Notification notification = notificationService.get(id);
+    public ResponseEntity<NotificationResponse> put(@PathVariable Long id) {
         logger.info("Updating Activity with id {}", id);
-
-        notification.setIsActive(false);
-        notificationService.update(id, notification);
-        NotificationRequest notificationResponse = modelMapper.map(notification, NotificationRequest.class);
-
+        NotificationResponse notificationResponse = notificationService.update(id);
         logger.info("Updated Activity with id {}", id);
         return ResponseEntity.ok().body(notificationResponse);
     }

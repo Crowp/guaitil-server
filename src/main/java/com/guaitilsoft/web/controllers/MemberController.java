@@ -1,7 +1,7 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.Member;
-import com.guaitilsoft.services.ReportService;
+import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.member.MemberService;
 import com.guaitilsoft.web.models.member.MemberRequest;
 import com.guaitilsoft.web.models.member.MemberResponse;

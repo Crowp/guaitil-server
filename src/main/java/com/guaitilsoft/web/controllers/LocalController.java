@@ -2,7 +2,7 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.constant.LocalType;
-import com.guaitilsoft.services.ReportService;
+import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.local.LocalService;
 import com.guaitilsoft.web.models.local.LocalRequest;
 import com.guaitilsoft.web.models.local.LocalResponse;

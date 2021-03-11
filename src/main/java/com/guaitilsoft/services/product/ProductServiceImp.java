@@ -5,14 +5,13 @@ import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
 import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.services.local.LocalRepositoryService;
-import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.product.ProductRequest;
 import com.guaitilsoft.web.models.product.ProductResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -110,13 +109,13 @@ public class ProductServiceImp implements ProductService{
     private List<ProductResponse>  parseToProductResponseList(List<Product> products){
         Type lisType = new TypeToken<List<ProductResponse>>(){}.getType();
         List<ProductResponse> productResponses = modelMapper.map(products, lisType);
-        productResponses.forEach(p -> addUrlToMultimedia(p.getMultimedia()));
+        productResponses.forEach(p -> Utils.addUrlToMultimedia(p.getMultimedia()));
         return productResponses;
     }
 
     private ProductResponse parseToProductResponse(Product product){
         ProductResponse productResponse = modelMapper.map(product, ProductResponse.class);
-        addUrlToMultimedia(productResponse.getMultimedia());
+        Utils.addUrlToMultimedia(productResponse.getMultimedia());
         return productResponse;
     }
 
@@ -129,18 +128,6 @@ public class ProductServiceImp implements ProductService{
         multimediaList.forEach(media -> multimediaLoaded.add(multimediaService.get(media.getId())));
         multimediaList.clear();
         multimediaList.addAll(multimediaLoaded);
-    }
-
-    private void addUrlToMultimedia(List<MultimediaResponse> multimedia){
-        multimedia.forEach(m -> m.setUrl(getUrlHost(m)));
-    }
-
-    private static String getUrlHost(MultimediaResponse multimediaResponse){
-        String resourcePath = "/api/multimedia/load/";
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(resourcePath)
-                .path(multimediaResponse.getFileName())
-                .toUriString();
     }
     
     private Local loadFullLocal(Long id){

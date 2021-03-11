@@ -33,7 +33,7 @@ public class ActivityServiceImp implements ActivityService {
     @Override
     public List<ActivityResponse> list() {
         List<ActivityResponse> activitiesResponses = this.parseToActivityResponseList(activityRepositoryService.list());
-        activitiesResponses.forEach(a -> this.utils.addUrlToMultimedia(a.getMultimedia()));
+        activitiesResponses.forEach(a -> Utils.addUrlToMultimedia(a.getMultimedia()));
         return activitiesResponses;
     }
 
@@ -57,7 +57,7 @@ public class ActivityServiceImp implements ActivityService {
 
     private ActivityResponse onSaveActivity(Activity activityToStore) {
         this.utils.loadMultimedia(activityToStore.getMultimedia());
-        Activity activityStored =this.activityRepositoryService.save(activityToStore);
+        Activity activityStored = this.activityRepositoryService.save(activityToStore);
         return getActivityResponse(activityStored);
     }
 
@@ -90,7 +90,7 @@ public class ActivityServiceImp implements ActivityService {
 
     private ActivityResponse getActivityResponse(Activity activityStored) {
         ActivityResponse activityResponse = this.parseToActivityResponse(activityStored);
-        this.utils.addUrlToMultimedia(activityResponse.getMultimedia());
+        Utils.addUrlToMultimedia(activityResponse.getMultimedia());
         return activityResponse;
     }
 

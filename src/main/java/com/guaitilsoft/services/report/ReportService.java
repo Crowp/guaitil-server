@@ -1,4 +1,4 @@
-package com.guaitilsoft.services;
+package com.guaitilsoft.services.report;
 
 
 import java.io.OutputStream;
