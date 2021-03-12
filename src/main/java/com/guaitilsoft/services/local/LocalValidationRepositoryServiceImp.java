@@ -3,7 +3,9 @@ package com.guaitilsoft.services.local;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.services.member.MemberRepositoryService;
+import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -17,12 +19,15 @@ public class LocalValidationRepositoryServiceImp implements LocalRepositoryServi
 
     private final LocalRepositoryService localRepositoryService;
     private final MemberRepositoryService memberRepositoryService;
+    private final UserRepositoryService userRepositoryService;
 
     @Autowired
     public LocalValidationRepositoryServiceImp(LocalRepositoryService localRepositoryService,
-                                               MemberRepositoryService memberRepositoryService) {
+                                               MemberRepositoryService memberRepositoryService,
+                                               UserRepositoryService userRepositoryService) {
         this.localRepositoryService = localRepositoryService;
         this.memberRepositoryService = memberRepositoryService;
+        this.userRepositoryService = userRepositoryService;
     }
 
     @Override
@@ -56,7 +61,9 @@ public class LocalValidationRepositoryServiceImp implements LocalRepositoryServi
 
     @Override
     public void delete(Long id) {
+        Local local = this.get(id);
         localRepositoryService.delete(id);
+        deleteUserMemberWithoutLocals(local);
     }
 
     @Override
@@ -64,7 +71,17 @@ public class LocalValidationRepositoryServiceImp implements LocalRepositoryServi
         return localRepositoryService.getAllLocalByIdMember(id);
     }
 
-    public Member loadFullMember(Long id){
+    private Member loadFullMember(Long id){
         return this.memberRepositoryService.get(id);
+    }
+
+    private void deleteUserMemberWithoutLocals(Local local){
+        Member member = memberRepositoryService.get(local.getMember().getId());
+        if (member.getLocals().size() == 0){
+            userRepositoryService.deleteUserByMemberId(member.getId());
+            if (member.getMemberType() == MemberType.REGULAR){
+                memberRepositoryService.delete(member.getId());
+            }
+        }
     }
 }

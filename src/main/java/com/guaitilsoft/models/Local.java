@@ -26,7 +26,7 @@ public class Local {
 
     @JsonBackReference
     @JoinColumn(name = "memberId")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
     @OneToMany(targetEntity = Product.class, cascade = CascadeType.ALL,
