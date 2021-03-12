@@ -1,7 +1,7 @@
 package com.guaitilsoft.services.activity;
 
 import com.guaitilsoft.models.Activity;
-import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.multimedia.MultimediaService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.activity.ActivityRequest;
 import com.guaitilsoft.web.models.activity.ActivityResponse;

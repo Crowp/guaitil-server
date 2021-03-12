@@ -1,4 +1,4 @@
-package com.guaitilsoft.services;
+package com.guaitilsoft.services.multimedia;
 
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.web.models.multimedia.MultimediaRequest;

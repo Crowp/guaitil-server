@@ -7,7 +7,7 @@ import com.guaitilsoft.models.constant.Gender;
 import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.models.constant.PersonType;
 import com.guaitilsoft.models.constant.Role;
-import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.multimedia.MultimediaService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

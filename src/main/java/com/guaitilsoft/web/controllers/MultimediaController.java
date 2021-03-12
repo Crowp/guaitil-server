@@ -2,7 +2,7 @@ package com.guaitilsoft.web.controllers;
 
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.multimedia.MultimediaService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.multimedia.MultimediaRequest;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;

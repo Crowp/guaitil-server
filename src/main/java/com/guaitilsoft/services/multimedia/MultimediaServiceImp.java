@@ -1,9 +1,8 @@
-package com.guaitilsoft.services.concrete;
+package com.guaitilsoft.services.multimedia;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.MultimediaRepository;
-import com.guaitilsoft.services.MultimediaService;
 import com.guaitilsoft.web.models.multimedia.MultimediaRequest;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

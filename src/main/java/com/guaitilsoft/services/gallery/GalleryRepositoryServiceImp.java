@@ -4,7 +4,7 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Gallery;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.repositories.GalleryRepository;
-import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.multimedia.MultimediaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

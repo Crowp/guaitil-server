@@ -31,4 +31,9 @@ public class Notification {
 
     @ManyToMany(cascade = CascadeType.MERGE)
     private List<Member> members;
+
+    @PrePersist
+    private void prePersist(){
+        this.date = LocalDateTime.now();
+    }
 }

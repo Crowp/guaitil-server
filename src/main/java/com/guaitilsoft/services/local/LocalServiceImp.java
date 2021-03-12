@@ -3,7 +3,7 @@ package com.guaitilsoft.services.local;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
-import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.multimedia.MultimediaService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.local.LocalRequest;
 import com.guaitilsoft.web.models.local.LocalResponse;

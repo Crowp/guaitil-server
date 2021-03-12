@@ -1,7 +1,7 @@
 package com.guaitilsoft.utils;
 
 import com.guaitilsoft.models.Multimedia;
-import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.multimedia.MultimediaService;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

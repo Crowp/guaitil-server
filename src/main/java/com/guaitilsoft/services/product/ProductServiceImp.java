@@ -3,7 +3,7 @@ package com.guaitilsoft.services.product;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.Product;
-import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.multimedia.MultimediaService;
 import com.guaitilsoft.services.local.LocalRepositoryService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.product.ProductRequest;

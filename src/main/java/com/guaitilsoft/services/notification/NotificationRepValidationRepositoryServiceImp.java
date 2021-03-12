@@ -4,6 +4,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Notification;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class NotificationRepValidationRepositoryServiceImp implements Notificati
     private final UserRepositoryService userRepositoryService;
 
     @Autowired
-    public NotificationRepValidationRepositoryServiceImp(NotificationRepositoryService notificationRepositoryService,
+    public NotificationRepValidationRepositoryServiceImp(@Qualifier("NotificationRepositoryServiceBasic") NotificationRepositoryService notificationRepositoryService,
                                                          UserRepositoryService userRepositoryService) {
         this.notificationRepositoryService = notificationRepositoryService;
         this.userRepositoryService = userRepositoryService;
