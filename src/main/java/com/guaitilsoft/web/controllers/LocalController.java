@@ -16,9 +16,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.util.List;
 
@@ -124,6 +121,7 @@ public class LocalController {
 
         byte[] bytes = reportService.exportXLSX(locals, template);
         String nameFile = "reporte_locales.xlsx";
+
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
