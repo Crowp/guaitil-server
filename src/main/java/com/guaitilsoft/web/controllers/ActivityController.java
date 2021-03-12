@@ -1,11 +1,14 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.services.activity.ActivityService;
+import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.web.models.activity.ActivityRequest;
 import com.guaitilsoft.web.models.activity.ActivityResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -21,10 +24,12 @@ public class ActivityController {
     public static final Logger logger = LoggerFactory.getLogger(ActivityController.class);
 
     private final ActivityService activityService;
+    private final ReportService<ActivityResponse> reportService;
 
     @Autowired
-    public ActivityController(ActivityService activityService) {
+    public ActivityController(ActivityService activityService, ReportService<ActivityResponse> reportService) {
         this.activityService = activityService;
+        this.reportService = reportService;
     }
 
     @GetMapping
@@ -88,6 +93,33 @@ public class ActivityController {
 
         logger.info("Deleted Activity Multimedia with id {}", id);
         return ResponseEntity.ok().body(activityResponse);
+    }
+
+    @GetMapping("/pdf-report")
+    public ResponseEntity<byte[]> generatePDFReport() {
+        String template = "classpath:reports/localReports/localPDFReport.jrxml";
+        List<ActivityResponse> activities = activityService.list();
+
+        byte[] bytes = reportService.exportPDF(activities, template);
+        String nameFile = "reporte_actividades.pdf";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<byte[]> generateXLSXReport() {
+        String template = "classpath:reports/localReports/localXLSXReport.jrxml";
+        List<ActivityResponse> activities = activityService.list();
+
+        byte[] bytes = reportService.exportXLSX(activities, template);
+        String nameFile = "reporte_locales.xlsx";
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
     }
 
     private URI getUriResourceLocation(Long id) {
