@@ -10,6 +10,7 @@ import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.OutputStream;
@@ -42,6 +43,17 @@ public class ReportServiceImpl<T> implements ReportService<T> {
     }
 
     @Override
+    public byte[] exportPDF( List<T> list, String template) {
+        try {
+            JasperPrint jasperPrint = makeFile(list, template);
+//            JasperExportManager.exportReportToPdfStream(jasperPrint, outputStream);
+            return JasperExportManager.exportReportToPdf(jasperPrint);
+        }catch (Exception e){
+            throw new ApiRequestException("El archivo no se pudo crear " + e.getMessage());
+        }
+    }
+
+    @Override
     public void exportXLSX(OutputStream outputStream, List<T> list, String template) {
         try {
             JasperPrint jasperPrint = makeFile(list, template);
@@ -56,6 +68,28 @@ public class ReportServiceImpl<T> implements ReportService<T> {
             xlsxExporter.setConfiguration(configuration);
             xlsxExporter.exportReport();
 
+        }catch (Exception e){
+            throw new ApiRequestException("El archivo no se pudo crear " + e.getMessage());
+        }
+    }
+
+    @Override
+    public byte[] exportXLSX(List<T> list, String template) {
+        try {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            JasperPrint jasperPrint = makeFile(list, template);
+            JRXlsxExporter xlsxExporter = new JRXlsxExporter();
+            xlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            xlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(outputStream));
+            SimpleXlsxReportConfiguration configuration = new SimpleXlsxReportConfiguration();
+            configuration.setOnePagePerSheet(true);
+            configuration.setWhitePageBackground(false);
+            configuration.setRemoveEmptySpaceBetweenColumns(true);
+            configuration.setRemoveEmptySpaceBetweenRows(true);
+            xlsxExporter.setConfiguration(configuration);
+            xlsxExporter.exportReport();
+
+            return outputStream.toByteArray();
         }catch (Exception e){
             throw new ApiRequestException("El archivo no se pudo crear " + e.getMessage());
         }
