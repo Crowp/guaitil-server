@@ -47,9 +47,4 @@ public class Local {
         this.multimedia.remove(multimedia);
     }
 
-    @PrePersist
-    public void prePersist() {
-        this.showLocal = true;
-    }
-
 }
