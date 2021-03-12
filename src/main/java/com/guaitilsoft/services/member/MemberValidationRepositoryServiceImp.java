@@ -2,7 +2,9 @@ package com.guaitilsoft.services.member;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +16,13 @@ import java.util.List;
 public class MemberValidationRepositoryServiceImp implements MemberRepositoryService {
 
     private final MemberRepositoryService memberRepositoryService;
+    private final UserRepositoryService userRepositoryService;
 
     @Autowired
-    public MemberValidationRepositoryServiceImp(MemberRepositoryService memberRepositoryService) {
+    public MemberValidationRepositoryServiceImp(MemberRepositoryService memberRepositoryService,
+                                                @Qualifier("UserRepositoryServiceBasic") UserRepositoryService userRepositoryService) {
         this.memberRepositoryService = memberRepositoryService;
+        this.userRepositoryService = userRepositoryService;
     }
 
     @Override
@@ -50,6 +55,7 @@ public class MemberValidationRepositoryServiceImp implements MemberRepositorySer
 
     @Override
     public void delete(Long id) {
+        this.userRepositoryService.deleteUserByMemberId(id);
         this.memberRepositoryService.delete(id);
     }
 

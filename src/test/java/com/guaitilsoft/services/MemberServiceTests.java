@@ -3,7 +3,7 @@ package com.guaitilsoft.services;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.repositories.MemberRepository;
-import com.guaitilsoft.services.member.MemberRepositoryImp;
+import com.guaitilsoft.services.member.MemberRepositoryServiceImp;
 import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.utils.UtilsTest;
 import org.junit.Before;
@@ -39,7 +39,7 @@ public class MemberServiceTests {
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
-        this.memberRepositoryService = new MemberRepositoryImp(memberRepository);
+        this.memberRepositoryService = new MemberRepositoryServiceImp(memberRepository);
         this.memberBasic = UtilsTest.createBasicMember();
     }
 

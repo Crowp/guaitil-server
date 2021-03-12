@@ -33,7 +33,7 @@ public class User {
     @ElementCollection(fetch = FetchType.EAGER)
     List<Role> roles;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private Member member;
 
     public String getEmail(){

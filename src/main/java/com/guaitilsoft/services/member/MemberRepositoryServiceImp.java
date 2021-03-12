@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("MemberRepositoryServiceBasic")
-public class MemberRepositoryImp implements MemberRepositoryService{
+public class MemberRepositoryServiceImp implements MemberRepositoryService{
 
     private final MemberRepository memberRepository;
 
     @Autowired
-    public MemberRepositoryImp(MemberRepository memberRepository) {
+    public MemberRepositoryServiceImp(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
