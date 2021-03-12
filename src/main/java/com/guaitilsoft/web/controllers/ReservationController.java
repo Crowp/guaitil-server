@@ -8,13 +8,12 @@ import com.guaitilsoft.web.models.reservation.ReservationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.util.List;
 
@@ -35,16 +34,17 @@ public class ReservationController {
     }
 
     @GetMapping("/pdf-report")
-    public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
+    public ResponseEntity<byte[]> generatePDFReport() {
         String template = "classpath:\\reports\\ReservationReports\\ReservationPdfReport1.jrxml";
         List<Reservation> reservations = reservationService.listReservation();
 
-        response.setContentType("application/x-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de reservaciones.pdf\"");
-        OutputStream out = response.getOutputStream();
-        reportService.exportPDF(out, reservations, template);
+         byte[] bytes = reportService.exportPDF(reservations, template);
+         String nameFile = "reporte_Reservaciones.pdf";
 
-        return ResponseEntity.ok().body("Se generó el reporte");
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
     }
 
     @GetMapping

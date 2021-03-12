@@ -8,14 +8,13 @@ import com.guaitilsoft.web.models.member.MemberResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.net.URI;
 import java.util.List;
 
@@ -92,29 +91,31 @@ public class MemberController {
     }
 
     @GetMapping("/pdf-report")
-    public ResponseEntity<String> generatePDFReport(HttpServletResponse response) throws IOException {
-        String template = "classpath:\\reports\\memberReports\\memberPDFReport.jrxml";
-        List<Member> members = memberService.memberList();
+        public ResponseEntity<byte[]>generatePDFReport() {
+            String template = "classpath:\\reports\\memberReports\\memberPDFReport.jrxml";
+            List<Member> members = memberService.memberList();
 
-        response.setContentType("application/x-download");
-        response.setHeader("Content-Disposition", "attachment; filename=\"Reporte de asociados.pdf\"");
-        OutputStream out = response.getOutputStream();
-        reportService.exportPDF(out, members, template);
+            byte[] bytes = reportService.exportPDF(members, template);
+            String nameFile = "reporte_miembros.pdf";
 
-        return ResponseEntity.ok().body("Se generó el reporte");
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
     }
 
     @GetMapping("/xlsx-report")
-    public ResponseEntity<String> generateXLSXReport(HttpServletResponse response) throws IOException {
+    public ResponseEntity<byte[]> generateXLSXReport(){
         String template = "classpath:\\reports\\memberReports\\memberXLSXReport.jrxml";
         List<Member> members = memberService.memberList();
 
-        response.setContentType("application/octet-stream");
-        response.setHeader("Content-Disposition", "attachment; filename=\"ReporteGuaitil.xlsx\"");
-        OutputStream out = response.getOutputStream();
-        reportService.exportXLSX(out, members, template);
+        byte[] bytes = reportService.exportXLSX(members, template);
+        String nameFile = "reporte_miembros.xlsx";
 
-        return ResponseEntity.ok().body("Se generó el reporte");
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
     }
 
     private URI getUriResourceLocation(Long id) {
