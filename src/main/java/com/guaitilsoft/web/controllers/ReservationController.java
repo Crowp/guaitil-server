@@ -1,5 +1,6 @@
 package com.guaitilsoft.web.controllers;
 
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Reservation;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.reservation.ReservationService;
@@ -35,7 +36,7 @@ public class ReservationController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:\\reports\\ReservationReports\\ReservationPdfReport1.jrxml";
+        String template = "classpath:\\reports\\reservationReports\\ReservationPdfReport.jrxml";
         List<Reservation> reservations = reservationService.listReservation();
 
          byte[] bytes = reportService.exportPDF(reservations, template);
@@ -47,6 +48,19 @@ public class ReservationController {
                 .body(bytes);
     }
 
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<byte[]> generateXLSXReport(){
+        String template = "classpath:\\reports\\reservationReports\\reservationXlsxReport.jrxml";
+        List<Reservation> reservations = reservationService.listReservation();
+
+        byte[] bytes = reportService.exportXLSX(reservations, template);
+        String nameFile = "reporte_reservaciones.xlsx";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
     @GetMapping
     public ResponseEntity<List<ReservationResponse>> get () {
         List<ReservationResponse> reservations = reservationService.list();

@@ -97,7 +97,7 @@ public class ActivityController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:reports/localReports/localPDFReport.jrxml";
+        String template = "classpath:reports/activityReports/activityPdfReport.jrxml";
         List<ActivityResponse> activities = activityService.list();
 
         byte[] bytes = reportService.exportPDF(activities, template);
@@ -111,11 +111,12 @@ public class ActivityController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport() {
-        String template = "classpath:reports/localReports/localXLSXReport.jrxml";
+        String template = "classpath:reports/activityReports/activityXlsxReport.jrxml";
         List<ActivityResponse> activities = activityService.list();
 
         byte[] bytes = reportService.exportXLSX(activities, template);
-        String nameFile = "reporte_locales.xlsx";
+        String nameFile = "reporte_actividad.xlsx";
+
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")

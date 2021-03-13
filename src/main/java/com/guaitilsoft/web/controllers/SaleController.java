@@ -82,7 +82,7 @@ public class SaleController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:\\reports\\productReport\\ProductSalePdfReport.jrxml";
+        String template = "classpath:\\reports\\productSaleReport\\ProductSalePdfReport.jrxml";
         List<Sale> sales = saleService.saleList();
 
         byte[] bytes = reportService.exportPDF(sales, template);

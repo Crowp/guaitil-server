@@ -91,7 +91,7 @@
                     <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="7f74cece-3dcd-4f4e-a4f8-4ee81e601f7e"/>
                 </reportElement>
                 <textElement textAlignment="Center"/>
-                <text><![CDATA[Cantidad Vendida]]></text>
+                <text><![CDATA[Cantidad vendida]]></text>
             </staticText>
             <staticText>
                 <reportElement style="Column header" x="254" y="1" width="70" height="15" forecolor="#736343" uuid="5411182d-0525-45c9-a65c-863b46be61ca">
