@@ -1,5 +1,6 @@
 package com.guaitilsoft.web.controllers;
 
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.sale.SaleService;
@@ -90,6 +91,19 @@ public class SaleController {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<byte[]> generateXLSXReport(){
+        String template = "classpath:\\reports\\productSaleReport\\ProductSaleXlsxReport.jrxml";
+        List<Sale> sales = saleService.saleList();
+
+        byte[] bytes = reportService.exportXLSX(sales, template);
+        String nameFile = "reporte_productos_vendidos.xlsx";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
                 .body(bytes);
     }
