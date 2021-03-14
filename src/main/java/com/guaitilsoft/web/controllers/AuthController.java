@@ -105,7 +105,7 @@ public class AuthController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport() {
-        String template = "classpath:reports/activityReports/activityXlsxReport.jrxml";
+        String template = "classpath:reports/userReports/usersXlsxReport.jrxml";
         List<UserReportResponse> users = userService.getUsersReport();
         String time = Utils.getDateReport();
 

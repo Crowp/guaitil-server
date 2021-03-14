@@ -13,42 +13,15 @@
             <style backcolor="#E6DAC3"/>
         </conditionalStyle>
     </style>
-    <queryString language="SQL">
-        <![CDATA[select  p.id,ad.name, ad.activity_date, r.date_reservation, r.amount_person
-from activity_description ad
-inner join activity a on ad.id = a.activity_description_id
-inner join  reservation r on ad.id=r.activity_description_id
-inner join person p on p.id=r.person_id;]]>
-    </queryString>
-    <field name="id" class="java.lang.String">
-        <property name="com.jaspersoft.studio.field.name" value="id"/>
-        <property name="com.jaspersoft.studio.field.label" value="id"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="person"/>
-        <fieldDescription><![CDATA[]]></fieldDescription>
+    <field name="person.id" class="java.lang.String">
     </field>
-    <field name="name" class="java.lang.String">
-        <property name="com.jaspersoft.studio.field.name" value="name"/>
-        <property name="com.jaspersoft.studio.field.label" value="name"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="activity_description"/>
-        <fieldDescription><![CDATA[]]></fieldDescription>
+    <field name="activityDescription.name" class="java.lang.String">
     </field>
-    <field name="activity_date" class="java.sql.Timestamp">
-        <property name="com.jaspersoft.studio.field.name" value="activity_date"/>
-        <property name="com.jaspersoft.studio.field.label" value="activity_date"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="activity_description"/>
-        <fieldDescription><![CDATA[]]></fieldDescription>
+    <field name="activityDescription.activityDate" class="java.time.LocalDateTime">
     </field>
-    <field name="date_reservation" class="java.sql.Timestamp">
-        <property name="com.jaspersoft.studio.field.name" value="date_reservation"/>
-        <property name="com.jaspersoft.studio.field.label" value="date_reservation"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="reservation"/>
-        <fieldDescription><![CDATA[]]></fieldDescription>
+    <field name="dateReservation"  class="java.time.LocalDateTime">
     </field>
-    <field name="amount_person" class="java.lang.Long">
-        <property name="com.jaspersoft.studio.field.name" value="amount_person"/>
-        <property name="com.jaspersoft.studio.field.label" value="amount_person"/>
-        <property name="com.jaspersoft.studio.field.tree.path" value="reservation"/>
-        <fieldDescription><![CDATA[]]></fieldDescription>
+    <field name="amountPerson" class="java.lang.Long">
     </field>
     <background>
         <band splitType="Stretch"/>
@@ -121,35 +94,35 @@ inner join person p on p.id=r.person_id;]]>
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="6686a51a-a7d5-4949-8bb6-aca3012cd6e7"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{person.id}]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="631" y="0" width="139" height="15" uuid="3d34e2a3-e1ad-46f3-a665-79cd847bfa7c">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="a4331dd6-f365-47ec-8f40-64dbfecca3bb"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{activityDescription.name}]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="150" y="0" width="160" height="15" uuid="03a15ccc-bc17-487b-bd88-0ed12d11f894">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e295785d-f31f-4ea3-a983-4cc0bbcaf786"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{activity_date}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[java.util.Date.from($F{activityDescription.activityDate}.atZone(java.time.ZoneId.systemDefault()).toInstant())]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="310" y="0" width="160" height="15" uuid="12c72cea-bdb6-486c-af3d-de7d44410a57">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c720b69f-ef6e-4799-a1fe-775b94d5e0c2"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{date_reservation}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[java.util.Date.from($F{dateReservation}.atZone(java.time.ZoneId.systemDefault()).toInstant())]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="470" y="-1" width="160" height="15" uuid="9858dec9-29cf-43b6-b260-1a04b01cd05f">
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c1f2352d-4228-4b25-a8f2-d7b29a2f3699"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{amount_person}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{amountPerson}]]></textFieldExpression>
                 </textField>
             </frame>
         </band>
