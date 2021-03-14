@@ -3,6 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.user.UserService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.user.UserLazyResponse;
 import com.guaitilsoft.web.models.user.UserReportResponse;
 import com.guaitilsoft.web.models.user.UserRequest;
@@ -91,9 +92,10 @@ public class AuthController {
     public ResponseEntity<byte[]> generatePDFReport() {
         String template = "classpath:reports/userReports/usersPDFReport.jrxml";
         List<UserReportResponse> users = userService.getUsersReport();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportPDF(users, template);
-        String nameFile = "Reporte usuarios.pdf";
+        String nameFile = "Reporte usuarios "+time+".pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -105,9 +107,10 @@ public class AuthController {
     public ResponseEntity<byte[]> generateXLSXReport() {
         String template = "classpath:reports/activityReports/activityXlsxReport.jrxml";
         List<UserReportResponse> users = userService.getUsersReport();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportXLSX(users, template);
-        String nameFile = "Reporte Actividad.xlsx";
+        String nameFile = "Reporte usuarios "+time+".xlsx";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))

@@ -43,7 +43,7 @@ public class Utils {
 
     public static String getDateReport(){
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd_MM_yyyy");
         return now.format(formatter);
     }
 }
