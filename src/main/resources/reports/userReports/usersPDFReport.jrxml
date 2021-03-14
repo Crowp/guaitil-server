@@ -40,7 +40,7 @@
                 <text><![CDATA[Asociación de Desarrollo Integral de Guaitil]]></text>
             </staticText>
             <staticText>
-                <reportElement style="SubTitle" x="135" y="100" width="333" height="22" forecolor="#000000" uuid="88d4231e-f014-4b0d-b871-1737ba63a1ae"/>
+                <reportElement style="SubTitle" x="140" y="100" width="330" height="22" forecolor="#000000" uuid="88d4231e-f014-4b0d-b871-1737ba63a1ae"/>
                 <textElement textAlignment="Center">
                     <font fontName="Arial" size="12"/>
                 </textElement>

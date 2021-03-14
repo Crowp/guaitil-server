@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImp implements UserService {
@@ -40,9 +41,19 @@ public class UserServiceImp implements UserService {
 
     @Override
     public List<UserReportResponse> getUsersReport() {
-        List<UserReportResponse> userReportResponses = this.parseToUserReportResponse(userRepositoryService.getAllUsers());
-        this.userRepositoryService.getAllUsers().forEach(user -> userReportResponses.forEach(ur -> {
-                ur.setRoles(user.getRoles());
+        return getUserResponseReport(userRepositoryService.getAllUsers().stream().filter(u -> u.getId() != 1).collect(Collectors.toList()));
+    }
+
+    private List<UserReportResponse> getUserResponseReport(List<User> users){
+        List<UserReportResponse> userReportResponses = this.parseToUserReportResponse(users);
+        userReportResponses.forEach(ur -> users.forEach(u -> {
+            if (ur.getId().equals(u.getId())){
+                if (u.getRoles().contains(Role.ROLE_ADMIN)){
+                    ur.setRole(Role.ROLE_ADMIN.getMessage());
+                }else {
+                    ur.setRole(Role.ROLE_ASSOCIATED.getMessage());
+                }
+            }
         }));
         return userReportResponses;
     }

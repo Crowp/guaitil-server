@@ -2,6 +2,7 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.services.activity.ActivityService;
 import com.guaitilsoft.services.report.ReportService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.activity.ActivityRequest;
 import com.guaitilsoft.web.models.activity.ActivityResponse;
 import org.slf4j.Logger;
@@ -99,9 +100,10 @@ public class ActivityController {
     public ResponseEntity<byte[]> generatePDFReport() {
         String template = "classpath:reports/activityReports/activityPdfReport.jrxml";
         List<ActivityResponse> activities = activityService.list();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportPDF(activities, template);
-        String nameFile = "Reporte Actividades.pdf";
+        String nameFile = "Reporte Actividades "+time+".pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -113,9 +115,10 @@ public class ActivityController {
     public ResponseEntity<byte[]> generateXLSXReport() {
         String template = "classpath:reports/activityReports/activityXlsxReport.jrxml";
         List<ActivityResponse> activities = activityService.list();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportXLSX(activities, template);
-        String nameFile = "Reporte Actividad.xlsx";
+        String nameFile = "Reporte Actividades "+time+".xlsx";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))

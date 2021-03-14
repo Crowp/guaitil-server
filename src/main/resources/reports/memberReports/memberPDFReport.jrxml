@@ -43,7 +43,7 @@
                 <text><![CDATA[Asociación de Desarrollo Integral de Guaitil ]]></text>
             </staticText>
             <staticText>
-                <reportElement x="112" y="100" width="349" height="22" uuid="f0bfb1ea-a85a-47cd-a1a4-43f22b45e80f"/>
+                <reportElement x="120" y="100" width="349" height="22" uuid="f0bfb1ea-a85a-47cd-a1a4-43f22b45e80f"/>
                 <textElement textAlignment="Center">
                     <font size="12"/>
                 </textElement>
