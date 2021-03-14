@@ -30,7 +30,7 @@ spring:
     jwt:
       token:
         secret-key : "secret-key"
-        expire-length : 5
+        expire-length : 30
       header: "Authorization"
 
 
@@ -43,7 +43,7 @@ spring:
 spring:
   profiles: "production"
   datasource:
-    url: "jdbc:mysql://localhost/guaitil?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT-6"
+    url: "jdbc:mysql://localhost/guaitil?&useLegacyDatetimeCode=false&serverTimezone=UTC"
     username: "guaitil_user"
     password: "root124578"
     testWhileIdle: true
@@ -51,7 +51,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:

@@ -1,105 +1,117 @@
 package com.guaitilsoft.web.controllers;
 
-import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
-import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.services.ProductService;
-import com.guaitilsoft.services.SaleService;
-import com.guaitilsoft.web.models.sale.SaleView;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import com.guaitilsoft.services.report.ReportService;
+import com.guaitilsoft.services.sale.SaleService;
+import com.guaitilsoft.web.models.sale.SaleRequest;
+import com.guaitilsoft.web.models.sale.SaleResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/api/sale")
+@RequestMapping(path = "/api/sales")
 public class SaleController {
     public static final Logger logger = LoggerFactory.getLogger(SaleController.class);
 
     private final SaleService saleService;
-    private final ProductService productService;
-    private final MemberService memberService;
-    private final ModelMapper modelMapper;
+    private final ReportService<Sale> reportService;
 
     @Autowired
-    public SaleController(SaleService saleService, ProductService productService, MemberService memberService, ModelMapper modelMapper){
+    public SaleController(SaleService saleService, ReportService<Sale> reportService){
         this.saleService = saleService;
-        this.productService = productService;
-        this.memberService = memberService;
-        this.modelMapper = modelMapper;
+        this.reportService = reportService;
     }
 
     @GetMapping
-    public ResponseEntity<List<SaleView>> get(){
-        Type lisType = new TypeToken<List<SaleView>>(){}.getType();
-        List<SaleView> sales = modelMapper.map(saleService.list(), lisType);
+    public ResponseEntity<List<SaleResponse>> get(){
+        List<SaleResponse> sales = saleService.list();
         return ResponseEntity.ok().body(sales);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<SaleView> getById(@PathVariable Long id) {
-        SaleView sale = modelMapper.map(saleService.get(id), SaleView.class);
+    public ResponseEntity<SaleResponse> getById(@PathVariable Long id) {
+        SaleResponse sale = saleService.get(id);
         logger.info("Fetching Sale with {}", id);
         return ResponseEntity.ok().body(sale);
     }
 
     @GetMapping("/member-id/{id}")
-    public ResponseEntity<List<SaleView>> getAllSaleByMemberId(@PathVariable Long id) {
-        Member member = memberService.get(id);
-        Type listType = new TypeToken<List<SaleView>>(){}.getType();
-        List<SaleView> sale = modelMapper.map(saleService.getAllSaleByMemberId(member.getId()), listType);
+    public ResponseEntity<List<SaleResponse>> getAllSaleByMemberId(@PathVariable Long id) {
+        List<SaleResponse> sale = saleService.getAllSaleByMemberId(id);
         logger.info("Fetching Sale with member id {}", id);
         return ResponseEntity.ok().body(sale);
     }
 
     @PostMapping
-    public ResponseEntity<SaleView> post(@RequestBody SaleView saleRequest) {
-        Sale sale = modelMapper.map(saleRequest, Sale.class);
-        logger.info("Creating sale: {}", sale);
-        sale.setProduct(productService.get(sale.getProduct().getId()));
-        saleService.save(sale);
-        SaleView saleResponse = modelMapper.map(sale, SaleView.class);
+    public ResponseEntity<SaleResponse> post(@RequestBody SaleRequest saleRequest) {
+        logger.info("Creating sale");
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(sale.getId())
-                .toUri();
+        SaleResponse saleResponse = saleService.save(saleRequest);
+        URI location = getUriResourceLocation(saleResponse.getId());
+
         logger.info("Created activity : {}", saleResponse.getId());
-
         return ResponseEntity.created(location).body(saleResponse);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<SaleView> put(@PathVariable Long id, @RequestBody SaleView saleRequest) {
-        if(!id.equals(saleRequest.getId())){
-            throw new ApiRequestException("El id de la venta: " + saleRequest.getId() + " es diferente al id del parametro: " + id);
-        }
-        Sale sale = modelMapper.map(saleRequest, Sale.class);
+    public ResponseEntity<SaleResponse> put(@PathVariable Long id, @RequestBody SaleRequest saleRequest) {
         logger.info("Updating Sale with id: {}", id);
-        sale.setProduct(productService.get(sale.getProduct().getId()));
-        saleService.update(id, sale);
-        SaleView saleResponse = modelMapper.map(sale, SaleView.class);
+        SaleResponse saleResponse = saleService.update(id, saleRequest);
         logger.info("Updated Sale with id: {}", id);
         return ResponseEntity.ok().body(saleResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<SaleView> delete(@PathVariable Long id) {
-        SaleView saleResponse = modelMapper.map(saleService.get(id), SaleView.class);
+    public ResponseEntity<SaleResponse> delete(@PathVariable Long id) {
         logger.info("Deleting Sale with id {}", id);
+        SaleResponse saleResponse = saleService.get(id);
         saleService.delete(id);
         logger.info("Deleted Tour with id {}", id);
         return ResponseEntity.ok().body(saleResponse);
+    }
+
+    @GetMapping("/pdf-report")
+    public ResponseEntity<byte[]> generatePDFReport() {
+        String template = "classpath:\\reports\\productSaleReport\\ProductSalePdfReport.jrxml";
+        List<Sale> sales = saleService.saleList();
+
+        byte[] bytes = reportService.exportPDF(sales, template);
+        String nameFile = "reporteVentaProductos.pdf";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<byte[]> generateXLSXReport(){
+        String template = "classpath:\\reports\\productSaleReport\\ProductSaleXlsxReport.jrxml";
+        List<Sale> sales = saleService.saleList();
+
+        byte[] bytes = reportService.exportXLSX(sales, template);
+        String nameFile = "reporte_productos_vendidos.xlsx";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
+    private URI getUriResourceLocation(Long id) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
     }
 }

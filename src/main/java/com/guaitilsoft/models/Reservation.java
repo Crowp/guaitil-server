@@ -1,11 +1,10 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.guaitilsoft.models.constant.ReservationState;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -17,8 +16,7 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date dateReservation;
+    private LocalDateTime dateReservation;
 
     @Column(nullable = false)
     private Long amountPerson;
@@ -26,16 +24,25 @@ public class Reservation {
     @Enumerated(EnumType.STRING)
     private ReservationState reservationState;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    private Activity activity;
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},fetch = FetchType.EAGER)
+    private ActivityDescription activityDescription;
 
     @ManyToOne(targetEntity = Person.class, cascade = {CascadeType.PERSIST, CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "personId")
     private Person person;
+
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
 }

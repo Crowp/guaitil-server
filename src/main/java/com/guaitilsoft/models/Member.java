@@ -1,12 +1,15 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.guaitilsoft.models.constant.MemberType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -23,27 +26,38 @@ public class Member {
     @NotEmpty
     private String occupation;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDateTime affiliationDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private LocalDateTime createdAt;
+
+    private LocalDateTime updatedAt;
 
     @OneToOne(cascade = CascadeType.ALL)
     private Person person;
 
-    @OneToMany(targetEntity = Local.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
+    @JsonManagedReference
+    @OneToMany(targetEntity = Local.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "member")
     private List<Local> locals;
 
     @Enumerated(EnumType.STRING)
     private MemberType memberType;
 
-    public String getEmail(){
-        return person.getEmail();
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+        initLocals();
     }
 
-    public String getPersonId() {
-        return person.getId();
+    @PreUpdate
+    void preUpdate() {
+        this.updatedAt = LocalDateTime.now();
+        initLocals();
+    }
+
+    private void initLocals() {
+        for (Local local : locals)
+            local.setMember(this);
     }
 }
 

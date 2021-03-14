@@ -1,12 +1,13 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.guaitilsoft.models.constant.LocalType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -20,38 +21,30 @@ public class Local {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
-    private String name;
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    LocalDescription localDescription;
 
-    @NotEmpty
-    private String description;
-
-    @NotEmpty
-    private String telephone;
-
-    @Enumerated(EnumType.STRING)
-    private LocalType localType;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
-
-    @ManyToOne(targetEntity = Member.class, fetch = FetchType.LAZY)
+    @JsonBackReference
     @JoinColumn(name = "memberId")
+    @ManyToOne(fetch = FetchType.EAGER)
     private Member member;
 
-    @OneToMany(targetEntity = Product.class,cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "local")
+    @OneToMany(targetEntity = Product.class, cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "local")
     private List<Product> products;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Multimedia> multimedia;
 
-    public String personId(){
-        return member.getPersonId();
+    private Boolean showLocal = true;
+
+    public LocalType getLocalType() {
+        return this.localDescription.getLocalType();
     }
+
+    public void removeMultimediaById(Multimedia multimedia) {
+        this.multimedia.remove(multimedia);
+    }
+
 }

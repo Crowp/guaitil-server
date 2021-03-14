@@ -2,7 +2,8 @@ package com.guaitilsoft.web.controllers;
 
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.services.MultimediaService;
+import com.guaitilsoft.services.multimedia.MultimediaService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.multimedia.MultimediaRequest;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.modelmapper.ModelMapper;
@@ -35,7 +36,8 @@ public class MultimediaController {
     private final ModelMapper modelMapper;
 
     @Autowired
-    public MultimediaController(MultimediaService multimediaService, ModelMapper modelMapper){
+    public MultimediaController(MultimediaService multimediaService,
+                                ModelMapper modelMapper){
         this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
@@ -43,27 +45,27 @@ public class MultimediaController {
     @GetMapping("{id}")
     public ResponseEntity<MultimediaResponse> getById(@PathVariable Long id){
         MultimediaResponse multimediaResponse = modelMapper.map(multimediaService.get(id), MultimediaResponse.class);
-        String url = getUrlHost(multimediaResponse);
+        String url = Utils.getUrlHost(multimediaResponse);
         multimediaResponse.setUrl(url);
         return ResponseEntity.ok().body(multimediaResponse);
     }
 
     @GetMapping
-    public ResponseEntity<List<MultimediaResponse>> list(HttpServletRequest request){
+    public ResponseEntity<List<MultimediaResponse>> list(){
         Type listType = new TypeToken<List<MultimediaResponse>>(){}.getType();
         List<MultimediaResponse> multimediaResponses = modelMapper.map(multimediaService.list(), listType);
         multimediaResponses.forEach(m -> {
-            String url = getUrlHost(m);
+            String url = Utils.getUrlHost(m);
             m.setUrl(url);
         });
         return ResponseEntity.ok().body(multimediaResponses);
     }
 
-    @PostMapping("upload")
+    @PostMapping("/upload")
     public ResponseEntity<MultimediaResponse> uploadFile(@ModelAttribute MultimediaRequest multimedia) {
         try {
             MultimediaResponse multimediaResponse = modelMapper.map(multimediaService.store(multimedia), MultimediaResponse.class);
-            String url = getUrlHost(multimediaResponse);
+            String url = Utils.getUrlHost(multimediaResponse);
             multimediaResponse.setUrl(url);
 
             URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -77,7 +79,7 @@ public class MultimediaController {
         }
     }
 
-    @GetMapping("load/{filename:.+}")
+    @GetMapping("/load/{filename:.+}")
     public ResponseEntity<Resource> getFile(@PathVariable String filename, HttpServletRequest request) {
         Resource file = multimediaService.load(filename);
         // Try to determine file's content type
@@ -105,11 +107,4 @@ public class MultimediaController {
         return ResponseEntity.ok().body(multimediaResponse);
     }
 
-    private String getUrlHost(MultimediaResponse multimediaResponse) {
-        String resourcePath = "/api/multimedia/load/";
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(resourcePath)
-                .path(multimediaResponse.getFileName())
-                .toUriString();
-    }
 }

@@ -1,13 +1,14 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.guaitilsoft.models.constant.ActivityType;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,35 +21,18 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotEmpty
-    private String name;
+    @OneToOne(cascade = { CascadeType.MERGE, CascadeType.PERSIST, CascadeType.DETACH, CascadeType.REFRESH })
+    private ActivityDescription activityDescription;
 
-    @NotEmpty
-    private String description;
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    @JoinTable(name = "activity_local_description",
+            joinColumns = { @JoinColumn(name = "fk_activity_id") },
+            inverseJoinColumns = { @JoinColumn(name = "fk_local_description_id") })
+    private Set<LocalDescription> localsDescriptions = new HashSet<>();
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date activityDate;
-
-    @Enumerated(EnumType.STRING)
-    private ActivityType activityType;
-
-    @Column
-    private Double personCost;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedAt;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Address address;
-
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    private List<Local> locals;
-
-    @OneToMany(cascade = CascadeType.MERGE)
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private List<Multimedia> multimedia;
+
+    private Boolean isActive;
+
 }

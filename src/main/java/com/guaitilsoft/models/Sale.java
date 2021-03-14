@@ -1,10 +1,9 @@
 package com.guaitilsoft.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -17,18 +16,26 @@ public class Sale {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date saleDate;
+    private LocalDateTime saleDate;
 
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private Product product;
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    private ProductDescription productDescription;
 
     @Column(nullable = false)
     private Long amountSold;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    public void prePersist(){
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    public void preUpdate(){
+        this.updatedAt = LocalDateTime.now();
+    }
 }

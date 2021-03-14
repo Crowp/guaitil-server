@@ -2,7 +2,7 @@ package com.guaitilsoft.config.security;
 
 import com.guaitilsoft.exceptions.CustomException;
 import com.guaitilsoft.models.constant.Role;
-import com.guaitilsoft.web.models.member.MemberView;
+import com.guaitilsoft.web.models.member.MemberRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -36,15 +36,19 @@ public class TokenProvider {
     @Value("${spring.security.jwt.token.expire-length}")
     private long cantOfDays; // 1h
 
+    private final UserDetailServiceImp myUserDetails;
+
     @Autowired
-    private UserDetailServiceImp myUserDetails;
+    public TokenProvider(UserDetailServiceImp myUserDetails) {
+        this.myUserDetails = myUserDetails;
+    }
 
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String email, List<Role> roles, MemberView member) {
+    public String createToken(String email, List<Role> roles, MemberRequest member) {
         Claims claims = Jwts.claims().setSubject(email);
         claims.put("user_data", member);
         claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).collect(Collectors.toList()));

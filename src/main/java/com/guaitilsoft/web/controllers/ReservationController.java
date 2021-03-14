@@ -1,94 +1,111 @@
 package com.guaitilsoft.web.controllers;
 
-import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Reservation;
-import com.guaitilsoft.services.PersonService;
-import com.guaitilsoft.services.ReservationService;
-import com.guaitilsoft.web.models.reservation.ReservationView;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import com.guaitilsoft.services.report.ReportService;
+import com.guaitilsoft.services.reservation.ReservationService;
+import com.guaitilsoft.web.models.reservation.ReservationResponse;
+import com.guaitilsoft.web.models.reservation.ReservationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.lang.reflect.Type;
 import java.net.URI;
 import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(path = "/api/reservation")
+@RequestMapping(path = "/api/reservations")
 public class ReservationController {
 
     public static final Logger logger = LoggerFactory.getLogger(ReservationController.class);
 
     private final ReservationService reservationService;
-    private final PersonService personService;
-    private final ModelMapper modelMapper;
+    private final ReportService<Reservation> reportService;
 
     @Autowired
-    public ReservationController(ReservationService reservationService, ModelMapper modelMapper, PersonService personService){
+    public ReservationController(ReservationService reservationService, ReportService<Reservation> reportService){
         this.reservationService = reservationService;
-        this.personService = personService;
-        this.modelMapper = modelMapper;
+        this.reportService = reportService;
     }
 
+    @GetMapping("/pdf-report")
+    public ResponseEntity<byte[]> generatePDFReport() {
+        String template = "classpath:\\reports\\reservationReports\\ReservationPdfReport.jrxml";
+        List<Reservation> reservations = reservationService.listReservation();
+
+         byte[] bytes = reportService.exportPDF(reservations, template);
+         String nameFile = "reporte_Reservaciones.pdf";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<byte[]> generateXLSXReport(){
+        String template = "classpath:\\reports\\reservationReports\\reservationXlsxReport.jrxml";
+        List<Reservation> reservations = reservationService.listReservation();
+
+        byte[] bytes = reportService.exportXLSX(reservations, template);
+        String nameFile = "reporte_reservaciones.xlsx";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
     @GetMapping
-    public ResponseEntity<List<ReservationView>> get () {
-        Type listType  = new TypeToken<List<ReservationView>>(){}.getType();
-        List<ReservationView> reservations = modelMapper.map(reservationService.list(),listType);
+    public ResponseEntity<List<ReservationResponse>> get () {
+        List<ReservationResponse> reservations = reservationService.list();
         return ResponseEntity.ok().body(reservations);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ReservationView> getById(@PathVariable Long id) {
-        ReservationView reservations = modelMapper.map(reservationService.get(id), ReservationView.class);
+    public ResponseEntity<ReservationResponse> getById(@PathVariable Long id) {
+        ReservationResponse reservations = reservationService.get(id);
         logger.info("Fetching Reservation with id {}", id);
         return ResponseEntity.ok().body(reservations);
     }
 
     @PostMapping
-    public ResponseEntity<ReservationView> post(@RequestBody ReservationView reservationRequest){
-        Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
-        logger.info("Creating reservation: {}", reservation);
-        String personId = reservation.getPerson().getId();
-        if (personService.existPerson(personId)){
-            reservation.setPerson(personService.get(personId));
-        }
-        reservationService.save(reservation);
-        ReservationView reservationResponse = modelMapper.map(reservation, ReservationView.class);
+    public ResponseEntity<ReservationResponse> post(@RequestBody ReservationRequest reservationRequest){
+        logger.info("Creating reservation");
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(reservation.getId())
-                .toUri();
+        ReservationResponse reservationResponse =  reservationService.save(reservationRequest);
+        URI location = getUriResourceLocation(reservationResponse.getId());
+
         logger.info("Created reservation : {}", reservationResponse.getId());
-
         return ResponseEntity.created(location).body(reservationResponse);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ReservationView> put(@PathVariable Long id, @RequestBody ReservationView reservationRequest) {
-        if(!id.equals(reservationRequest.getId())){
-            throw new ApiRequestException("El id de la reservacion: " + reservationRequest.getId() + " es diferente al id del parametro: " + id);
-        }
-        Reservation reservation = modelMapper.map(reservationRequest, Reservation.class);
+    public ResponseEntity<ReservationResponse> put(@PathVariable Long id, @RequestBody ReservationRequest reservationRequest) {
         logger.info("Updating Reservation with id {}", id);
-        reservationService.update(id, reservation);
-        ReservationView reservationResponse = modelMapper.map(reservation, ReservationView.class);
+        ReservationResponse reservationResponse = reservationService.update(id, reservationRequest);
         logger.info("Updated Reservation with id {}", id);
         return ResponseEntity.ok().body(reservationResponse);
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<ReservationView> delete(@PathVariable Long id) {
-        ReservationView reservationResponse = modelMapper.map(reservationService.get(id), ReservationView.class);
+    public ResponseEntity<ReservationResponse> delete(@PathVariable Long id) {
+        ReservationResponse reservationResponse = reservationService.get(id);
         logger.info("Deleting Reservation with id {}", id);
         reservationService.delete(id);
         logger.info("Deleted Reservation with id {}", id);
         return ResponseEntity.ok().body(reservationResponse);
+    }
+
+    private URI getUriResourceLocation(Long id) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
     }
 }

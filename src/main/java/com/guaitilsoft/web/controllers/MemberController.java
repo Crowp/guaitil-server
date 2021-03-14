@@ -1,123 +1,127 @@
 package com.guaitilsoft.web.controllers;
 
-import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
-import com.guaitilsoft.services.LocalService;
-import com.guaitilsoft.services.MemberService;
-import com.guaitilsoft.web.models.member.MemberView;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
+import com.guaitilsoft.services.report.ReportService;
+import com.guaitilsoft.services.member.MemberService;
+import com.guaitilsoft.web.models.member.MemberRequest;
+import com.guaitilsoft.web.models.member.MemberResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.lang.reflect.Type;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/member")
+@RequestMapping(path = "/api/members")
 public class MemberController {
 
-    public static final Logger logger = LoggerFactory.getLogger(PersonController.class);
+    public static final Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     private final MemberService memberService;
-    private final LocalService localService;
-    private final ModelMapper modelMapper;
+    private final ReportService<Member> reportService;
 
 
     @Autowired
-    public MemberController(MemberService memberService, LocalService localService, ModelMapper modelMapper) {
+    public MemberController(MemberService memberService, ReportService<Member> reportService) {
         this.memberService = memberService;
-        this.localService = localService;
-        this.modelMapper = modelMapper;
+        this.reportService = reportService;
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<List<MemberView>> get() {
-        Type listType = new TypeToken<List<MemberView>>(){}.getType();
-        List<MemberView> members = modelMapper.map(memberService.list(), listType);
+    public ResponseEntity<List<MemberResponse>> get() {
+        List<MemberResponse> members = memberService.list();
         return  ResponseEntity.ok().body(members);
     }
 
     @GetMapping("members-without-users")
-    public ResponseEntity<List<MemberView>> getMembersWithoutUser() {
-        Type listType = new TypeToken<List<MemberView>>(){}.getType();
-        List<MemberView> members = modelMapper.map(memberService.getMemberWithoutUser(), listType);
+    public ResponseEntity<List<MemberResponse>> getMembersWithoutUser() {
+        List<MemberResponse> members = memberService.getMemberWithoutUser();
         return  ResponseEntity.ok().body(members);
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> getById(@PathVariable Long id) {
-        MemberView getMember= modelMapper.map(memberService.get(id), MemberView.class);
+    public ResponseEntity<MemberResponse> getById(@PathVariable Long id) {
+        MemberResponse memberResponse = memberService.get(id);
         logger.info("Fetching Member with id: {}", id);
-        return ResponseEntity.ok().body(getMember);
+        return ResponseEntity.ok().body(memberResponse);
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> post(@RequestBody MemberView memberRequest) {
-        memberRequest.setId(null);
-        Member member = modelMapper.map(memberRequest, Member.class);
-        List<Local> locals = new ArrayList<>(member.getLocals());
-        member.setLocals(new ArrayList<>());
+    public ResponseEntity<MemberResponse> post(@RequestBody MemberRequest memberRequest) {
         logger.info("Creating Member");
-        memberService.save(member);
-        locals.forEach(l -> {
-            l.setMember(member);
-            localService.save(l);
-        });
 
-        if(!locals.isEmpty()){
-            member.setLocals(locals);
-            memberService.update(member.getId(), member);
-            Member memberValidate = memberService.get(member.getId());
-            if(memberValidate.getLocals().isEmpty()){
-                memberService.delete(memberValidate.getId());
-                throw new ApiRequestException("Error al crear un miembro con local");
-            }
-        }
+        MemberResponse memberResponse = memberService.save(memberRequest);
+        URI location = getUriResourceLocation(memberResponse.getId());
 
-        MemberView memberResponse = modelMapper.map(member, MemberView.class);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(member.getId())
-                .toUri();
         logger.info("Created Member: {}", memberResponse.getId());
-
         return ResponseEntity.created(location).body(memberResponse);
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> put(@PathVariable Long id, @RequestBody MemberView memberRequest) {
-        if(!id.equals(memberRequest.getId())){
-            throw new ApiRequestException("El id del miembro: " + memberRequest.getId() + " es diferente al id del parametro: " + id);
-        }
-        Member member = modelMapper.map(memberRequest, Member.class);
+    public ResponseEntity<MemberResponse> put(@PathVariable Long id, @RequestBody MemberRequest memberRequest) {
         logger.info("Updating Member with id: {}", id);
-        memberService.update(id, member);
-        MemberView memberResponse = modelMapper.map(member, MemberView.class);
+
+        MemberResponse memberResponse =  memberService.update(id, memberRequest);
+
         logger.info("Updated Member with id: {}", id);
         return ResponseEntity.ok().body(memberResponse);
     }
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
-    public ResponseEntity<MemberView> delete(@PathVariable Long id) {
-        MemberView memberResponse = modelMapper.map(memberService.get(id), MemberView.class);
+    public ResponseEntity<MemberResponse> delete(@PathVariable Long id) {
         logger.info("Deleting Member with id: {}", id);
+
+        MemberResponse memberResponse = memberService.get(id);
         memberService.delete(id);
+
         logger.info("Deleted Member with id: {}", id);
         return ResponseEntity.ok().body(memberResponse);
+    }
+
+    @GetMapping("/pdf-report")
+        public ResponseEntity<byte[]>generatePDFReport() {
+            String template = "classpath:\\reports\\memberReports\\memberPDFReport.jrxml";
+            List<Member> members = memberService.memberList();
+
+            byte[] bytes = reportService.exportPDF(members, template);
+            String nameFile = "reporte_miembros.pdf";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<byte[]> generateXLSXReport(){
+        String template = "classpath:\\reports\\memberReports\\memberXLSXReport.jrxml";
+        List<Member> members = memberService.memberList();
+
+        byte[] bytes = reportService.exportXLSX(members, template);
+        String nameFile = "reporte_miembros.xlsx";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
+    private URI getUriResourceLocation(Long id) {
+        return ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
     }
 }

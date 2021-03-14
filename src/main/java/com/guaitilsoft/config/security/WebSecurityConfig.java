@@ -18,7 +18,7 @@ import org.springframework.web.cors.CorsUtils;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private TokenProvider tokenProvider;
+    private final TokenProvider tokenProvider;
 
     @Autowired
     public WebSecurityConfig(TokenProvider tokenProvider) {
@@ -39,9 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**/*.{js,html,css}").permitAll()
                 .antMatchers("/auth/login", "/auth/register").permitAll()
                 .antMatchers("/api/multimedia/load/**", "/api/gallery", "/api/multimedia").permitAll()
-                .antMatchers("/api/local/**").permitAll()
-                .antMatchers("/api/activity/**").permitAll()
-                .antMatchers("/api/product/state/**").permitAll()
+                .antMatchers("/api/locals/**").permitAll()
+                .antMatchers("/api/activities/**").permitAll()
+                .antMatchers("/api/products/state/**").permitAll()
                 .antMatchers("/api/**", "/auth/**").authenticated()
                 .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .anyRequest().permitAll()
