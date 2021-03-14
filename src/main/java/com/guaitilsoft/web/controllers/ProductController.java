@@ -1,8 +1,4 @@
 package com.guaitilsoft.web.controllers;
-
-import com.guaitilsoft.models.Member;
-import com.guaitilsoft.models.Product;
-import com.guaitilsoft.models.ProductDescription;
 import com.guaitilsoft.services.product.ProductService;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.utils.Utils;
@@ -148,32 +144,5 @@ public class ProductController {
                 .path("/{id}")
                 .buildAndExpand(id)
                 .toUri();
-    }
-    @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]>generatePDFReport() {
-        String template = "classpath:\\reports\\productReports\\ProductPdfReport.jrxml";
-        List<Product> products = productService.memberList();
-
-        byte[] bytes = reportService.exportPDF(products, template);
-        String nameFile = "reporte_productos.pdf";
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
-                .body(bytes);
-    }
-
-    @GetMapping("/xlsx-report")
-    public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "classpath:\\reports\\memberReports\\memberXLSXReport.jrxml";
-        List<ProductDescription> productDescriptions = productService.pro();
-
-        byte[] bytes = reportService.exportXLSX(products, template);
-        String nameFile = "reporte_productos.xlsx";
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/x-xlsx"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
-                .body(bytes);
     }
 }
