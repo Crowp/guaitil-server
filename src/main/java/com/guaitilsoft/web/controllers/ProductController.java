@@ -1,11 +1,15 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.services.product.ProductService;
+import com.guaitilsoft.services.report.ReportService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.product.ProductRequest;
 import com.guaitilsoft.web.models.product.ProductResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -20,10 +24,12 @@ public class ProductController {
     public static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     private final ProductService productService;
+    private final ReportService<ProductResponse> reportService;
 
     @Autowired
-    public ProductController(ProductService productService){
+    public ProductController(ProductService productService, ReportService<ProductResponse> reportService){
         this.productService = productService;
+        this.reportService = reportService;
     }
 
     @GetMapping
@@ -102,6 +108,36 @@ public class ProductController {
         ProductResponse productResponse = productService.deleteMultimediaById(id, idMultimedia);
         logger.info("Deleted Product with id {}", id);
         return ResponseEntity.ok().body(productResponse);
+    }
+
+    @GetMapping("/pdf-report")
+    public ResponseEntity<byte[]> generatePDFReport() {
+        String template = "classpath:reports/productReports/productPdfReport.jrxml";
+        List<ProductResponse> productResponses = productService.list();
+        String time = Utils.getDateReport();
+
+        byte[] bytes = reportService.exportPDF(productResponses, template);
+        String nameFile = "Reporte productos "+time+".pdf";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<byte[]> generateXLSXReport() {
+        String template = "classpath:reports/productReports/productXlsxReport.jrxml";
+        List<ProductResponse> productResponses = productService.list();
+        String time = Utils.getDateReport();
+
+        byte[] bytes = reportService.exportXLSX(productResponses, template);
+        String nameFile = "Reporte productos "+time+".xlsx";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
     }
 
     private URI getUriResourceLocation(Long id) {
