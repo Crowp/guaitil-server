@@ -5,6 +5,7 @@ import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.web.models.member.MemberRequest;
 import com.guaitilsoft.web.models.user.UserLazyResponse;
+import com.guaitilsoft.web.models.user.UserReportResponse;
 import com.guaitilsoft.web.models.user.UserRequest;
 import com.guaitilsoft.web.models.user.UserResponse;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,20 @@ public class UserServiceImp implements UserService {
     @Override
     public List<UserLazyResponse> getAllUsers() {
         return this.parseToUserLazyResponseList(userRepositoryService.getAllUsers());
+    }
+
+    @Override
+    public List<UserReportResponse> getUsersReport() {
+        List<UserReportResponse> userReportResponses = this.parseToUserReportResponse(userRepositoryService.getAllUsers());
+        this.userRepositoryService.getAllUsers().forEach(user -> userReportResponses.forEach(ur -> {
+                ur.setRoles(user.getRoles());
+        }));
+        return userReportResponses;
+    }
+
+    private List<UserReportResponse> parseToUserReportResponse(List<User> list){
+        Type listType  = new TypeToken<List<UserReportResponse>>(){}.getType();
+        return modelMapper.map(list, listType);
     }
 
     @Override

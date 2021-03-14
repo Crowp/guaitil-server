@@ -2,6 +2,7 @@ package com.guaitilsoft.services.user;
 
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.web.models.user.UserLazyResponse;
+import com.guaitilsoft.web.models.user.UserReportResponse;
 import com.guaitilsoft.web.models.user.UserRequest;
 import com.guaitilsoft.web.models.user.UserResponse;
 
@@ -17,4 +18,5 @@ public interface UserService {
     UserResponse search(String email);
     UserResponse resetPassword(Long id, String newPassword);
     List<UserLazyResponse> getAllUsers();
+    List<UserReportResponse> getUsersReport();
 }

@@ -1,16 +1,21 @@
 package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.constant.Role;
+import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.user.UserService;
 import com.guaitilsoft.web.models.user.UserLazyResponse;
+import com.guaitilsoft.web.models.user.UserReportResponse;
 import com.guaitilsoft.web.models.user.UserRequest;
 import com.guaitilsoft.web.models.user.UserResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -18,10 +23,12 @@ import java.util.List;
 public class AuthController {
 
     private final UserService userService;
+    private final ReportService<UserReportResponse> reportService;
 
     @Autowired
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService, ReportService<UserReportResponse> reportService) {
         this.userService = userService;
+        this.reportService = reportService;
     }
 
     @GetMapping
@@ -79,5 +86,33 @@ public class AuthController {
         UserResponse userResponse = userService.search(email);
         userService.deleteByEmail(email);
         return ResponseEntity.ok().body(userResponse);
+    }
+
+    @GetMapping("/pdf-report")
+    public ResponseEntity<byte[]> generatePDFReport() {
+        String template = "classpath:reports/userReports/usersPDFReport.jrxml";
+        List<UserReportResponse> users = userService.getUsersReport().stream().filter(u -> u.getId() != 1).collect(Collectors.toList());
+
+        byte[] bytes = reportService.exportPDF(users, template);
+        String nameFile = "Reporte usuarios.pdf";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<byte[]> generateXLSXReport() {
+        String template = "classpath:reports/activityReports/activityXlsxReport.jrxml";
+        List<UserReportResponse> users = userService.getUsersReport();
+
+        byte[] bytes = reportService.exportXLSX(users, template);
+        String nameFile = "Reporte Actividad.xlsx";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
     }
 }

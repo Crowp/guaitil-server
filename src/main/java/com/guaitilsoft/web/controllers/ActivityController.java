@@ -101,7 +101,7 @@ public class ActivityController {
         List<ActivityResponse> activities = activityService.list();
 
         byte[] bytes = reportService.exportPDF(activities, template);
-        String nameFile = "reporte_actividades.pdf";
+        String nameFile = "Reporte Actividades.pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -115,7 +115,7 @@ public class ActivityController {
         List<ActivityResponse> activities = activityService.list();
 
         byte[] bytes = reportService.exportXLSX(activities, template);
-        String nameFile = "reporte_actividad.xlsx";
+        String nameFile = "Reporte Actividad.xlsx";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))
