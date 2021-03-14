@@ -15,7 +15,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @CrossOrigin
 @RestController
@@ -91,7 +90,7 @@ public class AuthController {
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
         String template = "classpath:reports/userReports/usersPDFReport.jrxml";
-        List<UserReportResponse> users = userService.getUsersReport().stream().filter(u -> u.getId() != 1).collect(Collectors.toList());
+        List<UserReportResponse> users = userService.getUsersReport();
 
         byte[] bytes = reportService.exportPDF(users, template);
         String nameFile = "Reporte usuarios.pdf";
