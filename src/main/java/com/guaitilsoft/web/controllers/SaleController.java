@@ -4,6 +4,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.sale.SaleService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.sale.SaleRequest;
 import com.guaitilsoft.web.models.sale.SaleResponse;
 import org.slf4j.Logger;
@@ -85,9 +86,10 @@ public class SaleController {
     public ResponseEntity<byte[]> generatePDFReport() {
         String template = "classpath:\\reports\\productSaleReport\\ProductSalePdfReport.jrxml";
         List<Sale> sales = saleService.saleList();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportPDF(sales, template);
-        String nameFile = "reporteVentaProductos.pdf";
+        String nameFile = "reporteVentaProductos "+time+".pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
