@@ -3,6 +3,7 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.member.MemberService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.member.MemberRequest;
 import com.guaitilsoft.web.models.member.MemberResponse;
 import org.slf4j.Logger;
@@ -94,9 +95,10 @@ public class MemberController {
         public ResponseEntity<byte[]>generatePDFReport() {
             String template = "classpath:\\reports\\memberReports\\memberPDFReport.jrxml";
             List<Member> members = memberService.memberList();
+            String time = Utils.getDateReport();
 
             byte[] bytes = reportService.exportPDF(members, template);
-            String nameFile = "reporte_miembros.pdf";
+            String nameFile = "Reporte Miembros "+time+".pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -108,9 +110,10 @@ public class MemberController {
     public ResponseEntity<byte[]> generateXLSXReport(){
         String template = "classpath:\\reports\\memberReports\\memberXLSXReport.jrxml";
         List<Member> members = memberService.memberList();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportXLSX(members, template);
-        String nameFile = "reporte_miembros.xlsx";
+        String nameFile = "Reporte Miembros "+time+".xlsx";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))

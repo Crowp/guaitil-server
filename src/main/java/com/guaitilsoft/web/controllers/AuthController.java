@@ -95,7 +95,7 @@ public class AuthController {
         String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportPDF(users, template);
-        String nameFile = "Reporte usuarios "+time+".pdf";
+        String nameFile = "Reporte Usuarios "+time+".pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -110,7 +110,7 @@ public class AuthController {
         String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportXLSX(users, template);
-        String nameFile = "Reporte usuarios "+time+".xlsx";
+        String nameFile = "Reporte Usuarios "+time+".xlsx";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))

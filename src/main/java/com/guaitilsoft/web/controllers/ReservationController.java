@@ -4,6 +4,7 @@ import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Reservation;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.reservation.ReservationService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.reservation.ReservationResponse;
 import com.guaitilsoft.web.models.reservation.ReservationRequest;
 import org.slf4j.Logger;
@@ -38,9 +39,10 @@ public class ReservationController {
     public ResponseEntity<byte[]> generatePDFReport() {
         String template = "classpath:\\reports\\reservationReports\\ReservationPdfReport.jrxml";
         List<Reservation> reservations = reservationService.listReservation();
+        String time = Utils.getDateReport();
 
          byte[] bytes = reportService.exportPDF(reservations, template);
-         String nameFile = "reporte_Reservaciones.pdf";
+         String nameFile = "Reporte Reservaciones "+time+".pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -52,9 +54,10 @@ public class ReservationController {
     public ResponseEntity<byte[]> generateXLSXReport(){
         String template = "classpath:\\reports\\reservationReports\\reservationXlsxReport.jrxml";
         List<Reservation> reservations = reservationService.listReservation();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportXLSX(reservations, template);
-        String nameFile = "reporte_reservaciones.xlsx";
+        String nameFile = "Reporte Reservaciones "+time+".xlsx";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))

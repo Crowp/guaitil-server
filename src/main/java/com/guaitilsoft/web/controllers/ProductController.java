@@ -116,7 +116,7 @@ public class ProductController {
         String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportPDF(productResponses, template);
-        String nameFile = "Reporte productos "+time+".pdf";
+        String nameFile = "Reporte Productos "+time+".pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -131,7 +131,7 @@ public class ProductController {
         String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportXLSX(productResponses, template);
-        String nameFile = "Reporte productos "+time+".xlsx";
+        String nameFile = "Reporte Productos "+time+".xlsx";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))

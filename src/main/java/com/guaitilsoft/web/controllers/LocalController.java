@@ -4,6 +4,7 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.local.LocalService;
+import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.local.LocalRequest;
 import com.guaitilsoft.web.models.local.LocalResponse;
 import org.slf4j.Logger;
@@ -104,9 +105,10 @@ public class LocalController {
     public ResponseEntity<byte[]> generatePDFReport() {
         String template = "classpath:reports/localReports/localPDFReport.jrxml";
         List<Local> locals = localService.localList();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportPDF(locals, template);
-        String nameFile = "reporte_locales.pdf";
+        String nameFile = "Reporte Locales "+time+".pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -118,9 +120,10 @@ public class LocalController {
     public ResponseEntity<byte[]> generateXLSXReport() {
         String template = "classpath:reports/localReports/localXLSXReport.jrxml";
         List<Local> locals = localService.localList();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportXLSX(locals, template);
-        String nameFile = "reporte_locales.xlsx";
+        String nameFile = "Reporte Locales "+time+".xlsx";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))

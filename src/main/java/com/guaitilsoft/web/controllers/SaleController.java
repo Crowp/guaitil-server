@@ -89,7 +89,7 @@ public class SaleController {
         String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportPDF(sales, template);
-        String nameFile = "reporteVentaProductos "+time+".pdf";
+        String nameFile = " Reporte Productos Vendidos "+time+".pdf";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
@@ -100,9 +100,10 @@ public class SaleController {
     public ResponseEntity<byte[]> generateXLSXReport(){
         String template = "classpath:\\reports\\productSaleReport\\ProductSaleXlsxReport.jrxml";
         List<Sale> sales = saleService.saleList();
+        String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportXLSX(sales, template);
-        String nameFile = "reporte_productos_vendidos.xlsx";
+        String nameFile = "Reporte Productos Vendidos "+time+".xlsx";
 
         return ResponseEntity.ok()
                 .contentType(MediaType.parseMediaType("application/x-xlsx"))
