@@ -4,50 +4,16 @@ spring:
   output:
     ansi:
       enabled: always
-server:
-  port: 8080
----
-spring:
-  profiles: "development"
   datasource:
     url: "jdbc:mysql://localhost/guaitil?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT-6"
-    username: "root"
-    password: "root"
     testWhileIdle: true
     validationQuery: SELECT 1
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-      naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL57Dialect
-        jdbc:
-          time_zone: UTC
-
-  security:
-    jwt:
-      token:
-        secret-key : "secret-key"
-        expire-length : 30
-      header: "Authorization"
-
 
   servlet:
     multipart:
       max-file-size: 500KB
       max-request-size: 500KB
       enabled: false
----
-spring:
-  profiles: "production"
-  datasource:
-    url: "jdbc:mysql://localhost/guaitil?&useLegacyDatetimeCode=false&serverTimezone=UTC"
-    username: "guaitil_user"
-    password: "root124578"
-    testWhileIdle: true
-    validationQuery: SELECT 1
   jpa:
     show-sql: true
     hibernate:
@@ -55,19 +21,40 @@ spring:
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL8Dialect
+        dialect: org.hibernate.dialect.MySQL57Dialect
         jdbc:
           time_zone: UTC
+  security:
+    jwt:
+      token:
+        expire-length: 5
+      header: "Authorization"
+server:
+  port: 8080
+user:
+  password: "1234"
+  email: "guaitil_default_admin@gmail.com"
 
+---
+spring:
+  profiles: "development"
+  datasource:
+    username: "root"
+    password: "root"
+  security:
+    jwt:
+      token:
+        secret-key : "secret-key"
+        expire-length : 30
+---
+user:
+  password: "guaitiltour!2021$"
+spring:
+  profiles: "production"
+  datasource:
+    username: "guaitiltour_user_db"
+    password: "guaitiltour!2021$db"
   security:
     jwt:
       token:
         secret-key : "gBHwqpF523Mp3mWd7p5deeeuG"
-        expire-length : 5
-      header: "Authorization"
-
-  servlet:
-    multipart:
-      max-file-size: 500KB
-      max-request-size: 500KB
-      enabled: false

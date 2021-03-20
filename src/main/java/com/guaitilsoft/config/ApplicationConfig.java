@@ -11,6 +11,7 @@ import com.guaitilsoft.services.multimedia.MultimediaService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,6 +22,13 @@ import java.util.List;
 
 @Configuration
 public class ApplicationConfig implements CommandLineRunner  {
+
+    @Value("${user.password}")
+    private String defaultPassword;
+
+    @Value("${user.email}")
+    private  String defaultEmail;
+
     private final MultimediaService multimediaService;
     private final UserRepositoryService userRepositoryService;
 
@@ -37,7 +45,7 @@ public class ApplicationConfig implements CommandLineRunner  {
             Person person = new Person();
             person.setId("1");
             person.setName("Guatil");
-            person.setEmail("guaitil_default_admin@gmail.com");
+            person.setEmail(this.defaultEmail);
             person.setFirstLastName("Soft");
             person.setTelephone("8888888");
             person.setSecondLastName("Default Admin");
@@ -57,7 +65,7 @@ public class ApplicationConfig implements CommandLineRunner  {
             user.setFirstLogin(false);
             user.setCreatedAt(LocalDateTime.now());
             user.setUpdatedAt(LocalDateTime.now());
-            user.setPassword("1234");
+            user.setPassword(this.defaultPassword);
             user.setMember(member);
             List<Role> roles = new ArrayList<>(Collections.singletonList(Role.ROLE_ADMIN));
             roles.add(Role.ROLE_SUPER_ADMIN);
