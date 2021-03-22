@@ -3,7 +3,6 @@ package com.guaitilsoft.web.controllers;
 import com.guaitilsoft.services.notification.NotificationService;
 import com.guaitilsoft.web.models.notification.NotificationLazyResponse;
 import com.guaitilsoft.web.models.notification.NotificationResponse;
-import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,10 @@ public class NotificationController {
     public static final Logger logger = LoggerFactory.getLogger(NotificationController.class);
 
     public final NotificationService notificationService;
-    private final ModelMapper modelMapper;
 
     @Autowired
-    public NotificationController(NotificationService notificationService, ModelMapper modelMapper) {
+    public NotificationController(NotificationService notificationService) {
         this.notificationService = notificationService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping

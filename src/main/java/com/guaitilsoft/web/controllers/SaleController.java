@@ -1,6 +1,5 @@
 package com.guaitilsoft.web.controllers;
 
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.sale.SaleService;
