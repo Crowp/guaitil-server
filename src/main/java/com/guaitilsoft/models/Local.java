@@ -47,10 +47,4 @@ public class Local {
     public void removeMultimediaById(Multimedia multimedia) {
         this.multimedia.remove(multimedia);
     }
-
-    @PrePersist
-    public void prePersist() {
-        this.showLocal = true;
-    }
-
 }
