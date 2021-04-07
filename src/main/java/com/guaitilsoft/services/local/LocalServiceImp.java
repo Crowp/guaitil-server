@@ -63,9 +63,9 @@ public class LocalServiceImp implements LocalService {
 
     @Override
     public LocalResponse updateShowLocal(Long id) {
-        LocalRequest local = this.parseToLocalRequest(localRepositoryService.get(id));
+        Local local = localRepositoryService.get(id);
         local.setShowLocal(!local.getShowLocal());
-        return this.update(id, local);
+        return this.update(id, this.parseToLocalRequest(local));
     }
 
     @Override

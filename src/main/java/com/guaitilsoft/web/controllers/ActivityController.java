@@ -74,6 +74,16 @@ public class ActivityController {
         return ResponseEntity.ok().body(activityResponse);
     }
 
+    @PutMapping("/is-active/{id}")
+    public ResponseEntity<ActivityResponse> putIsActive(@PathVariable Long id) {
+        logger.info("Updating Activity with id {}", id);
+
+        ActivityResponse activityResponse = activityService.updateIsActive(id);
+
+        logger.info("Updated Activity with id {}", id);
+        return ResponseEntity.ok().body(activityResponse);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<ActivityResponse> delete(@PathVariable Long id) {
         logger.info("Deleting Activity with id {}", id);
@@ -98,7 +108,7 @@ public class ActivityController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:reports\\activityReports\\activityPdfReport.jrxml";
+        String template = "classpath:reports/activityReports/activityPdfReport.jrxml";
         List<ActivityResponse> activities = activityService.list();
         String time = Utils.getDateReport();
 
@@ -113,7 +123,7 @@ public class ActivityController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport() {
-        String template = "classpath:reports\\activityReports\\activityXlsxReport.jrxml";
+        String template = "classpath:reports/activityReports/activityXlsxReport.jrxml";
         List<ActivityResponse> activities = activityService.list();
         String time = Utils.getDateReport();
 
