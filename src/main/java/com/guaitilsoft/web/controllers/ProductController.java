@@ -91,6 +91,14 @@ public class ProductController {
         return ResponseEntity.ok().body(productResponse);
     }
 
+    @PutMapping("/show-local/{id}")
+    public ResponseEntity<ProductResponse> putShowProduct(@PathVariable Long id) {
+        logger.info("Updating Product with id: {}", id);
+        ProductResponse productResponse = productService.updateShowProduct(id);
+        logger.info("Updated Product with id: {}", id);
+        return ResponseEntity.ok().body(productResponse);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<ProductResponse> delete(@PathVariable Long id) {
         logger.info("Deleting Product with id {}", id);
