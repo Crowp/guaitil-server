@@ -55,8 +55,6 @@ public class UserServiceImp implements UserService {
             if (ur.getId().equals(u.getId())){
                 if (u.getRoles().contains(Role.ROLE_ADMIN)){
                     ur.setRole(Role.ROLE_ADMIN.getMessage());
-                }else {
-                    ur.setRole(Role.ROLE_ASSOCIATED.getMessage());
                 }
             }
         }));
