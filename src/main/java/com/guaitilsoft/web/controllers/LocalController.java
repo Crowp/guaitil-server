@@ -82,7 +82,7 @@ public class LocalController {
         return ResponseEntity.ok().body(localResponse);
     }
 
-    @PutMapping("/show-local/{id}")
+    @GetMapping("/show-local/{id}")
     public ResponseEntity<LocalResponse> putShowLocal(@PathVariable Long id) {
         logger.info("Updating Local with id: {}", id);
         LocalResponse localResponse = localService.updateShowLocal(id);
