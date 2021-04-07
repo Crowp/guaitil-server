@@ -1,8 +1,7 @@
 package com.guaitilsoft.scheduledTasks;
 
-import com.guaitilsoft.models.ActivityDescription;
-import com.guaitilsoft.models.LocalDescription;
-import com.guaitilsoft.models.ProductDescription;
+import com.guaitilsoft.models.*;
+import com.guaitilsoft.repositories.ActivityRepository;
 import com.guaitilsoft.services.activityDescription.ActivityDesRepositoryService;
 import com.guaitilsoft.services.localDescription.LocalDesRepositoryService;
 import com.guaitilsoft.services.productDescription.ProductDesRepositoryService;
@@ -14,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -24,14 +24,17 @@ public class ScheduledTask {
     private final LocalDesRepositoryService localDescriptionRepository;
     private final ProductDesRepositoryService productDescriptionRepository;
     private final ActivityDesRepositoryService activityDescriptionRepository;
+    private final ActivityRepository activityRepository;
 
     @Autowired
     public ScheduledTask(LocalDesRepositoryService localDescriptionRepository,
                          ProductDesRepositoryService productDescriptionRepository,
-                         ActivityDesRepositoryService activityDescriptionRepository) {
+                         ActivityDesRepositoryService activityDescriptionRepository,
+                         ActivityRepository activityRepository) {
         this.localDescriptionRepository = localDescriptionRepository;
         this.productDescriptionRepository = productDescriptionRepository;
         this.activityDescriptionRepository = activityDescriptionRepository;
+        this.activityRepository = activityRepository;
     }
 
     @Scheduled(cron = "0 0 23 31 * ?")
@@ -58,6 +61,18 @@ public class ScheduledTask {
         if (activityDescriptions.size() != 0) {
             activityDescriptions.forEach(activityDescription -> activityDescriptionRepository.delete(activityDescription.getId()));
             logger.info("Activities descriptions deleted {}", dateTimeFormatter.format(LocalDateTime.now()) );
+        }
+    }
+
+    @Scheduled(fixedRate = 25000)
+    public void updateActivityIsActive(){
+        List<Activity> activities = activityRepository.getActivitiesDone(LocalDateTime.now());
+
+        if (activities.size() != 0){
+            activities.forEach(activity -> {
+                    activity.setIsActive(!activity.getIsActive());
+                    activityRepository.save(activity);
+            });
         }
     }
 }
