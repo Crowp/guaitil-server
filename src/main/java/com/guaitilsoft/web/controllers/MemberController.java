@@ -93,7 +93,7 @@ public class MemberController {
 
     @GetMapping("/pdf-report")
         public ResponseEntity<byte[]>generatePDFReport() {
-            String template = "classpath:\\reports\\memberReports\\memberPDFReport.jrxml";
+            String template = "classpath:reports/memberReports/memberPDFReport.jrxml";
             List<Member> members = memberService.memberList();
             String time = Utils.getDateReport();
 
@@ -108,7 +108,7 @@ public class MemberController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "classpath:\\reports\\memberReports\\memberXLSXReport.jrxml";
+        String template = "classpath:reports/memberReports/memberXLSXReport.jrxml";
         List<Member> members = memberService.memberList();
         String time = Utils.getDateReport();
 
