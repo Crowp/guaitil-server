@@ -42,6 +42,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/locals/**").permitAll()
                 .antMatchers("/api/activities/**").permitAll()
                 .antMatchers("/api/products/state/**").permitAll()
+                .antMatchers("/api/locals/show-local/**", "/api/activities/is-active/**").authenticated()
                 .antMatchers("/api/**", "/auth/**").authenticated()
                 .requestMatchers(CorsUtils::isCorsRequest).permitAll()
                 .anyRequest().permitAll()
