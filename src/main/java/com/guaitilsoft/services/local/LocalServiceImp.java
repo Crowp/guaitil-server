@@ -62,6 +62,13 @@ public class LocalServiceImp implements LocalService {
     }
 
     @Override
+    public LocalResponse updateShowLocal(Long id) {
+        LocalRequest local = this.parseToLocalRequest(localRepositoryService.get(id));
+        local.setShowLocal(!local.getShowLocal());
+        return this.update(id, local);
+    }
+
+    @Override
     public void delete(Long id) {
         localRepositoryService.delete(id);
     }
@@ -102,6 +109,8 @@ public class LocalServiceImp implements LocalService {
     private Local parseToLocal(LocalRequest localRequest){
         return modelMapper.map(localRequest, Local.class);
     }
+
+    private LocalRequest parseToLocalRequest(Local local){ return modelMapper.map(local, LocalRequest.class); }
 
     private List<LocalResponse> parseToLocalResponseList(List<Local> list){
         Type lisType = new TypeToken<List<LocalResponse>>(){}.getType();

@@ -74,6 +74,13 @@ public class ProductServiceImp implements ProductService{
     }
 
     @Override
+    public ProductResponse updateShowProduct(Long id) {
+        Product product = productRepositoryService.get(id);
+        product.setShowProduct(!product.getShowProduct());
+        return this.update(id, this.parseToProductRequest(product));
+    }
+
+    @Override
     public void delete(Long id) {
         productRepositoryService.delete(id);
     }
@@ -122,6 +129,8 @@ public class ProductServiceImp implements ProductService{
     private Product parseToProduct(ProductRequest productRequest){
         return modelMapper.map(productRequest, Product.class);
     }
+
+    private ProductRequest parseToProductRequest(Product product){ return modelMapper.map(product, ProductRequest.class); }
 
     private void loadMultimedia(List<Multimedia> multimediaList) {
         List<Multimedia> multimediaLoaded = new ArrayList<>();
