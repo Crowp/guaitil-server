@@ -64,6 +64,7 @@ public class LocalController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalResponse> post(@RequestBody LocalRequest localRequest) {
         logger.info("Creating local");
 
@@ -75,6 +76,7 @@ public class LocalController {
     }
 
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalResponse> put(@PathVariable Long id, @RequestBody LocalRequest localRequest) {
         logger.info("Updating Local with id: {}", id);
         LocalResponse localResponse = localService.update(id, localRequest);
@@ -83,6 +85,7 @@ public class LocalController {
     }
 
     @PutMapping("/show-local/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalResponse> putShowLocal(@PathVariable Long id) {
         logger.info("Updating Local with id: {}", id);
         LocalResponse localResponse = localService.updateShowLocal(id);

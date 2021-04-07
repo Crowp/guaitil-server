@@ -10,6 +10,7 @@ import java.util.List;
 
 public interface UserService {
     UserResponse get(Long id);
+    List<UserLazyResponse> getUsersAdmins();
     UserResponse getByMemberID(Long id);
     UserResponse login(String email, String password);
     UserResponse register(UserRequest user);

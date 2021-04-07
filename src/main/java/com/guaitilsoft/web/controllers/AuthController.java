@@ -38,6 +38,13 @@ public class AuthController {
         return  ResponseEntity.ok().body(users);
     }
 
+    @GetMapping("/users-admin")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public ResponseEntity<List<UserLazyResponse>> getUsersAdmins(){
+        List<UserLazyResponse> users = userService.getUsersAdmins();
+        return  ResponseEntity.ok().body(users);
+    }
+
     @GetMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<UserResponse> getById(@PathVariable Long id){

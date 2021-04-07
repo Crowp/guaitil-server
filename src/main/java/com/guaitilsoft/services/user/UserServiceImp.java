@@ -69,6 +69,14 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public List<UserLazyResponse> getUsersAdmins() {
+        return this.parseToUserLazyResponseList(userRepositoryService.getAllUsers()
+                .stream()
+                .filter(u -> u.getRoles().contains(Role.ROLE_ADMIN) && u.getId() != 1)
+                .collect(Collectors.toList()));
+    }
+
+    @Override
     public UserResponse getByMemberID(Long id) {
         return this.parseToUserResponse(userRepositoryService.get(id));
     }
