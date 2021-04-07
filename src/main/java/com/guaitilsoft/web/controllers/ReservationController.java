@@ -34,35 +34,6 @@ public class ReservationController {
         this.reportService = reportService;
     }
 
-    @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:\\reports\\reservationReports\\ReservationPdfReport.jrxml";
-        List<Reservation> reservations = reservationService.listReservation();
-        String time = Utils.getDateReport();
-
-         byte[] bytes = reportService.exportPDF(reservations, template);
-         String nameFile = "Reporte Reservaciones "+time+".pdf";
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
-                .body(bytes);
-    }
-
-    @GetMapping("/xlsx-report")
-    public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "classpath:\\reports\\reservationReports\\reservationXlsxReport.jrxml";
-        List<Reservation> reservations = reservationService.listReservation();
-        String time = Utils.getDateReport();
-
-        byte[] bytes = reportService.exportXLSX(reservations, template);
-        String nameFile = "Reporte Reservaciones "+time+".xlsx";
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/x-xlsx"))
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
-                .body(bytes);
-    }
     @GetMapping
     public ResponseEntity<List<ReservationResponse>> get () {
         List<ReservationResponse> reservations = reservationService.list();
@@ -102,6 +73,36 @@ public class ReservationController {
         reservationService.delete(id);
         logger.info("Deleted Reservation with id {}", id);
         return ResponseEntity.ok().body(reservationResponse);
+    }
+
+    @GetMapping("/pdf-report")
+    public ResponseEntity<byte[]> generatePDFReport() {
+        String template = "classpath:reports/reservationReports/ReservationPdfReport.jrxml";
+        List<Reservation> reservations = reservationService.listReservation();
+        String time = Utils.getDateReport();
+
+        byte[] bytes = reportService.exportPDF(reservations, template);
+        String nameFile = "Reporte Reservaciones "+time+".pdf";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
+    @GetMapping("/xlsx-report")
+    public ResponseEntity<byte[]> generateXLSXReport(){
+        String template = "classpath:reports/reservationReports/reservationXlsxReport.jrxml";
+        List<Reservation> reservations = reservationService.listReservation();
+        String time = Utils.getDateReport();
+
+        byte[] bytes = reportService.exportXLSX(reservations, template);
+        String nameFile = "Reporte Reservaciones "+time+".xlsx";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
     }
 
     private URI getUriResourceLocation(Long id) {

@@ -108,7 +108,7 @@ public class ActivityController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:reports\\activityReports\\activityPdfReport.jrxml";
+        String template = "classpath:reports/activityReports/activityPdfReport.jrxml";
         List<ActivityResponse> activities = activityService.list();
         String time = Utils.getDateReport();
 
@@ -123,7 +123,7 @@ public class ActivityController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport() {
-        String template = "classpath:reports\\activityReports\\activityXlsxReport.jrxml";
+        String template = "classpath:reports/activityReports/activityXlsxReport.jrxml";
         List<ActivityResponse> activities = activityService.list();
         String time = Utils.getDateReport();
 
