@@ -82,6 +82,14 @@ public class LocalController {
         return ResponseEntity.ok().body(localResponse);
     }
 
+    @PutMapping("/show-local/{id}")
+    public ResponseEntity<LocalResponse> putShowLocal(@PathVariable Long id) {
+        logger.info("Updating Local with id: {}", id);
+        LocalResponse localResponse = localService.updateShowLocal(id);
+        logger.info("Updated Local with id: {}", id);
+        return ResponseEntity.ok().body(localResponse);
+    }
+
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalResponse> delete(@PathVariable Long id) {
