@@ -40,6 +40,11 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
+    public void delete(Long id) {
+        this.userRepositoryService.delete(id);
+    }
+
+    @Override
     public List<UserReportResponse> getUsersReport() {
         return getUserResponseReport(userRepositoryService.getAllUsers().stream().filter(u -> u.getId() != 1).collect(Collectors.toList()));
     }
@@ -65,7 +70,8 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserResponse get(Long id) {
-        return null;
+        User user = this.userRepositoryService.get(id);
+        return modelMapper.map(user, UserResponse.class);
     }
 
     @Override
@@ -99,11 +105,6 @@ public class UserServiceImp implements UserService {
     @Override
     public void deleteByEmail(String email) {
         userRepositoryService.deleteByEmail(email);
-    }
-
-    @Override
-    public UserResponse search(String email) {
-        return this.parseToUserResponse(userRepositoryService.search(email));
     }
 
     @Override

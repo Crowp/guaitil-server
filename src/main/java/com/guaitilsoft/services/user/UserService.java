@@ -16,8 +16,8 @@ public interface UserService {
     UserResponse register(UserRequest user);
     UserResponse updateRoles(List<Role> roles, Long id);
     void deleteByEmail(String email);
-    UserResponse search(String email);
     UserResponse resetPassword(Long id, String newPassword);
     List<UserLazyResponse> getAllUsers();
+    void delete(Long id);
     List<UserReportResponse> getUsersReport();
 }
