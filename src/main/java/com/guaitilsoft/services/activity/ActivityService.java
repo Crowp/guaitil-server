@@ -14,6 +14,8 @@ public interface ActivityService {
 
     ActivityResponse update(Long id, ActivityRequest entity);
 
+    ActivityResponse updateIsActive(Long id);
+
     List<ActivityResponse> getAllActivitiesActive();
 
     ActivityResponse deleteMultimediaById(Long id, Long idMedia);

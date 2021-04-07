@@ -67,6 +67,13 @@ public class ActivityServiceImp implements ActivityService {
     }
 
     @Override
+    public ActivityResponse updateIsActive(Long id) {
+        Activity activity = activityRepositoryService.get(id);
+        activity.setIsActive(!activity.getIsActive());
+        return this.update(id, this.parseToActivityRequest(activity));
+    }
+
+    @Override
     public void delete(Long id) {
         activityRepositoryService.delete(id);
     }
@@ -87,6 +94,9 @@ public class ActivityServiceImp implements ActivityService {
         return this.modelMapper.map(activity, ActivityRequest.class);
     }
 
+    private ActivityRequest parseToActivityRequest(Activity activity) {
+        return this.modelMapper.map(activity, ActivityRequest.class);
+    }
 
     private ActivityResponse getActivityResponse(Activity activityStored) {
         ActivityResponse activityResponse = this.parseToActivityResponse(activityStored);

@@ -74,6 +74,16 @@ public class ActivityController {
         return ResponseEntity.ok().body(activityResponse);
     }
 
+    @PutMapping("/is-active/{id}")
+    public ResponseEntity<ActivityResponse> putIsActive(@PathVariable Long id) {
+        logger.info("Updating Activity with id {}", id);
+
+        ActivityResponse activityResponse = activityService.updateIsActive(id);
+
+        logger.info("Updated Activity with id {}", id);
+        return ResponseEntity.ok().body(activityResponse);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<ActivityResponse> delete(@PathVariable Long id) {
         logger.info("Deleting Activity with id {}", id);
