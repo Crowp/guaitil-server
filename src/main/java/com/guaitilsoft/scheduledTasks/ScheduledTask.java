@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -37,7 +36,7 @@ public class ScheduledTask {
         this.activityRepository = activityRepository;
     }
 
-    @Scheduled(cron = "0 0 23 31 * ?")
+    @Scheduled(cron = "0 0 2 31 * ?")
     public void deleteLocalDescriptionWithoutRelationship(){
         List<LocalDescription> localDescriptions = localDescriptionRepository.getLocalsDescriptionNoRelationships();
         if (localDescriptions.size() != 0) {
@@ -46,7 +45,7 @@ public class ScheduledTask {
         }
     }
 
-    @Scheduled(cron = "0 0 23 30 * ?")
+    @Scheduled(cron = "0 30 3 31 * ?")
     public void deleteProductDescriptionWithoutRelationship(){
         List<ProductDescription> productDescriptions = productDescriptionRepository.getLocalsDescriptionNoRelationships();
         if (productDescriptions.size() != 0) {
@@ -55,7 +54,7 @@ public class ScheduledTask {
         }
     }
 
-    @Scheduled(cron = "0 0 23 29 * ?")
+    @Scheduled(cron = "0 0 3 31 * ?")
     public void deleteActivityDescriptionWithoutRelationship(){
         List<ActivityDescription> activityDescriptions = activityDescriptionRepository.getActivityDescriptionNoRelationships();
         if (activityDescriptions.size() != 0) {
@@ -64,7 +63,7 @@ public class ScheduledTask {
         }
     }
 
-    @Scheduled(fixedRate = 25000)
+    @Scheduled(cron = "0 0 4 * * SUN")
     public void updateActivityIsActive(){
         List<Activity> activities = activityRepository.getActivitiesDone(LocalDateTime.now());
 
