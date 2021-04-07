@@ -76,7 +76,8 @@ public class ProductServiceImp implements ProductService{
     @Override
     public ProductResponse updateShowProduct(Long id) {
         Product product = productRepositoryService.get(id);
-        product.setShowProduct(!product.getShowProduct());
+        boolean aBoolean = product.getShowProduct() != null ? product.getShowProduct() : false;
+        product.setShowProduct(!aBoolean);
         return this.update(id, this.parseToProductRequest(product));
     }
 

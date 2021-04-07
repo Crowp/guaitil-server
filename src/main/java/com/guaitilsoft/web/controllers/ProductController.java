@@ -72,7 +72,7 @@ public class ProductController {
         return ResponseEntity.ok().body(products);
     }
 
-    @GetMapping("/show-local/{id}")
+    @GetMapping("/show-product/{id}")
     public ResponseEntity<ProductResponse> putShowProduct(@PathVariable Long id) {
         logger.info("Updating Product with id: {}", id);
         ProductResponse productResponse = productService.updateShowProduct(id);
