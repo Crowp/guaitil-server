@@ -45,20 +45,17 @@ public class ReportServiceImpl<T> implements ReportService<T> {
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "GuaitilSoft");
-        parameters.put("logo", reportsPath.resolve("logoReport/Logo.png"));
-        parameters.put("coffee", reportsPath.resolve("logoReport/coffee_stain.png"));
+        parameters.put("logo", reportsPath.resolve("logoReport/Logo.png").toString());
+        parameters.put("coffee", reportsPath.resolve("logoReport/coffee_stain.png").toString());
 
         return JasperFillManager.fillReport(jasperReport, parameters, dataSource);
     }
 
     @Override
-    public byte[] exportPDF( List<T> list, String template) {
-        try {
+    public byte[] exportPDF( List<T> list, String template) throws IOException, JRException {
             JasperPrint jasperPrint = makeFile(list, template);
             return JasperExportManager.exportReportToPdf(jasperPrint);
-        }catch (Exception e){
-            throw new ApiRequestException("El archivo no se pudo crear " + e.getMessage());
-        }
+//            throw new ApiRequestException("El archivo no se pudo crear " + e.getMessage());
     }
 
     @Override

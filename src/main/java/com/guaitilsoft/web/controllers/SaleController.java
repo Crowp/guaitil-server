@@ -6,6 +6,7 @@ import com.guaitilsoft.services.sale.SaleService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.sale.SaleRequest;
 import com.guaitilsoft.web.models.sale.SaleResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -82,7 +84,7 @@ public class SaleController {
     }
 
     @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]> generatePDFReport() {
+    public ResponseEntity<byte[]> generatePDFReport() throws IOException, JRException {
         String template = "productSaleReport/ProductSalePdfReport.jrxml";
         List<Sale> sales = saleService.saleList();
         String time = Utils.getDateReport();

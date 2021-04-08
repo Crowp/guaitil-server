@@ -7,6 +7,7 @@ import com.guaitilsoft.services.local.LocalService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.local.LocalRequest;
 import com.guaitilsoft.web.models.local.LocalResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -113,7 +115,7 @@ public class LocalController {
     }
 
     @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]> generatePDFReport() {
+    public ResponseEntity<byte[]> generatePDFReport() throws IOException, JRException {
         String template = "localReports/localPDFReport.jrxml";
         List<Local> locals = localService.localList();
         String time = Utils.getDateReport();

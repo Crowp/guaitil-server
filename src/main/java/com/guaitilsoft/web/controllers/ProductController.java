@@ -4,6 +4,7 @@ import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.product.ProductRequest;
 import com.guaitilsoft.web.models.product.ProductResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -118,7 +120,7 @@ public class ProductController {
     }
 
     @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]> generatePDFReport() {
+    public ResponseEntity<byte[]> generatePDFReport() throws IOException, JRException {
         String template = "productReports/productPdfReport.jrxml";
         List<ProductResponse> productResponses = productService.list();
         String time = Utils.getDateReport();

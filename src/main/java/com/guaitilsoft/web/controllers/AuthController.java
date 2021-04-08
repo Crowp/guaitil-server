@@ -8,6 +8,7 @@ import com.guaitilsoft.web.models.user.UserLazyResponse;
 import com.guaitilsoft.web.models.user.UserReportResponse;
 import com.guaitilsoft.web.models.user.UserRequest;
 import com.guaitilsoft.web.models.user.UserResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @CrossOrigin
@@ -96,7 +98,7 @@ public class AuthController {
     }
 
     @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]> generatePDFReport() {
+    public ResponseEntity<byte[]> generatePDFReport() throws IOException, JRException {
         String template = "userReports/usersPDFReport.jrxml";
         List<UserReportResponse> users = userService.getUsersReport();
         String time = Utils.getDateReport();
