@@ -52,10 +52,13 @@ public class ReportServiceImpl<T> implements ReportService<T> {
     }
 
     @Override
-    public byte[] exportPDF( List<T> list, String template) throws IOException, JRException {
+    public byte[] exportPDF( List<T> list, String template) {
+        try {
             JasperPrint jasperPrint = makeFile(list, template);
             return JasperExportManager.exportReportToPdf(jasperPrint);
-//            throw new ApiRequestException("El archivo no se pudo crear " + e.getMessage());
+        }catch (Exception e){
+            throw new ApiRequestException("El archivo no se pudo crear " + e.getMessage());
+        }
     }
 
     @Override
