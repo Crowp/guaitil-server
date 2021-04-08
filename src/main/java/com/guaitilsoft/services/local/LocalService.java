@@ -16,6 +16,8 @@ public interface LocalService {
 
     LocalResponse update(Long id, LocalRequest entity);
 
+    LocalResponse updateShowLocal(Long id);
+
     void delete(Long id);
 
     List<LocalResponse> getAllLocalByIdMember(Long id);

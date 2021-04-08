@@ -10,13 +10,14 @@ import java.util.List;
 
 public interface UserService {
     UserResponse get(Long id);
+    List<UserLazyResponse> getUsersAdmins();
     UserResponse getByMemberID(Long id);
     UserResponse login(String email, String password);
     UserResponse register(UserRequest user);
     UserResponse updateRoles(List<Role> roles, Long id);
     void deleteByEmail(String email);
-    UserResponse search(String email);
     UserResponse resetPassword(Long id, String newPassword);
     List<UserLazyResponse> getAllUsers();
+    void delete(Long id);
     List<UserReportResponse> getUsersReport();
 }

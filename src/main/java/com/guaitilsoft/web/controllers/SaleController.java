@@ -1,6 +1,5 @@
 package com.guaitilsoft.web.controllers;
 
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Sale;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.sale.SaleService;
@@ -84,7 +83,7 @@ public class SaleController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:\\reports\\productSaleReport\\ProductSalePdfReport.jrxml";
+        String template = "classpath:reports/productSaleReport/ProductSalePdfReport.jrxml";
         List<Sale> sales = saleService.saleList();
         String time = Utils.getDateReport();
 
@@ -96,9 +95,10 @@ public class SaleController {
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
                 .body(bytes);
     }
+
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "classpath:\\reports\\productSaleReport\\ProductSaleXlsxReport.jrxml";
+        String template = "classpath:reports/productSaleReport/ProductSaleXlsxReport.jrxml";
         List<Sale> sales = saleService.saleList();
         String time = Utils.getDateReport();
 

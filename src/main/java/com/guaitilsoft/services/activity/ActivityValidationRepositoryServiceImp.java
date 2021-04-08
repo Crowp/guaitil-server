@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,7 +52,7 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
     public Activity save(Activity entity) {
         entity.setLocalsDescriptions(this.loadLocalDescription(entity.getLocalsDescriptions()));
         Activity activity = this.activityRepositoryService.save(entity);
-        notificationRepServ.createAdminNotification(ACTIVITY_NOTIFICATION.getMessage());
+        notificationRepServ.save(ACTIVITY_NOTIFICATION.getMessage(), new ArrayList<>());
         return activity;
 
     }

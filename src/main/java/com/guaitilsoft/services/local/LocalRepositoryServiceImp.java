@@ -37,7 +37,7 @@ public class LocalRepositoryServiceImp implements LocalRepositoryService {
     public Local save(Local entity) {
         assert entity != null;
         if (localRepository.existMemberPersonLocal(this.getPersonId(entity), entity.getLocalType())) {
-            throw new ApiRequestException("El local esta ocupado por el miembro con cédula: " + this.getPersonId(entity));
+            throw new ApiRequestException("Esta persona ya cuenta con un local del mismo tipo");
         }
         return this.localRepository.save(entity);
     }

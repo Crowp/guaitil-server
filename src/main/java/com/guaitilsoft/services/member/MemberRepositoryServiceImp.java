@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("MemberRepositoryServiceBasic")
 public class MemberRepositoryServiceImp implements MemberRepositoryService{
@@ -24,7 +25,7 @@ public class MemberRepositoryServiceImp implements MemberRepositoryService{
         Iterable<Member> iterable = memberRepository.findAll();
         List<Member> members = new ArrayList<>();
         iterable.forEach(members::add);
-        return members;
+        return members.stream().filter(m -> m.getId() != 1).collect(Collectors.toList());
     }
 
     @Override

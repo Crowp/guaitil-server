@@ -20,4 +20,6 @@ public class ProductRequest {
     private ProductDescriptionRequest productDescription;
 
     private List<MultimediaResponse> multimedia;
+
+    private Boolean showProduct = true;
 }
