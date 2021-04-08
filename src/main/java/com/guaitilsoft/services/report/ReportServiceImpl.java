@@ -7,6 +7,8 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -26,7 +28,12 @@ import java.util.Map;
 @Service
 public class ReportServiceImpl<T> implements ReportService<T> {
 
-    private final Path reportsPath = Paths.get("reports");
+    private final Path reportsPath;
+
+    @Autowired
+    public ReportServiceImpl(@Value("${reports-path}") String pathString) {
+        this.reportsPath = Paths.get(pathString);
+    }
 
     private JasperPrint makeFile(List<T> list, String template) throws IOException, JRException {
         Path filePath = reportsPath.resolve(template);
