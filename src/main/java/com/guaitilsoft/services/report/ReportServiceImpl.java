@@ -40,10 +40,13 @@ public class ReportServiceImpl<T> implements ReportService<T> {
         Resource resource = new UrlResource(filePath.toUri());
         File file = resource.getFile();
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "GuaitilSoft");
+        parameters.put("logo", reportsPath.resolve("logoReport/Logo.png"));
+        parameters.put("coffee", reportsPath.resolve("logoReport/coffee_stain.png"));
 
         return JasperFillManager.fillReport(jasperReport, parameters, dataSource);
     }
