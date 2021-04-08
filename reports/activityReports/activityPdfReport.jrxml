@@ -28,7 +28,7 @@
         <band height="136" splitType="Stretch">
             <image>
                 <reportElement x="1" y="0" width="149" height="120" uuid="ddc15723-2728-421f-b95e-2df9faf64ce1"/>
-                <imageExpression><![CDATA["reports/logoReport/Logo.png"]]></imageExpression>
+                <imageExpression><![CDATA[$P{logo}]]></imageExpression>
             </image>
             <staticText>
                 <reportElement style="Title" x="151" y="10" width="300" height="62" uuid="1a652692-054a-40f3-ade5-68d8da36626d"/>
@@ -46,7 +46,7 @@
             </staticText>
             <image>
                 <reportElement x="450" y="-130" width="267" height="209" uuid="5d64e5b3-07bb-48ab-89dc-15c0c46bb19a"/>
-                <imageExpression><![CDATA["reports/logoReport/coffee_stain.png"]]></imageExpression>
+                <imageExpression><![CDATA[$P{coffee}]]></imageExpression>
             </image>
         </band>
     </title>
