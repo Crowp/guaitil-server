@@ -108,7 +108,7 @@ public class MemberController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "classpath:reports/memberReports/memberXLSXReport.jrxml";
+        String template = "memberReports/memberXLSXReport.jrxml";
         List<Member> members = memberService.memberList();
         String time = Utils.getDateReport();
 

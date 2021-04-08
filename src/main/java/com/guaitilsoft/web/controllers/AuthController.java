@@ -97,7 +97,7 @@ public class AuthController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:reports/userReports/usersPDFReport.jrxml";
+        String template = "userReports/usersPDFReport.jrxml";
         List<UserReportResponse> users = userService.getUsersReport();
         String time = Utils.getDateReport();
 
@@ -112,7 +112,7 @@ public class AuthController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport() {
-        String template = "classpath:reports/userReports/usersXlsxReport.jrxml";
+        String template = "userReports/usersXlsxReport.jrxml";
         List<UserReportResponse> users = userService.getUsersReport();
         String time = Utils.getDateReport();
 

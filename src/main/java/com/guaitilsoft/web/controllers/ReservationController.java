@@ -77,7 +77,7 @@ public class ReservationController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:reports/reservationReports/ReservationPdfReport.jrxml";
+        String template = "reservationReports/ReservationPdfReport.jrxml";
         List<Reservation> reservations = reservationService.listReservation();
         String time = Utils.getDateReport();
 
@@ -92,7 +92,7 @@ public class ReservationController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "classpath:reports/reservationReports/reservationXlsxReport.jrxml";
+        String template = "reservationReports/reservationXlsxReport.jrxml";
         List<Reservation> reservations = reservationService.listReservation();
         String time = Utils.getDateReport();
 

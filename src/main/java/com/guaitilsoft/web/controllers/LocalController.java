@@ -114,7 +114,7 @@ public class LocalController {
 
     @GetMapping("/pdf-report")
     public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:reports/localReports/localPDFReport.jrxml";
+        String template = "localReports/localPDFReport.jrxml";
         List<Local> locals = localService.localList();
         String time = Utils.getDateReport();
 
@@ -129,7 +129,7 @@ public class LocalController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport() {
-        String template = "classpath:reports/localReports/localXLSXReport.jrxml";
+        String template = "localReports/localXLSXReport.jrxml";
         List<Local> locals = localService.localList();
         String time = Utils.getDateReport();
 
