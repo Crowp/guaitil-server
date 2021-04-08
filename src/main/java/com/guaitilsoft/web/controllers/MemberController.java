@@ -93,7 +93,7 @@ public class MemberController {
 
     @GetMapping("/pdf-report")
         public ResponseEntity<byte[]>generatePDFReport() {
-            String template = "classpath:reports/memberReports/memberPDFReport.jrxml";
+            String template = "memberReports/memberPDFReport.jrxml";
             List<Member> members = memberService.memberList();
             String time = Utils.getDateReport();
 
