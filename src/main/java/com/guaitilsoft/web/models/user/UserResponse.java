@@ -14,6 +14,10 @@ import java.util.List;
 public class UserResponse {
     private Long id;
 
+    private Boolean firstLogin;
+
+    private Boolean resetPassword;
+
     private List<Role> roles;
 
     private String token;

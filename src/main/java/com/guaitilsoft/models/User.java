@@ -25,6 +25,8 @@ public class User {
 
     private Boolean firstLogin;
 
+    private Boolean resetPassword;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
@@ -36,18 +38,20 @@ public class User {
     @OneToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, fetch = FetchType.EAGER)
     private Member member;
 
-    public String getEmail(){
+    public String getEmail() {
         return member.getPerson().getEmail();
     }
 
     @PrePersist
-    public void prePersist(){
+    public void prePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.resetPassword = false;
+        this.firstLogin = true;
     }
 
     @PreUpdate
-    public void preUpdate(){
+    public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 }
