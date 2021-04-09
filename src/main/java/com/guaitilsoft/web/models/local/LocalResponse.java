@@ -25,4 +25,7 @@ public class LocalResponse {
 
     private List<MultimediaResponse> multimedia;
 
+    private boolean firstLogin;
+
+    private boolean ResetPassword;
 }
