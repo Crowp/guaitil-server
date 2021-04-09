@@ -75,7 +75,6 @@ public class AuthController {
     }
 
     @PutMapping("/reset")
-    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<UserResponse> reset(@RequestParam Long id,
                                               @RequestParam String newPassword) {
         UserResponse userResponse = userService.resetPassword(id, newPassword);

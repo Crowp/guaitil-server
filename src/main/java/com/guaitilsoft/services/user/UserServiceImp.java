@@ -54,20 +54,21 @@ public class UserServiceImp implements UserService {
         return getUserResponseReport(userRepositoryService.getAllUsers().stream().filter(u -> u.getId() != 1).collect(Collectors.toList()));
     }
 
-    private List<UserReportResponse> getUserResponseReport(List<User> users){
+    private List<UserReportResponse> getUserResponseReport(List<User> users) {
         List<UserReportResponse> userReportResponses = this.parseToUserReportResponse(getUsersAdmins(users));
         userReportResponses.forEach(ur -> ur.setRole(Role.ROLE_ADMIN.getMessage()));
         return userReportResponses;
     }
 
-    private List<User> getUsersAdmins(List<User> users){
+    private List<User> getUsersAdmins(List<User> users) {
         return users.stream()
                 .filter(user -> user.getRoles().contains(Role.ROLE_ADMIN))
                 .collect(Collectors.toList());
     }
 
-    private List<UserReportResponse> parseToUserReportResponse(List<User> list){
-        Type listType  = new TypeToken<List<UserReportResponse>>(){}.getType();
+    private List<UserReportResponse> parseToUserReportResponse(List<User> list) {
+        Type listType = new TypeToken<List<UserReportResponse>>() {
+        }.getType();
         return modelMapper.map(list, listType);
     }
 
@@ -119,23 +120,22 @@ public class UserServiceImp implements UserService {
         return this.parseToUserResponse(userRepositoryService.resetPassword(id, newPassword));
     }
 
-    private List<UserLazyResponse> parseToUserLazyResponseList (List<User> users){
-        Type listType  = new TypeToken<List<UserLazyResponse>>(){}.getType();
+    private List<UserLazyResponse> parseToUserLazyResponseList(List<User> users) {
+        Type listType = new TypeToken<List<UserLazyResponse>>() {
+        }.getType();
         return modelMapper.map(users, listType);
     }
 
-    private UserResponse parseToUserResponse(User user){
+    private UserResponse parseToUserResponse(User user) {
         return modelMapper.map(user, UserResponse.class);
     }
 
-    private User parseToUser (UserRequest userRequest){
+    private User parseToUser(UserRequest userRequest) {
         return modelMapper.map(userRequest, User.class);
     }
 
-    private UserResponse createToken(User user){
-        String token = this.tokenProvider.createToken(
-                user.getEmail(),
-                user.getRoles(),
+    private UserResponse createToken(User user) {
+        String token = this.tokenProvider.createToken(user,
                 this.modelMapper.map(user.getMember(), MemberRequest.class));
         UserResponse userResponse = modelMapper.map(user, UserResponse.class);
         userResponse.setToken(token);
@@ -145,8 +145,8 @@ public class UserServiceImp implements UserService {
     private void sendEmailToNewUser(UserResponse userResponse, String password) {
         String name = userResponse.getMember().getPerson().getName();
         String lastname = userResponse.getMember().getPerson().getFirstLastName();
-        String secondLastname =userResponse.getMember().getPerson().getSecondLastName();
-        String email =userResponse.getMember().getPerson().getEmail();
+        String secondLastname = userResponse.getMember().getPerson().getSecondLastName();
+        String email = userResponse.getMember().getPerson().getEmail();
         String template = new EmailNewAccountTemplate()
                 .addEmail(email)
                 .addFullName(name + " " + lastname + " " + secondLastname)

@@ -1,6 +1,7 @@
 package com.guaitilsoft.config.security;
 
 import com.guaitilsoft.exceptions.CustomException;
+import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.web.models.member.MemberRequest;
 import io.jsonwebtoken.Claims;
@@ -48,10 +49,11 @@ public class TokenProvider {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public String createToken(String email, List<Role> roles, MemberRequest member) {
-        Claims claims = Jwts.claims().setSubject(email);
+    public String createToken(User user, MemberRequest member) {
+        Claims claims = Jwts.claims().setSubject(user.getEmail());
         claims.put("user_data", member);
-        claims.put("auth", roles.stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).collect(Collectors.toList()));
+        claims.put("user", user);
+        claims.put("auth", user.getRoles().stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).collect(Collectors.toList()));
 
         Date now = new Date();
         Date validity = new Date(now.getTime() + (cantOfDays * 24 * 60 * 60 * 1000));

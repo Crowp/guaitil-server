@@ -47,7 +47,11 @@ public class User {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.resetPassword = false;
-        this.firstLogin = true;
+        if (!this.roles.contains(Role.ROLE_SUPER_ADMIN)) {
+            this.firstLogin = true;
+        } else {
+            this.firstLogin = false;
+        }
     }
 
     @PreUpdate
