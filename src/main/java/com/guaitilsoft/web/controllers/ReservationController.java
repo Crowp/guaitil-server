@@ -6,6 +6,7 @@ import com.guaitilsoft.services.reservation.ReservationService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.reservation.ReservationRequest;
 import com.guaitilsoft.web.models.reservation.ReservationResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -76,8 +78,8 @@ public class ReservationController {
     }
 
     @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]> generatePDFReport() {
-        String template = "classpath:reports/reservationReports/ReservationPdfReport.jrxml";
+    public ResponseEntity<byte[]> generatePDFReport() throws IOException, JRException {
+        String template = "reservationReports/ReservationPdfReport.jrxml";
         List<Reservation> reservations = reservationService.listReservation();
         String time = Utils.getDateReport();
 
@@ -92,7 +94,7 @@ public class ReservationController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "classpath:reports/reservationReports/reservationXlsxReport.jrxml";
+        String template = "reservationReports/reservationXlsxReport.jrxml";
         List<Reservation> reservations = reservationService.listReservation();
         String time = Utils.getDateReport();
 

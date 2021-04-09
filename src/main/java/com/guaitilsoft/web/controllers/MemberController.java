@@ -6,6 +6,7 @@ import com.guaitilsoft.services.member.MemberService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.member.MemberRequest;
 import com.guaitilsoft.web.models.member.MemberResponse;
+import net.sf.jasperreports.engine.JRException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -92,8 +94,8 @@ public class MemberController {
     }
 
     @GetMapping("/pdf-report")
-        public ResponseEntity<byte[]>generatePDFReport() {
-            String template = "classpath:reports/memberReports/memberPDFReport.jrxml";
+        public ResponseEntity<byte[]>generatePDFReport() throws IOException, JRException {
+            String template = "memberReports/memberPDFReport.jrxml";
             List<Member> members = memberService.memberList();
             String time = Utils.getDateReport();
 
@@ -108,7 +110,7 @@ public class MemberController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "classpath:reports/memberReports/memberXLSXReport.jrxml";
+        String template = "memberReports/memberXLSXReport.jrxml";
         List<Member> members = memberService.memberList();
         String time = Utils.getDateReport();
 

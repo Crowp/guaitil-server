@@ -7,12 +7,20 @@ import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,13 +28,25 @@ import java.util.Map;
 @Service
 public class ReportServiceImpl<T> implements ReportService<T> {
 
-    private JasperPrint makeFile(List<T> list, String template) throws FileNotFoundException, JRException {
-        File file = ResourceUtils.getFile(template);
+    private final Path reportsPath;
+
+    @Autowired
+    public ReportServiceImpl(@Value("${reports-path}") String pathString) {
+        this.reportsPath = Paths.get(pathString);
+    }
+
+    private JasperPrint makeFile(List<T> list, String template) throws IOException, JRException {
+        Path filePath = reportsPath.resolve(template);
+        Resource resource = new UrlResource(filePath.toUri());
+        File file = resource.getFile();
         JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
+
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(list);
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("createdBy", "GuaitilSoft");
+        parameters.put("logo", reportsPath.resolve("logoReport/Logo.png").toString());
+        parameters.put("coffee", reportsPath.resolve("logoReport/coffee_stain.png").toString());
 
         return JasperFillManager.fillReport(jasperReport, parameters, dataSource);
     }

@@ -34,6 +34,7 @@ server:
 user:
   password: "1234"
   email: "guaitil_default_admin@gmail.com"
+reports-path: "reports"
 
 ---
 spring:
@@ -48,7 +49,7 @@ spring:
         expire-length : 30
 ---
 user:
-  password: "guaitiltour!2021$"
+  password: "guaitilour!2021$"
 spring:
   profiles: "production"
   datasource:
@@ -58,3 +59,4 @@ spring:
     jwt:
       token:
         secret-key : "gBHwqpF523Mp3mWd7p5deeeuG"
+reports-path: "/root/guaitil-server/reports"
