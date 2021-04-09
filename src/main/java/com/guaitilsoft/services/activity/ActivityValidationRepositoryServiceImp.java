@@ -3,6 +3,8 @@ package com.guaitilsoft.services.activity;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.LocalDescription;
+import com.guaitilsoft.models.Member;
+import com.guaitilsoft.services.local.LocalRepositoryService;
 import com.guaitilsoft.services.localDescription.LocalDesRepositoryService;
 import com.guaitilsoft.services.notification.NotificationRepServ;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,14 +25,17 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
 
     private final ActivityRepositoryService activityRepositoryService;
     private final LocalDesRepositoryService localDesRepositoryService;
+    private final LocalRepositoryService localRepositoryService;
     private final NotificationRepServ notificationRepServ;
 
     @Autowired
     public ActivityValidationRepositoryServiceImp(ActivityRepositoryService activityRepositoryService,
                                                   LocalDesRepositoryService localDesRepositoryService,
+                                                  LocalRepositoryService localRepositoryService,
                                                   NotificationRepServ notificationRepServ) {
         this.activityRepositoryService = activityRepositoryService;
         this.localDesRepositoryService = localDesRepositoryService;
+        this.localRepositoryService = localRepositoryService;
         this.notificationRepServ = notificationRepServ;
     }
 
@@ -52,9 +57,8 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
     public Activity save(Activity entity) {
         entity.setLocalsDescriptions(this.loadLocalDescription(entity.getLocalsDescriptions()));
         Activity activity = this.activityRepositoryService.save(entity);
-        notificationRepServ.save(ACTIVITY_NOTIFICATION.getMessage(), new ArrayList<>());
+        this.createNotification(activity);
         return activity;
-
     }
 
     @Override
@@ -70,6 +74,19 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
     @Override
     public void delete(Long id) {
         this.activityRepositoryService.delete(id);
+    }
+
+    private void createNotification(Activity activity){
+        List<Member> members = new ArrayList<>();
+        String notification = ACTIVITY_NOTIFICATION.getMessage() + activity.getActivityDescription().getName();
+
+        activity.getLocalsDescriptions().forEach(localDescription -> this.localRepositoryService.list().forEach(local -> {
+            if (localDescription.getId().equals(local.getLocalDescription().getId())){
+                members.add(local.getMember());
+            }
+        }));
+
+        this.notificationRepServ.save(notification, members);
     }
 
     private Set<LocalDescription> loadLocalDescription(Set<LocalDescription> localDescriptions){

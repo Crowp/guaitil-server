@@ -50,15 +50,15 @@ public class UserServiceImp implements UserService {
     }
 
     private List<UserReportResponse> getUserResponseReport(List<User> users){
-        List<UserReportResponse> userReportResponses = this.parseToUserReportResponse(users);
-        userReportResponses.forEach(ur -> users.forEach(u -> {
-            if (ur.getId().equals(u.getId())){
-                if (u.getRoles().contains(Role.ROLE_ADMIN)){
-                    ur.setRole(Role.ROLE_ADMIN.getMessage());
-                }
-            }
-        }));
+        List<UserReportResponse> userReportResponses = this.parseToUserReportResponse(getUsersAdmins(users));
+        userReportResponses.forEach(ur -> ur.setRole(Role.ROLE_ADMIN.getMessage()));
         return userReportResponses;
+    }
+
+    private List<User> getUsersAdmins(List<User> users){
+        return users.stream()
+                .filter(user -> user.getRoles().contains(Role.ROLE_ADMIN))
+                .collect(Collectors.toList());
     }
 
     private List<UserReportResponse> parseToUserReportResponse(List<User> list){
