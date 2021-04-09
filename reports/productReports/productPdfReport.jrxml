@@ -13,6 +13,8 @@
             <style backcolor="#E6DAC3"/>
         </conditionalStyle>
     </style>
+    <parameter name="logo" class="java.lang.String"/>
+    <parameter name="coffee" class="java.lang.String"/>
     <field name="productDescription.name" class="java.lang.String">
     </field>
     <field name="productDescription.productType" class="com.guaitilsoft.models.constant.ProductType">
