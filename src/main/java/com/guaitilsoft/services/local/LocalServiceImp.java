@@ -4,9 +4,12 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.services.multimedia.MultimediaService;
+import com.guaitilsoft.services.user.UserRepositoryService;
+import com.guaitilsoft.services.user.UserService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.local.LocalRequest;
 import com.guaitilsoft.web.models.local.LocalResponse;
+import com.guaitilsoft.web.models.user.UserResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,25 +26,38 @@ public class LocalServiceImp implements LocalService {
 
     private final LocalServiceLoad localServiceLoad;
     private final MultimediaService multimediaService;
+    private final UserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
     public LocalServiceImp(LocalServiceLoad localServiceLoad,
                            MultimediaService multimediaService,
-                           ModelMapper modelMapper) {
+                           ModelMapper modelMapper,
+                           UserService userService) {
         this.localServiceLoad = localServiceLoad;
         this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
     @Override
     public List<LocalResponse> list() {
-        return this.parseToLocalResponseList(localServiceLoad.list());
+        List<LocalResponse> localResponseList = this.parseToLocalResponseList(localServiceLoad.list());
+        localResponseList.forEach(this::loadUserState);
+        return  localResponseList;
+    }
+
+    private void loadUserState(LocalResponse localResponse) {
+        UserResponse userResponse = this.userService.getByMemberID(localResponse.getMember().getId());
+        localResponse.setFirstLogin(userResponse.getFirstLogin());
+        localResponse.setResetPassword(userResponse.getResetPassword());
     }
 
     @Override
     public LocalResponse get(Long id) {
-        return this.parseToLocalResponse(localServiceLoad.get(id));
+        LocalResponse localResponse = this.parseToLocalResponse(localServiceLoad.get(id));
+        this.loadUserState(localResponse);
+        return localResponse;
     }
 
     @Override
@@ -70,7 +86,9 @@ public class LocalServiceImp implements LocalService {
 
     @Override
     public List<LocalResponse> resetPassword(Long id) {
-        return this.parseToLocalResponseList(localServiceLoad.resetPasswordByLocalId(id));
+        List<LocalResponse> localResponseList = this.parseToLocalResponseList(localServiceLoad.resetPasswordByLocalId(id));
+        localResponseList.forEach(this::loadUserState);
+        return localResponseList;
     }
 
     @Override

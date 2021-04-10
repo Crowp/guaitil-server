@@ -104,14 +104,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public void deleteByEmail(String email) {
-        userRepositoryService.deleteByEmail(email);
-    }
-
-    @Override
-    public UserResponse resetPassword(Long id, String newPassword) {
-        User user = userRepositoryService.get(id);
-        return this.parseToUserResponse(userRepositoryService.resetPassword(id, newPassword));
+    public UserResponse resetPassword(Long id, String newPassword, Boolean sendEmail) {
+        return this.parseToUserResponse(userRepositoryService.resetPassword(id, newPassword, sendEmail));
     }
 
     private List<UserLazyResponse> parseToUserLazyResponseList(List<User> users) {

@@ -77,7 +77,13 @@ public class AuthController {
     @PutMapping("/reset")
     public ResponseEntity<UserResponse> reset(@RequestParam Long id,
                                               @RequestParam String newPassword) {
-        UserResponse userResponse = userService.resetPassword(id, newPassword);
+        UserResponse userResponse = userService.resetPassword(id, newPassword, false);
+        return ResponseEntity.ok().body(userResponse);
+    }
+
+    @GetMapping("/reset-with-generic/{id}")
+    public ResponseEntity<UserResponse> reset(@PathVariable Long id) {
+        UserResponse userResponse = userService.resetPassword(id,  Utils.getRandomPassword(), true);
         return ResponseEntity.ok().body(userResponse);
     }
 

@@ -17,6 +17,6 @@ public interface UserRepositoryService {
     void delete(Long id);
     void deleteUserByMemberId(Long memberId);
     User search(String email);
-    User resetPassword(Long id, String newPassword);
+    User resetPassword(Long id, String newPassword, Boolean sendEmailWithPassword);
     List<User> getUsersAdmin();
 }

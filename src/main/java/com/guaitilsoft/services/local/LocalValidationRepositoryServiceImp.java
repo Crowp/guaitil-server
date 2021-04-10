@@ -8,7 +8,6 @@ import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.services.user.UserRepositoryService;
-import com.guaitilsoft.utils.EmailNewAccountTemplate;
 import com.guaitilsoft.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -24,17 +23,14 @@ public class LocalValidationRepositoryServiceImp implements LocalServiceLoad {
     private final LocalRepositoryService localRepositoryService;
     private final MemberRepositoryService memberRepositoryService;
     private final UserRepositoryService userRepositoryService;
-    private final EmailSenderService emailSenderService;
 
     @Autowired
     public LocalValidationRepositoryServiceImp(LocalRepositoryService localRepositoryService,
                                                MemberRepositoryService memberRepositoryService,
-                                               UserRepositoryService userRepositoryService,
-                                               EmailSenderService emailSenderService) {
+                                               UserRepositoryService userRepositoryService) {
         this.localRepositoryService = localRepositoryService;
         this.memberRepositoryService = memberRepositoryService;
         this.userRepositoryService = userRepositoryService;
-        this.emailSenderService = emailSenderService;
     }
 
     @Override
@@ -70,13 +66,13 @@ public class LocalValidationRepositoryServiceImp implements LocalServiceLoad {
     public List<Local> resetPasswordByLocalId(Long id) {
         Local local = this.get(id);
         Long memberId = local.getMember().getId();
-        this.sendEmail(memberId);
+        this.resetPasswordGenericByMemberId(memberId);
         return getAllLocalByIdMember(memberId);
     }
 
-    private void sendEmail(Long memberId){
+    private void resetPasswordGenericByMemberId(Long memberId){
         User user = userRepositoryService.getByMemberID(memberId);
-        userRepositoryService.resetPassword(user.getId(), Utils.getRandomPassword());
+        userRepositoryService.resetPassword(user.getId(), Utils.getRandomPassword(), true);
     }
 
     @Override

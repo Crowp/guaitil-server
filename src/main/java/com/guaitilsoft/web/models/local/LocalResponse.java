@@ -27,5 +27,5 @@ public class LocalResponse {
 
     private boolean firstLogin;
 
-    private boolean ResetPassword;
+    private boolean resetPassword;
 }

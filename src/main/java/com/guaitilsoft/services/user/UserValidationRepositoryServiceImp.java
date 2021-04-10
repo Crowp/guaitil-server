@@ -91,10 +91,12 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
     }
 
     @Override
-    public User resetPassword(Long id, String newPassword) {
+    public User resetPassword(Long id, String newPassword, Boolean sendEmail) {
         User user = this.get(id);
-        this.sendEmailToNewUser(user, newPassword);
-        return userRepositoryService.resetPassword(id, newPassword);
+        if(sendEmail){
+            this.sendEmailToNewUser(user, newPassword);
+        }
+        return userRepositoryService.resetPassword(id, newPassword, sendEmail);
     }
 
     @Override

@@ -93,7 +93,7 @@ public class LocalController {
         return ResponseEntity.ok().body(localResponse);
     }
 
-    @GetMapping("reset-password/{id}")
+    @GetMapping("reset-with-generic-password/{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<List<LocalResponse>> resetPasswordByLocalId(@PathVariable Long id) {
         logger.info("Resetting password with local id: {}", id);
