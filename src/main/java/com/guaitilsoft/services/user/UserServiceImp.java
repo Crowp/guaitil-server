@@ -25,17 +25,14 @@ public class UserServiceImp implements UserService {
     private final UserRepositoryService userRepositoryService;
     private final ModelMapper modelMapper;
     private final TokenProvider tokenProvider;
-    private final EmailSenderService emailSenderService;
 
     @Autowired
     public UserServiceImp(UserRepositoryService userRepositoryService,
                           ModelMapper modelMapper,
-                          TokenProvider tokenProvider,
-                          EmailSenderService emailSenderService) {
+                          TokenProvider tokenProvider) {
         this.userRepositoryService = userRepositoryService;
         this.modelMapper = modelMapper;
         this.tokenProvider = tokenProvider;
-        this.emailSenderService = emailSenderService;
     }
 
 
@@ -98,11 +95,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserResponse register(UserRequest user) {
-        UserResponse userResponse = createToken(userRepositoryService.register(this.parseToUser(user)));
-
-        this.sendEmailToNewUser(userResponse, user.getPassword());
-
-        return userResponse;
+        return createToken(userRepositoryService.register(this.parseToUser(user)));
     }
 
     @Override
@@ -117,6 +110,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserResponse resetPassword(Long id, String newPassword) {
+        User user = userRepositoryService.get(id);
         return this.parseToUserResponse(userRepositoryService.resetPassword(id, newPassword));
     }
 
@@ -140,19 +134,5 @@ public class UserServiceImp implements UserService {
         UserResponse userResponse = modelMapper.map(user, UserResponse.class);
         userResponse.setToken(token);
         return userResponse;
-    }
-
-    private void sendEmailToNewUser(UserResponse userResponse, String password) {
-        String name = userResponse.getMember().getPerson().getName();
-        String lastname = userResponse.getMember().getPerson().getFirstLastName();
-        String secondLastname = userResponse.getMember().getPerson().getSecondLastName();
-        String email = userResponse.getMember().getPerson().getEmail();
-        String template = new EmailNewAccountTemplate()
-                .addEmail(email)
-                .addFullName(name + " " + lastname + " " + secondLastname)
-                .addGenericPassword(password)
-                .getTemplate();
-
-        emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", "guaitiltour.cr@gmail.com", email, template);
     }
 }

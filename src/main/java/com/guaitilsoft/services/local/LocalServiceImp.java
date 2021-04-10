@@ -21,27 +21,27 @@ import java.util.stream.Collectors;
 @Service
 public class LocalServiceImp implements LocalService {
 
-    private final LocalRepositoryService localRepositoryService;
+    private final LocalServiceLoad localServiceLoad;
     private final MultimediaService multimediaService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public LocalServiceImp(LocalRepositoryService localRepositoryService,
+    public LocalServiceImp(LocalServiceLoad localServiceLoad,
                            MultimediaService multimediaService,
                            ModelMapper modelMapper) {
-        this.localRepositoryService = localRepositoryService;
+        this.localServiceLoad = localServiceLoad;
         this.multimediaService = multimediaService;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public List<LocalResponse> list() {
-        return this.parseToLocalResponseList(localRepositoryService.list());
+        return this.parseToLocalResponseList(localServiceLoad.list());
     }
 
     @Override
     public LocalResponse get(Long id) {
-        return this.parseToLocalResponse(localRepositoryService.get(id));
+        return this.parseToLocalResponse(localServiceLoad.get(id));
     }
 
     @Override
@@ -52,35 +52,40 @@ public class LocalServiceImp implements LocalService {
     }
 
     private LocalResponse onSaveLocal(Local localToStore){
-        Local local = localRepositoryService.save(localToStore);
+        Local local = localServiceLoad.save(localToStore);
         return this.parseToLocalResponse(local);
     }
 
     @Override
     public LocalResponse update(Long id, LocalRequest entity) {
-        return this.parseToLocalResponse(localRepositoryService.update(id, this.parseToLocal(entity)));
+        return this.parseToLocalResponse(localServiceLoad.update(id, this.parseToLocal(entity)));
     }
 
     @Override
     public LocalResponse updateShowLocal(Long id) {
-        Local local = localRepositoryService.get(id);
+        Local local = localServiceLoad.get(id);
         local.setShowLocal(!local.getShowLocal());
         return this.update(id, this.parseToLocalRequest(local));
     }
 
     @Override
+    public List<LocalResponse> resetPassword(Long id) {
+        return this.parseToLocalResponseList(localServiceLoad.resetPasswordByLocalId(id));
+    }
+
+    @Override
     public void delete(Long id) {
-        localRepositoryService.delete(id);
+        localServiceLoad.delete(id);
     }
 
     @Override
     public List<LocalResponse> getAllLocalByIdMember(Long id) {
-        return this.parseToLocalResponseList(localRepositoryService.getAllLocalByIdMember(id));
+        return this.parseToLocalResponseList(localServiceLoad.getAllLocalByIdMember(id));
     }
 
     @Override
     public LocalResponse deleteMultimediaById(Long id, Long idMultimedia) {
-        Local local = localRepositoryService.get(id);
+        Local local = localServiceLoad.get(id);
 
         Optional<Multimedia> multimediaToDelete = local.getMultimedia()
                 .stream()
@@ -89,7 +94,7 @@ public class LocalServiceImp implements LocalService {
 
         multimediaToDelete.ifPresent(local::removeMultimediaById);
 
-        localRepositoryService.save(local);
+        localServiceLoad.save(local);
         return this.parseToLocalResponse(local);
     }
 
@@ -103,7 +108,7 @@ public class LocalServiceImp implements LocalService {
 
     @Override
     public List<Local> localList() {
-        return localRepositoryService.list();
+        return localServiceLoad.list();
     }
 
     private Local parseToLocal(LocalRequest localRequest){

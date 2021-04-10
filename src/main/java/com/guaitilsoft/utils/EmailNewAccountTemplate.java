@@ -437,6 +437,4 @@ public class EmailNewAccountTemplate {
                 "\n" +
                 "</html>\n";
     }
-
-
 }

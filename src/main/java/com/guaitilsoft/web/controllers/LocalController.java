@@ -2,12 +2,11 @@ package com.guaitilsoft.web.controllers;
 
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.constant.LocalType;
-import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.local.LocalService;
+import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.local.LocalRequest;
 import com.guaitilsoft.web.models.local.LocalResponse;
-import net.sf.jasperreports.engine.JRException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
 import java.net.URI;
 import java.util.List;
 
@@ -95,6 +93,15 @@ public class LocalController {
         return ResponseEntity.ok().body(localResponse);
     }
 
+    @GetMapping("reset-password/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
+    public ResponseEntity<List<LocalResponse>> resetPasswordByLocalId(@PathVariable Long id) {
+        logger.info("Resetting password with local id: {}", id);
+        List<LocalResponse> localResponses = localService.resetPassword(id);
+        logger.info("Updated Local with id: {}", id);
+        return ResponseEntity.ok().body(localResponses);
+    }
+
     @DeleteMapping("{id}")
     @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalResponse> delete(@PathVariable Long id) {
@@ -115,7 +122,7 @@ public class LocalController {
     }
 
     @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]> generatePDFReport() throws IOException, JRException {
+    public ResponseEntity<byte[]> generatePDFReport(){
         String template = "localReports/localPDFReport.jrxml";
         List<Local> locals = localService.localList();
         String time = Utils.getDateReport();

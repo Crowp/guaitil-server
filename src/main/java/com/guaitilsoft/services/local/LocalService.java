@@ -18,6 +18,8 @@ public interface LocalService {
 
     LocalResponse updateShowLocal(Long id);
 
+    List<LocalResponse> resetPassword(Long id);
+
     void delete(Long id);
 
     List<LocalResponse> getAllLocalByIdMember(Long id);
