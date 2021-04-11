@@ -3,10 +3,7 @@ package com.guaitilsoft.services.user;
 import com.guaitilsoft.config.security.TokenProvider;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Role;
-import com.guaitilsoft.services.EmailSender.EmailSenderService;
-import com.guaitilsoft.utils.EmailNewAccountTemplate;
 import com.guaitilsoft.web.models.member.MemberRequest;
-import com.guaitilsoft.web.models.user.UserLazyResponse;
 import com.guaitilsoft.web.models.user.UserReportResponse;
 import com.guaitilsoft.web.models.user.UserRequest;
 import com.guaitilsoft.web.models.user.UserResponse;
@@ -37,8 +34,8 @@ public class UserServiceImp implements UserService {
 
 
     @Override
-    public List<UserLazyResponse> getAllUsers() {
-        return this.parseToUserLazyResponseList(userRepositoryService.getAllUsers());
+    public List<UserResponse> getAllUsers() {
+        return this.parseToUserResponseList(userRepositoryService.getAllUsers());
     }
 
     @Override
@@ -76,8 +73,8 @@ public class UserServiceImp implements UserService {
     }
 
     @Override
-    public List<UserLazyResponse> getUsersAdmins() {
-        return this.parseToUserLazyResponseList(userRepositoryService.getAllUsers()
+    public List<UserResponse> getUsersAdmins() {
+        return this.parseToUserResponseList(userRepositoryService.getAllUsers()
                 .stream()
                 .filter(u -> u.getRoles().contains(Role.ROLE_ADMIN) && u.getId() != 1)
                 .collect(Collectors.toList()));
@@ -108,8 +105,8 @@ public class UserServiceImp implements UserService {
         return this.parseToUserResponse(userRepositoryService.resetPassword(id, newPassword, sendEmail));
     }
 
-    private List<UserLazyResponse> parseToUserLazyResponseList(List<User> users) {
-        Type listType = new TypeToken<List<UserLazyResponse>>() {
+    private List<UserResponse> parseToUserResponseList(List<User> users) {
+        Type listType = new TypeToken<List<UserResponse>>() {
         }.getType();
         return modelMapper.map(users, listType);
     }

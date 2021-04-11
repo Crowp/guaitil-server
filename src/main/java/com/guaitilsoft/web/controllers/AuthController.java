@@ -35,15 +35,15 @@ public class AuthController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<UserLazyResponse>> get(){
-        List<UserLazyResponse> users = userService.getAllUsers();
+    public ResponseEntity<List<UserResponse>> get(){
+        List<UserResponse> users = userService.getAllUsers();
         return  ResponseEntity.ok().body(users);
     }
 
     @GetMapping("/users-admin")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<UserLazyResponse>> getUsersAdmins(){
-        List<UserLazyResponse> users = userService.getUsersAdmins();
+    public ResponseEntity<List<UserResponse>> getUsersAdmins(){
+        List<UserResponse> users = userService.getUsersAdmins();
         return  ResponseEntity.ok().body(users);
     }
 
