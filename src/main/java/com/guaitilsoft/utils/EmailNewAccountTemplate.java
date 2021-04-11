@@ -95,11 +95,11 @@ public class EmailNewAccountTemplate {
                         "   </span><br />\n" +
                         "\n" +
                         "   <span style=\" line-height: 19.6px; font-size: 14px; \" >\n" +
-                        "        Correo: ArlenSoftware@gmail.com\n" +
+                        "        Correo: "+this.email+"\n" +
                         "   </span ><br />\n" +
                         "\n" +
                         "    <span style=\"line-height: 19.6px; font-size: 14px; \">\n" +
-                        "        Contrase&ntilde;a: ArlenSoftware123\n" +
+                        "        Contrase&ntilde;a: "+this.genericPassword+"\n" +
                         "    </span>\n" +
                         "\n" +
                         "  </p><br/>";
