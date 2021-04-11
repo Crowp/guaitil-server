@@ -2,6 +2,7 @@ package com.guaitilsoft.services.user;
 
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Role;
+import com.guaitilsoft.models.constant.TypeEmail;
 import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.utils.EmailNewAccountTemplate;
@@ -57,7 +58,7 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
     @Override
     public User register(User user) {
         user.setMember(memberRepositoryService.get(user.getMember().getId()));
-        this.sendEmailToNewUser(user, user.getPassword());
+        this.sendEmailToNewUser(user, user.getPassword(), TypeEmail.NEWACCOUNT);
         return userRepositoryService.register(user);
     }
 
@@ -94,7 +95,7 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
     public User resetPassword(Long id, String newPassword, Boolean sendEmail) {
         User user = this.get(id);
         if(sendEmail){
-            this.sendEmailToNewUser(user, newPassword);
+            this.sendEmailToNewUser(user, newPassword, TypeEmail.RESETPASSWORD);
         }
         return userRepositoryService.resetPassword(id, newPassword, sendEmail);
     }
@@ -104,7 +105,7 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
         return userRepositoryService.getUsersAdmin();
     }
 
-    private void sendEmailToNewUser(User user, String password) {
+    private void sendEmailToNewUser(User user, String password, TypeEmail typeEmail) {
         String name = user.getMember().getPerson().getName();
         String lastname = user.getMember().getPerson().getFirstLastName();
         String secondLastname = user.getMember().getPerson().getSecondLastName();
@@ -113,6 +114,7 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
                 .addEmail(email)
                 .addFullName(name + " " + lastname + " " + secondLastname)
                 .addGenericPassword(password)
+                .typeEmail(typeEmail)
                 .getTemplate();
 
         emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", "guaitiltour.cr@gmail.com", email, template);
