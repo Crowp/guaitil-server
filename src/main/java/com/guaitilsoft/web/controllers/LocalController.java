@@ -63,7 +63,7 @@ public class LocalController {
         return ResponseEntity.ok().body(locals);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     @GetMapping("/show-local/{id}")
     public ResponseEntity<LocalResponse> putShowLocal(@PathVariable Long id) {
         logger.info("Updating Local with id: {}", id);
@@ -73,7 +73,7 @@ public class LocalController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalResponse> post(@RequestBody LocalRequest localRequest) {
         logger.info("Creating local");
 
@@ -85,7 +85,7 @@ public class LocalController {
     }
 
     @PutMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalResponse> put(@PathVariable Long id, @RequestBody LocalRequest localRequest) {
         logger.info("Updating Local with id: {}", id);
         LocalResponse localResponse = localService.update(id, localRequest);
@@ -94,7 +94,7 @@ public class LocalController {
     }
 
     @GetMapping("reset-with-generic-password/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<List<LocalResponse>> resetPasswordByLocalId(@PathVariable Long id) {
         logger.info("Resetting password with local id: {}", id);
         List<LocalResponse> localResponses = localService.resetPassword(id);
@@ -103,7 +103,7 @@ public class LocalController {
     }
 
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN') AND hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<LocalResponse> delete(@PathVariable Long id) {
         logger.info("Deleting Local with id: {}", id);
         LocalResponse localResponse = localService.get(id);

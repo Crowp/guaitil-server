@@ -87,22 +87,7 @@ public class EmailNewAccountTemplate {
                         "        </span>\n" +
                         "      </li>\n" +
                         "    </ul>\n" +
-                        "  </p>" +
-                        "  <p style=\" font-size: 14px; line-height: 140%; text-align: left; \" >\n" +
-                        "\n" +
-                        "   <span style=\" font-size: 14px; line-height: 19.6px; \" >\n" +
-                        "       Para iniciar sesi&oacute;n, tus datos son:\n" +
-                        "   </span><br />\n" +
-                        "\n" +
-                        "   <span style=\" line-height: 19.6px; font-size: 14px; \" >\n" +
-                        "        Correo: "+this.email+"\n" +
-                        "   </span ><br />\n" +
-                        "\n" +
-                        "    <span style=\"line-height: 19.6px; font-size: 14px; \">\n" +
-                        "        Contrase&ntilde;a: "+this.genericPassword+"\n" +
-                        "    </span>\n" +
-                        "\n" +
-                        "  </p><br/>";
+                        "  </p>";
                 break;
             case RESETPASSWORD:
                 typeInformation = "  <p style=\"font-size: 14px; line-height: 140%\">\n" +
@@ -221,6 +206,21 @@ public class EmailNewAccountTemplate {
                 "                                      <br /><br />\n" +
                 "                                    </p>\n" +
                 "                                    "+this.typeInformation+"\n" +
+                "                                    <p style=\" font-size: 14px; line-height: 140%; text-align: left; \" >\n" +
+                "\n" +
+                "                                      <span style=\" font-size: 14px; line-height: 19.6px; \" >\n" +
+                "                                        Para iniciar sesi&oacute;n, tus datos son:\n" +
+                "                                      </span><br />\n" +
+                "\n" +
+                "                                      <span style=\" line-height: 19.6px; font-size: 14px; \" >\n" +
+                "                                        Correo: "+ this.email +"\n" +
+                "                                      </span ><br />\n" +
+                "\n" +
+                "                                      <span style=\"line-height: 19.6px; font-size: 14px; \">\n" +
+                "                                        Contrase&ntilde;a: "+ this.genericPassword +"\n" +
+                "                                      </span>\n" +
+                "\n" +
+                "                                    </p><br/><br/>"+
                 "                                    <p style=\" font-size: 14px; line-height: 140%; text-align: left;\">\n" +
                 "\n" +
                 "                                      <span style=\" font-size: 14px; line-height: 19.6px;\">\n" +

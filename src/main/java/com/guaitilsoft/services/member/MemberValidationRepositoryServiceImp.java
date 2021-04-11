@@ -2,6 +2,8 @@ package com.guaitilsoft.services.member;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.models.User;
+import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -55,8 +57,12 @@ public class MemberValidationRepositoryServiceImp implements MemberRepositorySer
 
     @Override
     public void delete(Long id) {
-        this.userRepositoryService.deleteUserByMemberId(id);
-        this.memberRepositoryService.delete(id);
+        User user = userRepositoryService.getByMemberID(id);
+        if (!user.getRoles().contains(Role.ROLE_ADMIN)){
+            this.userRepositoryService.deleteUserByMemberId(id);
+            this.memberRepositoryService.delete(id);
+        }
+        throw new ApiRequestException("No puedes eliminar un miembro administrador");
     }
 
     @Override
