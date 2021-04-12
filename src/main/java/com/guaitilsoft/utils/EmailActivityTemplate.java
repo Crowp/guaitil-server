@@ -45,7 +45,7 @@ public class EmailActivityTemplate {
         return  this;
     }
     public EmailActivityTemplate addActivityDate(LocalDateTime activityDate){
-        this.activityDate = activityDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:MM"));
+        this.activityDate = activityDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         return this;
     }
     public EmailActivityTemplate addActivityAddress(String activityAddress){

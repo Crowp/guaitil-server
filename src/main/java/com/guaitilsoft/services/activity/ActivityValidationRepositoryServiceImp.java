@@ -4,12 +4,11 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Activity;
 import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.LocalDescription;
-import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.TypeEmail;
 import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.local.LocalRepositoryService;
 import com.guaitilsoft.services.localDescription.LocalDesRepositoryService;
-import com.guaitilsoft.services.notification.NotificationRepServ;
+import com.guaitilsoft.services.user.UserRepositoryService;
 import com.guaitilsoft.utils.EmailActivityTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -17,12 +16,9 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static com.guaitilsoft.models.constant.NotificationMessage.ACTIVITY_NOTIFICATION;
 
 @Primary
 @Service("ActivityRepositoryServiceValidation")
@@ -31,18 +27,19 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
     private final ActivityRepositoryService activityRepositoryService;
     private final LocalDesRepositoryService localDesRepositoryService;
     private final LocalRepositoryService localRepositoryService;
-    private final NotificationRepServ notificationRepServ;
+    private final UserRepositoryService userRepositoryService;
     private final EmailSenderService emailSenderService;
 
     @Autowired
     public ActivityValidationRepositoryServiceImp(ActivityRepositoryService activityRepositoryService,
                                                   LocalDesRepositoryService localDesRepositoryService,
                                                   LocalRepositoryService localRepositoryService,
-                                                  NotificationRepServ notificationRepServ, EmailSenderService emailSenderService) {
+                                                  UserRepositoryService userRepositoryService,
+                                                  EmailSenderService emailSenderService) {
         this.activityRepositoryService = activityRepositoryService;
         this.localDesRepositoryService = localDesRepositoryService;
         this.localRepositoryService = localRepositoryService;
-        this.notificationRepServ = notificationRepServ;
+        this.userRepositoryService = userRepositoryService;
         this.emailSenderService = emailSenderService;
     }
 
@@ -64,7 +61,8 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
     public Activity save(Activity entity) {
         entity.setLocalsDescriptions(this.loadLocalDescription(entity.getLocalsDescriptions()));
         Activity activity = this.activityRepositoryService.save(entity);
-        this.sendEmailToNewActivity(activity, TypeEmail.ACTIVITYMEMBER);
+        this.sendEmailMembersWithLocals(activity);
+        this.sendEmailToUsersAdmin(activity);
         return activity;
     }
 
@@ -83,26 +81,14 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
         this.activityRepositoryService.delete(id);
     }
 
-    private void createNotification(Activity activity){
-        List<Member> members = new ArrayList<>();
-        String notification = ACTIVITY_NOTIFICATION.getMessage() + activity.getActivityDescription().getName();
-
-        activity.getLocalsDescriptions().forEach(localDescription -> this.localRepositoryService.list().forEach(local -> {
-            if (localDescription.getId().equals(local.getLocalDescription().getId())){
-                members.add(local.getMember());
-            }
-        }));
-
-        this.notificationRepServ.save(notification, members);
-    }
-
     private Set<LocalDescription> loadLocalDescription(Set<LocalDescription> localDescriptions){
         return localDescriptions
                 .stream()
                 .map(localDes -> localDesRepositoryService.get(localDes.getId()))
                 .collect(Collectors.toSet());
     }
-    private void sendEmailToNewActivity(Activity activity, TypeEmail typeEmail){
+
+    private void sendEmailMembersWithLocals(Activity activity){
         activity.getLocalsDescriptions().forEach(l -> {
             Local local = this.localRepositoryService.getByLocalDescriptionId(l.getId());
             String personName = local.getFullMemberName();
@@ -110,18 +96,34 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
             String activityName = activity.getActivityDescription().getName();
             LocalDateTime activityDate = activity.getActivityDescription().getActivityDate();
             String activityAddress = activity.getActivityDescription().getAddress().getPhysicalAddress();
-            String activityType = activity.getActivityDescription().getActivityType().getMessage();
             String template = new EmailActivityTemplate()
                     .addPersonName(personName)
                     .addLocalName(localName)
                     .addActivityName(activityName)
                     .addActivityDate(activityDate)
                     .addActivityAddress(activityAddress)
-                    .addActivityType(activityType)
-                    .addTypeInformation(typeEmail)
+                    .addTypeInformation(TypeEmail.ACTIVITYMEMBER)
                     .getTemplate();
 
-            emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", "guaitiltour.cr@gmail.com", local.getMember().getPerson().getEmail(), template);
+            emailSenderService.sendEmail("Has sido invitado a una nueva actividad", "guaitiltour.cr@gmail.com", local.getMember().getPerson().getEmail(), template);
+        });
+    }
+
+    private void sendEmailToUsersAdmin(Activity activity){
+        this.userRepositoryService.getUsersAdmin().forEach(user -> {
+            String personName = user.getMember().getPerson().getName()+" "+user.getMember().getPerson().getFirstLastName()+" "+user.getMember().getPerson().getSecondLastName();
+            String activityName = activity.getActivityDescription().getName();
+            LocalDateTime activityDate = activity.getActivityDescription().getActivityDate();
+            String activityType = activity.getActivityDescription().getActivityType().getMessage();
+            String template = new EmailActivityTemplate()
+                    .addPersonName(personName)
+                    .addActivityName(activityName)
+                    .addActivityDate(activityDate)
+                    .addActivityType(activityType)
+                    .addTypeInformation(TypeEmail.ACTIVITYADMIN)
+                    .getTemplate();
+
+            emailSenderService.sendEmail("Aviso de nueva actividad en GuaitilTour", "guaitiltour.cr@gmail.com", user.getMember().getPerson().getEmail(), template);
         });
     }
 }

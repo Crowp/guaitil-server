@@ -6,7 +6,7 @@ import javax.mail.MessagingException;
 
 public interface EmailSenderService {
 
-    @Async
+    @Async("threadPoolTaskExecutor")
     void sendEmail(String subject, String emailFrom, String emailTo, String template);
 
 }
