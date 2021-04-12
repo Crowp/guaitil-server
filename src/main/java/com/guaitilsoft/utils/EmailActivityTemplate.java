@@ -16,17 +16,19 @@ public class EmailActivityTemplate {
     private String activityType;
     private String typeInformation;
     private final String phoneNumber;
+    private final String urlGuaitil;
 
     public EmailActivityTemplate (){
-        this.title = "GuaitilTour";
+        this.title = GuaitilEmailInfo.getTitle();
         this.personName = "Not Found";
         this.localName = "Not Found";
         this.activityName = "Not Found";
-        this.activityDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:MM"));
+        this.activityDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         this.activityAddress = "Not Found";
         this.activityType = "Not Found";
         this.typeInformation = "";
-        this.phoneNumber = "59863587";
+        this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
+        this.urlGuaitil = GuaitilEmailInfo.getUrlGuaitil();
     }
     public EmailActivityTemplate  addTitle(String title){
         this.title = title;
@@ -45,7 +47,7 @@ public class EmailActivityTemplate {
         return  this;
     }
     public EmailActivityTemplate addActivityDate(LocalDateTime activityDate){
-        this.activityDate = activityDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+        this.activityDate = activityDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
         return this;
     }
     public EmailActivityTemplate addActivityAddress(String activityAddress){
@@ -64,7 +66,7 @@ public class EmailActivityTemplate {
     public  EmailActivityTemplate addTypeInformation(TypeEmail typeEmail){
         switch (typeEmail){
             case ACTIVITYMEMBER:
-                typeInformation = "<p style=\"font-size: 14px; line-height: 140%\">\n" +
+                typeInformation = "<p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                         "    <span style=\" font-size: 14px; line-height: 19.6px;\">\n" +
                         "      Tu local "+this.localName+" ha sido\n" +
                         "      invitado a la actividad "+this.activityName+"\n" +
@@ -79,7 +81,7 @@ public class EmailActivityTemplate {
                         "  </p><br />";
                 break;
             case ACTIVITYADMIN:
-                typeInformation = "<p style=\"font-size: 14px; line-height: 140%\">\n" +
+                typeInformation = "<p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                         "  <span style=\" font-size: 14px; line-height: 19.6px;\" >\n" +
                         "      Se le informa que se ha creado una nueva\n" +
                         "      actividad de "+this.activityType+",\n" +
@@ -188,7 +190,7 @@ public class EmailActivityTemplate {
                 "                              <tr>\n" +
                 "                                <td style=\" overflow-wrap: break-word; word-break: break-word; padding: 40px 40px 30px; font-family: 'Lato', sans-serif; \" align=\"left\" >\n" +
                 "                                  <div style=\" color: #000000; line-height: 140%; text-align: left; word-wrap: break-word; \" >\n" +
-                "                                    <p style=\"font-size: 14px; line-height: 140%\">\n" +
+                "                                    <p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                 "                                      <span style=\" font-size: 14px; line-height: 19.6px; \" >\n" +
                 "                                        Hola "+this.personName+"\n" +
                 "                                      </span>\n" +
@@ -214,7 +216,7 @@ public class EmailActivityTemplate {
                 "                                <td style=\" overflow-wrap: break-word; word-break: break-word; padding: 0px 40px; font-family: 'Lato', sans-serif;\" align=\"left\">\n" +
                 "                                  <div align=\"left\">\n" +
                 "                                    <!--[if mso]><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;font-family:'Lato',sans-serif;\"><tr><td style=\"font-family:'Lato',sans-serif;\" align=\"left\"><v:roundrect xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" href=\"http://143.198.57.165/authentication/login\" style=\"height:51px; v-text-anchor:middle; width:183px;\" arcsize=\"2%\" stroke=\"f\" fillcolor=\"#a6281c\"><w:anchorlock/><center style=\"color:#FFFFFF;font-family:'Lato',sans-serif;\"><![endif]-->\n" +
-                "                                    <a href=\"http://143.198.57.165/authentication/login\" target=\"_blank\" style=\" box-sizing: border-box; display: inline-block; font-family: 'Lato', sans-serif; text-decoration: none; -webkit-text-size-adjust: none; text-align: center; color: #ffffff; background-color: #a6281c; border-radius: 1px; -webkit-border-radius: 1px; -moz-border-radius: 1px; width: auto; max-width: 100%; overflow-wrap: break-word; word-break: break-word; word-wrap: break-word; \" >\n" +
+                "                                    <a href=\""+this.urlGuaitil+"\" target=\"_blank\" style=\" box-sizing: border-box; display: inline-block; font-family: 'Lato', sans-serif; text-decoration: none; -webkit-text-size-adjust: none; text-align: center; color: #ffffff; background-color: #a6281c; border-radius: 1px; -webkit-border-radius: 1px; -moz-border-radius: 1px; width: auto; max-width: 100%; overflow-wrap: break-word; word-break: break-word; word-wrap: break-word; \" >\n" +
                 "                                      <span style=\"display: block; padding: 15px 40px; line-height: 120%; \">\n" +
                 "\n" +
                 "                                          <span style=\" font-size: 18px; line-height: 21.6px; \">\n" +
@@ -242,8 +244,8 @@ public class EmailActivityTemplate {
                 "                                        click al siguiente enlace:\n" +
                 "                                      </span>\n" +
                 "\n" +
-                "                                      <a style=\"color: #4c7bfa\" href=\"http://143.198.57.165/authentication/login\" target=\"_blank\">\n" +
-                "                                        http://143.198.57.165/authentication/login\n" +
+                "                                      <a style=\"color: #4c7bfa\" href=\""+this.urlGuaitil+"\" target=\"_blank\">\n" +
+                "                                        "+this.urlGuaitil+"\n" +
                 "                                      </a>\n" +
                 "\n" +
                 "                                    </p>\n" +

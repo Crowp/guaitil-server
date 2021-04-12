@@ -10,14 +10,16 @@ public class EmailNewAccountTemplate {
     private String genericPassword;
     private String typeInformation;
     private final String phoneNumber;
+    private final String urlGuaitil;
 
     public EmailNewAccountTemplate() {
-        this.title = "GuaitilTour";
+        this.title = GuaitilEmailInfo.getTitle();
         this.fullName = "Default";
         this.email = "default@gmail.com";
         this.genericPassword = "default";
         this.typeInformation = "";
-        this.phoneNumber = "59863587";
+        this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
+        this.urlGuaitil = GuaitilEmailInfo.getUrlGuaitil();
     }
 
     public EmailNewAccountTemplate addTitle(String title) {
@@ -47,7 +49,7 @@ public class EmailNewAccountTemplate {
     public EmailNewAccountTemplate typeEmail(TypeEmail typeEmail){
         switch (typeEmail){
             case NEWACCOUNTMEMBER:
-                typeInformation = "<p style=\"font-size: 14px; line-height: 140%\">\n" +
+                typeInformation = "<p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                         "    <span style=\"font-size: 14px; line-height: 19.6px;\">\n" +
                         "      Gracias por unirte a nuestra comunidad,\n" +
                         "      ahora formas parte de la Asociaci&oacute;n\n" +
@@ -90,7 +92,7 @@ public class EmailNewAccountTemplate {
                         "  </p>";
                 break;
             case RESETPASSWORD:
-                typeInformation = "  <p style=\"font-size: 14px; line-height: 140%\">\n" +
+                typeInformation = "  <p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                         "    <span style=\" font-size: 14px; line-height: 19.6px; \">\n" +
                         "      Tu contraseña ha sido restablecida\n" +
                         "      exitosamente.\n" +
@@ -98,7 +100,7 @@ public class EmailNewAccountTemplate {
                         "  </p>";
                 break;
             case NEWACCOUNTADMIN:
-                typeInformation = " <p style=\"font-size: 14px; line-height: 140%\">\n" +
+                typeInformation = " <p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                         "    <span  style=\" font-size: 14px; line-height: 19.6px; \">\n" +
                         "      Bienvenido a la parte administrativa de\n" +
                         "      la plataforma de la Asociación Integral de\n" +
@@ -284,7 +286,7 @@ public class EmailNewAccountTemplate {
                 "                                      <br /><br />\n" +
                 "                                    </p>\n" +
                 "                                    "+this.typeInformation+"\n" +
-                "                                    <p style=\" font-size: 14px; line-height: 140%; text-align: left; \" >\n" +
+                "                                    <p style=\" font-size: 14px; color: #000000; line-height: 140%; text-align: left; \" >\n" +
                 "\n" +
                 "                                      <span style=\" font-size: 14px; line-height: 19.6px; \" >\n" +
                 "                                        Para iniciar sesi&oacute;n, tus datos son:\n" +
@@ -324,7 +326,7 @@ public class EmailNewAccountTemplate {
                 "                                <td style=\" overflow-wrap: break-word; word-break: break-word; padding: 0px 40px; font-family: 'Lato', sans-serif;\" align=\"left\">\n" +
                 "                                  <div align=\"left\">\n" +
                 "                                    <!--[if mso]><table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" border=\"0\" style=\"border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;font-family:'Lato',sans-serif;\"><tr><td style=\"font-family:'Lato',sans-serif;\" align=\"left\"><v:roundrect xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:w=\"urn:schemas-microsoft-com:office:word\" href=\"http://143.198.57.165/authentication/login\" style=\"height:51px; v-text-anchor:middle; width:183px;\" arcsize=\"2%\" stroke=\"f\" fillcolor=\"#a6281c\"><w:anchorlock/><center style=\"color:#FFFFFF;font-family:'Lato',sans-serif;\"><![endif]-->\n" +
-                "                                    <a href=\"http://143.198.57.165/authentication/login\" target=\"_blank\" style=\" box-sizing: border-box; display: inline-block; font-family: 'Lato', sans-serif; text-decoration: none; -webkit-text-size-adjust: none; text-align: center; color: #ffffff; background-color: #a6281c; border-radius: 1px; -webkit-border-radius: 1px; -moz-border-radius: 1px; width: auto; max-width: 100%; overflow-wrap: break-word; word-break: break-word; word-wrap: break-word; \" >\n" +
+                "                                    <a href=\""+this.urlGuaitil+"\" target=\"_blank\" style=\" box-sizing: border-box; display: inline-block; font-family: 'Lato', sans-serif; text-decoration: none; -webkit-text-size-adjust: none; text-align: center; color: #ffffff; background-color: #a6281c; border-radius: 1px; -webkit-border-radius: 1px; -moz-border-radius: 1px; width: auto; max-width: 100%; overflow-wrap: break-word; word-break: break-word; word-wrap: break-word; \" >\n" +
                 "                                      <span style=\"display: block; padding: 15px 40px; line-height: 120%; \">\n" +
                 "\n" +
                 "                                          <span style=\" font-size: 18px; line-height: 21.6px; \">\n" +
@@ -352,8 +354,8 @@ public class EmailNewAccountTemplate {
                 "                                        click al siguiente enlace:\n" +
                 "                                      </span>\n" +
                 "\n" +
-                "                                      <a style=\"color: #4c7bfa\" href=\"http://143.198.57.165/authentication/login\" target=\"_blank\">\n" +
-                "                                        http://143.198.57.165/authentication/login\n" +
+                "                                      <a style=\"color: #4c7bfa\" href=\""+this.urlGuaitil+"\" target=\"_blank\">\n" +
+                "                                        "+this.urlGuaitil+"\n" +
                 "                                      </a>\n" +
                 "\n" +
                 "                                    </p>\n" +

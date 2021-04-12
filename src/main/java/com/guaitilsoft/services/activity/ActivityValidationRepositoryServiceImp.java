@@ -10,6 +10,7 @@ import com.guaitilsoft.services.local.LocalRepositoryService;
 import com.guaitilsoft.services.localDescription.LocalDesRepositoryService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import com.guaitilsoft.utils.EmailActivityTemplate;
+import com.guaitilsoft.utils.GuaitilEmailInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -105,7 +106,7 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
                     .addTypeInformation(TypeEmail.ACTIVITYMEMBER)
                     .getTemplate();
 
-            emailSenderService.sendEmail("Has sido invitado a una nueva actividad", "guaitiltour.cr@gmail.com", local.getMember().getPerson().getEmail(), template);
+            emailSenderService.sendEmail("Has sido invitado a una nueva actividad", GuaitilEmailInfo.getEmailFrom(), local.getMember().getPerson().getEmail(), template);
         });
     }
 
@@ -123,7 +124,7 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
                     .addTypeInformation(TypeEmail.ACTIVITYADMIN)
                     .getTemplate();
 
-            emailSenderService.sendEmail("Aviso de nueva actividad en GuaitilTour", "guaitiltour.cr@gmail.com", user.getMember().getPerson().getEmail(), template);
+            emailSenderService.sendEmail("Aviso de nueva actividad en GuaitilTour", GuaitilEmailInfo.getEmailFrom(), user.getMember().getPerson().getEmail(), template);
         });
     }
 }

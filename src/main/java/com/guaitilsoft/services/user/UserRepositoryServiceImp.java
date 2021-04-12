@@ -132,11 +132,7 @@ public class UserRepositoryServiceImp implements UserRepositoryService {
         User user = this.get(id);
         user.setPassword(passwordEncoder.encode(newPassword));
         user.setFirstLogin(false);
-        if(sendEmail){
-            user.setResetPassword(true);
-        } else {
-            user.setResetPassword(false);
-        }
+        user.setResetPassword(sendEmail);
         userRepository.save(user);
         return user;
     }

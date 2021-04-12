@@ -4,7 +4,6 @@ import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.services.report.ReportService;
 import com.guaitilsoft.services.user.UserService;
 import com.guaitilsoft.utils.Utils;
-import com.guaitilsoft.web.models.user.UserLazyResponse;
 import com.guaitilsoft.web.models.user.UserReportResponse;
 import com.guaitilsoft.web.models.user.UserRequest;
 import com.guaitilsoft.web.models.user.UserResponse;
