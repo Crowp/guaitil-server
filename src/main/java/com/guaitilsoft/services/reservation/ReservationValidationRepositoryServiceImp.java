@@ -2,6 +2,8 @@ package com.guaitilsoft.services.reservation;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
+import com.guaitilsoft.models.constant.ReservationState;
+import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.models.constant.TypeEmail;
 import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.activityDescription.ActivityDesRepositoryService;
@@ -57,18 +59,20 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
         }
         entity.setActivityDescription(activityDesRepositoryService.get(entity.getActivityDescription().getId()));
         Reservation reservation = reservationRepositoryService.save(entity);
-        sendEmailReservationClient(reservation);
+        sendEmailReservationClient(reservation, TypeEmail.RESERVATION_CLIENT);
         return reservation;
     }
 
     @Override
     public Reservation update(Long id, Reservation entity) {
         if(!id.equals(entity.getId())){
-            throw new ApiRequestException("El id de la reservacion: " + entity.getId() + " es diferente al id del parametro: " + id);
+            throw new ApiRequestException("El id de la reservación: " + entity.getId() + " es diferente al id del parámetro: " + id);
         }
         getActivityDescription(entity);
         Reservation reservation = reservationRepositoryService.update(id, entity);
-        sendEmailReservationClient(reservation);
+        if(reservation.getReservationState().equals(ReservationState.CANCELLED)) {
+            this.sendEmailReservationClient(reservation, TypeEmail.RESERVATION_CANCELED_CLIENT);
+        }
         return reservation;
     }
 
@@ -91,7 +95,7 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
         reservation.setActivityDescription(this.activityDesRepositoryService.get(reservation.getActivityDescription().getId()));
     }
 
-    private void sendEmailReservationClient(Reservation reservation) {
+    private void sendEmailReservationClient(Reservation reservation, TypeEmail typeEmail) {
         String personName = reservation.getPerson().getName().concat(" ").concat(reservation.getPerson().getFirstLastName()).concat(" ").concat(reservation.getPerson().getSecondLastName());
         String activityName = reservation.getActivityDescription().getName();
         LocalDateTime activityDate = reservation.getActivityDescription().getActivityDate();
@@ -108,7 +112,7 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
                 .addActivityAddress(activityAddress)
                 .addAmountPerson(amountPerson)
                 .addReservationDate(reservationDate)
-                .addTypeInformation(TypeEmail.RESERVATION_CLIENT)
+                .addTypeInformation(typeEmail)
                 .getTemplate();
 
         emailSenderService.sendEmail("Reservación del tour "+activityName+", GuaitilTour", "guaitiltour.cr@gmail.com", reservation.getPerson().getEmail(), template);
