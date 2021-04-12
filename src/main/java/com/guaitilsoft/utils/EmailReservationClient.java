@@ -6,6 +6,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class EmailReservationClient {
+
+    private final String title;
     private String personName;
     private String activityName;
     private String activityDate;
@@ -14,16 +16,19 @@ public class EmailReservationClient {
     private String amountPerson;
     private String reservationDate;
     private String typeInformation;
+    private final String phoneNumber;
 
     public EmailReservationClient(){
         this.personName = "Not Found";
         this.activityName = "Not Found";
-        this.activityDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:MM"));
+        this.activityDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         this.personPrice = "Not Found";
         this.activityAddress = "Not Found";
         this.amountPerson = "Not Found";
-        this.reservationDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:MM"));
+        this.reservationDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         this.typeInformation = "";
+        this.title = GuaitilEmailInfo.getTitle();
+        this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
     }
     public EmailReservationClient addPersonName(String personName){
         this.personName = personName;
@@ -60,7 +65,7 @@ public class EmailReservationClient {
 
     public  EmailReservationClient addTypeInformation(TypeEmail typeEmail){
         switch (typeEmail){
-            case RESERVATIONCLIENT:
+            case RESERVATION_CLIENT:
                 typeInformation = "<p style=\"font-size: 14px; line-height: 140%\">\n" +
                         "  <span style=\"font-size: 14px; line-height: 19.6px;\" >\n" +
                         "    Su reservación al tour "+this.activityName+"\n" +
@@ -113,6 +118,10 @@ public class EmailReservationClient {
                         "    &iexcl;Saludos y te esperamos!\n" +
                         "  </span >\n" +
                         "</p>";
+                break;
+            case RESERVATION_CANCELED_CLIENT:
+                typeInformation = "";
+                break;
         }
         return this;
     }
@@ -178,7 +187,7 @@ public class EmailReservationClient {
                     "                                <div style=\" color: #000000; line-height: 140%; text-align: left; word-wrap: break-word; \" >\n" +
                     "                                  <p style=\" line-height: 140%; text-align: center; font-size: 14px; \" >\n" +
                     "                                    <span style=\" color: #ffffff; font-size: 14px; line-height: 19.6px; \" >\n" +
-                    "                                      <span style=\" font-size: 28px; line-height: 39.2px; \" >GuaitilTour</span\n" +
+                    "                                      <span style=\" font-size: 28px; line-height: 39.2px; \" >"+this.title+"</span\n" +
                     "                                      ></span >\n" +
                     "                                  </p>\n" +
                     "                                </div>\n" +
@@ -305,7 +314,7 @@ public class EmailReservationClient {
                     "                                  </p>\n" +
                     "                                  <p style=\"font-size: 14px; line-height: 140%\">\n" +
                     "                                    <span style=\" font-size: 14px; line-height: 19.6px; color: #ecf0f1; \">\n" +
-                    "                                      Tel&eacute;fono: +506 5986-3587\n" +
+                    "                                      Tel&eacute;fono: +506 "+this.phoneNumber+" \n" +
                     "                                    </span >\n" +
                     "                                  </p>\n" +
                     "                                </div>\n" +

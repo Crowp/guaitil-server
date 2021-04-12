@@ -1,7 +1,12 @@
 package com.guaitilsoft.services.productReview;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.ProductReview;
+import com.guaitilsoft.models.constant.TypeEmail;
+import com.guaitilsoft.services.EmailSender.EmailSenderService;
+import com.guaitilsoft.utils.EmailProductTemplate;
+import com.guaitilsoft.utils.GuaitilEmailInfo;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +18,12 @@ import java.util.List;
 public class ProductReviewValidationRepositoryServiceImp implements ProductReviewRepositoryService{
 
     private final ProductReviewRepositoryService productReviewRepositoryService;
+    private final EmailSenderService emailSenderService;
 
-    public ProductReviewValidationRepositoryServiceImp(ProductReviewRepositoryService productReviewRepositoryService) {
+    public ProductReviewValidationRepositoryServiceImp(ProductReviewRepositoryService productReviewRepositoryService,
+                                                       EmailSenderService emailSenderService) {
         this.productReviewRepositoryService = productReviewRepositoryService;
+        this.emailSenderService = emailSenderService;
     }
 
     @Override
@@ -56,11 +64,26 @@ public class ProductReviewValidationRepositoryServiceImp implements ProductRevie
         if(!id.equals(entity.getId())){
             throw new ApiRequestException("El id de la revision del producto: " + entity.getId() + " es diferente al id del parametro: " + id);
         }
-        return productReviewRepositoryService.update(id, entity);
+        ProductReview productReview = productReviewRepositoryService.update(id, entity);
+        productReview.setComment("A");
+        return productReview;
     }
 
     @Override
     public void delete(Long id) {
         productReviewRepositoryService.delete(id);
+    }
+
+    private void sendEmailProduct(Product product){
+        String fullName = product.getLocal().getFullMemberName();
+        String productName = product.getProductDescription().getName();
+        String email = product.getLocal().getMember().getPerson().getEmail();
+
+        String template = new EmailProductTemplate()
+                .addFullName(fullName)
+                .addProductName(productName)
+                .addTypeInformation(TypeEmail.REVISED_PRODUCT)
+                .getTemplate();
+        emailSenderService.sendEmail("Revisión de producto, GuaitilTour", GuaitilEmailInfo.getEmailFrom(), email, template);
     }
 }

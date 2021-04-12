@@ -2,56 +2,45 @@ package com.guaitilsoft.utils;
 
 import com.guaitilsoft.models.constant.TypeEmail;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-public class EmailActivityTemplate {
+public class EmailProductTemplate {
 
     private final String title;
-    private String personName;
+    private String fullName;
+    private String productName;
+    private String productType;
     private String localName;
-    private String activityName;
-    private String activityDate;
-    private String activityAddress;
-    private String activityType;
     private String typeInformation;
     private final String phoneNumber;
     private final String urlGuaitil;
 
-    public EmailActivityTemplate (){
+    public EmailProductTemplate(){
         this.title = GuaitilEmailInfo.getTitle();
-        this.personName = "Not Found";
+        this.fullName = "Not Found";
+        this.productName = "Not Found";
+        this.productType = "Not Found";
         this.localName = "Not Found";
-        this.activityName = "Not Found";
-        this.activityDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-        this.activityAddress = "Not Found";
-        this.activityType = "Not Found";
         this.typeInformation = "";
         this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
         this.urlGuaitil = GuaitilEmailInfo.getUrlGuaitil();
     }
-    public EmailActivityTemplate addPersonName(String personName){
-        this.personName = personName;
-        return  this;
-    }
-    public EmailActivityTemplate addLocalName(String localName){
-        this.localName = localName;
-        return  this;
-    }
-    public EmailActivityTemplate addActivityName(String activityName){
-        this.activityName = activityName;
-        return  this;
-    }
-    public EmailActivityTemplate addActivityDate(LocalDateTime activityDate){
-        this.activityDate = activityDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
+    public EmailProductTemplate addFullName(String fullName){
+        this.fullName = fullName;
         return this;
     }
-    public EmailActivityTemplate addActivityAddress(String activityAddress){
-        this.activityAddress = activityAddress;
-        return  this;
+
+    public EmailProductTemplate addProductName(String productName){
+        this.productName = productName;
+        return this;
     }
-    public  EmailActivityTemplate addActivityType(String activityType){
-        this.activityType = activityType;
+
+    public EmailProductTemplate addProductType(String productType){
+        this.productType = productType;
+        return this;
+    }
+
+    public EmailProductTemplate addLocalName(String localName){
+        this.localName = localName;
         return this;
     }
 
@@ -59,38 +48,29 @@ public class EmailActivityTemplate {
         return this.makeTemplate();
     }
 
-    public  EmailActivityTemplate addTypeInformation(TypeEmail typeEmail){
+    public EmailProductTemplate addTypeInformation(TypeEmail typeEmail){
         switch (typeEmail){
-            case ACTIVITY_MEMBER:
-                typeInformation = "<p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
-                        "    <span style=\" font-size: 14px; line-height: 19.6px;\">\n" +
-                        "      Tu local "+this.localName+" ha sido\n" +
-                        "      invitado a la actividad "+this.activityName+"\n" +
-                        "      , la cual se realizará en la fecha\n" +
-                        "      "+this.activityDate+"\n" +
-                        "      , en la siguente dirección\n" +
-                        "      "+this.activityAddress+".\n" +
-                        "    </span> <br /> <br />\n" +
-                        "    <span\n" +
-                        "    style=\" font-size: 14px;line-height: 19.6px;\" >&iexcl;Saludos y te esperamos!\n" +
-                        "    </span >\n" +
-                        "  </p><br />";
+            case NEW_PRODUCT:
+                typeInformation = "<span style=\"font-size: 14px; line-height: 19.6px;\">\n" +
+                        "    Se le informa que se ha creado un nuevo\n" +
+                        "    producto de tipo "+this.productType+", llamado\n" +
+                        "    "+this.productName+", del local "+this.localName+". Por favor\n" +
+                        "    revisar el producto en el módulo de\n" +
+                        "    revisión, en caso de que el producto ya\n" +
+                        "    haya sido revisado ignorar este mensaje.\n" +
+                        "</span>";
                 break;
-            case ACTIVITY_ADMIN:
-                typeInformation = "<p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
-                        "  <span style=\" font-size: 14px; line-height: 19.6px;\" >\n" +
-                        "      Se le informa que se ha creado una nueva\n" +
-                        "      actividad de "+this.activityType+",\n" +
-                        "      llamada "+this.activityName+", la cual se\n" +
-                        "      realizará el en la fecha de "+this.activityDate+".\n" +
-                        "    </span> <br /> <br />\n" +
-                        "    <span style=\"font-size: 14px; line-height: 19.6px; \">&iexcl;Saludos!</span >\n" +
-                        "  </p>\n" +
-                        "  <br />\n" ;
+            case REVISED_PRODUCT:
+                typeInformation = "<span style=\"font-size: 14px; line-height: 19.6px;\">\n" +
+                        "    Se le informa que la revisión del producto "+this.productName+", ya fue\n" +
+                        "    revisada, puedes verificarlo ingresando a la página para revisar el estado\n" +
+                        "    del producto.\n" +
+                        "</span>";
                 break;
         }
         return this;
     }
+
     private String makeTemplate(){
         return "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional //EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n" +
                 "<html xmlns=\"http://www.w3.org/1999/xhtml\" xmlns:v=\"urn:schemas-microsoft-com:vml\" xmlns:o=\"urn:schemas-microsoft-com:office:office\" >\n" +
@@ -188,17 +168,19 @@ public class EmailActivityTemplate {
                 "                                  <div style=\" color: #000000; line-height: 140%; text-align: left; word-wrap: break-word; \" >\n" +
                 "                                    <p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                 "                                      <span style=\" font-size: 14px; line-height: 19.6px; \" >\n" +
-                "                                        Hola "+this.personName+"\n" +
+                "                                        Hola "+this.fullName+" \n" +
+                "                                      </span><br /><br />\n" +
+                "                                      "+this.typeInformation+" \n" +
+                "                                    </p><br/>\n" +
+                "                                    <p style=\" font-size: 14px; line-height: 140%; text-align: left;\">\n" +
+                "                                      <span style=\" font-size: 14px; line-height: 19.6px;\">\n" +
+                "                                        &iexcl;Saludos!\n" +
                 "                                      </span>\n" +
-                "                                      <br /><br />\n" +
-                "                                    </p>\n" +
-                "                                    "+ this.typeInformation+"\n" +
+                "                                    </p><br />\n" +
                 "                                    <p style=\"font-size: 14px; line-height: 140%\">\n" +
-                "\n" +
                 "                                      <span style=\"font-size: 14px; line-height: 19.6px; color: #000000; \">\n" +
                 "                                        Para ingresar a la p&aacute;gina, dale click en el siguiente bot&oacute;n:\n" +
                 "                                      </span>\n" +
-                "\n" +
                 "                                    </p>\n" +
                 "                                  </div>\n" +
                 "                                </td>\n" +
@@ -357,7 +339,6 @@ public class EmailActivityTemplate {
                 "    <!--[if mso]></div><![endif]-->\n" +
                 "    <!--[if IE]></div><![endif]-->\n" +
                 "  </body>\n" +
-                "</html>\n";
+                "</html>";
     }
-
 }

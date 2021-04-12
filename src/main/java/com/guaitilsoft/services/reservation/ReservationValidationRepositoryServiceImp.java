@@ -27,7 +27,8 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
     @Autowired
     public ReservationValidationRepositoryServiceImp(ReservationRepositoryService reservationRepositoryService,
                                                      PersonRepositoryService personRepositoryService,
-                                                     ActivityDesRepositoryService activityDesRepositoryService, EmailSenderService emailSenderService) {
+                                                     ActivityDesRepositoryService activityDesRepositoryService,
+                                                     EmailSenderService emailSenderService) {
         this.reservationRepositoryService = reservationRepositoryService;
         this.personRepositoryService = personRepositoryService;
         this.activityDesRepositoryService = activityDesRepositoryService;
@@ -54,8 +55,10 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
         if (personRepositoryService.existPerson(personId)){
             entity.setPerson(personRepositoryService.get(personId));
         }
-        sendEmailReservationClient(entity);
-        return reservationRepositoryService.save(entity);
+        entity.setActivityDescription(activityDesRepositoryService.get(entity.getActivityDescription().getId()));
+        Reservation reservation = reservationRepositoryService.save(entity);
+        sendEmailReservationClient(reservation);
+        return reservation;
     }
 
     @Override
@@ -103,9 +106,9 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
                 .addActivityAddress(activityAddress)
                 .addAmountPerson(amountPerson)
                 .addReservationDate(reservationDate)
-                .addTypeInformation(TypeEmail.RESERVATIONCLIENT)
+                .addTypeInformation(TypeEmail.RESERVATION_CLIENT)
                 .getTemplate();
 
-        emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", "guaitiltour.cr@gmail.com", reservation.getPerson().getEmail(), template);
+        emailSenderService.sendEmail("Reservación del tour "+activityName+", GuaitilTour", "guaitiltour.cr@gmail.com", reservation.getPerson().getEmail(), template);
     }
 }
