@@ -2,13 +2,17 @@ package com.guaitilsoft.services.reservation;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Reservation;
+import com.guaitilsoft.models.constant.TypeEmail;
+import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.activityDescription.ActivityDesRepositoryService;
 import com.guaitilsoft.services.person.PersonRepositoryService;
+import com.guaitilsoft.utils.EmailReservationClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Primary
@@ -18,14 +22,16 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
     private final ReservationRepositoryService reservationRepositoryService;
     private final PersonRepositoryService personRepositoryService;
     private final ActivityDesRepositoryService activityDesRepositoryService;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
     public ReservationValidationRepositoryServiceImp(ReservationRepositoryService reservationRepositoryService,
                                                      PersonRepositoryService personRepositoryService,
-                                                     ActivityDesRepositoryService activityDesRepositoryService) {
+                                                     ActivityDesRepositoryService activityDesRepositoryService, EmailSenderService emailSenderService) {
         this.reservationRepositoryService = reservationRepositoryService;
         this.personRepositoryService = personRepositoryService;
         this.activityDesRepositoryService = activityDesRepositoryService;
+        this.emailSenderService = emailSenderService;
     }
 
     @Override
@@ -48,6 +54,7 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
         if (personRepositoryService.existPerson(personId)){
             entity.setPerson(personRepositoryService.get(personId));
         }
+        sendEmailReservationClient(entity);
         return reservationRepositoryService.save(entity);
     }
 
@@ -77,5 +84,28 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
 
     private void getActivityDescription(Reservation reservation){
         reservation.setActivityDescription(this.activityDesRepositoryService.get(reservation.getActivityDescription().getId()));
+    }
+
+    private void sendEmailReservationClient(Reservation reservation) {
+        String personName = reservation.getPerson().getName().concat(" ").concat(reservation.getPerson().getFirstLastName()).concat(" ").concat(reservation.getPerson().getSecondLastName());
+        String activityName = reservation.getActivityDescription().getName();
+        LocalDateTime activityDate = reservation.getActivityDescription().getActivityDate();
+        Double personPrice = reservation.getActivityDescription().getPersonPrice();
+        String activityAddress = reservation.getActivityDescription().getAddress().getPhysicalAddress();
+        Long amountPerson = reservation.getAmountPerson();
+        LocalDateTime reservationDate = reservation.getDateReservation();
+
+        String template = new EmailReservationClient()
+                .addPersonName(personName)
+                .addActivityName(activityName)
+                .addActivityDate(activityDate)
+                .addPersonPrice(personPrice)
+                .addActivityAddress(activityAddress)
+                .addAmountPerson(amountPerson)
+                .addReservationDate(reservationDate)
+                .addTypeInformation(TypeEmail.RESERVATIONCLIENT)
+                .getTemplate();
+
+        emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", "guaitiltour.cr@gmail.com", reservation.getPerson().getEmail(), template);
     }
 }
