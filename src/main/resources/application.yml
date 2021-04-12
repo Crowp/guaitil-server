@@ -17,7 +17,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
     properties:
       hibernate:
@@ -33,7 +33,7 @@ server:
   port: 8080
 user:
   password: "1234"
-  email: "guaitil_default_admin@gmail.com"
+  email: "guaitiltour.cr@gmail.com"
 reports-path: "reports"
 
 ---
