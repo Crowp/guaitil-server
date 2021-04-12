@@ -58,7 +58,11 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
     @Override
     public User register(User user) {
         user.setMember(memberRepositoryService.get(user.getMember().getId()));
-        this.sendEmailToNewUser(user, user.getPassword(), TypeEmail.NEWACCOUNT);
+        if (user.getRoles().contains(Role.ROLE_ADMIN)) {
+            this.sendEmailToNewUser(user, user.getPassword(), TypeEmail.NEWACCOUNTADMIN);
+        }else {
+            this.sendEmailToNewUser(user, user.getPassword(), TypeEmail.NEWACCOUNTMEMBER);
+        }
         return userRepositoryService.register(user);
     }
 

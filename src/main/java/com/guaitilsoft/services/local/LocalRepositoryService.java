@@ -9,6 +9,8 @@ public interface LocalRepositoryService {
 
     Local get(Long id);
 
+    Local getByLocalDescriptionId(Long localDescriptionId);
+
     Local save(Local entity);
 
     Local update(Long id, Local entity);

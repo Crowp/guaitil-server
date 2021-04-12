@@ -6,8 +6,10 @@ import com.guaitilsoft.repositories.LocalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service("LocalRepositoryServiceBasic")
 public class LocalRepositoryServiceImp implements LocalRepositoryService {
@@ -31,6 +33,15 @@ public class LocalRepositoryServiceImp implements LocalRepositoryService {
     public Local get(Long id) {
         assert id != null;
         return this.localRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Local getByLocalDescriptionId(Long localDescriptionId) {
+        Optional<Local> local = this.localRepository.getByLocalDescriptionId(localDescriptionId);
+        if (local.isPresent()) {
+            return local.get();
+        }
+        throw new EntityNotFoundException("No se encontró el local");
     }
 
     @Override

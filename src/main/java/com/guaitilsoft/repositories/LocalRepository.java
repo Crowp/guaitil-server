@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface LocalRepository extends CrudRepository<Local, Long> {
 
@@ -18,4 +20,7 @@ public interface LocalRepository extends CrudRepository<Local, Long> {
 
     @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM Local l WHERE l.member.id =:memberId AND l.id<>:localId AND l.localDescription.localType =:localType")
     boolean memberHaveLocalWithType(@Param("memberId") Long memberId, @Param("localId") Long localId, @Param("localType") LocalType localType);
+
+    @Query("SELECT l FROM Local l WHERE l.localDescription.id =:id")
+    Optional<Local> getByLocalDescriptionId(@Param("id") Long localDescriptionId);
 }

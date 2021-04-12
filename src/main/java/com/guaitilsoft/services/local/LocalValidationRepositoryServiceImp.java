@@ -48,6 +48,11 @@ public class LocalValidationRepositoryServiceImp implements LocalServiceLoad {
     }
 
     @Override
+    public Local getByLocalDescriptionId(Long localDescriptionId) {
+        return this.localRepositoryService.getByLocalDescriptionId(localDescriptionId);
+    }
+
+    @Override
     public Local save(Local entity) {
         Long memberId = entity.getMember().getId();
         entity.setMember(loadFullMember(memberId));
