@@ -67,7 +67,9 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
             throw new ApiRequestException("El id de la reservacion: " + entity.getId() + " es diferente al id del parametro: " + id);
         }
         getActivityDescription(entity);
-        return reservationRepositoryService.update(id, entity);
+        Reservation reservation = reservationRepositoryService.update(id, entity);
+        sendEmailReservationClient(reservation);
+        return reservation;
     }
 
     @Override

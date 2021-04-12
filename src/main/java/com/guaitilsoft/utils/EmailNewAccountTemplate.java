@@ -46,7 +46,7 @@ public class EmailNewAccountTemplate {
         return this.makeTemplate();
     }
 
-    public EmailNewAccountTemplate typeEmail(TypeEmail typeEmail){
+    public EmailNewAccountTemplate addTypeInformation(TypeEmail typeEmail){
         switch (typeEmail){
             case NEW_ACCOUNT_MEMBER:
                 typeInformation = "<p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
@@ -112,7 +112,7 @@ public class EmailNewAccountTemplate {
                         "      podrás llevar a cabo las siguientes\n" +
                         "      actividades:\n" +
                         "    </span>\n" +
-                        "    <ul>\n" +
+                        "    <ul style=\"color: #000000;\">\n" +
                         "        <li style=\"font-size: 14px;line-height: 19.6px;\" >\n" +
                         "            <span style=\"font-size: 14px; line-height: 19.6px;\">\n" +
                         "                En el módulo de galleria, podrás ver,\n" +

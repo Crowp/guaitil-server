@@ -118,7 +118,7 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
                 .addEmail(email)
                 .addFullName(name + " " + lastname + " " + secondLastname)
                 .addGenericPassword(password)
-                .typeEmail(typeEmail)
+                .addTypeInformation(typeEmail)
                 .getTemplate();
 
         emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", GuaitilEmailInfo.getEmailFrom(), email, template);
