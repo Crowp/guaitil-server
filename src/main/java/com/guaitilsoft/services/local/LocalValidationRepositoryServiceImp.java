@@ -5,7 +5,6 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.MemberType;
-import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import com.guaitilsoft.utils.Utils;

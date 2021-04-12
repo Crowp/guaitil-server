@@ -4,7 +4,6 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.models.constant.LocalType;
 import com.guaitilsoft.services.multimedia.MultimediaService;
-import com.guaitilsoft.services.user.UserRepositoryService;
 import com.guaitilsoft.services.user.UserService;
 import com.guaitilsoft.utils.Utils;
 import com.guaitilsoft.web.models.local.LocalRequest;
