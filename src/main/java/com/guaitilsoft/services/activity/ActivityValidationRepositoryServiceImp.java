@@ -103,7 +103,7 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
                     .addActivityName(activityName)
                     .addActivityDate(activityDate)
                     .addActivityAddress(activityAddress)
-                    .addTypeInformation(TypeEmail.ACTIVITYMEMBER)
+                    .addTypeInformation(TypeEmail.ACTIVITY_MEMBER)
                     .getTemplate();
 
             emailSenderService.sendEmail("Has sido invitado a una nueva actividad", GuaitilEmailInfo.getEmailFrom(), local.getMember().getPerson().getEmail(), template);
@@ -121,7 +121,7 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
                     .addActivityName(activityName)
                     .addActivityDate(activityDate)
                     .addActivityType(activityType)
-                    .addTypeInformation(TypeEmail.ACTIVITYADMIN)
+                    .addTypeInformation(TypeEmail.ACTIVITY_ADMIN)
                     .getTemplate();
 
             emailSenderService.sendEmail("Aviso de nueva actividad en GuaitilTour", GuaitilEmailInfo.getEmailFrom(), user.getMember().getPerson().getEmail(), template);

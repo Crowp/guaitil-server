@@ -6,8 +6,10 @@ import com.guaitilsoft.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service("ProductRepositoryServiceBasic")
 public class ProductRepositoryServiceImp implements ProductRepositoryService {
@@ -35,7 +37,11 @@ public class ProductRepositoryServiceImp implements ProductRepositoryService {
 
     @Override
     public Product getByProductDescriptionId(Long id) {
-        return productRepository.getProductByProductDescriptionId(id);
+        Optional<Product> product = productRepository.getProductByProductDescriptionId(id);
+        if (product.isPresent()){
+            return product.get();
+        }
+        throw new EntityNotFoundException("El producto con el id "+id+" no fue encontrado");
     }
 
     @Override

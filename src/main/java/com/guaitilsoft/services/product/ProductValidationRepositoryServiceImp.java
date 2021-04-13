@@ -4,7 +4,12 @@ import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.ProductReview;
 import com.guaitilsoft.models.constant.ReviewState;
+import com.guaitilsoft.models.constant.TypeEmail;
+import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.productReview.ProductReviewRepositoryService;
+import com.guaitilsoft.services.user.UserRepositoryService;
+import com.guaitilsoft.utils.EmailProductTemplate;
+import com.guaitilsoft.utils.GuaitilEmailInfo;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +22,17 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
 
     private final ProductRepositoryService productRepositoryService;
     private final ProductReviewRepositoryService productReviewService;
+    private final UserRepositoryService userRepositoryService;
+    private final EmailSenderService emailSenderService;
 
     public ProductValidationRepositoryServiceImp(ProductRepositoryService productRepositoryService,
-                                                 ProductReviewRepositoryService productReviewService) {
+                                                 ProductReviewRepositoryService productReviewService,
+                                                 UserRepositoryService userRepositoryService,
+                                                 EmailSenderService emailSenderService) {
         this.productRepositoryService = productRepositoryService;
         this.productReviewService = productReviewService;
+        this.userRepositoryService = userRepositoryService;
+        this.emailSenderService = emailSenderService;
     }
 
     @Override
@@ -51,6 +62,7 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
         review.setProductDescription(entity.getProductDescription());
         review.setState(ReviewState.INPROCESS);
         productReviewService.save(review);
+        sendEmailUserForProduct(product);
 
         return product;
     }
@@ -88,5 +100,24 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
     @Override
     public List<Product> getAllProductAcceptedByLocalId(Long id) {
         return productRepositoryService.getAllProductAcceptedByLocalId(id);
+    }
+
+    private void sendEmailUserForProduct(Product product){
+        userRepositoryService.getUsersAdmin().forEach(user -> {
+            String fullName = user.getMember().getPerson().getName()
+                    .concat(" ").concat(user.getMember().getPerson().getFirstLastName())
+                    .concat(" ").concat(user.getMember().getPerson().getSecondLastName());
+            String productName = product.getProductDescription().getName();
+            String productType = product.getProductDescription().getProductType().getMessage();
+            String email = user.getEmail();
+
+            String template = new EmailProductTemplate()
+                    .addFullName(fullName)
+                    .addProductName(productName)
+                    .addProductType(productType)
+                    .addTypeInformation(TypeEmail.REVISED_PRODUCT)
+                    .getTemplate();
+            emailSenderService.sendEmail("Nuevo producto añadido, GuaitilTour", GuaitilEmailInfo.getEmailFrom(), email, template);
+        });
     }
 }

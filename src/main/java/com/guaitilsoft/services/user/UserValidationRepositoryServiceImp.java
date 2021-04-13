@@ -59,9 +59,9 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
     public User register(User user) {
         user.setMember(memberRepositoryService.get(user.getMember().getId()));
         if (user.getRoles().contains(Role.ROLE_ADMIN)) {
-            this.sendEmailToNewUser(user, user.getPassword(), TypeEmail.NEWACCOUNTADMIN);
+            this.sendEmailToNewUser(user, user.getPassword(), TypeEmail.NEW_ACCOUNT_ADMIN);
         }else {
-            this.sendEmailToNewUser(user, user.getPassword(), TypeEmail.NEWACCOUNTMEMBER);
+            this.sendEmailToNewUser(user, user.getPassword(), TypeEmail.NEW_ACCOUNT_MEMBER);
         }
         return userRepositoryService.register(user);
     }
@@ -99,7 +99,7 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
     public User resetPassword(Long id, String newPassword, Boolean sendEmail) {
         User user = this.get(id);
         if(sendEmail){
-            this.sendEmailToNewUser(user, newPassword, TypeEmail.RESETPASSWORD);
+            this.sendEmailToNewUser(user, newPassword, TypeEmail.RESET_PASSWORD);
         }
         return userRepositoryService.resetPassword(id, newPassword, sendEmail);
     }
@@ -118,7 +118,7 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
                 .addEmail(email)
                 .addFullName(name + " " + lastname + " " + secondLastname)
                 .addGenericPassword(password)
-                .typeEmail(typeEmail)
+                .addTypeInformation(typeEmail)
                 .getTemplate();
 
         emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", GuaitilEmailInfo.getEmailFrom(), email, template);

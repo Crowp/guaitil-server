@@ -7,6 +7,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Long> {
     @Query("SELECT p FROM Product p WHERE p.local.id =:id")
@@ -19,5 +21,5 @@ public interface ProductRepository extends CrudRepository<Product, Long> {
     Iterable<Product> getAllProductAcceptedByLocalId(@Param("reviewState") ReviewState reviewState, @Param("id") Long id, @Param("showProduct") Boolean showProduct);
 
     @Query("SELECT p FROM Product p WHERE p.productDescription.id=:id")
-    Product getProductByProductDescriptionId(@Param("id")Long id);
+    Optional<Product> getProductByProductDescriptionId(@Param("id")Long id);
 }

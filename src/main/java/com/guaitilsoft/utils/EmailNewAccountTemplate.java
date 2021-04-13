@@ -46,9 +46,9 @@ public class EmailNewAccountTemplate {
         return this.makeTemplate();
     }
 
-    public EmailNewAccountTemplate typeEmail(TypeEmail typeEmail){
+    public EmailNewAccountTemplate addTypeInformation(TypeEmail typeEmail){
         switch (typeEmail){
-            case NEWACCOUNTMEMBER:
+            case NEW_ACCOUNT_MEMBER:
                 typeInformation = "<p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                         "    <span style=\"font-size: 14px; line-height: 19.6px;\">\n" +
                         "      Gracias por unirte a nuestra comunidad,\n" +
@@ -91,7 +91,7 @@ public class EmailNewAccountTemplate {
                         "    </ul>\n" +
                         "  </p>";
                 break;
-            case RESETPASSWORD:
+            case RESET_PASSWORD:
                 typeInformation = "  <p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                         "    <span style=\" font-size: 14px; line-height: 19.6px; \">\n" +
                         "      Tu contraseña ha sido restablecida\n" +
@@ -99,7 +99,7 @@ public class EmailNewAccountTemplate {
                         "    </span><br /><br />\n" +
                         "  </p>";
                 break;
-            case NEWACCOUNTADMIN:
+            case NEW_ACCOUNT_ADMIN:
                 typeInformation = " <p style=\"font-size: 14px; color: #000000; line-height: 140%\">\n" +
                         "    <span  style=\" font-size: 14px; line-height: 19.6px; \">\n" +
                         "      Bienvenido a la parte administrativa de\n" +
@@ -112,7 +112,7 @@ public class EmailNewAccountTemplate {
                         "      podrás llevar a cabo las siguientes\n" +
                         "      actividades:\n" +
                         "    </span>\n" +
-                        "    <ul>\n" +
+                        "    <ul style=\"color: #000000;\">\n" +
                         "        <li style=\"font-size: 14px;line-height: 19.6px;\" >\n" +
                         "            <span style=\"font-size: 14px; line-height: 19.6px;\">\n" +
                         "                En el módulo de galleria, podrás ver,\n" +
