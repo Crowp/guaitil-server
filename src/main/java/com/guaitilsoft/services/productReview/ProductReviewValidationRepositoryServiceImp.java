@@ -74,10 +74,10 @@ public class ProductReviewValidationRepositoryServiceImp implements ProductRevie
         productReviewRepositoryService.delete(id);
     }
 
-    private void sendEmailProduct(Product product){
-        String fullName = product.getLocal().getFullMemberName();
-        String productName = product.getProductDescription().getName();
-        String email = product.getLocal().getMember().getPerson().getEmail();
+    private void sendEmailProduct(ProductReview productReview){
+        String fullName = "";
+        String productName = productReview.getProductDescription().getName();
+        String email = "";
 
         String template = new EmailProductTemplate()
                 .addFullName(fullName)

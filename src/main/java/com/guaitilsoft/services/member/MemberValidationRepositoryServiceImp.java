@@ -3,8 +3,12 @@ package com.guaitilsoft.services.member;
 import com.guaitilsoft.exceptions.ApiRequestException;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.User;
+import com.guaitilsoft.models.constant.MemberType;
 import com.guaitilsoft.models.constant.Role;
+import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.user.UserRepositoryService;
+import com.guaitilsoft.utils.EmailNewAssociatedTemplate;
+import com.guaitilsoft.utils.GuaitilEmailInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Primary;
@@ -19,12 +23,15 @@ public class MemberValidationRepositoryServiceImp implements MemberRepositorySer
 
     private final MemberRepositoryService memberRepositoryService;
     private final UserRepositoryService userRepositoryService;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
     public MemberValidationRepositoryServiceImp(MemberRepositoryService memberRepositoryService,
-                                                @Qualifier("UserRepositoryServiceBasic") UserRepositoryService userRepositoryService) {
+                                                @Qualifier("UserRepositoryServiceBasic") UserRepositoryService userRepositoryService,
+                                                EmailSenderService emailSenderService) {
         this.memberRepositoryService = memberRepositoryService;
         this.userRepositoryService = userRepositoryService;
+        this.emailSenderService = emailSenderService;
     }
 
     @Override
@@ -44,7 +51,11 @@ public class MemberValidationRepositoryServiceImp implements MemberRepositorySer
     @Override
     public Member save(Member entity) {
         entity.setId(null);
-        return this.memberRepositoryService.save(entity);
+        Member member = this.memberRepositoryService.save(entity);
+        if (member.getLocals().isEmpty() && member.getMemberType().equals(MemberType.ASSOCIATED)){
+            sendEmailAssociated(member);
+        }
+        return member;
     }
 
     @Override
@@ -57,16 +68,38 @@ public class MemberValidationRepositoryServiceImp implements MemberRepositorySer
 
     @Override
     public void delete(Long id) {
-        User user = userRepositoryService.getByMemberID(id);
-        if (!user.getRoles().contains(Role.ROLE_ADMIN)){
-            this.userRepositoryService.deleteUserByMemberId(id);
+        if (this.memberHaveUser(id)){
+            User user = userRepositoryService.getByMemberID(id);
+            if (!user.getRoles().contains(Role.ROLE_ADMIN)){
+                this.userRepositoryService.deleteUserByMemberId(id);
+                this.memberRepositoryService.delete(id);
+            }else {
+                throw new ApiRequestException("No puedes eliminar un miembro administrador");
+            }
+        }else {
             this.memberRepositoryService.delete(id);
         }
-        throw new ApiRequestException("No puedes eliminar un miembro administrador");
     }
 
     @Override
     public List<Member> getMemberWithoutUser() {
         return this.memberRepositoryService.getMemberWithoutUser();
+    }
+
+    @Override
+    public Boolean memberHaveUser(Long id) {
+        return this.memberRepositoryService.memberHaveUser(id);
+    }
+
+    private void sendEmailAssociated(Member member) {
+        String name = member.getPerson().getName();
+        String lastname = member.getPerson().getFirstLastName();
+        String secondLastname = member.getPerson().getSecondLastName();
+        String email = member.getPerson().getEmail();
+        String template = new EmailNewAssociatedTemplate()
+                .addFullName(name + " " + lastname + " " + secondLastname)
+                .getTemplate();
+
+        emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", GuaitilEmailInfo.getEmailFrom(), email, template);
     }
 }

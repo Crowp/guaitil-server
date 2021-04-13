@@ -16,4 +16,6 @@ public interface MemberRepositoryService {
     void delete(Long id);
 
     List<Member> getMemberWithoutUser();
+
+    Boolean memberHaveUser(Long id);
 }

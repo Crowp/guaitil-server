@@ -6,7 +6,7 @@ import com.guaitilsoft.models.constant.TypeEmail;
 import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.activityDescription.ActivityDesRepositoryService;
 import com.guaitilsoft.services.person.PersonRepositoryService;
-import com.guaitilsoft.utils.EmailReservationClient;
+import com.guaitilsoft.utils.EmailReservationClientTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -100,7 +100,7 @@ public class ReservationValidationRepositoryServiceImp implements ReservationRep
         Long amountPerson = reservation.getAmountPerson();
         LocalDateTime reservationDate = reservation.getDateReservation();
 
-        String template = new EmailReservationClient()
+        String template = new EmailReservationClientTemplate()
                 .addPersonName(personName)
                 .addActivityName(activityName)
                 .addActivityDate(activityDate)

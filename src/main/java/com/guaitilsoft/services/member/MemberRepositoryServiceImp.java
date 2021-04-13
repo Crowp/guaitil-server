@@ -6,8 +6,10 @@ import com.guaitilsoft.repositories.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service("MemberRepositoryServiceBasic")
@@ -72,5 +74,10 @@ public class MemberRepositoryServiceImp implements MemberRepositoryService{
     @Override
     public List<Member> getMemberWithoutUser() {
         return this.memberRepository.getMembersWithoutUser();
+    }
+
+    @Override
+    public Boolean memberHaveUser(Long id) {
+        return this.memberRepository.memberHaveUser(id);
     }
 }

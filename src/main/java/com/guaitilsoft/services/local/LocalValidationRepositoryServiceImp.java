@@ -97,7 +97,7 @@ public class LocalValidationRepositoryServiceImp implements LocalServiceLoad {
 
     private void deleteUserMemberWithoutLocals(Local local){
         Member member = memberRepositoryService.get(local.getMember().getId());
-        if (member.getLocals().size() == 0){
+        if (member.getLocals().size() <= 1){
             userRepositoryService.deleteUserByMemberId(member.getId());
             if (member.getMemberType() == MemberType.REGULAR){
                 memberRepositoryService.delete(member.getId());

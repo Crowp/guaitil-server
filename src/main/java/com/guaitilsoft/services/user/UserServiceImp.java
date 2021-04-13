@@ -82,7 +82,7 @@ public class UserServiceImp implements UserService {
 
     @Override
     public UserResponse getByMemberID(Long id) {
-        return this.parseToUserResponse(userRepositoryService.get(id));
+        return this.parseToUserResponse(userRepositoryService.getByMemberID(id));
     }
 
     @Override

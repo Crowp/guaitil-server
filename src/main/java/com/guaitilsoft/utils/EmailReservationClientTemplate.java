@@ -5,7 +5,7 @@ import com.guaitilsoft.models.constant.TypeEmail;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class EmailReservationClient {
+public class EmailReservationClientTemplate {
 
     private final String title;
     private String personName;
@@ -18,7 +18,7 @@ public class EmailReservationClient {
     private String typeInformation;
     private final String phoneNumber;
 
-    public EmailReservationClient(){
+    public EmailReservationClientTemplate(){
         this.personName = "Not Found";
         this.activityName = "Not Found";
         this.activityDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
@@ -30,31 +30,31 @@ public class EmailReservationClient {
         this.title = GuaitilEmailInfo.getTitle();
         this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
     }
-    public EmailReservationClient addPersonName(String personName){
+    public EmailReservationClientTemplate addPersonName(String personName){
         this.personName = personName;
         return  this;
     }
-    public EmailReservationClient addActivityName(String activityName){
+    public EmailReservationClientTemplate addActivityName(String activityName){
         this.activityName = activityName;
         return  this;
     }
-    public EmailReservationClient addActivityDate(LocalDateTime activityDate){
+    public EmailReservationClientTemplate addActivityDate(LocalDateTime activityDate){
         this.activityDate = activityDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         return this;
     }
-    public EmailReservationClient addPersonPrice(Double personPrice){
+    public EmailReservationClientTemplate addPersonPrice(Double personPrice){
         this.personPrice = personPrice.toString();
         return  this;
     }
-    public EmailReservationClient addActivityAddress(String activityAddress){
+    public EmailReservationClientTemplate addActivityAddress(String activityAddress){
         this.activityAddress = activityAddress;
         return  this;
     }
-    public EmailReservationClient addAmountPerson(Long amountPerson){
+    public EmailReservationClientTemplate addAmountPerson(Long amountPerson){
         this.amountPerson = amountPerson.toString();
         return  this;
     }
-    public EmailReservationClient addReservationDate(LocalDateTime reservationDate){
+    public EmailReservationClientTemplate addReservationDate(LocalDateTime reservationDate){
         this.reservationDate = reservationDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         return this;
     }
@@ -63,7 +63,7 @@ public class EmailReservationClient {
         return this.makeTemplate();
     }
 
-    public  EmailReservationClient addTypeInformation(TypeEmail typeEmail){
+    public EmailReservationClientTemplate addTypeInformation(TypeEmail typeEmail){
         switch (typeEmail){
             case RESERVATION_CLIENT:
                 typeInformation = "<p style=\"font-size: 14px; line-height: 140%\">\n" +

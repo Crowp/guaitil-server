@@ -62,7 +62,7 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
         review.setProductDescription(entity.getProductDescription());
         review.setState(ReviewState.INPROCESS);
         productReviewService.save(review);
-        sendEmailUserForProduct(product);
+        sendEmailUserAdminForProduct(product);
 
         return product;
     }
@@ -102,7 +102,7 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
         return productRepositoryService.getAllProductAcceptedByLocalId(id);
     }
 
-    private void sendEmailUserForProduct(Product product){
+    private void sendEmailUserAdminForProduct(Product product){
         userRepositoryService.getUsersAdmin().forEach(user -> {
             String fullName = user.getMember().getPerson().getName()
                     .concat(" ").concat(user.getMember().getPerson().getFirstLastName())

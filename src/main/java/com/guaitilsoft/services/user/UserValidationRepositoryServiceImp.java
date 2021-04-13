@@ -38,9 +38,9 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
 
     @Override
     public User get(Long id) {
-        User product = userRepositoryService.get(id);
-        if(product != null){
-            return product;
+        User user = userRepositoryService.get(id);
+        if(user != null){
+            return user;
         }
         throw new EntityNotFoundException("No se encontró un usuario con el id: " + id);
     }
