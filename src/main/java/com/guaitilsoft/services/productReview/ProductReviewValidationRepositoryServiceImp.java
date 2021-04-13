@@ -18,12 +18,9 @@ import java.util.List;
 public class ProductReviewValidationRepositoryServiceImp implements ProductReviewRepositoryService{
 
     private final ProductReviewRepositoryService productReviewRepositoryService;
-    private final EmailSenderService emailSenderService;
 
-    public ProductReviewValidationRepositoryServiceImp(ProductReviewRepositoryService productReviewRepositoryService,
-                                                       EmailSenderService emailSenderService) {
+    public ProductReviewValidationRepositoryServiceImp(ProductReviewRepositoryService productReviewRepositoryService) {
         this.productReviewRepositoryService = productReviewRepositoryService;
-        this.emailSenderService = emailSenderService;
     }
 
     @Override
@@ -64,26 +61,11 @@ public class ProductReviewValidationRepositoryServiceImp implements ProductRevie
         if(!id.equals(entity.getId())){
             throw new ApiRequestException("El id de la revision del producto: " + entity.getId() + " es diferente al id del parametro: " + id);
         }
-        ProductReview productReview = productReviewRepositoryService.update(id, entity);
-        productReview.setComment("A");
-        return productReview;
+        return productReviewRepositoryService.update(id, entity);
     }
 
     @Override
     public void delete(Long id) {
         productReviewRepositoryService.delete(id);
-    }
-
-    private void sendEmailProduct(ProductReview productReview){
-        String fullName = "";
-        String productName = productReview.getProductDescription().getName();
-        String email = "";
-
-        String template = new EmailProductTemplate()
-                .addFullName(fullName)
-                .addProductName(productName)
-                .addTypeInformation(TypeEmail.REVISED_PRODUCT)
-                .getTemplate();
-        emailSenderService.sendEmail("Revisión de producto, GuaitilTour", GuaitilEmailInfo.getEmailFrom(), email, template);
     }
 }

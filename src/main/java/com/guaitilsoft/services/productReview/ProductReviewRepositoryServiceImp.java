@@ -1,7 +1,13 @@
 package com.guaitilsoft.services.productReview;
 
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.ProductReview;
+import com.guaitilsoft.models.constant.TypeEmail;
 import com.guaitilsoft.repositories.ProductReviewRepository;
+import com.guaitilsoft.services.EmailSender.EmailSenderService;
+import com.guaitilsoft.utils.EmailProductTemplate;
+import com.guaitilsoft.utils.GuaitilEmailInfo;
+import com.guaitilsoft.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +19,13 @@ import java.util.List;
 public class ProductReviewRepositoryServiceImp implements ProductReviewRepositoryService {
 
     private final ProductReviewRepository productReviewRepository;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
-    public ProductReviewRepositoryServiceImp(ProductReviewRepository productReviewRepository) {
+    public ProductReviewRepositoryServiceImp(ProductReviewRepository productReviewRepository,
+                                             EmailSenderService emailSenderService) {
         this.productReviewRepository = productReviewRepository;
+        this.emailSenderService = emailSenderService;
     }
 
     @Override
@@ -68,6 +77,8 @@ public class ProductReviewRepositoryServiceImp implements ProductReviewRepositor
         productReview.setComment(entity.getComment());
         productReview.setCreatedAt(productReview.getCreatedAt());
         productReviewRepository.save(entity);
+        this.productReviewRepository.getMemberByProductDescId(productReview.getProductDescription().getId())
+                .ifPresent(member -> sendEmailProduct(member, productReview.getProductDescription().getName()));
         return productReview;
     }
 
@@ -77,6 +88,15 @@ public class ProductReviewRepositoryServiceImp implements ProductReviewRepositor
 
         ProductReview productReview = this.get(id);
         productReviewRepository.delete(productReview);
+    }
+
+    private void sendEmailProduct(Member member, String productName){
+        String template = new EmailProductTemplate()
+                .addFullName(Utils.getFullMemberName(member))
+                .addProductName(productName)
+                .addTypeInformation(TypeEmail.REVISED_PRODUCT)
+                .getTemplate();
+        emailSenderService.sendEmail("Revisión de producto, GuaitilTour", GuaitilEmailInfo.getEmailFrom(), member.getPerson().getEmail(), template);
     }
 
 }

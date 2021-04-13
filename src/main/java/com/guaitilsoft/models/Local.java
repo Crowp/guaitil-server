@@ -46,8 +46,4 @@ public class Local {
     public void removeMultimediaById(Multimedia multimedia) {
         this.multimedia.remove(multimedia);
     }
-
-    public String getFullMemberName(){
-        return this.member.getPerson().getName()+" "+this.member.getPerson().getFirstLastName()+" "+this.member.getPerson().getSecondLastName();
-    }
 }

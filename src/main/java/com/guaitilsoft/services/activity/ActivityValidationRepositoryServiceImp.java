@@ -11,6 +11,7 @@ import com.guaitilsoft.services.localDescription.LocalDesRepositoryService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import com.guaitilsoft.utils.EmailActivityTemplate;
 import com.guaitilsoft.utils.GuaitilEmailInfo;
+import com.guaitilsoft.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -92,13 +93,12 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
     private void sendEmailMembersWithLocals(Activity activity){
         activity.getLocalsDescriptions().forEach(l -> {
             Local local = this.localRepositoryService.getByLocalDescriptionId(l.getId());
-            String personName = local.getFullMemberName();
             String localName = l.getLocalName();
             String activityName = activity.getActivityDescription().getName();
             LocalDateTime activityDate = activity.getActivityDescription().getActivityDate();
             String activityAddress = activity.getActivityDescription().getAddress().getPhysicalAddress();
             String template = new EmailActivityTemplate()
-                    .addPersonName(personName)
+                    .addPersonName(Utils.getFullMemberName(local.getMember()))
                     .addLocalName(localName)
                     .addActivityName(activityName)
                     .addActivityDate(activityDate)
@@ -112,12 +112,11 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
 
     private void sendEmailToUsersAdmin(Activity activity){
         this.userRepositoryService.getUsersAdmin().forEach(user -> {
-            String personName = user.getMember().getPerson().getName()+" "+user.getMember().getPerson().getFirstLastName()+" "+user.getMember().getPerson().getSecondLastName();
             String activityName = activity.getActivityDescription().getName();
             LocalDateTime activityDate = activity.getActivityDescription().getActivityDate();
             String activityType = activity.getActivityDescription().getActivityType().getMessage();
             String template = new EmailActivityTemplate()
-                    .addPersonName(personName)
+                    .addPersonName(Utils.getFullMemberName(user.getMember()))
                     .addActivityName(activityName)
                     .addActivityDate(activityDate)
                     .addActivityType(activityType)

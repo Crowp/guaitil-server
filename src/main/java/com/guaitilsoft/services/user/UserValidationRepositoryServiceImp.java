@@ -7,6 +7,7 @@ import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.utils.EmailNewAccountTemplate;
 import com.guaitilsoft.utils.GuaitilEmailInfo;
+import com.guaitilsoft.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -110,13 +111,10 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
     }
 
     private void sendEmailToNewUser(User user, String password, TypeEmail typeEmail) {
-        String name = user.getMember().getPerson().getName();
-        String lastname = user.getMember().getPerson().getFirstLastName();
-        String secondLastname = user.getMember().getPerson().getSecondLastName();
         String email = user.getMember().getPerson().getEmail();
         String template = new EmailNewAccountTemplate()
                 .addEmail(email)
-                .addFullName(name + " " + lastname + " " + secondLastname)
+                .addFullName(Utils.getFullMemberName(user.getMember()))
                 .addGenericPassword(password)
                 .addTypeInformation(typeEmail)
                 .getTemplate();

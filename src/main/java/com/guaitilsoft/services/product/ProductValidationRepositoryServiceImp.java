@@ -10,6 +10,7 @@ import com.guaitilsoft.services.productReview.ProductReviewRepositoryService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import com.guaitilsoft.utils.EmailProductTemplate;
 import com.guaitilsoft.utils.GuaitilEmailInfo;
+import com.guaitilsoft.utils.Utils;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -104,20 +105,17 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
 
     private void sendEmailUserAdminForProduct(Product product){
         userRepositoryService.getUsersAdmin().forEach(user -> {
-            String fullName = user.getMember().getPerson().getName()
-                    .concat(" ").concat(user.getMember().getPerson().getFirstLastName())
-                    .concat(" ").concat(user.getMember().getPerson().getSecondLastName());
             String productName = product.getProductDescription().getName();
             String productType = product.getProductDescription().getProductType().getMessage();
-            String email = user.getEmail();
 
             String template = new EmailProductTemplate()
-                    .addFullName(fullName)
+                    .addFullName(Utils.getFullMemberName(user.getMember()))
                     .addProductName(productName)
+                    .addLocalName(product.getLocal().getLocalDescription().getLocalName())
                     .addProductType(productType)
-                    .addTypeInformation(TypeEmail.REVISED_PRODUCT)
+                    .addTypeInformation(TypeEmail.NEW_PRODUCT)
                     .getTemplate();
-            emailSenderService.sendEmail("Nuevo producto añadido, GuaitilTour", GuaitilEmailInfo.getEmailFrom(), email, template);
+            emailSenderService.sendEmail("Nuevo producto añadido, GuaitilTour", GuaitilEmailInfo.getEmailFrom(), user.getEmail(), template);
         });
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 
 @Primary
 @Service("LocalRepositoryServiceValidation")
@@ -82,8 +83,14 @@ public class LocalValidationRepositoryServiceImp implements LocalServiceLoad {
     @Override
     public void delete(Long id) {
         Local local = this.get(id);
+        Member member = this.memberRepositoryService.get(local.getMember().getId());
+        Optional<Local> optionalLocal = member.getLocals().stream().filter(lo -> lo.getId().equals(id)).findFirst();
+        optionalLocal.ifPresent(lo -> {
+            member.getLocals().remove(lo);
+            memberRepositoryService.update(member.getId(), member);
+        });
         localRepositoryService.delete(id);
-        deleteUserMemberWithoutLocals(local);
+        deleteUserMemberWithoutLocals(member);
     }
 
     @Override
@@ -95,9 +102,8 @@ public class LocalValidationRepositoryServiceImp implements LocalServiceLoad {
         return this.memberRepositoryService.get(id);
     }
 
-    private void deleteUserMemberWithoutLocals(Local local){
-        Member member = memberRepositoryService.get(local.getMember().getId());
-        if (member.getLocals().size() <= 1){
+    private void deleteUserMemberWithoutLocals(Member member){
+        if (member.getLocals().isEmpty()){
             userRepositoryService.deleteUserByMemberId(member.getId());
             if (member.getMemberType() == MemberType.REGULAR){
                 memberRepositoryService.delete(member.getId());

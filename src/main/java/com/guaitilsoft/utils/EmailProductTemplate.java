@@ -51,7 +51,7 @@ public class EmailProductTemplate {
     public EmailProductTemplate addTypeInformation(TypeEmail typeEmail){
         switch (typeEmail){
             case NEW_PRODUCT:
-                typeInformation = "<span style=\"font-size: 14px; line-height: 19.6px;\">\n" +
+                typeInformation = "<span style=\"font-size: 14px; color: #000000; line-height: 19.6px;\">\n" +
                         "    Se le informa que se ha creado un nuevo\n" +
                         "    producto de tipo "+this.productType+", llamado\n" +
                         "    "+this.productName+", del local "+this.localName+". Por favor\n" +
@@ -61,9 +61,9 @@ public class EmailProductTemplate {
                         "</span>";
                 break;
             case REVISED_PRODUCT:
-                typeInformation = "<span style=\"font-size: 14px; line-height: 19.6px;\">\n" +
+                typeInformation = "<span style=\"font-size: 14px; color: #000000; line-height: 19.6px;\">\n" +
                         "    Se le informa que la revisión del producto "+this.productName+", ya fue\n" +
-                        "    revisada, puedes verificarlo ingresando a la página para revisar el estado\n" +
+                        "    realizada, puedes verificarlo ingresando a la página para revisar el estado\n" +
                         "    del producto.\n" +
                         "</span>";
                 break;
@@ -172,7 +172,7 @@ public class EmailProductTemplate {
                 "                                      </span><br /><br />\n" +
                 "                                      "+this.typeInformation+" \n" +
                 "                                    </p><br/>\n" +
-                "                                    <p style=\" font-size: 14px; line-height: 140%; text-align: left;\">\n" +
+                "                                    <p style=\" font-size: 14px; color: #000000; line-height: 140%; text-align: left;\">\n" +
                 "                                      <span style=\" font-size: 14px; line-height: 19.6px;\">\n" +
                 "                                        &iexcl;Saludos!\n" +
                 "                                      </span>\n" +

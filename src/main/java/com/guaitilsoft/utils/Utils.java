@@ -1,5 +1,6 @@
 package com.guaitilsoft.utils;
 
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.Multimedia;
 import com.guaitilsoft.services.multimedia.MultimediaService;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
@@ -40,6 +41,12 @@ public class Utils {
                 .path(resourcePath)
                 .path(multimediaResponse.getFileName())
                 .toUriString();
+    }
+
+    public static  String getFullMemberName(Member member){
+        return member.getPerson().getName()
+                .concat(" ").concat(member.getPerson().getFirstLastName())
+                .concat(" ").concat(member.getPerson().getSecondLastName());
     }
 
     public static String getDateReport(){
