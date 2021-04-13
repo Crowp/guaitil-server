@@ -120,7 +120,17 @@ public class EmailReservationClientTemplate {
                         "</p>";
                 break;
             case RESERVATION_CANCELED_CLIENT:
-                typeInformation = "";
+                typeInformation = "<p style=\"font-size: 14px; line-height: 140%\">\n" +
+                        "  <span style=\"font-size: 14px; line-height: 19.6px;\" >\n" +
+                        "    Su cancelación al tour "+this.activityName+"\n" +
+                        "    se ha realizado con éxito, en caso de que no\n" +
+                        "    haya realizado la cancelación, comuníquese en el\n" +
+                        "    contacto que aparece en la parte inferior del correo.\n" +
+                        "  </span><br/> <br/>\n" +
+                        "  <span style=\"font-size: 14px;line-height: 19.6px; \" >\n" +
+                        "    &iexcl;Saludos!\n" +
+                        "  </span >\n" +
+                        "</p>";
                 break;
         }
         return this;
