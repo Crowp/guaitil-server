@@ -26,7 +26,6 @@ public class Person {
     @NotEmpty
     private String firstLastName;
 
-    @NotEmpty
     private String secondLastName;
 
     @NotEmpty
