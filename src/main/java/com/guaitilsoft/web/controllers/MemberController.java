@@ -44,6 +44,13 @@ public class MemberController {
         return  ResponseEntity.ok().body(members);
     }
 
+    @GetMapping("members-without-admins")
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
+    public ResponseEntity<List<MemberResponse>> getAllMembersWithoutAdmins() {
+        List<MemberResponse> members = memberService.getAllMembersWithoutAdmins();
+        return  ResponseEntity.ok().body(members);
+    }
+
     @GetMapping("members-without-users")
     public ResponseEntity<List<MemberResponse>> getMembersWithoutUser() {
         List<MemberResponse> members = memberService.getMemberWithoutUser();

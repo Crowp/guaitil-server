@@ -9,6 +9,8 @@ import java.util.List;
 public interface MemberService {
     List<MemberResponse> list();
 
+    List<MemberResponse> getAllMembersWithoutAdmins();
+
     MemberResponse get(Long id);
 
     MemberResponse save(MemberRequest entity);

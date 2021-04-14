@@ -1,6 +1,9 @@
 package com.guaitilsoft.services.member;
 
 import com.guaitilsoft.models.Member;
+import com.guaitilsoft.models.constant.Role;
+import com.guaitilsoft.services.user.UserRepositoryService;
+import com.guaitilsoft.services.user.UserService;
 import com.guaitilsoft.web.models.member.MemberRequest;
 import com.guaitilsoft.web.models.member.MemberResponse;
 import org.modelmapper.ModelMapper;
@@ -9,23 +12,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class MemberServiceImp implements MemberService {
 
     private final MemberRepositoryService memberRepositoryService;
+    private final UserService userService;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public MemberServiceImp(MemberRepositoryService memberRepositoryService, ModelMapper modelMapper) {
+    public MemberServiceImp(MemberRepositoryService memberRepositoryService,
+                            UserService userService,
+                            ModelMapper modelMapper) {
         this.memberRepositoryService = memberRepositoryService;
+        this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
     @Override
     public List<MemberResponse> list() {
         return this.parseToMemberResponseList(memberRepositoryService.list());
+    }
+
+    @Override
+    public List<MemberResponse> getAllMembersWithoutAdmins() {
+        List<MemberResponse> members = new ArrayList<>();
+        this.list().forEach(member -> this.userService.getAllUsers().forEach(user -> {
+            if (user.getMember().getId().equals(member.getId())){
+                if (!user.getRoles().contains(Role.ROLE_ADMIN) && !user.getRoles().contains(Role.ROLE_SUPER_ADMIN)){
+                    members.add(member);
+                }
+            }
+        }));
+        return members;
     }
 
     @Override
