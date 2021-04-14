@@ -2,18 +2,18 @@ package com.guaitilsoft.services.member;
 
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.constant.Role;
-import com.guaitilsoft.services.user.UserRepositoryService;
 import com.guaitilsoft.services.user.UserService;
 import com.guaitilsoft.web.models.member.MemberRequest;
 import com.guaitilsoft.web.models.member.MemberResponse;
+import com.guaitilsoft.web.models.user.UserResponse;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MemberServiceImp implements MemberService {
@@ -38,15 +38,17 @@ public class MemberServiceImp implements MemberService {
 
     @Override
     public List<MemberResponse> getAllMembersWithoutAdmins() {
-        List<MemberResponse> members = new ArrayList<>();
-        this.list().forEach(member -> this.userService.getAllUsers().forEach(user -> {
-            if (user.getMember().getId().equals(member.getId())){
-                if (!user.getRoles().contains(Role.ROLE_ADMIN) && !user.getRoles().contains(Role.ROLE_SUPER_ADMIN)){
-                    members.add(member);
-                }
-            }
-        }));
-        return members;
+        List<UserResponse> userResponses = this.userService.getAllUsers();
+        return this.list()
+                .stream()
+                .filter(member -> {
+                    boolean isAdmin = userResponses
+                            .stream()
+                            .anyMatch(user -> user.getMember().getId().equals(member.getId()) &&
+                                    (user.getRoles().contains(Role.ROLE_ADMIN) ||
+                                            user.getRoles().contains(Role.ROLE_SUPER_ADMIN)));
+                    return !isAdmin;
+                }).collect(Collectors.toList());
     }
 
     @Override
@@ -60,7 +62,7 @@ public class MemberServiceImp implements MemberService {
         return onSaveMember(member);
     }
 
-    private MemberResponse onSaveMember(Member memberToStore){
+    private MemberResponse onSaveMember(Member memberToStore) {
         Member member = memberRepositoryService.save(memberToStore);
         return this.parseToMemberResponse(member);
     }
@@ -85,16 +87,17 @@ public class MemberServiceImp implements MemberService {
         return memberRepositoryService.list();
     }
 
-    private List<MemberResponse> parseToMemberResponseList(List<Member> members){
-        Type listType = new TypeToken<List<MemberResponse>>(){}.getType();
+    private List<MemberResponse> parseToMemberResponseList(List<Member> members) {
+        Type listType = new TypeToken<List<MemberResponse>>() {
+        }.getType();
         return this.modelMapper.map(members, listType);
     }
 
-    private Member parseToMember(MemberRequest memberRequest){
+    private Member parseToMember(MemberRequest memberRequest) {
         return this.modelMapper.map(memberRequest, Member.class);
     }
 
-    private MemberResponse parseToMemberResponse(Member member){
+    private MemberResponse parseToMemberResponse(Member member) {
         return this.modelMapper.map(member, MemberResponse.class);
     }
 }
