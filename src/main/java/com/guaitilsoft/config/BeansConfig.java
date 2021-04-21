@@ -3,6 +3,7 @@ package com.guaitilsoft.config;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.guaitilsoft.localDate.LocalDateFormatter;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration;
@@ -22,6 +23,13 @@ import java.util.Properties;
 @Configuration
 @AutoConfigureBefore({JacksonAutoConfiguration.class})
 public class BeansConfig {
+
+    @Value("${user.email}")
+    private  String defaultEmail;
+
+    @Value("${user.email-password}")
+    private  String defaultEmailPassword;
+
     @Bean
     @Primary
     public Formatter<LocalDate> localDateFormatter() {
@@ -54,8 +62,8 @@ public class BeansConfig {
         javaMailSender.setProtocol("smtp");
         javaMailSender.setHost("smtp.gmail.com");
         javaMailSender.setPort(587);
-        javaMailSender.setUsername("guaitiltour.cr@gmail.com");
-        javaMailSender.setPassword("Chorotega17");
+        javaMailSender.setUsername(this.defaultEmail);
+        javaMailSender.setPassword(this.defaultEmailPassword);
         Properties props = javaMailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");

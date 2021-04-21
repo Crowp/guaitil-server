@@ -1,10 +1,14 @@
 package com.guaitilsoft.utils;
 
+import org.springframework.beans.factory.annotation.Value;
+
 public class GuaitilEmailInfo {
     private static final String title = "GuaitilTour";
     private static final String phoneNumber = "59863587";
     private static final String emailFrom = "guaitiltour.cr@gmail.com";
-    private static final String urlGuaitil = "http://143.198.57.165/authentication/login";
+
+    @Value("${guaitil-client.domain}")
+    private static String urlGuaitil;
 
     public static String getTitle() { return title; }
     public static String getEmailFrom() { return emailFrom; }
