@@ -36,6 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Entry points
+        http.addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);
+
         http.authorizeRequests()//
 
                 .antMatchers("/**/*.{js,html,css}").permitAll()
@@ -46,8 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/products/state/**").permitAll()
                 .antMatchers("/api/**", "/auth/**").authenticated()
                 .requestMatchers(CorsUtils::isCorsRequest).permitAll()
-                .anyRequest().permitAll()
-                .and().addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);
+                .anyRequest().permitAll();
 
         // Apply JWT
         http.apply(new TokenFilterConfigurer(this.tokenProvider));
