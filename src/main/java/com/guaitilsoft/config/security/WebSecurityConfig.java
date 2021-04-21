@@ -46,8 +46,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         // Entry points
-        http.addFilterBefore(new WebSecurityCorsFilter(), ChannelProcessingFilter.class);
-
         http.authorizeRequests()//
 
                 .antMatchers("/**/*.{js,html,css}").permitAll()
