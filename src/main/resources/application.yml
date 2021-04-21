@@ -39,6 +39,7 @@ reports-path: "reports"
 
 guaitil-client:
   domain: "http://143.198.57.165:8080"
+  cors: "*"
 
 ---
 spring:
@@ -79,3 +80,4 @@ spring:
 reports-path: "/root/guaitil-server/reports"
 guaitil-client:
   domain: "https://guaitiltour.co.cr"
+  cors: "https://guaitiltour.co.cr"
