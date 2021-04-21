@@ -55,6 +55,19 @@ spring:
 user:
   password: "guaitilour!2021$"
 spring:
+  profiles: "sandbox"
+  datasource:
+    username: "guaitiltour_user_db"
+    password: "guaitiltour!2021$db"
+  security:
+    jwt:
+      token:
+        secret-key : "gBHwqpF523Mp3mWdsdfsdfsd7p5deeeuG"
+reports-path: "/root/guaitil-server/reports"
+---
+user:
+  password: "guaitilour!2021$"
+spring:
   profiles: "production"
   datasource:
     username: "guaitiltour_user_db"
