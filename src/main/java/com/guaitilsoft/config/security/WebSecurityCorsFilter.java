@@ -18,9 +18,9 @@ public class WebSecurityCorsFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse res = (HttpServletResponse) response;
         res.setHeader("Access-Control-Allow-Origin", this.urlCors);
-        res.setHeader("Access-Control-Allow-Methods", this.urlCors);
+        res.setHeader("Access-Control-Allow-Methods", "*");
         res.setHeader("Access-Control-Max-Age", "3600");
-        res.setHeader("Access-Control-Allow-Headers", this.urlCors);
+        res.setHeader("Access-Control-Allow-Headers", "*");
         chain.doFilter(request, res);
     }
     @Override
