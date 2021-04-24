@@ -5,8 +5,11 @@ import com.guaitilsoft.models.Local;
 import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.MemberType;
+import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.services.user.UserRepositoryService;
+import com.guaitilsoft.utils.EmailNewLocalTemplate;
+import com.guaitilsoft.utils.GuaitilEmailInfo;
 import com.guaitilsoft.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -23,14 +26,17 @@ public class LocalValidationRepositoryServiceImp implements LocalServiceLoad {
     private final LocalRepositoryService localRepositoryService;
     private final MemberRepositoryService memberRepositoryService;
     private final UserRepositoryService userRepositoryService;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
     public LocalValidationRepositoryServiceImp(LocalRepositoryService localRepositoryService,
                                                MemberRepositoryService memberRepositoryService,
-                                               UserRepositoryService userRepositoryService) {
+                                               UserRepositoryService userRepositoryService,
+                                               EmailSenderService emailSenderService) {
         this.localRepositoryService = localRepositoryService;
         this.memberRepositoryService = memberRepositoryService;
         this.userRepositoryService = userRepositoryService;
+        this.emailSenderService = emailSenderService;
     }
 
     @Override
@@ -56,7 +62,11 @@ public class LocalValidationRepositoryServiceImp implements LocalServiceLoad {
     public Local save(Local entity) {
         Long memberId = entity.getMember().getId();
         entity.setMember(loadFullMember(memberId));
-        return localRepositoryService.save(entity);
+        Local local = localRepositoryService.save(entity);
+        if (local.getMember().getLocals().size() > 1){
+            this.sendEmailMemberWithLocal(local);
+        }
+        return local;
     }
 
     @Override
@@ -109,5 +119,15 @@ public class LocalValidationRepositoryServiceImp implements LocalServiceLoad {
                 memberRepositoryService.delete(member.getId());
             }
         }
+    }
+
+    private void sendEmailMemberWithLocal(Local local){
+        String localName = local.getLocalDescription().getLocalName();
+        String email = local.getMember().getPerson().getEmail();
+        String template = new EmailNewLocalTemplate()
+                .addPersonName(Utils.getFullMemberName(local.getMember()))
+                .addLocalName(localName)
+                .getTemplate();
+        emailSenderService.sendEmail("Nuevo local agregado", GuaitilEmailInfo.getEmailFrom(), email, template);
     }
 }
