@@ -6,12 +6,16 @@ import com.guaitilsoft.services.multimedia.MultimediaService;
 import com.guaitilsoft.web.models.multimedia.MultimediaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 @Component
@@ -36,11 +40,13 @@ public class Utils {
     }
 
     public static String getUrlHost(MultimediaResponse multimediaResponse){
-        String resourcePath = "/api/multimedia/load/";
-        return ServletUriComponentsBuilder.fromCurrentContextPath()
-                .path(resourcePath)
-                .path(multimediaResponse.getFileName())
-                .toUriString();
+        HttpServletRequest request =
+                ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
+                        .getRequest();
+
+        String resourcePath = "/api/multimedia/load/" + multimediaResponse.getFileName();
+
+        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + resourcePath;
     }
 
     public static  String getFullMemberName(Member member){
