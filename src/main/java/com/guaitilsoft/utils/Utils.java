@@ -40,13 +40,13 @@ public class Utils {
     }
 
     public static String getUrlHost(MultimediaResponse multimediaResponse){
-        HttpServletRequest request =
-                ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
-                        .getRequest();
+//        HttpServletRequest request =
+//                ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
+//                        .getRequest();
 
-        String resourcePath = "/api/multimedia/load/" + multimediaResponse.getFileName();
+        return "/api/multimedia/load/" + multimediaResponse.getFileName();
 
-        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + resourcePath;
+//        return request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + resourcePath;
     }
 
     public static  String getFullMemberName(Member member){
