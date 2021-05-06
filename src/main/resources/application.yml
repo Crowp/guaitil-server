@@ -81,5 +81,3 @@ reports-path: "/root/guaitil-server/reports"
 guaitil-client:
   domain: "https://guaitiltour.co.cr"
   cors: "*"
-server:
-  port: 8085
