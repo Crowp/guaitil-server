@@ -184,8 +184,8 @@ public class EmailNewLocalTemplate {
                 "                                        En caso de que el botón no funcione, dele\n" +
                 "                                        click al siguiente enlace:\n" +
                 "                                      </span>\n" +
-                "                                      <a style=\"color: #4c7bfa\" href=\""+this.urlGuaitil+"\" target=\"_blank\">\n" +
-                "                                        "+this.urlGuaitil+"\n" +
+                "                                      <a style=\"color: #4c7bfa\" href=\""+this.urlGuaitil+ "/authentication/login/\" target=\"_blank\">\n" +
+                "                                        "+this.urlGuaitil+"/authentication/login" +"\n" +
                 "                                      </a>\n" +
                 "                                    </p>\n" +
                 "                                  </div>\n" +

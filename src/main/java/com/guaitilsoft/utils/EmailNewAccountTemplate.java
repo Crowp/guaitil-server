@@ -1,6 +1,7 @@
 package com.guaitilsoft.utils;
 
 import com.guaitilsoft.models.constant.TypeEmail;
+import org.springframework.beans.factory.annotation.Value;
 
 public class EmailNewAccountTemplate {
 
@@ -10,7 +11,7 @@ public class EmailNewAccountTemplate {
     private String genericPassword;
     private String typeInformation;
     private final String phoneNumber;
-    private final String urlGuaitil;
+    private String urlGuaitil;
 
     public EmailNewAccountTemplate() {
         this.title = GuaitilEmailInfo.getTitle();
@@ -349,8 +350,8 @@ public class EmailNewAccountTemplate {
                 "                                        click al siguiente enlace:\n" +
                 "                                      </span>\n" +
                 "\n" +
-                "                                      <a style=\"color: #4c7bfa\" href=\""+this.urlGuaitil+"\" target=\"_blank\">\n" +
-                "                                        "+this.urlGuaitil+"\n" +
+                "                                      <a style=\"color: #4c7bfa\" href=\""+this.urlGuaitil+ "/authentication/login/\" target=\"_blank\">\n" +
+                "                                        "+this.urlGuaitil+"/authentication/login" + "\n" +
                 "                                      </a>\n" +
                 "\n" +
                 "                                    </p>\n" +

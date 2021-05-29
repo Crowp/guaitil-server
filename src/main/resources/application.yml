@@ -36,9 +36,7 @@ user:
   email-password: "Chorotega17"
 reports-path: "reports"
 
-guaitil-client:
-  domain: "http://143.198.57.165:8080"
-  cors: "*"
+client-domain: "https://guaitiltour.co.cr"
 
 ---
 spring:
@@ -77,6 +75,4 @@ spring:
       token:
         secret-key : "gBHwqpF523Mp3mWd7p5deeeuG"
 reports-path: "/root/guaitil-server/reports"
-guaitil-client:
-  domain: "https://guaitiltour.co.cr"
-  cors: "*"
+client-domain: "https://guaitiltour.co.cr"

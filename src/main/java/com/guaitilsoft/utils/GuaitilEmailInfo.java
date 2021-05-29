@@ -7,8 +7,7 @@ public class GuaitilEmailInfo {
     private static final String phoneNumber = "59863587";
     private static final String emailFrom = "guaitiltour.cr@gmail.com";
 
-    @Value("${guaitil-client.domain}")
-    private static String urlGuaitil;
+    private static String urlGuaitil = "https://guaitiltour.co.cr";
 
     public static String getTitle() { return title; }
     public static String getEmailFrom() { return emailFrom; }
