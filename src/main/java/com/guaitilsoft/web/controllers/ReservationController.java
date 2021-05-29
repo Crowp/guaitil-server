@@ -94,7 +94,7 @@ public class ReservationController {
 
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "reservationReports/reservationXlsxReport.jrxml";
+        String template = "reservationReports/ReservationXlsxReport.jrxml";
         List<Reservation> reservations = reservationService.listReservation();
         String time = Utils.getDateReport();
 
