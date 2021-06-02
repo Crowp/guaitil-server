@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -105,19 +106,6 @@ public class MemberServiceTests {
 
         assertThat(memberFounded).isEqualTo(memberExpected);
 
-    }
-
-    @Test
-    public void should_not_get_member_by_id() {
-
-        given(memberRepository.findById(1L)).willReturn(Optional.empty());
-
-        try {
-            memberRepositoryService.get(1L);
-            fail("Expected an EntityNotFoundException to be thrown");
-        } catch (EntityNotFoundException ex) {
-            assertThat(ex.getMessage()).isEqualTo("No se encontró un asociado con el id: " + 1);
-        }
     }
 
 }
