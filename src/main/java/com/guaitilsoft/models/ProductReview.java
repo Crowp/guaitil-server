@@ -23,6 +23,7 @@ public class ProductReview {
     @Enumerated(EnumType.STRING)
     private ReviewState state;
 
+    @Lob
     private String comment;
 
     private LocalDateTime createdAt;

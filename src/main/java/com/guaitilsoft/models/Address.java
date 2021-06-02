@@ -16,6 +16,7 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Lob
     @NotEmpty
     private String physicalAddress;
 

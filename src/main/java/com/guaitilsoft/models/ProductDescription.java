@@ -23,6 +23,7 @@ public class ProductDescription {
     @NotEmpty
     private String name;
 
+    @Lob
     @NotEmpty
     private String description;
 

@@ -23,6 +23,7 @@ public class ActivityDescription {
     @NotEmpty
     private String name;
 
+    @Lob
     @NotEmpty
     private String description;
 

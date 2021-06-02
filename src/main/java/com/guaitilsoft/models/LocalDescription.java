@@ -24,6 +24,7 @@ public class LocalDescription {
     @NotEmpty
     private String localName;
 
+    @Lob
     @NotEmpty
     private String description;
 
