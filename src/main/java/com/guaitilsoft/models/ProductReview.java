@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -23,7 +24,7 @@ public class ProductReview {
     @Enumerated(EnumType.STRING)
     private ReviewState state;
 
-    @Lob
+    @Size(max = 255)
     private String comment;
 
     private LocalDateTime createdAt;

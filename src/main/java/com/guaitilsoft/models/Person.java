@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,20 +22,29 @@ public class Person {
     private String id;
 
     @NotEmpty
+    @Column(length = 40)
+    @Size(min = 3, max = 40)
     private String name;
 
     @NotEmpty
+    @Column(length = 40)
+    @Size(min = 3, max = 60)
     private String firstLastName;
 
+    @Column(length = 40)
+    @Size(min = 3, max = 60)
     private String secondLastName;
 
     @NotEmpty
+    @Column(length = 8)
+    @Size(min = 8, max = 8)
     private String telephone;
 
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
     @Email
+    @Size(min = 13, max = 255)
     private String email;
 
     @Enumerated(EnumType.STRING)

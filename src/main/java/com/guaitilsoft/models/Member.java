@@ -9,6 +9,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,6 +25,8 @@ public class Member {
     private Long id;
 
     @NotEmpty
+    @Column(length = 60)
+    @Size(min = 6, max = 60)
     private String occupation;
 
     private LocalDateTime affiliationDate;

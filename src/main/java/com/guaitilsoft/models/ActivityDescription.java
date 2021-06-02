@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -21,10 +22,14 @@ public class ActivityDescription {
     private Long id;
 
     @NotEmpty
+    @Column(length = 150)
+    @Size(min = 15, max = 150)
     private String name;
 
     @Lob
     @NotEmpty
+    @Column(length = 1000)
+    @Size(min = 100, max = 1000)
     private String description;
 
     private LocalDateTime activityDate;

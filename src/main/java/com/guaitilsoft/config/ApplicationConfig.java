@@ -49,7 +49,7 @@ public class ApplicationConfig implements CommandLineRunner  {
             person.setName("Guatil");
             person.setEmail(this.defaultEmail);
             person.setFirstLastName("Soft");
-            person.setTelephone("8888888");
+            person.setTelephone("88888888");
             person.setSecondLastName("Default Admin");
             person.setGender(Gender.MALE);
             person.setCreatedAt(LocalDateTime.now());
@@ -57,7 +57,7 @@ public class ApplicationConfig implements CommandLineRunner  {
             person.setPersonType(PersonType.ROLE_MEMBER);
 
             Member member = new Member();
-            member.setOccupation("Admin");
+            member.setOccupation("Administrator");
             member.setPerson(person);
             member.setMemberType(MemberType.ASSOCIATED);
             member.setLocals(new ArrayList<>());

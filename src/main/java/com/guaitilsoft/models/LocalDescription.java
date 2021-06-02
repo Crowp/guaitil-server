@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,9 +27,13 @@ public class LocalDescription {
 
     @Lob
     @NotEmpty
+    @Column(length = 1000)
+    @Size(min = 100, max = 1000)
     private String description;
 
     @NotEmpty
+    @Column(length = 8)
+    @Size(min = 8, max = 8)
     private String localTelephone;
 
     @Enumerated(EnumType.STRING)
