@@ -1,26 +1,25 @@
 package com.guaitilsoft.utils;
 
 import com.guaitilsoft.models.constant.TypeEmail;
-import org.springframework.beans.factory.annotation.Value;
 
 public class EmailNewAccountTemplate {
 
-    private final String title;
+    private String title;
     private String fullName;
     private String email;
     private String genericPassword;
     private String typeInformation;
-    private final String phoneNumber;
+    private String phoneNumber;
     private String urlGuaitil;
 
     public EmailNewAccountTemplate() {
-        this.title = GuaitilEmailInfo.getTitle();
+        this.title = "GuaitilTour";
         this.fullName = "Default";
         this.email = "default@gmail.com";
         this.genericPassword = "default";
         this.typeInformation = "";
-        this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
-        this.urlGuaitil = GuaitilEmailInfo.getUrlGuaitil();
+        this.phoneNumber = "88046828";
+        this.urlGuaitil = "Not Found";
     }
 
     public EmailNewAccountTemplate addFullName(String fullName) {
@@ -35,6 +34,16 @@ public class EmailNewAccountTemplate {
 
     public EmailNewAccountTemplate addGenericPassword(String genericPassword) {
         this.genericPassword = genericPassword;
+        return this;
+    }
+
+    public EmailNewAccountTemplate addTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public EmailNewAccountTemplate addRedirectUrl(String redirectUrl) {
+        this.urlGuaitil = redirectUrl;
         return this;
     }
 

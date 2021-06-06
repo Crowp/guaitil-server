@@ -1,11 +1,10 @@
 spring:
   profiles:
-    active: "development"
+    active: "production"
   output:
     ansi:
       enabled: always
   datasource:
-    url: "jdbc:mysql://localhost/guaitil?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT-6"
     testWhileIdle: true
     validationQuery: SELECT 1
 
@@ -32,16 +31,18 @@ server:
   port: 8080
 user:
   password: "1234"
-  email: "guaitiltour.cr@gmail.com"
-  email-password: "Chorotega17"
+  email: ${GUAITIL_USER_ADMIN_EMAIL}
+  gmail-sender-email: ${GUAITIL_GMAIL_SENDER_EMAIL}
+  gmail-sender-pass: ${GUAITIL_GMAIL_SENDER_PASS}
 reports-path: "reports"
 
 client-domain: "https://guaitiltour.co.cr"
-
+server-domain: "https://server.guaitiltour.co.cr"
 ---
 spring:
   profiles: "development"
   datasource:
+    url: "jdbc:mysql://localhost/guaitil?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT-6"
     username: "root"
     password: "root"
   security:
@@ -50,29 +51,22 @@ spring:
         secret-key : "secret-key"
         expire-length : 30
 ---
-user:
-  password: "guaitilour!2021$"
-spring:
-  profiles: "sandbox"
-  datasource:
-    username: "guaitiltour_user_db"
-    password: "guaitiltour!2021$db"
-  security:
-    jwt:
-      token:
-        secret-key : "gBHwqpF523Mp3mWdsdfsdfsd7p5deeeuG"
-reports-path: "/root/guaitil-server/reports"
----
-user:
-  password: "guaitilour!2021$"
 spring:
   profiles: "production"
   datasource:
-    username: "guaitiltour_user_db"
-    password: "guaitiltour!2021$db"
+    url: ${GUAITIL_DATABASE_URL}
+    username: ${GUAITIL_DATABASE_USER}
+    password: ${GUAITIL_DATABASE_PASS}
   security:
     jwt:
       token:
-        secret-key : "gBHwqpF523Mp3mWd7p5deeeuG"
-reports-path: "/root/guaitil-server/reports"
-client-domain: "https://guaitiltour.co.cr"
+        secret-key : ${GUAITIL_JWT_SECRET_KEY}
+user:
+  email: ${GUAITIL_USER_ADMIN_EMAIL}
+  password: ${GUAITIL_USER_ADMIN_PASS}
+  gmail-sender-email: ${GUAITIL_GMAIL_SENDER_EMAIL}
+  gmail-sender-pass: ${GUAITIL_GMAIL_SENDER_PASS}
+reports-path: ${GUAITIL_REPORTS_PATH}
+guaitil-domain:
+  client: ${GUAITIL_CLIENT_DOMAIN}
+  server: ${GUAITIL_SERVER_DOMAIN}

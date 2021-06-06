@@ -10,9 +10,9 @@ import com.guaitilsoft.services.local.LocalRepositoryService;
 import com.guaitilsoft.services.localDescription.LocalDesRepositoryService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import com.guaitilsoft.utils.EmailActivityTemplate;
-import com.guaitilsoft.utils.GuaitilEmailInfo;
 import com.guaitilsoft.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +31,13 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
     private final LocalRepositoryService localRepositoryService;
     private final UserRepositoryService userRepositoryService;
     private final EmailSenderService emailSenderService;
+
+    @Value("${user.gmail-sender-email}")
+    private String emailForm;
+
+    @Value("${guaitil-domain.client}")
+    private String clientDomain;
+
 
     @Autowired
     public ActivityValidationRepositoryServiceImp(ActivityRepositoryService activityRepositoryService,
@@ -103,10 +110,11 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
                     .addActivityName(activityName)
                     .addActivityDate(activityDate)
                     .addActivityAddress(activityAddress)
+                    .addRedirectUrl(clientDomain)
                     .addTypeInformation(TypeEmail.ACTIVITY_MEMBER)
                     .getTemplate();
 
-            emailSenderService.sendEmail("Has sido invitado a una nueva actividad", GuaitilEmailInfo.getEmailFrom(), local.getMember().getPerson().getEmail(), template);
+            emailSenderService.sendEmail("Has sido invitado a una nueva actividad", emailForm, local.getMember().getPerson().getEmail(), template);
         });
     }
 
@@ -121,9 +129,10 @@ public class ActivityValidationRepositoryServiceImp implements ActivityRepositor
                     .addActivityDate(activityDate)
                     .addActivityType(activityType)
                     .addTypeInformation(TypeEmail.ACTIVITY_ADMIN)
+                    .addRedirectUrl(clientDomain)
                     .getTemplate();
 
-            emailSenderService.sendEmail("Aviso de nueva actividad en GuaitilTour", GuaitilEmailInfo.getEmailFrom(), user.getMember().getPerson().getEmail(), template);
+            emailSenderService.sendEmail("Aviso de nueva actividad en GuaitilTour", emailForm, user.getMember().getPerson().getEmail(), template);
         });
     }
 }

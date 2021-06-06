@@ -4,24 +4,23 @@ import com.guaitilsoft.models.constant.TypeEmail;
 
 public class EmailProductTemplate {
 
-    private final String title;
+    private String title;
     private String fullName;
     private String productName;
     private String productType;
     private String localName;
     private String typeInformation;
-    private final String phoneNumber;
-    private final String urlGuaitil;
+    private String phoneNumber;
+    private String urlGuaitil;
 
     public EmailProductTemplate(){
-        this.title = GuaitilEmailInfo.getTitle();
+        this.title = "Guaitiltour";
         this.fullName = "Not Found";
         this.productName = "Not Found";
         this.productType = "Not Found";
         this.localName = "Not Found";
         this.typeInformation = "";
-        this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
-        this.urlGuaitil = GuaitilEmailInfo.getUrlGuaitil();
+        this.phoneNumber = "88046828";
     }
 
     public EmailProductTemplate addFullName(String fullName){
@@ -41,6 +40,21 @@ public class EmailProductTemplate {
 
     public EmailProductTemplate addLocalName(String localName){
         this.localName = localName;
+        return this;
+    }
+
+    public EmailProductTemplate addTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public EmailProductTemplate addPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+
+    public EmailProductTemplate addRedirectUrl(String redirectUrl) {
+        this.urlGuaitil = redirectUrl;
         return this;
     }
 

@@ -1,12 +1,7 @@
 package com.guaitilsoft.services.productReview;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
-import com.guaitilsoft.models.Product;
 import com.guaitilsoft.models.ProductReview;
-import com.guaitilsoft.models.constant.TypeEmail;
-import com.guaitilsoft.services.EmailSender.EmailSenderService;
-import com.guaitilsoft.utils.EmailProductTemplate;
-import com.guaitilsoft.utils.GuaitilEmailInfo;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 

@@ -15,11 +15,11 @@ public class EmailActivityTemplate {
     private String activityAddress;
     private String activityType;
     private String typeInformation;
-    private final String phoneNumber;
-    private final String urlGuaitil;
+    private String phoneNumber;
+    private String urlGuaitil;
 
     public EmailActivityTemplate (){
-        this.title = GuaitilEmailInfo.getTitle();
+        this.title = "Guaitiltour";
         this.personName = "Not Found";
         this.localName = "Not Found";
         this.activityName = "Not Found";
@@ -27,8 +27,7 @@ public class EmailActivityTemplate {
         this.activityAddress = "Not Found";
         this.activityType = "Not Found";
         this.typeInformation = "";
-        this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
-        this.urlGuaitil = GuaitilEmailInfo.getUrlGuaitil();
+        this.phoneNumber = "88046828";
     }
     public EmailActivityTemplate addPersonName(String personName){
         this.personName = personName;
@@ -52,6 +51,16 @@ public class EmailActivityTemplate {
     }
     public  EmailActivityTemplate addActivityType(String activityType){
         this.activityType = activityType;
+        return this;
+    }
+
+    public EmailActivityTemplate addRedirectUrl(String redirectUrl) {
+        this.urlGuaitil = redirectUrl;
+        return this;
+    }
+
+    public EmailActivityTemplate addPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
         return this;
     }
 

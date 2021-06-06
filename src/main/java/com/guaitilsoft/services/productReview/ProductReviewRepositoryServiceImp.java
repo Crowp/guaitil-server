@@ -6,9 +6,9 @@ import com.guaitilsoft.models.constant.TypeEmail;
 import com.guaitilsoft.repositories.ProductReviewRepository;
 import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.utils.EmailProductTemplate;
-import com.guaitilsoft.utils.GuaitilEmailInfo;
 import com.guaitilsoft.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,6 +20,12 @@ public class ProductReviewRepositoryServiceImp implements ProductReviewRepositor
 
     private final ProductReviewRepository productReviewRepository;
     private final EmailSenderService emailSenderService;
+
+    @Value("${user.gmail-sender-email}")
+    private String emailForm;
+
+    @Value("${guaitil-domain.client}")
+    private String clientDomain;
 
     @Autowired
     public ProductReviewRepositoryServiceImp(ProductReviewRepository productReviewRepository,
@@ -95,8 +101,9 @@ public class ProductReviewRepositoryServiceImp implements ProductReviewRepositor
                 .addFullName(Utils.getFullMemberName(member))
                 .addProductName(productName)
                 .addTypeInformation(TypeEmail.REVISED_PRODUCT)
+                .addRedirectUrl(clientDomain)
                 .getTemplate();
-        emailSenderService.sendEmail("Revisión de producto, GuaitilTour", GuaitilEmailInfo.getEmailFrom(), member.getPerson().getEmail(), template);
+        emailSenderService.sendEmail("Revisión de producto, GuaitilTour", emailForm, member.getPerson().getEmail(), template);
     }
 
 }

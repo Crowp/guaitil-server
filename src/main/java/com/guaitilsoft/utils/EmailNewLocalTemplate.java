@@ -1,18 +1,18 @@
 package com.guaitilsoft.utils;
 
 public class EmailNewLocalTemplate {
-    private final String title;
+    private String title;
     private String personName;
     private String localName;
-    private final String phoneNumber;
-    private final String urlGuaitil;
+    private String phoneNumber;
+    private String urlGuaitil;
 
     public EmailNewLocalTemplate() {
-        this.title = GuaitilEmailInfo.getTitle();
+        this.title = "GuaitilTour";
         this.personName = "Not Found";
         this.localName = "Not Found";
-        this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
-        this.urlGuaitil = GuaitilEmailInfo.getUrlGuaitil();
+        this.phoneNumber = "88046828";
+        this.urlGuaitil = "Not Found";
     }
 
     public EmailNewLocalTemplate addPersonName(String personName) {
@@ -22,6 +22,20 @@ public class EmailNewLocalTemplate {
 
     public EmailNewLocalTemplate addLocalName(String localName) {
         this.localName = localName;
+        return this;
+    }
+
+    public EmailNewLocalTemplate addTitle(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public EmailNewLocalTemplate addPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+    public EmailNewLocalTemplate addRedirectUrl(String redirectUrl) {
+        this.urlGuaitil = redirectUrl;
         return this;
     }
 

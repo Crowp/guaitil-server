@@ -24,10 +24,10 @@ import java.util.Properties;
 @AutoConfigureBefore({JacksonAutoConfiguration.class})
 public class BeansConfig {
 
-    @Value("${user.email}")
+    @Value("${user.gmail-sender-email}")
     private  String defaultEmail;
 
-    @Value("${user.email-password}")
+    @Value("${user.gmail-sender-pass}")
     private  String defaultEmailPassword;
 
     @Bean

@@ -9,8 +9,8 @@ import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.productReview.ProductReviewRepositoryService;
 import com.guaitilsoft.services.user.UserRepositoryService;
 import com.guaitilsoft.utils.EmailProductTemplate;
-import com.guaitilsoft.utils.GuaitilEmailInfo;
 import com.guaitilsoft.utils.Utils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,13 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
     private final ProductReviewRepositoryService productReviewService;
     private final UserRepositoryService userRepositoryService;
     private final EmailSenderService emailSenderService;
+
+    @Value("${user.gmail-sender-email}")
+    private String emailForm;
+
+    @Value("${guaitil-domain.client}")
+    private String clientDomain;
+
 
     public ProductValidationRepositoryServiceImp(ProductRepositoryService productRepositoryService,
                                                  ProductReviewRepositoryService productReviewService,
@@ -114,8 +121,9 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
                     .addLocalName(product.getLocal().getLocalDescription().getLocalName())
                     .addProductType(productType)
                     .addTypeInformation(TypeEmail.NEW_PRODUCT)
+                    .addRedirectUrl(clientDomain)
                     .getTemplate();
-            emailSenderService.sendEmail("Nuevo producto añadido, GuaitilTour", GuaitilEmailInfo.getEmailFrom(), user.getEmail(), template);
+            emailSenderService.sendEmail("Nuevo producto añadido, GuaitilTour", emailForm, user.getEmail(), template);
         });
     }
 }

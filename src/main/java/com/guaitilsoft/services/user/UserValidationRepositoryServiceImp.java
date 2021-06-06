@@ -6,9 +6,9 @@ import com.guaitilsoft.models.constant.TypeEmail;
 import com.guaitilsoft.services.EmailSender.EmailSenderService;
 import com.guaitilsoft.services.member.MemberRepositoryService;
 import com.guaitilsoft.utils.EmailNewAccountTemplate;
-import com.guaitilsoft.utils.GuaitilEmailInfo;
 import com.guaitilsoft.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +22,12 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
     private final UserRepositoryService userRepositoryService;
     private final MemberRepositoryService memberRepositoryService;
     private final EmailSenderService emailSenderService;
+
+    @Value("${guaitil-domain.client}")
+    private String urlGuaitil;
+
+    @Value("${user.gmail-sender-email}")
+    private String emailForm;
 
     @Autowired
     public UserValidationRepositoryServiceImp(UserRepositoryService userRepositoryService,
@@ -117,8 +123,9 @@ public class UserValidationRepositoryServiceImp implements UserRepositoryService
                 .addFullName(Utils.getFullMemberName(user.getMember()))
                 .addGenericPassword(password)
                 .addTypeInformation(typeEmail)
+                .addRedirectUrl(urlGuaitil)
                 .getTemplate();
 
-        emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", GuaitilEmailInfo.getEmailFrom(), email, template);
+        emailSenderService.sendEmail("Envio de datos de la nueva cuenta en Guaitil Tour", emailForm, email, template);
     }
 }

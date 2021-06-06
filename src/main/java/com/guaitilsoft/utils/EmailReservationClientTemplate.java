@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 public class EmailReservationClientTemplate {
 
-    private final String title;
+    private String title;
     private String personName;
     private String activityName;
     private String activityDate;
@@ -16,7 +16,7 @@ public class EmailReservationClientTemplate {
     private String amountPerson;
     private String reservationDate;
     private String typeInformation;
-    private final String phoneNumber;
+    private String phoneNumber;
 
     public EmailReservationClientTemplate(){
         this.personName = "Not Found";
@@ -27,8 +27,8 @@ public class EmailReservationClientTemplate {
         this.amountPerson = "Not Found";
         this.reservationDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
         this.typeInformation = "";
-        this.title = GuaitilEmailInfo.getTitle();
-        this.phoneNumber = GuaitilEmailInfo.getPhoneNumber();
+        this.title = "Guaitiltour";
+        this.phoneNumber = "88046828";
     }
     public EmailReservationClientTemplate addPersonName(String personName){
         this.personName = personName;
@@ -56,6 +56,14 @@ public class EmailReservationClientTemplate {
     }
     public EmailReservationClientTemplate addReservationDate(LocalDateTime reservationDate){
         this.reservationDate = reservationDate.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"));
+        return this;
+    }
+    public EmailReservationClientTemplate addTitle(String title) {
+        this.title = title;
+        return this;
+    }
+    public EmailReservationClientTemplate addPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
         return this;
     }
 
