@@ -35,9 +35,9 @@ user:
   gmail-sender-email: ${GUAITIL_GMAIL_SENDER_EMAIL}
   gmail-sender-pass: ${GUAITIL_GMAIL_SENDER_PASS}
 reports-path: "reports"
-
-client-domain: "https://guaitiltour.co.cr"
-server-domain: "https://server.guaitiltour.co.cr"
+guaitil-domain:
+  client: ${GUAITIL_CLIENT_DOMAIN}
+  server: ${GUAITIL_SERVER_DOMAIN}
 ---
 spring:
   profiles: "development"
