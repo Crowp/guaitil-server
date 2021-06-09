@@ -4,10 +4,12 @@ import com.guaitilsoft.exceptions.CustomException;
 import com.guaitilsoft.models.User;
 import com.guaitilsoft.models.constant.Role;
 import com.guaitilsoft.web.models.member.MemberRequest;
+import com.guaitilsoft.web.models.user.UserTokenResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +47,9 @@ public class TokenProvider {
         this.myUserDetails = myUserDetails;
     }
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @PostConstruct
     protected void init() {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
@@ -51,10 +57,9 @@ public class TokenProvider {
 
     public String createToken(User user, MemberRequest member) {
         Claims claims = Jwts.claims().setSubject(user.getEmail());
-        user.setMember(null);
-        member.setLocals(null);
+        member.setLocals(new ArrayList<>());
         claims.put("user_data", member);
-        claims.put("user", user);
+        claims.put("user", this.modelMapper.map(user, UserTokenResponse.class));
         claims.put("auth", user.getRoles().stream().map(s -> new SimpleGrantedAuthority(s.getAuthority())).collect(Collectors.toList()));
 
         Date now = new Date();
