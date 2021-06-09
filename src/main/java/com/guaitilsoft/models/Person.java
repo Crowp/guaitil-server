@@ -32,7 +32,7 @@ public class Person {
     private String firstLastName;
 
     @Column(length = 40)
-    @Size(min = 3, max = 60)
+    @Size(max = 60)
     private String secondLastName;
 
     @NotEmpty
