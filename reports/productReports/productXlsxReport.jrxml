@@ -92,7 +92,7 @@
                         <property name="com.jaspersoft.studio.spreadsheet.connectionID" value="60e19f7b-52ed-41b5-b66c-b7d3fa8e0396"/>
                     </reportElement>
                     <textElement textAlignment="Center"/>
-                    <textFieldExpression><![CDATA[$F{productDescription.productType}]]></textFieldExpression>
+                    <textFieldExpression><![CDATA[$F{productDescription.productType}.getMessage()]]></textFieldExpression>
                 </textField>
                 <textField textAdjust="StretchHeight">
                     <reportElement style="Detail" x="400" y="0" width="200" height="15" uuid="060347e8-3325-4bf4-8c2a-a7f323485ff9">
