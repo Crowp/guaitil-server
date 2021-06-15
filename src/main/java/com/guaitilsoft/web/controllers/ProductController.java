@@ -134,10 +134,40 @@ public class ProductController {
                 .body(bytes);
     }
 
+    @GetMapping("/pdf-report/products/by-local-id")
+    public ResponseEntity<byte[]> generatePDFReportByLocalId(@RequestParam Long id) throws IOException, JRException {
+        String template = "productReports/productPdfReport.jrxml";
+        List<ProductResponse> productResponses = productService.getAllProductByLocalId(id);
+        String time = Utils.getDateReport();
+
+        byte[] bytes = reportService.exportPDF(productResponses, template);
+        String nameFile = "Reporte Productos "+time+".pdf";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
     @GetMapping("/xlsx-report")
     public ResponseEntity<byte[]> generateXLSXReport() {
         String template = "productReports/productXlsxReport.jrxml";
         List<ProductResponse> productResponses = productService.list();
+        String time = Utils.getDateReport();
+
+        byte[] bytes = reportService.exportXLSX(productResponses, template);
+        String nameFile = "Reporte Productos "+time+".xlsx";
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("application/x-xlsx"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
+                .body(bytes);
+    }
+
+    @GetMapping("/xlsx-report/products/by-local-id")
+    public ResponseEntity<byte[]> generateXLSXReportByLocalId(@RequestParam Long id) {
+        String template = "productReports/productXlsxReport.jrxml";
+        List<ProductResponse> productResponses = productService.getAllProductByLocalId(id);
         String time = Utils.getDateReport();
 
         byte[] bytes = reportService.exportXLSX(productResponses, template);
