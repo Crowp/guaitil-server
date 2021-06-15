@@ -66,10 +66,7 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
     public Product save(Product entity) {
         Product product = productRepositoryService.save(entity);
 
-        ProductReview review = new ProductReview();
-        review.setProductDescription(entity.getProductDescription());
-        review.setState(ReviewState.INPROCESS);
-        productReviewService.save(review);
+        createProductReview(product);
         sendEmailUserAdminForProduct(product);
 
         return product;
@@ -80,18 +77,28 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
         if(!id.equals(entity.getId())){
             throw new ApiRequestException("El id del producto: " + entity.getId() + " es diferente al id del parametro: " + id);
         }
-        ProductReview review = productReviewService.getByProductId(entity.getProductDescription().getId());
-        if(review != null){
-            if(review.getState() != ReviewState.ACCEPTED){
-                review.setState(ReviewState.INPROCESS);
-                productReviewService.update(review.getId(), review);
-            }
-        }
-        return productRepositoryService.update(id, entity);
+        Product product = productRepositoryService.update(id, entity);
+        createProductReview(product);
+        return product;
     }
+
+    private void createProductReview(Product product){
+        ProductReview review = new ProductReview();
+        Long productDescriptionId = product.getProductDescription().getId();
+
+        if (productReviewService.existsByProductDescriptionId(productDescriptionId)){
+            productReviewService.deleteByProductDescriptionId(productDescriptionId);
+        }
+        review.setProductDescription(product.getProductDescription());
+        review.setState(ReviewState.INPROCESS);
+        productReviewService.save(review);
+    }
+
 
     @Override
     public void delete(Long id) {
+        Long productDescriptionId = this.get(id).getProductDescription().getId();
+        productReviewService.deleteByProductDescriptionId(productDescriptionId);
         productRepositoryService.delete(id);
     }
 

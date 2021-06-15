@@ -1,7 +1,13 @@
 package com.guaitilsoft.services.productReview;
 
 import com.guaitilsoft.exceptions.ApiRequestException;
+import com.guaitilsoft.models.Member;
 import com.guaitilsoft.models.ProductReview;
+import com.guaitilsoft.models.constant.TypeEmail;
+import com.guaitilsoft.services.EmailSender.EmailSenderService;
+import com.guaitilsoft.utils.EmailProductTemplate;
+import com.guaitilsoft.utils.Utils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -60,7 +66,25 @@ public class ProductReviewValidationRepositoryServiceImp implements ProductRevie
     }
 
     @Override
+    public ProductReview updateReviewAndSendEmail(Long id, ProductReview entity) {
+        if(!id.equals(entity.getId())){
+            throw new ApiRequestException("El id de la revision del producto: " + entity.getId() + " es diferente al id del parametro: " + id);
+        }
+        return productReviewRepositoryService.updateReviewAndSendEmail(id, entity);
+    }
+
+    @Override
     public void delete(Long id) {
         productReviewRepositoryService.delete(id);
+    }
+
+    @Override
+    public void deleteByProductDescriptionId(Long id) {
+        productReviewRepositoryService.deleteByProductDescriptionId(id);
+    }
+
+    @Override
+    public Boolean existsByProductDescriptionId(Long id) {
+        return productReviewRepositoryService.existsByProductDescriptionId(id);
     }
 }

@@ -17,6 +17,11 @@ public interface ProductReviewRepositoryService {
 
     ProductReview update(Long id, ProductReview entity);
 
+    ProductReview updateReviewAndSendEmail(Long id, ProductReview entity);
+
     void delete(Long id);
 
+    void deleteByProductDescriptionId(Long id);
+
+    Boolean existsByProductDescriptionId(Long id);
 }
