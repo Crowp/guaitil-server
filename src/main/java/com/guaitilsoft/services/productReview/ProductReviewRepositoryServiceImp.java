@@ -82,7 +82,14 @@ public class ProductReviewRepositoryServiceImp implements ProductReviewRepositor
         productReview.setState(entity.getState());
         productReview.setComment(entity.getComment());
         productReview.setCreatedAt(productReview.getCreatedAt());
-        productReviewRepository.save(entity);
+        productReview.setProductDescription(entity.getProductDescription());
+        productReviewRepository.save(productReview);
+        return productReview;
+    }
+
+    @Override
+    public ProductReview updateReviewAndSendEmail(Long id, ProductReview entity) {
+        ProductReview productReview = this.update(id, entity);
         this.productReviewRepository.getMemberByProductDescId(productReview.getProductDescription().getId())
                 .ifPresent(member -> sendEmailProduct(member, productReview.getProductDescription().getName()));
         return productReview;
@@ -94,6 +101,21 @@ public class ProductReviewRepositoryServiceImp implements ProductReviewRepositor
 
         ProductReview productReview = this.get(id);
         productReviewRepository.delete(productReview);
+    }
+
+    @Override
+    public void deleteByProductDescriptionId(Long id) {
+        assert id != null;
+
+        ProductReview productReview = this.getByProductId(id);
+        productReviewRepository.delete(productReview);
+    }
+
+    @Override
+    public Boolean existsByProductDescriptionId(Long id) {
+        assert id != null;
+
+        return productReviewRepository.existsByProductDescriptionId(id);
     }
 
     private void sendEmailProduct(Member member, String productName){

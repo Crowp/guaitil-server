@@ -21,4 +21,7 @@ public interface ProductReviewRepository extends CrudRepository<ProductReview, L
      @Query("SELECT m FROM Member m INNER JOIN m.locals l ON m.id=l.member.id " +
              "INNER JOIN l.products p ON l.id=p.local.id WHERE p.productDescription.id=:id ")
      Optional<Member> getMemberByProductDescId(@Param("id") Long productDescriptionId);
+
+     @Query("SELECT CASE WHEN COUNT(pr) > 0 THEN true ELSE false END FROM ProductReview pr WHERE pr.productDescription.id =:id")
+     boolean existsByProductDescriptionId(@Param("id") Long productDescriptionId);
 }

@@ -47,7 +47,7 @@ public class ProductReviewServiceImp implements ProductReviewService {
     }
     @Override
     public ProductReviewResponse update(Long id, ProductReviewRequest entity) {
-        return parseToProductReviewResponse(productReviewRepositoryService.update(id, this.parseToProductReview(entity)));
+        return parseToProductReviewResponse(productReviewRepositoryService.updateReviewAndSendEmail(id, this.parseToProductReview(entity)));
     }
 
     @Override
