@@ -65,6 +65,14 @@ public class ProductRepositoryServiceImp implements ProductRepositoryService {
     }
 
     @Override
+    public Product updateProductByAdminUser(Long id, Product entity) {
+        assert id != null;
+        assert entity != null;
+
+        return this.update(id, entity);
+    }
+
+    @Override
     public void delete(Long id) {
         assert id != null;
 

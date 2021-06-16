@@ -74,6 +74,13 @@ public class ProductServiceImp implements ProductService{
     }
 
     @Override
+    public ProductResponse updateProductByAdminUser(Long id, ProductRequest entity) {
+        Product product = this.parseToProduct(entity);
+        loadMultimedia(product.getMultimedia());
+        return this.parseToProductResponse(productRepositoryService.updateProductByAdminUser(id, product));
+    }
+
+    @Override
     public ProductResponse updateShowProduct(Long id) {
         Product product = productRepositoryService.get(id);
         boolean aBoolean = product.getShowProduct() != null ? product.getShowProduct() : false;

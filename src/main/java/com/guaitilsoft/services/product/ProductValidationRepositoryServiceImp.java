@@ -82,6 +82,14 @@ public class ProductValidationRepositoryServiceImp implements ProductRepositoryS
         return product;
     }
 
+    @Override
+    public Product updateProductByAdminUser(Long id, Product entity) {
+        if(!id.equals(entity.getId())){
+            throw new ApiRequestException("El id del producto: " + entity.getId() + " es diferente al id del parametro: " + id);
+        }
+        return productRepositoryService.updateProductByAdminUser(id, entity);
+    }
+
     private void createProductReview(Product product){
         ProductReview review = new ProductReview();
         Long productDescriptionId = product.getProductDescription().getId();

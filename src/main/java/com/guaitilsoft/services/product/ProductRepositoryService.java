@@ -15,6 +15,8 @@ public interface ProductRepositoryService {
 
     Product update(Long id, Product entity);
 
+    Product updateProductByAdminUser(Long id, Product entity);
+
     void delete(Long id);
 
     List<Product> getAllProductByLocalId(Long id);

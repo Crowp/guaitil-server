@@ -89,6 +89,9 @@ public class ProductReviewRepositoryServiceImp implements ProductReviewRepositor
 
     @Override
     public ProductReview updateReviewAndSendEmail(Long id, ProductReview entity) {
+        assert id != null;
+        assert entity != null;
+
         ProductReview productReview = this.update(id, entity);
         this.productReviewRepository.getMemberByProductDescId(productReview.getProductDescription().getId())
                 .ifPresent(member -> sendEmailProduct(member, productReview.getProductDescription().getName()));

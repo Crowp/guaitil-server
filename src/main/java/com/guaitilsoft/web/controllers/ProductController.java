@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -101,6 +102,15 @@ public class ProductController {
         return ResponseEntity.ok().body(productResponse);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN') OR hasRole('ROLE_SUPER_ADMIN')")
+    @PutMapping("/update/by-admin/{id}")
+    public ResponseEntity<ProductResponse> putProductByAdminUser(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+        logger.info("Updating Product with id: {}", id);
+        ProductResponse productResponse = productService.updateProductByAdminUser(id, productRequest);
+        logger.info("Updated Product with id: {}", id);
+        return ResponseEntity.ok().body(productResponse);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<ProductResponse> delete(@PathVariable Long id) {
         logger.info("Deleting Product with id {}", id);
@@ -119,21 +129,6 @@ public class ProductController {
         return ResponseEntity.ok().body(productResponse);
     }
 
-    @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]> generatePDFReport() throws IOException, JRException {
-        String template = "productReports/productPdfReport.jrxml";
-        List<ProductResponse> productResponses = productService.list();
-        String time = Utils.getDateReport();
-
-        byte[] bytes = reportService.exportPDF(productResponses, template);
-        String nameFile = "Reporte Productos "+time+".pdf";
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
-                .body(bytes);
-    }
-
     @GetMapping("/pdf-report/products/by-local-id")
     public ResponseEntity<byte[]> generatePDFReportByLocalId(@RequestParam Long id) throws IOException, JRException {
         String template = "productReports/productPdfReport.jrxml";
@@ -145,21 +140,6 @@ public class ProductController {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
-                .body(bytes);
-    }
-
-    @GetMapping("/xlsx-report")
-    public ResponseEntity<byte[]> generateXLSXReport() {
-        String template = "productReports/productXlsxReport.jrxml";
-        List<ProductResponse> productResponses = productService.list();
-        String time = Utils.getDateReport();
-
-        byte[] bytes = reportService.exportXLSX(productResponses, template);
-        String nameFile = "Reporte Productos "+time+".xlsx";
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/x-xlsx"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
                 .body(bytes);
     }
