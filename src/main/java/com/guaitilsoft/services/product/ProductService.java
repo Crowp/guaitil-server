@@ -16,6 +16,8 @@ public interface ProductService {
 
     ProductResponse update(Long id, ProductRequest entity);
 
+    ProductResponse updateProductByAdminUser(Long id, ProductRequest entity);
+
     ProductResponse updateShowProduct(Long id);
 
     void delete(Long id);

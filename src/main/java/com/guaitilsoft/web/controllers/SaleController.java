@@ -83,21 +83,6 @@ public class SaleController {
         return ResponseEntity.ok().body(saleResponse);
     }
 
-    @GetMapping("/pdf-report")
-    public ResponseEntity<byte[]> generatePDFReport() throws IOException, JRException {
-        String template = "productSaleReport/ProductSalePdfReport.jrxml";
-        List<SaleResponse> sales = saleService.list();
-        String time = Utils.getDateReport();
-
-        byte[] bytes = reportService.exportPDF(sales, template);
-        String nameFile = " Reporte Productos Vendidos "+time+".pdf";
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.APPLICATION_PDF)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
-                .body(bytes);
-    }
-
     @GetMapping("/pdf-report/sales/by-member-id")
     public ResponseEntity<byte[]> generatePDFReportByMemberId(@RequestParam Long id) throws IOException, JRException {
         String template = "productSaleReport/ProductSalePdfReport.jrxml";
@@ -109,21 +94,6 @@ public class SaleController {
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
-                .body(bytes);
-    }
-
-    @GetMapping("/xlsx-report")
-    public ResponseEntity<byte[]> generateXLSXReport(){
-        String template = "productSaleReport/ProductSaleXlsxReport.jrxml";
-        List<SaleResponse> sales = saleService.list();
-        String time = Utils.getDateReport();
-
-        byte[] bytes = reportService.exportXLSX(sales, template);
-        String nameFile = "Reporte Productos Vendidos "+time+".xlsx";
-
-        return ResponseEntity.ok()
-                .contentType(MediaType.parseMediaType("application/x-xlsx"))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nameFile + "\"")
                 .body(bytes);
     }
